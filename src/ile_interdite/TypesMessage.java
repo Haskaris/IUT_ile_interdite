@@ -11,6 +11,6 @@ package ile_interdite;
  */
 public enum TypesMessage {
     ACTION_Jouer,
-    ACTION_Regle,
+    ACTION_Regles,
     ACTION_Quitter
 }

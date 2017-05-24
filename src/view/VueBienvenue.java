@@ -81,8 +81,8 @@ public class VueBienvenue {
         
     }
     
-    public void afficher(boolean bool){
-        window.setVisible(bool);
+    public void fermer() {
+        window.dispose();
     }
     
 }
