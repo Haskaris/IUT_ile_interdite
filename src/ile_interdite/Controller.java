@@ -20,7 +20,7 @@ public class Controller implements Observateur {
         
     }
     @Override
-    public void traiterMessage(Message m) {
+    public void traiterMessage(Message msg) {
         if (msg.type == TypesMessage.ACTION_Jouer) {
             
         } else if (msg.type == TypesMessage.ACTION_Quitter) {
