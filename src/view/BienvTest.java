@@ -32,5 +32,10 @@ public class BienvTest implements Observateur  {
     public void traiterMessage(Message msg) {
         System.out.println("slt");
     }
+
+    @Override
+    public void getDonnees(int nbJoueurs, String nomJ1, String nomJ2, String nomJ3, String nomJ4, int difficulte) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

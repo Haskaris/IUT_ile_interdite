@@ -55,20 +55,20 @@ public class VueParamJeu {
         JPanel panelCentre = new JPanel(new GridLayout(5,5));
         mainPanel.add(panelCentre, BorderLayout.CENTER);
         
-        JRadioButton J2 = new JRadioButton("2");
-        JRadioButton J3 = new JRadioButton("3");
-        JRadioButton J4 = new JRadioButton("4");
-        J4.setSelected(true);
+        JRadioButton j2 = new JRadioButton("2");
+        JRadioButton j3 = new JRadioButton("3");
+        JRadioButton j4 = new JRadioButton("4");
+        j4.setSelected(true);
         
         ButtonGroup groupeNb = new ButtonGroup();
-        groupeNb.add(J2);
-        groupeNb.add(J3);
-        groupeNb.add(J4);
+        groupeNb.add(j2);
+        groupeNb.add(j3);
+        groupeNb.add(j4);
         
-        JTextField NomJ1 = new JTextField("Joueur 1");
-        JTextField NomJ2 = new JTextField("Joueur 2");
-        JTextField NomJ3 = new JTextField("Joueur 3");
-        JTextField NomJ4 = new JTextField("Joueur 4");
+        JTextField nomJ1 = new JTextField("Joueur 1");
+        JTextField nomJ2 = new JTextField("Joueur 2");
+        JTextField nomJ3 = new JTextField("Joueur 3");
+        JTextField nomJ4 = new JTextField("Joueur 4");
         JRadioButton NivLegendaire = new JRadioButton("Legendaire");
         JRadioButton NivElite = new JRadioButton("Elite");
         JRadioButton NivNormal = new JRadioButton("Normal");
@@ -97,6 +97,8 @@ public class VueParamJeu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message m = new Message();
+                c.getDonnees(0, nomJ1.getText(), nomJ2.getText(), nomJ3.getText(), nomJ4.getText(), 0); // 0 = nbjoueurs && 0 = difficulté
+                m.setTypeMessage(TypesMessage.ACTION_Valider);
             }
         });
         
