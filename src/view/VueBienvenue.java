@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
@@ -47,15 +48,16 @@ public class VueBienvenue {
         
         for (int i=1; i<=25; i++){
             switch(i){
-                case 12:
-                    mainPanel.add(btnJouer);
-                break;
-                
-                case 14:
-                    mainPanel.add(btnRegle);
-                break;    
                 
                 case 16:
+                    mainPanel.add(btnRegle);
+                break;
+                
+                case 18:
+                    mainPanel.add(btnJouer);
+                break;    
+                
+                case 20:
                     mainPanel.add(btnQuitter);
                 break;
                 
