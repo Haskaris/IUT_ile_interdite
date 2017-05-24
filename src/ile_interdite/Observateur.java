@@ -13,4 +13,5 @@ import java.util.Observable;
  */
 public interface Observateur {
     public void traiterMessage(Message msg);
+    public void getDonnees();
 }
