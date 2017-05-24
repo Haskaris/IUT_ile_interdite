@@ -9,14 +9,25 @@ package ile_interdite;
  *
  * @author perrier5
  */
-public class Controller {
+public class Controller implements Observateur {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        System.out.println("slt");
+        System.out.print("MARCHEPAS");
+        
+    }
+    @Override
+    public void traiterMessage(Message m) {
+        if (msg.type == TypesMessage.ACTION_Jouer) {
+            
+        } else if (msg.type == TypesMessage.ACTION_Quitter) {
+            
+        } else if (msg.type == TypesMessage.ACTION_Regles) {
+            
+        }
     }
     
 }
