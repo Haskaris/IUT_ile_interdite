@@ -5,6 +5,8 @@
  */
 package ile_interdite;
 
+import java.util.Observable;
+
 /**
  *
  * @author reyneu
