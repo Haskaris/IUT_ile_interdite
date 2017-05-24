@@ -14,5 +14,6 @@ public enum TypesMessage {
     ACTION_Regles,
     ACTION_Quitter,
     ACTION_Retour,
-    ACTION_Valider
+    ACTION_Valider,
+    ACTION_Valider_Parametre
 }

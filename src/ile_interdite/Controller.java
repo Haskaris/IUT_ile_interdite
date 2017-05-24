@@ -27,6 +27,7 @@ public class Controller implements Observateur {
         private static VueParamJeu paramJeu;
         private static Controller c;
         private static boolean menu;
+        priv
     
     public static void main(String[] args) {
         // TODO code application logic here
@@ -49,13 +50,18 @@ public class Controller implements Observateur {
                 paramJeu.fermer();
                 bienvenue.afficher();
             } else if (msg.type == TypesMessage.ACTION_Valider) {
-                
+                paramJeu.fermer();
             } else if (msg.type == TypesMessage.ACTION_Regles) {
                 System.out.println("Regles");
             } else if (msg.type == TypesMessage.ACTION_Quitter) {
                 bienvenue.fermer();
             }
         }
+    }
+
+    @Override
+    public void getDonnees(int nbjoueur) {
+        this.nbjoueur = nbjoueur;
     }
 
 }
