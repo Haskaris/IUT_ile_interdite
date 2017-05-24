@@ -96,7 +96,7 @@ public class VueParamJeu {
         btnValider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                Message m = new Message();
             }
         });
         

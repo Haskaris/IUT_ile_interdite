@@ -13,5 +13,5 @@ import java.util.Observable;
  */
 public interface Observateur {
     public void traiterMessage(Message msg);
-    public void getDonnees();
+    public void getDonnees(int nbJoueurs, String nomJ1, String nomJ2, String nomJ3, String nomJ4, int difficulte);
 }
