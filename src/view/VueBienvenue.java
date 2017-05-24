@@ -72,7 +72,7 @@ public class VueBienvenue {
             public void actionPerformed(ActionEvent e) {
                 Message m = new Message();
                 m.setTypeMessage(TypesMessage.ACTION_Jouer);
-                //c.traiterMessage(m);
+                c.traiterMessage(m);
             }
         });
         
@@ -81,8 +81,8 @@ public class VueBienvenue {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message m = new Message();
-                m.setTypeMessage(TypesMessage.ACTION_Regle);
-                //c.traiterMessage(m);
+                m.setTypeMessage(TypesMessage.ACTION_Regles);
+                c.traiterMessage(m);
             }
         });
         
@@ -92,14 +92,14 @@ public class VueBienvenue {
             public void actionPerformed(ActionEvent e) {
                 Message m = new Message();
                 m.setTypeMessage(TypesMessage.ACTION_Quitter);
-                //c.traiterMessage(m);
+                c.traiterMessage(m);
             }
         });
         
     }
     
-    public void afficher(boolean bool){
-        window.setVisible(bool);
+    public void fermer() {
+        window.dispose();
     }
     
 }
