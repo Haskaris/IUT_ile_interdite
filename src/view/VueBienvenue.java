@@ -98,6 +98,10 @@ public class VueBienvenue {
         
     }
     
+    public void afficher(){
+        window.setVisible(true);
+    }
+    
     public void fermer() {
         window.dispose();
     }

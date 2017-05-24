@@ -82,7 +82,25 @@ public class VueParamJeu {
         groupeNiveau.add(NivNovice);
         
         JButton btnValider = new JButton("Valider");
-        JButton btnQuitter = new JButton("Quitter");
+        JButton btnRetour = new JButton("Retour");
+        
+        btnRetour.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Message m = new Message();
+                m.setTypeMessage(TypesMessage.ACTION_Retour);
+                c.traiterMessage(m);
+            }
+        });
+        
+        btnValider.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Message m = new Message();
+                m.setTypeMessage(TypesMessage.ACTION_Valider);
+                c.traiterMessage(m);
+            }
+        });
         
         
         for (int i=1; i<=25; i++){
@@ -135,7 +153,7 @@ public class VueParamJeu {
                     panelCentre.add(btnValider);
                 break;
                 case 25:
-                    panelCentre.add(btnQuitter);
+                    panelCentre.add(btnRetour);
                 break;
                 
                 default:
@@ -146,8 +164,12 @@ public class VueParamJeu {
         
     }
     
-    public void afficher(boolean bool){
-        window.setVisible(bool);
+    public void afficher(){
+        window.setVisible(true);
+    }
+    
+    public void fermer() {
+        window.dispose();
     }
     
 }
