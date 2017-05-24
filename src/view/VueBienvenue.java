@@ -41,11 +41,30 @@ public class VueBienvenue {
         JPanel mainPanel = new JPanel(new GridLayout(5, 5));
         window.add(mainPanel);
         
-        
-        
         JButton btnJouer = new JButton("Jouer");
-        mainPanel.add(btnJouer);
+        JButton btnRegle = new JButton("Règles");
+        JButton btnQuitter = new JButton("Quitter");
         
+        for (int i=1; i<=25; i++){
+            switch(i){
+                case 12:
+                    mainPanel.add(btnJouer);
+                break;
+                
+                case 14:
+                    mainPanel.add(btnRegle);
+                break;    
+                
+                case 16:
+                    mainPanel.add(btnQuitter);
+                break;
+                
+                default:
+                    mainPanel.add(new JPanel());
+                    
+            }
+        }
+                
         btnJouer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -55,8 +74,6 @@ public class VueBienvenue {
             }
         });
         
-        JButton btnRegle = new JButton("Règles");
-        mainPanel.add(btnRegle);
         
         btnRegle.addActionListener(new ActionListener() {
             @Override
@@ -67,8 +84,6 @@ public class VueBienvenue {
             }
         });
         
-        JButton btnQuitter = new JButton("Quitter");
-        mainPanel.add(btnQuitter);
         
         btnQuitter.addActionListener(new ActionListener() {
             @Override
