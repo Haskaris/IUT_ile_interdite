@@ -10,7 +10,7 @@ package ile_interdite;
  * @author reyneu
  */
 public class Message {
-    private TypesMessage type;
+    public TypesMessage type;
 
     public void setTypeMessage(TypesMessage type){
         this.type = type;

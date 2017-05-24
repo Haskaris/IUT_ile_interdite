@@ -10,5 +10,7 @@ package ile_interdite;
  * @author reyneu
  */
 public enum TypesMessage {
-    ACTION_Valide
+    ACTION_Valide,
+    ACTION_Jouer,
+    ACTION_Regles
 }
