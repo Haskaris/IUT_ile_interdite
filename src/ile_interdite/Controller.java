@@ -6,8 +6,7 @@
 package ile_interdite;
 import view.VueBienvenue;
 import javax.swing.JFrame;
-package util;
-package view;
+//package util;
 
 /**
  *
@@ -16,6 +15,7 @@ package view;
 public class Controller implements Observateur {
 
     private final VueBienvenue vuebienvenue = new VueBienvenue(this);
+    //private final VueAventurier vueaventurier = new VueAventurier();
     
     /**
      * @param args the command line arguments
@@ -29,7 +29,7 @@ public class Controller implements Observateur {
     @Override
     public void traiterMessage(Message msg) {
         if (msg.type == TypesMessage.ACTION_Jouer) {
-            
+            System.out.println("Oui");
         } else if (msg.type == TypesMessage.ACTION_Quitter) {
             vuebienvenue.fermer();
         } else if (msg.type == TypesMessage.ACTION_Regles) {
