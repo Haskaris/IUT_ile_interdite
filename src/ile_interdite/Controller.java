@@ -9,7 +9,7 @@ package ile_interdite;
  *
  * @author perrier5
  */
-public class Ile_Interdite {
+public class Controller {
 
     /**
      * @param args the command line arguments
