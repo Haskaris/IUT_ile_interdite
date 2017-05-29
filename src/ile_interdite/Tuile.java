@@ -24,6 +24,12 @@ public class Tuile {
         setEtat(Etat.assechee);
         setJoueur(null);
     }
+    
+    Tuile(String nom) {
+        setNom(nom);
+        setEtat(Etat.assechee);
+        setJoueur(null);
+    }
 
     /**
      * @return the nom
