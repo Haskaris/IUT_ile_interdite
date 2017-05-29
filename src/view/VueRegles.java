@@ -6,9 +6,15 @@
 package view;
 
 import ile_interdite.Controller;
+import ile_interdite.Message;
+import ile_interdite.TypesMessage;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 /**
  *
@@ -29,6 +35,22 @@ public class VueRegles {
         window.setTitle("REGLES DU JEU");
         
         controller = c;
+        
+        JPanel mainPanel = new JPanel();
+        window.add(mainPanel);
+        
+        JButton btnRetour = new JButton("Gros Bouton Retour");
+        mainPanel.add(btnRetour);
+        
+        btnRetour.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Message msg = new Message();
+                msg.setTypeMessage(TypesMessage.ACTION_Retour);
+                
+                controller.traiterMessage(msg);
+            }
+        });
     }
     
     public void afficher(){
