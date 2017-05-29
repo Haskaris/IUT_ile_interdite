@@ -110,28 +110,28 @@ public class VueParamJeu {
                     panelCentre.add(new JLabel("Nombre de Joueurs:"));
                 break;
                 case 2:
-                    panelCentre.add(J2);
+                    panelCentre.add(j2);
                 break;
                 case 3:
-                    panelCentre.add(J3);
+                    panelCentre.add(j3);
                 break;
                 case 4:
-                    panelCentre.add(J4);
+                    panelCentre.add(j4);
                 break;
                 case 6:
                     panelCentre.add(new JLabel("Noms des Joueurs:"));
                 break;
                 case 7:
-                    panelCentre.add(NomJ1);
+                    panelCentre.add(nomJ1);
                 break;
                 case 8:
-                    panelCentre.add(NomJ2);
+                    panelCentre.add(nomJ2);
                 break;
                 case 9:
-                    panelCentre.add(NomJ3);
+                    panelCentre.add(nomJ3);
                 break;
                 case 10:
-                    panelCentre.add(NomJ4);
+                    panelCentre.add(nomJ4);
                 break;
                 case 11:
                     panelCentre.add(new JLabel("Difficulté:"));
