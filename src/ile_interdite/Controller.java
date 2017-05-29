@@ -7,6 +7,7 @@ package ile_interdite;
 import java.util.Observable;
 import view.VueBienvenue;
 import view.VueParamJeu;
+import view.VueRegles;
 import javax.swing.JFrame;
 //package util;
 
@@ -25,6 +26,7 @@ public class Controller implements Observateur {
     
         private static VueBienvenue bienvenue;
         private static VueParamJeu paramJeu;
+        private static VueRegles regles;
         private static Controller c;
         private static boolean menu;
         private static int nbJoueurs;
@@ -41,6 +43,7 @@ public class Controller implements Observateur {
         menu = true;
         bienvenue = new VueBienvenue(c);
         paramJeu = new VueParamJeu(c);
+        regles = new VueRegles(c);
         bienvenue.afficher();
         
         
@@ -54,12 +57,16 @@ public class Controller implements Observateur {
                 paramJeu.afficher();
             } else if (msg.type == TypesMessage.ACTION_Retour) {
                 paramJeu.fermer();
+                regles.fermer();
                 bienvenue.afficher();
             } else if (msg.type == TypesMessage.ACTION_Valider) {
                 menu = true;
+                // Lancement de la partie
                 paramJeu.fermer();
             } else if (msg.type == TypesMessage.ACTION_Regles) {
                 System.out.println("Regles");
+                regles.afficher();
+                
             } else if (msg.type == TypesMessage.ACTION_Quitter) {
                 bienvenue.fermer();
             }
