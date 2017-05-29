@@ -35,6 +35,7 @@ public class Controller implements Observateur {
         private static String nomJ3;
         private static String nomJ4;
         private static int difficulte;
+        private static Grille grilleJeu;
         
     
     public static void main(String[] args) {
@@ -70,7 +71,11 @@ public class Controller implements Observateur {
             } else if (msg.type == TypesMessage.ACTION_Quitter) {
                 bienvenue.fermer();
             }
+        } else if (menu = false) {
+            
+            grilleJeu = new Grille();
         }
+        
     }
 
 
