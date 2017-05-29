@@ -64,7 +64,7 @@ public class Controller implements Observateur {
                 // Lancement de la partie
                 paramJeu.fermer();
             } else if (msg.type == TypesMessage.ACTION_Regles) {
-                System.out.println("Regles");
+                bienvenue.fermer();
                 regles.afficher();
                 
             } else if (msg.type == TypesMessage.ACTION_Quitter) {
