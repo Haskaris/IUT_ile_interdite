@@ -48,9 +48,7 @@ public class Grille {
     private Tuile tuile24 = new Tuile ("Le jardin des murmures", 5, 3);
     
     
-      Grille(){ 
-        setTuiles();
-        
+      Grille(){
         
         
     }
