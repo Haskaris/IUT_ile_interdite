@@ -64,6 +64,8 @@ public class VueAventurier  {
         panelCentre.add(position);
 
 
+        
+        
         // =================================================================================
         // SUD : les boutons
         this.panelBoutons = new JPanel(new GridLayout(2,2));
