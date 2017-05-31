@@ -5,7 +5,9 @@
  */
 package model.aventurier;
 
+import java.util.ArrayList;
 import model.CarteDosOrange;
+import model.Etat;
 import model.Grille;
 import model.Tuile;
 
@@ -36,6 +38,27 @@ public class Aventurier {
         this.grille = grille;
     }
 
+    public ArrayList<Tuile> getTuilesPossibles(){
+        int posX = position.getX();
+        int posY = position.getY();
+        ArrayList<Tuile> tuilesPossibles = new ArrayList<>();
+        
+        Tuile[][] tuiles = grille.getGrille();
+        
+        if (tuiles[posX-1][posY].getEtat() == Etat.assechee || tuiles[posX-1][posY].getEtat() == Etat.inondee){
+            tuilesPossibles.add(tuiles[posX-1][posY]);
+        }
+        else if (tuiles[posX+1][posY].getEtat() == Etat.assechee || tuiles[posX+1][posY].getEtat() == Etat.inondee) {
+            tuilesPossibles.add(tuiles[posX+1][posY]);
+        }
+        else if (tuiles[posX][posY+1].getEtat() == Etat.assechee || tuiles[posX][posY+1].getEtat() == Etat.inondee) {
+            tuilesPossibles.add(tuiles[posX][posY+1]);
+        }
+        else if (tuiles[posX][posY-1].getEtat() == Etat.assechee || tuiles[posX][posY-1].getEtat() == Etat.inondee) {
+            tuilesPossibles.add(tuiles[posX][posY-1]);
+        }
+        return tuilesPossibles;
+    }
    
    
     
