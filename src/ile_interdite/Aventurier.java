@@ -32,6 +32,34 @@ public class Aventurier {
         this.grille = grille;
     }
 
+    /**
+     * @return the position
+     */
+    public Tuile getPosition() {
+        return position;
+    }
+
+    /**
+     * @param position the position to set
+     */
+    public void setPosition(Tuile position) {
+        this.position = position;
+    }
+
+    /**
+     * @return the main
+     */
+    public CarteDosOrange getMain() {
+        return main;
+    }
+
+    /**
+     * @param main the main to set
+     */
+    public void setMain(CarteDosOrange main) {
+        this.main = main;
+    }
+
    
    
     

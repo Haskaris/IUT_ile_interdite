@@ -26,7 +26,7 @@ public class VueJeu {
     private final JFrame window;
     private final Controller controller;
     
-    VueJeu(Controller c, Tuile grille[][]){
+    VueJeu(Controller c){
         this.window = new JFrame();
         window.setSize(800, 600);
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);

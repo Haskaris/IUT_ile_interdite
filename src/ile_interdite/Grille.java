@@ -58,6 +58,7 @@ public class Grille {
       
       
       public void setGrille(){
+            tuileNulle.setEtat(Etat.nulle);
             grille [0][0] = tuileNulle;        // 1° ligne
             grille [0][1] = tuileNulle;
             grille [0][2] = tuile1;

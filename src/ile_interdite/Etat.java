@@ -12,5 +12,6 @@ package ile_interdite;
 public enum Etat {
     assechee,
     inondee,
-    submergee
+    submergee,
+    nulle
 }
