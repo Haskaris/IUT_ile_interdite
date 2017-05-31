@@ -36,7 +36,11 @@ public class Aventurier {
         this.grille = grille;
     }
 
+   public void deplacment(){
+       
+       
    
+   }
    
     
 }
