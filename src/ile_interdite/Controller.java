@@ -37,6 +37,9 @@ public class Controller implements Observateur {
         private static int difficulte;
         private static Grille grilleJeu;
         
+        
+    
+        
     
     public static void main(String[] args) {
         // TODO code application logic here
@@ -47,8 +50,20 @@ public class Controller implements Observateur {
         regles = new VueRegles(c);
         bienvenue.afficher();
         
+        setGrilleJeu(new Grille());
+        
         
     }
+
+
+
+    public static void setGrilleJeu(Grille aGrilleJeu) {
+        grilleJeu = aGrilleJeu;
+        
+    }
+
+    
+   
 
     @Override
     public void traiterMessage(Message msg) {
@@ -73,7 +88,7 @@ public class Controller implements Observateur {
             }
         } else if (menu = false) {
             
-            grilleJeu = new Grille();
+            setGrilleJeu(new Grille());
         }
         
     }

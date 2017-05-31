@@ -21,6 +21,8 @@ public class Grille {
     private final int colonne = 6;
     private Tuile[][] grille = new Tuile[6][6];
     
+    private ArrayList<Tuile> tuilesInondees;
+    
     private Tuile tuileNulle = new Tuile("null");
     private Tuile tuile1 = new Tuile("Le pont des abimes");
     private Tuile tuile2 = new Tuile("La porte de bronze");
@@ -50,6 +52,7 @@ public class Grille {
     
       Grille(){
         setGrille();
+        tuilesInondees = new ArrayList<>();
         
     }
       
@@ -58,6 +61,7 @@ public class Grille {
             grille [0][0] = tuileNulle;        // 1° ligne
             grille [0][1] = tuileNulle;
             grille [0][2] = tuile1;
+            tuile2.setEtat(Etat.inondee);
             grille [0][3] = tuile2;
             grille [0][4] = tuileNulle;
             grille [0][5] = tuileNulle;
@@ -71,21 +75,28 @@ public class Grille {
             
             grille [2][0] = tuile7;            // 3 ° ligne
             grille [2][1] = tuile8;
+            tuile9.setEtat(Etat.submergee);
             grille [2][2] = tuile9;
             grille [2][3] = tuile10;
             grille [2][4] = tuile11;
             grille [2][5] = tuile12;
             
             grille [3][0] = tuile13;            // 4 ° ligne
+            tuile14.setEtat(Etat.inondee);
             grille [3][1] = tuile14;
+            tuile15.setEtat(Etat.submergee);
             grille [3][2] = tuile15;
+            tuile16.setEtat(Etat.inondee);
             grille [3][3] = tuile16;
+            tuile17.setEtat(Etat.submergee);
             grille [3][4] = tuile17;
+            tuile18.setEtat(Etat.inondee);
             grille [3][5] = tuile18;
           
             
             grille [4][0] = tuileNulle;            // 5 ° ligne
             grille [4][1] = tuile19;
+            tuile20.setEtat(Etat.submergee);
             grille [4][2] = tuile20;
             grille [4][3] = tuile21;
             grille [4][4] = tuile22;
@@ -94,6 +105,7 @@ public class Grille {
             grille [5][0] = tuileNulle;            // 6 ° ligne
             grille [5][1] = tuileNulle;
             grille [5][2] = tuile23;
+            tuile14.setEtat(Etat.inondee);
             grille [5][3] = tuile24;
             grille [5][4] = tuileNulle;
             grille [5][5] = tuileNulle;
@@ -105,7 +117,26 @@ public class Grille {
     public Tuile[][] getGrille() {
         return grille;
     }
+
+    
+    public ArrayList<Tuile> getTuilesInondée() {
+        for (int j = 0 ; j<6;j++){
+            for (int i = 0; i < 6; i++){                //Parcours grille
+                if (grille[i][j].getEtat() == Etat.inondee){
+                    tuilesInondees.add(grille[i][j]);   // ajout de la tuil inondée dans la liste des tuiles inondées
+                
+                }
+            
+            }
+        
+        }
+         
+        return tuilesInondees;
+    }
       
+    
+    
+    
     
 }
     
