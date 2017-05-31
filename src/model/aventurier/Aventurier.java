@@ -59,6 +59,18 @@ public class Aventurier {
         }
         return tuilesPossibles;
     }
+    
+    public void deplacmeent(String deplacement) {
+        char x = deplacement.charAt(0);
+        char y = deplacement.charAt(2);                    // récupération de x et y
+    
+        
+   
+    }
+    
+    
+    
+    
    
    }
    
