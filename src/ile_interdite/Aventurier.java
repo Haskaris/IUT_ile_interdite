@@ -5,6 +5,8 @@
  */
 package ile_interdite;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author reyneu
@@ -60,6 +62,26 @@ public class Aventurier {
         this.main = main;
     }
 
+    
+    public ArrayList<Tuile> getTuilesPossibles(){
+        ArrayList<Tuile> liste;
+        Grille grille = getGrille();
+        
+       
+        
+        
+        
+        
+        
+        
+        
+        return liste;
+    }
+
+
+    public Grille getGrille() {
+        return grille;
+    }
    
    
     

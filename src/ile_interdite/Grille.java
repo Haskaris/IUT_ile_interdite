@@ -121,8 +121,8 @@ public class Grille {
 
     
     public ArrayList<Tuile> getTuilesInondée() {
-        for (int j = 0 ; j<6;j++){
-            for (int i = 0; i < 6; i++){                //Parcours grille
+        for (int i = 0 ; i<6;i++){
+            for (int j = 0; j < 6; j++){                //Parcours grille
                 if (grille[i][j].getEtat() == Etat.inondee){
                     tuilesInondees.add(grille[i][j]);   // ajout de la tuil inondée dans la liste des tuiles inondées
                 
