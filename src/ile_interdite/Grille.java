@@ -19,7 +19,7 @@ public class Grille {
     
     private final int ligne = 6;
     private final int colonne = 6;
-    private Tuile tab [][] = new Tuile[6][6];
+    private Tuile[][] grille = new Tuile[6][6];
     
     private Tuile tuileNulle = new Tuile("null");
     private Tuile tuile1 = new Tuile("Le pont des abimes");
@@ -49,63 +49,61 @@ public class Grille {
     
     
       Grille(){
-        setTab();
+        setGrille();
         
     }
       
       
-      public void setTab(){
-            tab [0][0] = tuileNulle;        // 1° ligne
-            tab [0][1] = tuileNulle;
-            tab [0][2] = tuile1;
-            tab [0][3] = tuile2;
-            tab [0][4] = tuileNulle;
-            tab [0][5] = tuileNulle;
+      public void setGrille(){
+            grille [0][0] = tuileNulle;        // 1° ligne
+            grille [0][1] = tuileNulle;
+            grille [0][2] = tuile1;
+            grille [0][3] = tuile2;
+            grille [0][4] = tuileNulle;
+            grille [0][5] = tuileNulle;
             
-            tab [0][0] = tuileNulle;        // 2° ligne
-            tab [1][1] = tuile3;
-            tab [2][2] = tuile4;
-            tab [3][3] = tuile5;
-            tab [4][4] = tuile6;
-            tab [5][5] = tuileNulle;
+            grille [0][0] = tuileNulle;        // 2° ligne
+            grille [1][1] = tuile3;
+            grille [2][2] = tuile4;
+            grille [3][3] = tuile5;
+            grille [4][4] = tuile6;
+            grille [5][5] = tuileNulle;
             
-            tab [2][0] = tuile7;            // 3 ° ligne
-            tab [2][1] = tuile8;
-            tab [2][2] = tuile9;
-            tab [2][3] = tuile10;
-            tab [2][4] = tuile11;
-            tab [2][5] = tuile12;
+            grille [2][0] = tuile7;            // 3 ° ligne
+            grille [2][1] = tuile8;
+            grille [2][2] = tuile9;
+            grille [2][3] = tuile10;
+            grille [2][4] = tuile11;
+            grille [2][5] = tuile12;
             
-            tab [3][0] = tuile13;            // 4 ° ligne
-            tab [3][1] = tuile14;
-            tab [3][2] = tuile15;
-            tab [3][3] = tuile16;
-            tab [3][4] = tuile17;
-            tab [3][5] = tuile18;
+            grille [3][0] = tuile13;            // 4 ° ligne
+            grille [3][1] = tuile14;
+            grille [3][2] = tuile15;
+            grille [3][3] = tuile16;
+            grille [3][4] = tuile17;
+            grille [3][5] = tuile18;
           
             
-            tab [4][0] = tuileNulle;            // 5 ° ligne
-            tab [4][1] = tuile19;
-            tab [4][2] = tuile20;
-            tab [4][3] = tuile21;
-            tab [4][4] = tuile22;
-            tab [4][5] = tuileNulle;
+            grille [4][0] = tuileNulle;            // 5 ° ligne
+            grille [4][1] = tuile19;
+            grille [4][2] = tuile20;
+            grille [4][3] = tuile21;
+            grille [4][4] = tuile22;
+            grille [4][5] = tuileNulle;
             
-            tab [5][0] = tuileNulle;            // 6 ° ligne
-            tab [5][1] = tuileNulle;
-            tab [5][2] = tuile23;
-            tab [5][3] = tuile24;
-            tab [5][4] = tuileNulle;
-            tab [5][5] = tuileNulle;
+            grille [5][0] = tuileNulle;            // 6 ° ligne
+            grille [5][1] = tuileNulle;
+            grille [5][2] = tuile23;
+            grille [5][3] = tuile24;
+            grille [5][4] = tuileNulle;
+            grille [5][5] = tuileNulle;
         
         
       }
 
-    /**
-     * @return the tab
-     */
-    public Tuile[][] getTab() {
-        return tab;
+    
+    public Tuile[][] getGrille() {
+        return grille;
     }
       
     
