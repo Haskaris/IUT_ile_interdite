@@ -28,6 +28,11 @@ public class Aventurier {
     }
 
    
+    public void setGrille(Grille grille) {
+        this.grille = grille;
+    }
+
+   
    
     
 }

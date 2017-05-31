@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package ile_interdite;
+import java.util.ArrayList;
 import java.util.Observable;
 import view.VueBienvenue;
 import view.VueParamJeu;
@@ -36,6 +37,7 @@ public class Controller implements Observateur {
         private static String nomJ4;
         private static int difficulte;
         private static Grille grilleJeu;
+        private static ArrayList<Aventurier> joueurs;
         
         
     
@@ -57,8 +59,11 @@ public class Controller implements Observateur {
 
 
 
-    public static void setGrilleJeu(Grille aGrilleJeu) {
-        grilleJeu = aGrilleJeu;
+    public static void setGrilleJeu(Grille GrilleJeu) {
+        grilleJeu = GrilleJeu;
+        for (Aventurier av : joueurs){
+            av.setGrille(GrilleJeu);
+    }
         
     }
 
@@ -106,6 +111,18 @@ public class Controller implements Observateur {
             this.nomJ4 = nomJ4;
         }
         this.difficulte = difficulte;
+    }
+
+    /**
+     * @return the joueurs
+     */
+    public ArrayList<Aventurier> getJoueurs() {
+        return joueurs;
+    }
+
+   
+    public void setJoueurs(ArrayList<Aventurier> joueurs) {
+        this.joueurs = joueurs;
     }
 
 }
