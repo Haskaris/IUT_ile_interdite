@@ -45,8 +45,7 @@ public class VueRegles {
         btnRetour.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Message msg = new Message();
-                msg.setTypeMessage(TypesMessage.ACTION_Retour);
+                Message msg = new Message(TypesMessage.ACTION_Retour);
                 
                 controller.traiterMessage(msg);
             }

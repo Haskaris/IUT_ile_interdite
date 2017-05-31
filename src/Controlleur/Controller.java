@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Controlleur;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Observable;
 import view.VueBienvenue;
@@ -15,6 +16,7 @@ import model.Grille;
 import util.Message;
 import util.TypesMessage;
 import model.Grille;
+import view.VueAventurier;
 //package util;
 
 /**
@@ -33,6 +35,7 @@ public class Controller implements Observateur {
         private static VueBienvenue bienvenue;
         private static VueParamJeu paramJeu;
         private static VueRegles regles;
+        private static VueAventurier vueAv;
         private static Controller c;
         private static boolean menu;
         private static int nbJoueurs;
@@ -51,13 +54,14 @@ public class Controller implements Observateur {
     public static void main(String[] args) {
         // TODO code application logic here
         c= new Controller();
-        menu = true;
+        menu = false;
         bienvenue = new VueBienvenue(c);
         paramJeu = new VueParamJeu(c);
         regles = new VueRegles(c);
-        bienvenue.afficher();
+        vueAv = new VueAventurier("Ugo", "Ugo", Color.blue, c);
         
-        setGrilleJeu(new Grille());
+//bienvenue.afficher();
+        Grille grilleJeu = new Grille();
         
         
     }
@@ -77,27 +81,29 @@ public class Controller implements Observateur {
 
     @Override
     public void traiterMessage(Message msg) {
-        if (menu = true) {
-            if (msg.type == TypesMessage.ACTION_Jouer) {
+        if (menu == true) {
+            if (msg.getTypeMessage() == TypesMessage.ACTION_Jouer) {
                 bienvenue.fermer();
                 paramJeu.afficher();
-            } else if (msg.type == TypesMessage.ACTION_Retour) {
+            } else if (msg.getTypeMessage() == TypesMessage.ACTION_Retour) {
                 paramJeu.fermer();
                 regles.fermer();
                 bienvenue.afficher();
-            } else if (msg.type == TypesMessage.ACTION_Valider) {
-                menu = true;
+            } else if (msg.getTypeMessage() == TypesMessage.ACTION_Valider) {
+                menu = false;
                 // Lancement de la partie
                 paramJeu.fermer();
-            } else if (msg.type == TypesMessage.ACTION_Regles) {
+            } else if (msg.getTypeMessage() == TypesMessage.ACTION_Regles) {
                 bienvenue.fermer();
                 regles.afficher();
                 
-            } else if (msg.type == TypesMessage.ACTION_Quitter) {
+            } else if (msg.getTypeMessage() == TypesMessage.ACTION_Quitter) {
                 bienvenue.fermer();
             }
-        } else if (menu = false) {
-            
+        } else if (menu == false) {
+            if (msg.getTypeMessage() == TypesMessage.ACTION_Aller){
+                ////////////////
+            }
             setGrilleJeu(new Grille());
         }
         

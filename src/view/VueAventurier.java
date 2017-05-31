@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -14,6 +16,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import static javax.swing.SwingConstants.CENTER;
 import javax.swing.border.MatteBorder;
+import model.aventurier.Aventurier;
+import util.Message;
+import static util.TypesMessage.ACTION_Aller;
 import util.Utils.Pion;
 
  
@@ -29,8 +34,9 @@ public class VueAventurier  {
     private final JButton btnAutreAction;
     private final JButton btnTerminerTour;
     private final JTextField position;
+    private static Controlleur.Controller controlleur;
     
-    public VueAventurier (String nomJoueur, String nomAventurier, Color couleur){
+    public VueAventurier (String nomJoueur, String nomAventurier, Color couleur, Controlleur.Controller c){
 
         this.window = new JFrame();
         window.setSize(350, 200);
@@ -41,6 +47,8 @@ public class VueAventurier  {
 
         mainPanel.setBackground(new Color(230, 230, 230));
         mainPanel.setBorder(BorderFactory.createLineBorder(couleur, 2)) ;
+        
+        controlleur = c;
 
         // =================================================================================
         // NORD : le titre = nom de l'aventurier + nom du joueur sur la couleurActive du pion
@@ -78,7 +86,16 @@ public class VueAventurier  {
         this.panelBoutons.add(btnAssecher);
         this.panelBoutons.add(btnAutreAction);
         this.panelBoutons.add(btnTerminerTour);
-
+        
+        btnAller.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Message msg = new Message(ACTION_Aller);
+                controlleur.traiterMessage(msg);
+            }
+        });
+        
+        
         this.window.setVisible(true);
         mainPanel.repaint();
     }  
@@ -107,7 +124,13 @@ public class VueAventurier  {
     
      public static void main(String [] args) {
         // Instanciation de la fenêtre 
-        VueAventurier vueAventurier = new VueAventurier ("Manon", "Explorateur",Pion.ROUGE.getCouleur() );
+       // VueAventurier vueAventurier = new VueAventurier ("Manon", "Explorateur",Pion.ROUGE.getCouleur() );
+        //vueAventurier.setPosition("3-4");
+        
+        
+        
+        
+        //
     }
 }
 
