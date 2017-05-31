@@ -10,6 +10,7 @@ import view.VueBienvenue;
 import view.VueParamJeu;
 import view.VueRegles;
 import javax.swing.JFrame;
+import view.VueJeu;
 //package util;
 
 /**
@@ -28,6 +29,8 @@ public class Controller implements Observateur {
         private static VueBienvenue bienvenue;
         private static VueParamJeu paramJeu;
         private static VueRegles regles;
+        private static VueJeu jeu;
+        
         private static Controller c;
         private static boolean menu;
         private static int nbJoueurs;
@@ -50,6 +53,8 @@ public class Controller implements Observateur {
         bienvenue = new VueBienvenue(c);
         paramJeu = new VueParamJeu(c);
         regles = new VueRegles(c);
+        jeu = new VueJeu(c, grilleJeu);
+        
         bienvenue.afficher();
         
         setGrilleJeu(new Grille());
