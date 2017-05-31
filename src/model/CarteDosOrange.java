@@ -1,4 +1,6 @@
-package ile_interdite;
+package model;
+
+import model.aventurier.Aventurier;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ile_interdite;
+package util;
 
 /**
  *
  * @author reyneu
  */
-public enum TypesMessage {
-    ACTION_Jouer,
-    ACTION_Regles,
-    ACTION_Quitter,
-    ACTION_Retour,
-    ACTION_Valider
+public class Message {
+    public TypesMessage type;
+
+    public void setTypeMessage(TypesMessage type){
+        this.type = type;
+    }
 }

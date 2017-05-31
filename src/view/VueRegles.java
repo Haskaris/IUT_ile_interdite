@@ -5,9 +5,9 @@
  */
 package view;
 
-import ile_interdite.Controller;
-import ile_interdite.Message;
-import ile_interdite.TypesMessage;
+import Controlleur.Controller;
+import util.Message;
+import util.TypesMessage;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;

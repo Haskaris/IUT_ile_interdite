@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ile_interdite;
+package util;
 
 /**
  *
- * @author jacquett
+ * @author reyneu
  */
-public abstract class Carte {
-    
+public enum TypesMessage {
+    ACTION_Jouer,
+    ACTION_Regles,
+    ACTION_Quitter,
+    ACTION_Retour,
+    ACTION_Valider
 }
