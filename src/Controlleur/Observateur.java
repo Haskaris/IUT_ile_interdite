@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ile_interdite;
+package Controlleur;
 
 import java.util.Observable;
+import util.Message;
 
 /**
  *

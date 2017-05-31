@@ -5,9 +5,9 @@
  */
 package view;
 
-import ile_interdite.Controller;
-import ile_interdite.Message;
-import ile_interdite.Observateur;
+import Controlleur.Controller;
+import util.Message;
+import Controlleur.Observateur;
 
 
 
