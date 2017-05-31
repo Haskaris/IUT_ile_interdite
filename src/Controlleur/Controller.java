@@ -14,6 +14,7 @@ import model.aventurier.Aventurier;
 import model.Grille;
 import util.Message;
 import util.TypesMessage;
+import model.Grille;
 //package util;
 
 /**

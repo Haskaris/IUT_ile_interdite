@@ -50,7 +50,7 @@ public class Grille {
     private Tuile tuile24 = new Tuile ("Le jardin des murmures");
     
     
-      Grille(){
+      public Grille(){
         setGrille();
         tuilesInondees = new ArrayList<>();
         
