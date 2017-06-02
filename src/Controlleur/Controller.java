@@ -38,15 +38,15 @@ public class Controller implements Observateur {
         private static VueAventurier vueAv;
         private static Controller c;
         private static boolean menu;
-        private static int nbJoueurs;
-        private static String nomJ1;
-        private static String nomJ2;
-        private static String nomJ3;
-        private static String nomJ4;
+        private static int nbJoueurs = 4;
+        private static String nomJ1 = "Ugo";
+        private static String nomJ2 = "Mathis";
+        private static String nomJ3 = "Andrea";
+        private static String nomJ4 = "Thomas";
         private static int difficulte;
         private static Grille grilleJeu;
         private static ArrayList<Aventurier> joueurs;
-        private static Aventurier av1;
+        private static Aventurier av1, av2, av3, av4;
         
         
     
@@ -54,17 +54,28 @@ public class Controller implements Observateur {
     
     public static void main(String[] args) {
         // TODO code application logic here
+        joueurs = new ArrayList<>();
         c= new Controller();
         menu = false;
         bienvenue = new VueBienvenue(c);
         paramJeu = new VueParamJeu(c);
         regles = new VueRegles(c);
-        vueAv = new VueAventurier("Ugo", "Ugo", Color.blue, c);
-        av1 = new Aventurier("Ugo");
-        //joueurs.add(new Aventurier("Ugo"));//Erreur
+        Grille grilleJeu = new Grille();
+        av1 = new Aventurier(nomJ1);
+        av2 = new Aventurier(nomJ2);
+        joueurs.add(av1);
+        joueurs.add(av2);
+        if (nbJoueurs >= 3) {
+            av3 = new Aventurier(nomJ3);
+            joueurs.add(av3);
+            if (nbJoueurs == 4) {
+                av4 = new Aventurier(nomJ4);
+                joueurs.add(av4);
+            }
+        }
+        vueAv = new VueAventurier("Ugo", "av1", Color.blue, c);
         
 //bienvenue.afficher();
-        Grille grilleJeu = new Grille();//Erreur
         
         
     }
