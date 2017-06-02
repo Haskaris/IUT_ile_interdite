@@ -18,7 +18,7 @@ import static javax.swing.SwingConstants.CENTER;
 import javax.swing.border.MatteBorder;
 import model.aventurier.Aventurier;
 import util.Message;
-import static util.TypesMessage.ACTION_Aller;
+import static util.TypesMessage.*;
 import util.Utils.Pion;
 
  
@@ -35,9 +35,12 @@ public class VueAventurier  {
     private final JButton btnTerminerTour;
     private final JTextField position;
     private static Controlleur.Controller controlleur;
+    private String nomJoueur;
     
     public VueAventurier (String nomJoueur, String nomAventurier, Color couleur, Controlleur.Controller c){
 
+        this.nomJoueur = nomJoueur;
+        
         this.window = new JFrame();
         window.setSize(350, 200);
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
@@ -96,12 +99,21 @@ public class VueAventurier  {
             }
         });
         
+        btnAssecher.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Message msg = new Message(ACTION_Assecher);
+                controlleur.traiterMessage(msg);
+            }
+        });
+        
         
         this.window.setVisible(true);
         mainPanel.repaint();
     }  
 
      public JButton getBtnAutreAction() {
+        System.out.println("boutonAutreAction");
         return btnAutreAction;
     }
 
@@ -110,18 +122,23 @@ public class VueAventurier  {
     }
 
     public JButton getBtnAller() {
+        System.out.println("boutonAller");
         return btnAller;
     }
     
     public JButton getBtnAssecher() {
+        System.out.println("boutonAssecher");
         return btnAssecher;
     }
 
     public JButton getBtnTerminerTour() {
+        System.out.println("boutonFinTour");
         return btnTerminerTour;
     }
  
-
+    public String getJoueur() {
+        return nomJoueur;
+    }
     
      public static void main(String [] args) {
         // Instanciation de la fenêtre 

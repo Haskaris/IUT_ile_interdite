@@ -18,11 +18,4 @@ public class Messager extends Aventurier{
         super(nom);
     }
     
-    @Override
-    public ArrayList<Tuile> getTuilesPossibles(){
-        
-        return super.getTuilesPossibles();
-    }
-    
-    
 }
