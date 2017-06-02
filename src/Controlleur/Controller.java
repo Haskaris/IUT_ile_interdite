@@ -35,7 +35,7 @@ public class Controller implements Observateur {
         private static VueBienvenue bienvenue;
         private static VueParamJeu paramJeu;
         private static VueRegles regles;
-        private static VueAventurier vueAv;
+        private static VueAventurier vueAv1, vueAv2, vueAv3, vueAv4;
         private static Controller c;
         private static boolean menu;
         private static int nbJoueurs = 4;
@@ -65,15 +65,18 @@ public class Controller implements Observateur {
         av2 = new Aventurier(nomJ2);
         joueurs.add(av1);
         joueurs.add(av2);
+        vueAv1 = new VueAventurier(nomJ1, "av1", Color.blue, c);
+        vueAv2 = new VueAventurier(nomJ2, "av2", Color.green, c);
         if (nbJoueurs >= 3) {
             av3 = new Aventurier(nomJ3);
             joueurs.add(av3);
+            vueAv3 = new VueAventurier(nomJ3, "av3", Color.yellow, c);
             if (nbJoueurs == 4) {
                 av4 = new Aventurier(nomJ4);
                 joueurs.add(av4);
+                vueAv4 = new VueAventurier(nomJ4, "av4", Color.pink, c);
             }
         }
-        vueAv = new VueAventurier("Ugo", "av1", Color.blue, c);
         
 //bienvenue.afficher();
         
@@ -116,8 +119,12 @@ public class Controller implements Observateur {
             }
         } else if (menu == false) {
             if (msg.getTypeMessage() == TypesMessage.ACTION_Aller){
-                //vueAv.setPosition();
+                System.out.println(msg.getClass().getName());
+                //vueAv.getJoueur();
                 //joueurs.get(nbJoueurs)
+            } else if (msg.getTypeMessage() == TypesMessage.ACTION_Assecher) {
+                //
+                //
             }
             setGrilleJeu(new Grille());
         }
@@ -132,9 +139,9 @@ public class Controller implements Observateur {
         this.nomJ2 = nomJ2;
         if (nbJoueurs >= 3) {
             this.nomJ3 = nomJ3;
-        }
-        if (nbJoueurs >= 4) {
-            this.nomJ4 = nomJ4;
+            if (nbJoueurs == 4) {
+                this.nomJ4 = nomJ4;
+            }
         }
         this.difficulte = difficulte;
     }
