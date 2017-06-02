@@ -39,11 +39,11 @@ public class Aventurier {
     }
 
     public ArrayList<Tuile> getTuilesPossibles(){
-        int posX = position.getX();
-        int posY = position.getY();
+        int posX = getPosition().getX();
+        int posY = getPosition().getY();
         ArrayList<Tuile> tuilesPossibles = new ArrayList<>();
         
-        Tuile[][] tuiles = grille.getGrille();
+        Tuile[][] tuiles = getGrilleAv().getGrille();
         
         if (tuiles[posX-1][posY].getEtat() == Etat.assechee || tuiles[posX-1][posY].getEtat() == Etat.inondee){
             tuilesPossibles.add(tuiles[posX-1][posY]);
@@ -60,14 +60,28 @@ public class Aventurier {
         return tuilesPossibles;
     }
     
-    public void deplacmeent(String deplacement) {
+    public void deplacement(String deplacement) {
         char x = deplacement.charAt(0);
         char y = deplacement.charAt(2);                    // récupération de x et y
     
         
    
     }
-    
+
+    /**
+     * @return the position
+     */
+    public Tuile getPosition() {
+        return position;
+    }
+
+    /**
+     * @return the grille
+     */
+    public Grille getGrilleAv() {
+        return grille;
+    }
+  
     
     
     
