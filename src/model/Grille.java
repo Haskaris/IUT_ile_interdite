@@ -17,8 +17,8 @@ import java.util.ArrayList;
 public class Grille {
     
     
-    private final int ligne = 6;
-    private final int colonne = 6;
+    private final int ligne = 5;
+    private final int colonne = 5;
     private Tuile[][] grille = new Tuile[6][6];
     
     private ArrayList<Tuile> tuilesInondees;
@@ -51,7 +51,7 @@ public class Grille {
     
     
       public Grille(){
-        setGrille();
+        setGrille();//Erreur
         tuilesInondees = new ArrayList<>();
         
     }
@@ -65,14 +65,14 @@ public class Grille {
             tuile2.setEtat(Etat.inondee);
             grille [0][3] = tuile2;
             grille [0][4] = tuileNulle;
-            grille [0][5] = tuileNulle;
+            grille [0][5] = tuileNulle;//Erreur
             
-            grille [0][0] = tuileNulle;        // 2° ligne
+            grille [1][0] = tuileNulle;        // 2° ligne
             grille [1][1] = tuile3;
-            grille [2][2] = tuile4;
-            grille [3][3] = tuile5;
-            grille [4][4] = tuile6;
-            grille [5][5] = tuileNulle;
+            grille [1][2] = tuile4;
+            grille [1][3] = tuile5;
+            grille [1][4] = tuile6;
+            grille [1][5] = tuileNulle;
             
             grille [2][0] = tuile7;            // 3 ° ligne
             grille [2][1] = tuile8;
@@ -111,8 +111,8 @@ public class Grille {
             grille [5][4] = tuileNulle;
             grille [5][5] = tuileNulle;
             
-            for (int i = 0 ; i < 6 ; i++){
-                for (int j =0 ; j < 6 ; j++){
+            for (int i = 0 ; i <= 5 ; i++){
+                for (int j =0 ; j <= 5 ; j++){
                     if (grille[i][j] != tuileNulle){
                         grille[i][j].setX(i);
                         grille[i][j].setY(j);
@@ -120,11 +120,9 @@ public class Grille {
                 }
             }
             
-        
-        
+         
       }
 
-    
     public Tuile[][] getGrille() {
         return grille;
     }

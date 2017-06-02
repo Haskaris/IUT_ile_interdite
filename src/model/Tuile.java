@@ -31,6 +31,8 @@ public class Tuile {
         setNom(nom);
         setEtat(Etat.assechee);
         setJoueur(null);
+        setX(0);
+        setY(0);
     }
 
     /**

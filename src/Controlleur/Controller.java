@@ -46,6 +46,7 @@ public class Controller implements Observateur {
         private static int difficulte;
         private static Grille grilleJeu;
         private static ArrayList<Aventurier> joueurs;
+        private static Aventurier av1;
         
         
     
@@ -59,9 +60,11 @@ public class Controller implements Observateur {
         paramJeu = new VueParamJeu(c);
         regles = new VueRegles(c);
         vueAv = new VueAventurier("Ugo", "Ugo", Color.blue, c);
+        av1 = new Aventurier("Ugo");
+        //joueurs.add(new Aventurier("Ugo"));//Erreur
         
 //bienvenue.afficher();
-        Grille grilleJeu = new Grille();
+        Grille grilleJeu = new Grille();//Erreur
         
         
     }
@@ -72,7 +75,7 @@ public class Controller implements Observateur {
         grilleJeu = GrilleJeu;
         for (Aventurier av : joueurs){
             av.setGrille(GrilleJeu);
-    }
+        }
         
     }
 
@@ -102,7 +105,8 @@ public class Controller implements Observateur {
             }
         } else if (menu == false) {
             if (msg.getTypeMessage() == TypesMessage.ACTION_Aller){
-                ////////////////
+                //vueAv.setPosition();
+                //joueurs.get(nbJoueurs)
             }
             setGrilleJeu(new Grille());
         }
