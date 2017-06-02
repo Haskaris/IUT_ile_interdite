@@ -142,11 +142,12 @@ public class Grille {
          
         return tuilesInondees;
     }
+    
+    public Tuile trouverTuile(int x, int y){
+        Tuile[][] tuiles = getGrille();
+        return tuiles[x][y];
+    }
       
-    
-    
-    
-    
 }
     
     
