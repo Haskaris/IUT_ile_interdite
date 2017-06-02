@@ -87,8 +87,7 @@ public class VueParamJeu {
         btnRetour.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Message m = new Message();
-                m.setTypeMessage(TypesMessage.ACTION_Retour);
+                Message m = new Message(TypesMessage.ACTION_Retour);
                 c.traiterMessage(m);
             }
         });
@@ -96,9 +95,7 @@ public class VueParamJeu {
         btnValider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Message m = new Message();
                 c.getDonnees(0, nomJ1.getText(), nomJ2.getText(), nomJ3.getText(), nomJ4.getText(), 0); // 0 = nbjoueurs && 0 = difficulté
-                m.setTypeMessage(TypesMessage.ACTION_Valider);
             }
         });
         

@@ -10,9 +10,17 @@ package util;
  * @author reyneu
  */
 public class Message {
-    public TypesMessage type;
-
+    private TypesMessage type;
+    
+    public Message(TypesMessage type){
+        setTypeMessage(type);
+    }
+    
     public void setTypeMessage(TypesMessage type){
         this.type = type;
+    }
+    
+    public TypesMessage getTypeMessage(){
+        return type;
     }
 }

@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Controlleur;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Observable;
 import view.VueBienvenue;
@@ -15,6 +16,7 @@ import model.Grille;
 import util.Message;
 import util.TypesMessage;
 import model.Grille;
+import view.VueAventurier;
 //package util;
 
 /**
@@ -33,16 +35,18 @@ public class Controller implements Observateur {
         private static VueBienvenue bienvenue;
         private static VueParamJeu paramJeu;
         private static VueRegles regles;
+        private static VueAventurier vueAv;
         private static Controller c;
         private static boolean menu;
-        private static int nbJoueurs;
-        private static String nomJ1;
-        private static String nomJ2;
-        private static String nomJ3;
-        private static String nomJ4;
+        private static int nbJoueurs = 4;
+        private static String nomJ1 = "Ugo";
+        private static String nomJ2 = "Mathis";
+        private static String nomJ3 = "Andrea";
+        private static String nomJ4 = "Thomas";
         private static int difficulte;
         private static Grille grilleJeu;
         private static ArrayList<Aventurier> joueurs;
+        private static Aventurier av1, av2, av3, av4;
         
         
     
@@ -50,14 +54,28 @@ public class Controller implements Observateur {
     
     public static void main(String[] args) {
         // TODO code application logic here
+        joueurs = new ArrayList<>();
         c= new Controller();
-        menu = true;
+        menu = false;
         bienvenue = new VueBienvenue(c);
         paramJeu = new VueParamJeu(c);
         regles = new VueRegles(c);
-        bienvenue.afficher();
+        Grille grilleJeu = new Grille();
+        av1 = new Aventurier(nomJ1);
+        av2 = new Aventurier(nomJ2);
+        joueurs.add(av1);
+        joueurs.add(av2);
+        if (nbJoueurs >= 3) {
+            av3 = new Aventurier(nomJ3);
+            joueurs.add(av3);
+            if (nbJoueurs == 4) {
+                av4 = new Aventurier(nomJ4);
+                joueurs.add(av4);
+            }
+        }
+        vueAv = new VueAventurier("Ugo", "av1", Color.blue, c);
         
-        setGrilleJeu(new Grille());
+//bienvenue.afficher();
         
         
     }
@@ -68,7 +86,7 @@ public class Controller implements Observateur {
         grilleJeu = GrilleJeu;
         for (Aventurier av : joueurs){
             av.setGrille(GrilleJeu);
-    }
+        }
         
     }
 
@@ -77,27 +95,30 @@ public class Controller implements Observateur {
 
     @Override
     public void traiterMessage(Message msg) {
-        if (menu = true) {
-            if (msg.type == TypesMessage.ACTION_Jouer) {
+        if (menu == true) {
+            if (msg.getTypeMessage() == TypesMessage.ACTION_Jouer) {
                 bienvenue.fermer();
                 paramJeu.afficher();
-            } else if (msg.type == TypesMessage.ACTION_Retour) {
+            } else if (msg.getTypeMessage() == TypesMessage.ACTION_Retour) {
                 paramJeu.fermer();
                 regles.fermer();
                 bienvenue.afficher();
-            } else if (msg.type == TypesMessage.ACTION_Valider) {
-                menu = true;
+            } else if (msg.getTypeMessage() == TypesMessage.ACTION_Valider) {
+                menu = false;
                 // Lancement de la partie
                 paramJeu.fermer();
-            } else if (msg.type == TypesMessage.ACTION_Regles) {
+            } else if (msg.getTypeMessage() == TypesMessage.ACTION_Regles) {
                 bienvenue.fermer();
                 regles.afficher();
                 
-            } else if (msg.type == TypesMessage.ACTION_Quitter) {
+            } else if (msg.getTypeMessage() == TypesMessage.ACTION_Quitter) {
                 bienvenue.fermer();
             }
-        } else if (menu = false) {
-            
+        } else if (menu == false) {
+            if (msg.getTypeMessage() == TypesMessage.ACTION_Aller){
+                //vueAv.setPosition();
+                //joueurs.get(nbJoueurs)
+            }
             setGrilleJeu(new Grille());
         }
         

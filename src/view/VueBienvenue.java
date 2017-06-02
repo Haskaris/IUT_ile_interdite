@@ -70,8 +70,7 @@ public class VueBienvenue {
         btnJouer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Message m = new Message();
-                m.setTypeMessage(TypesMessage.ACTION_Jouer);
+                Message m = new Message(TypesMessage.ACTION_Jouer);
                 c.traiterMessage(m);
             }
         });
@@ -80,8 +79,7 @@ public class VueBienvenue {
         btnRegle.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Message m = new Message();
-                m.setTypeMessage(TypesMessage.ACTION_Regles);
+                Message m = new Message(TypesMessage.ACTION_Regles);
                 c.traiterMessage(m);
             }
         });
@@ -90,8 +88,7 @@ public class VueBienvenue {
         btnQuitter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Message m = new Message();
-                m.setTypeMessage(TypesMessage.ACTION_Quitter);
+                Message m = new Message(TypesMessage.ACTION_Quitter);
                 c.traiterMessage(m);
             }
         });

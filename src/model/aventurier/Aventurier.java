@@ -21,11 +21,11 @@ public class Aventurier {
     private Tuile position;
     private CarteDosOrange main;
     
-    Aventurier(String nom){
+    public Aventurier(String nom){
         setNom(nom);
     }
     
-    public void setNom(String nom){
+    private void setNom(String nom){
         this.nom = nom;
     }
     
@@ -39,11 +39,11 @@ public class Aventurier {
     }
 
     public ArrayList<Tuile> getTuilesPossibles(){
-        int posX = position.getX();
-        int posY = position.getY();
+        int posX = getPosition().getX();
+        int posY = getPosition().getY();
         ArrayList<Tuile> tuilesPossibles = new ArrayList<>();
         
-        Tuile[][] tuiles = grille.getGrille();
+        Tuile[][] tuiles = getGrilleAv().getGrille();
         
         if (tuiles[posX-1][posY].getEtat() == Etat.assechee || tuiles[posX-1][posY].getEtat() == Etat.inondee){
             tuilesPossibles.add(tuiles[posX-1][posY]);
@@ -90,7 +90,21 @@ public class Aventurier {
     public void setPosition(Tuile position) {
         this.position = position;
     }
-    
+
+    /**
+     * @return the position
+     */
+    public Tuile getPosition() {
+        return position;
+    }
+
+    /**
+     * @return the grille
+     */
+    public Grille getGrilleAv() {
+        return grille;
+    }
+  
     
     
     
