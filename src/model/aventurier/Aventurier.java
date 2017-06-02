@@ -61,11 +61,34 @@ public class Aventurier {
     }
     
     public void deplacmeent(String deplacement) {
-        char x = deplacement.charAt(0);
-        char y = deplacement.charAt(2);                    // récupération de x et y
+        char charX = deplacement.charAt(0);
+        char charY = deplacement.charAt(2);                    // récupération de x et y
     
         
-   
+        int x = Character.getNumericValue(charX);
+        int y = Character.getNumericValue(charY);
+        
+        ArrayList<Tuile> tuilesPossibles = new ArrayList <>();
+        
+        tuilesPossibles = getTuilesPossibles();
+        
+        for (Tuile tuile : tuilesPossibles){
+            if (tuile.getX() == x & tuile.getY() == y){
+                this.setPosition(grille.trouverTuile(x ,y));
+                
+            }
+            
+        
+        }
+        
+        
+    }
+
+    /**
+     * @param position the position to set
+     */
+    public void setPosition(Tuile position) {
+        this.position = position;
     }
     
     
