@@ -5,10 +5,8 @@
  */
 package view;
 
-import ile_interdite.Controller;
-import ile_interdite.Etat;
-import ile_interdite.Grille;
-import ile_interdite.Tuile;
+import model.*;
+import Controlleur.Controller;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -24,7 +22,7 @@ import javax.swing.JPanel;
  */
 public class VueJeu {
     private final JFrame window;
-    private final Controller controller;
+    private static Controller controller;
     
     VueJeu(Controller c){
         this.window = new JFrame();
@@ -47,7 +45,7 @@ public class VueJeu {
         
         for (int i = 0; i<=6 ; i++){
             for (int j = 0; j<= 6; j++){
-                tuile = c.grille[i][j];
+                tuile = c.grilleJeu[i][j];
                 if (tuile == null){
                     mainPanel.add(new JPanel());
                 }
