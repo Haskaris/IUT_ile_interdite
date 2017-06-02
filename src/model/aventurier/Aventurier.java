@@ -21,11 +21,11 @@ public class Aventurier {
     private Tuile position;
     private CarteDosOrange main;
     
-    Aventurier(String nom){
+    public Aventurier(String nom){
         setNom(nom);
     }
     
-    public void setNom(String nom){
+    private void setNom(String nom){
         this.nom = nom;
     }
     
