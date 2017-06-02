@@ -72,7 +72,7 @@ public class Controller implements Observateur {
         grilleJeu = GrilleJeu;
         for (Aventurier av : joueurs){
             av.setGrille(GrilleJeu);
-    }
+        }
         
     }
 

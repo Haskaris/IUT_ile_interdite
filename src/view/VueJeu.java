@@ -47,7 +47,7 @@ public class VueJeu {
         
         for (int i = 0; i<=6 ; i++){
             for (int j = 0; j<= 6; j++){
-                tuile = grille[i][j];
+                tuile = c.grille[i][j];
                 if (tuile == null){
                     mainPanel.add(new JPanel());
                 }

@@ -17,9 +17,9 @@ import java.util.ArrayList;
 public class Grille {
     
     
-    private final int ligne = 6;
-    private final int colonne = 6;
-    private Tuile[][] grille = new Tuile[6][6];
+    private final int ligne = 5;
+    private final int colonne = 5;
+    private Tuile[][] grille = new Tuile[5][5];
     
     private ArrayList<Tuile> tuilesInondees;
     
