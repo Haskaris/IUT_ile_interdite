@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.util.ArrayList;
 import model.aventurier.Aventurier;
 
 
@@ -17,20 +18,20 @@ public class Tuile {
     private int x;
     private int y;
     private Etat etat;
-    private Aventurier joueur;
+    private ArrayList<Aventurier> joueurs;
     
     Tuile(String nom, int x, int y){
         setNom(nom);
         setX(x);
         setY(y);
         setEtat(Etat.assechee);
-        setJoueur(null);
+        joueurs = new ArrayList<>();
     }
     
     Tuile(String nom) {
         setNom(nom);
         setEtat(Etat.assechee);
-        setJoueur(null);
+        joueurs = new ArrayList<>();
         setX(0);
         setY(0);
     }
@@ -85,12 +86,16 @@ public class Tuile {
         return etat;
     }
     
-    public void setJoueur(Aventurier joueur){
-        this.joueur = joueur;
+    public void addJoueur(Aventurier joueur){
+        joueurs.add(joueur);
     }
     
-    public Aventurier getJoueur(){
-        return joueur;
+    public ArrayList<Aventurier> getJoueurs(){
+        return joueurs;
+    }
+    
+    public void supprJoueur(Aventurier joueur) {
+        joueurs.remove(joueur);
     }
     
 }
