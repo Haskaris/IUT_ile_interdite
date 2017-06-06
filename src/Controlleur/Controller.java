@@ -172,7 +172,7 @@ public class Controller implements Observateur {
         ArrayList<Tuile> tuilesPossibles = getAventurier(nomJ, joueurs).getTuilesPossibles();
         for (Tuile tuile: tuilesPossibles){
             System.out.println(tuile.getNom());
-            System.out.println(tuile.getJoueur());
+            System.out.println(tuile.getJoueurs());
             System.out.println(tuile.getEtat());
             System.out.println(tuile.getX() + " - " + tuile.getY());
             System.out.println("------");

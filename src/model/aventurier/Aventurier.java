@@ -74,12 +74,12 @@ public class Aventurier {
         
         boolean deplacementEff = false;
         
-        while (deplacementEff != true){
+
             for (Tuile tuile : tuilesPossibles){
                 if (tuile.getX() == x & tuile.getY() == y){
-                    grille.trouverTuile(position.getX(), position.getY()).setJoueur(null);
+                    grille.trouverTuile(position.getX(), position.getY()).addJoueurs(this);
                     this.setPosition(grille.trouverTuile(x ,y));
-                    grille.trouverTuile(x, y).setJoueur(this);
+                    grille.trouverTuile(x, y).addJoueurs(this);
                     deplacementEff = true;
                     System.out.println("Joueur déplacé en " + x + ", " + y);
                     break;
@@ -87,7 +87,7 @@ public class Aventurier {
                     System.out.println("Joueur non deplacé, il reste en " + position.getX() +", " +position.getY());
                     deplacementEff = true;
                 }
-            }
+            
         }
     }
     
@@ -133,7 +133,7 @@ public class Aventurier {
                 if (tuile.getX() == x & tuile.getY() == y){
                     grille.trouverTuile(position.getX(), position.getY()).setJoueur(null);
                     this.setPosition(grille.trouverTuile(x ,y));
-                    grille.trouverTuile(x, y).setJoueur(this);
+                    grille.trouverTuile(x, y).addJoueurs(this);
                     AssechageEff = true;
                     System.out.println("Tuile asséchée en " + x + ", " + y);
 
