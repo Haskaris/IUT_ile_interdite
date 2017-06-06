@@ -47,8 +47,7 @@ public class Controller implements Observateur {
         private static Grille grilleJeu;
         private static ArrayList<Aventurier> joueurs;
         private static Aventurier av1, av2, av3, av4;
-        
-        
+                
     
         
     
@@ -87,7 +86,7 @@ public class Controller implements Observateur {
 
     public static void setGrilleJeu(Grille GrilleJeu) {
         grilleJeu = GrilleJeu;
-        for (Aventurier av : joueurs){
+        for (Aventurier av : joueurs){        
             av.setGrille(GrilleJeu);
         }
         
