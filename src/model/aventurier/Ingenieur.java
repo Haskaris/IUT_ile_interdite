@@ -21,7 +21,7 @@ public class Ingenieur extends Aventurier{
     @Override
     public void assechage(String assecher){
     super.assechage(assecher);
-    //String assecher2 = assecher2.String(4);
+    String assecher2 = assecher2.String(4);
     
     
     
