@@ -95,7 +95,7 @@ public class VueAventurier  {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message msg = new Message(ACTION_Aller);
-                controlleur.traiterMessage(msg);
+                controlleur.traiterDeplacement(msg, getJoueur());
             }
         });
         

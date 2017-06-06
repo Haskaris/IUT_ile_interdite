@@ -14,5 +14,6 @@ import util.Message;
  */
 public interface Observateur {
     public void traiterMessage(Message msg);
-    public void getDonnees(int nbJoueurs, String nomJ1, String nomJ2, String nomJ3, String nomJ4, int difficulte);
+    public void traiterDeplacement(Message msg, String str);
+    public void envoyerDonnees(int nbJoueurs, String nomJ1, String nomJ2, String nomJ3, String nomJ4, int difficulte);
 }

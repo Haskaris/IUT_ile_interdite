@@ -38,7 +38,7 @@ public class Controller implements Observateur {
         private static VueAventurier vueAv1, vueAv2, vueAv3, vueAv4;
         private static Controller c;
         private static boolean menu;
-        private static int nbJoueurs = 4;
+        private static int nbJoueurs = 2;
         private static String nomJ1 = "Ugo";
         private static String nomJ2 = "Mathis";
         private static String nomJ3 = "Andrea";
@@ -119,7 +119,8 @@ public class Controller implements Observateur {
             }
         } else if (menu == false) {
             if (msg.getTypeMessage() == TypesMessage.ACTION_Aller){
-                System.out.println(msg.getClass().getName());
+                System.out.println(msg.getClass());
+                
                 //vueAv.getJoueur();
                 //joueurs.get(nbJoueurs)
             } else if (msg.getTypeMessage() == TypesMessage.ACTION_Assecher) {
@@ -133,7 +134,7 @@ public class Controller implements Observateur {
 
 
     @Override
-    public void getDonnees(int nbJoueurs, String nomJ1, String nomJ2, String nomJ3, String nomJ4, int difficulte) {
+    public void envoyerDonnees(int nbJoueurs, String nomJ1, String nomJ2, String nomJ3, String nomJ4, int difficulte) {
         this.nbJoueurs = nbJoueurs;
         this.nomJ1 = nomJ1;
         this.nomJ2 = nomJ2;
@@ -156,6 +157,32 @@ public class Controller implements Observateur {
    
     public void setJoueurs(ArrayList<Aventurier> joueurs) {
         this.joueurs = joueurs;
+    }
+
+    @Override
+    public void traiterDeplacement(Message msg, String nomJ) {
+        System.out.println(nomJ);
+        
+        getAventurier(nomJ, joueurs).deplacement(nomJ);
+        
+        
+    }
+    
+    public ArrayList<Aventurier> getAventuriers() {
+	return joueurs;
+    }
+
+    private Aventurier getAventurier(String nomAv, ArrayList<Aventurier> aventuriers){
+        int i = 0;
+	while (nomAv != aventuriers.get(i).getNom()){
+            i++;
+        }
+        if (nomAv == aventuriers.get(i).getNom()){
+            return aventuriers.get(i);
+        }
+        else {
+            return null;
+        }
     }
 
 }
