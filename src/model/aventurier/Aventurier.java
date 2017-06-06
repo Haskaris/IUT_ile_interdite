@@ -60,7 +60,7 @@ public class Aventurier {
         return tuilesPossibles;
     }
     
-    public void deplacmeent(String deplacement) {
+    public void deplacement(String deplacement) {
         char charX = deplacement.charAt(0);
         char charY = deplacement.charAt(2);                    // récupération de x et y
     
@@ -72,13 +72,23 @@ public class Aventurier {
         
         tuilesPossibles = getTuilesPossibles();
         
-        for (Tuile tuile : tuilesPossibles){
-            if (tuile.getX() == x & tuile.getY() == y){
-                this.setPosition(grille.trouverTuile(x ,y));
-                
-            }
-            
+        boolean deplacementEff = false;
         
+        while (deplacementEff != true){
+            for (Tuile tuile : tuilesPossibles){
+                if (tuile.getX() == x & tuile.getY() == y){
+                    grille.trouverTuile(position.getX(), position.getY()).setJoueur(null);
+                    this.setPosition(grille.trouverTuile(x ,y));
+                    grille.trouverTuile(x, y).setJoueur(this);
+                    deplacementEff = true;
+                    System.out.println("Joueur déplacé en " + x + ", " + y);
+
+            } else {
+                System.out.println("Joueur non deplacé, il reste en " + position.getX() +", " +position.getY());
+
+                }
+            
+        }
         }
         
         
