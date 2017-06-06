@@ -8,7 +8,7 @@ package model.aventurier;
 import java.util.ArrayList;
 import model.CarteDosOrange;
 import model.Etat;
-import model.Grille;
+import model.Grille; 
 import model.Tuile;
 
 /**
@@ -130,7 +130,6 @@ public class Aventurier {
         
         boolean AssechageEff = false;
         
-        while (AssechageEff != true){
             for (Tuile tuile : tuilesPossibles){
                 if (tuile.getX() == x & tuile.getY() == y){
                     grille.trouverTuile(position.getX(), position.getY()).setJoueur(null);
@@ -143,8 +142,6 @@ public class Aventurier {
                 System.out.println("Tuile non assechée en " + position.getX() +", " +position.getY());
 
                 }
-            
-        }
         }
     }
 
