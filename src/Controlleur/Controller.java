@@ -16,6 +16,7 @@ import model.Grille;
 import util.Message;
 import util.TypesMessage;
 import model.Grille;
+import model.Tuile;
 import view.VueAventurier;
 //package util;
 
@@ -77,13 +78,15 @@ public class Controller implements Observateur {
                 vueAv4 = new VueAventurier(nomJ4, "av4", Color.pink, c);
             }
         }
+        setGrilleJeu(grilleJeu);
+        
+        av1.setPosition(grilleJeu.trouverTuile(2, 2));
+        av2.setPosition(grilleJeu.trouverTuile(3, 3));
         
 //bienvenue.afficher();
         
         
     }
-
-
 
     public static void setGrilleJeu(Grille GrilleJeu) {
         grilleJeu = GrilleJeu;
@@ -119,7 +122,7 @@ public class Controller implements Observateur {
             }
         } else if (menu == false) {
             if (msg.getTypeMessage() == TypesMessage.ACTION_Aller){
-                System.out.println(msg.getClass());
+                //System.out.println(msg.getClass());
                 
                 //vueAv.getJoueur();
                 //joueurs.get(nbJoueurs)
@@ -160,12 +163,21 @@ public class Controller implements Observateur {
     }
 
     @Override
-    public void traiterDeplacement(Message msg, String nomJ) {
+    public void traiterDeplacement(Message msg, String nomJ, String positionDemandee) {
         System.out.println(nomJ);
-        
-        getAventurier(nomJ, joueurs).deplacement(nomJ);
-        
-        
+        getAventurier(nomJ, joueurs).deplacement(positionDemandee);
+        afficherDeplacementPossible(nomJ);
+    }
+    
+    public void afficherDeplacementPossible(String nomJ) {
+        ArrayList<Tuile> tuilesPossibles = getAventurier(nomJ, joueurs).getTuilesPossibles();
+        for (Tuile tuile: tuilesPossibles){
+            System.out.println(tuile.getNom());
+            System.out.println(tuile.getJoueur());
+            System.out.println(tuile.getEtat());
+            System.out.println(tuile.getX() + " - " + tuile.getY());
+            System.out.println("------");
+        }
     }
     
     public ArrayList<Aventurier> getAventuriers() {

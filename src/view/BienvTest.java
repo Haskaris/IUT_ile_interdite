@@ -39,7 +39,7 @@ public class BienvTest implements Observateur  {
     }
 
     @Override
-    public void traiterDeplacement(Message msg, String str) {
+    public void traiterDeplacement(Message msg, String str, String str2) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
