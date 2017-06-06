@@ -82,13 +82,12 @@ public class Aventurier {
                     grille.trouverTuile(x, y).setJoueur(this);
                     deplacementEff = true;
                     System.out.println("Joueur déplacé en " + x + ", " + y);
-
-            } else {
-                System.out.println("Joueur non deplacé, il reste en " + position.getX() +", " +position.getY());
-
+                    break;
+                } else {
+                    System.out.println("Joueur non deplacé, il reste en " + position.getX() +", " +position.getY());
+                    deplacementEff = true;
                 }
-            
-        }
+            }
         }
     }
     

@@ -104,6 +104,7 @@ public class VueAventurier  {
             public void actionPerformed(ActionEvent e) {
                 Message msg = new Message(ACTION_Assecher);
                 controlleur.traiterMessage(msg);
+                System.out.println(getJoueur());
                 controlleur.afficherDeplacementPossible(nomJoueur);
             }
         });
