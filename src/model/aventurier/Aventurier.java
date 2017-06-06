@@ -74,7 +74,7 @@ public class Aventurier {
         
         boolean deplacementEff = false;
         
-        while (deplacementEff != true){
+
             for (Tuile tuile : tuilesPossibles){
                 if (tuile.getX() == x & tuile.getY() == y){
                     grille.trouverTuile(position.getX(), position.getY()).setJoueur(null);
@@ -88,7 +88,6 @@ public class Aventurier {
 
                 }
             
-        }
         }
     }
     
