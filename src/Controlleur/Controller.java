@@ -165,6 +165,7 @@ public class Controller implements Observateur {
     public void traiterDeplacement(Message msg, String nomJ, String positionDemandee) {
         System.out.println(nomJ);
         getAventurier(nomJ, joueurs).deplacement(positionDemandee);
+        setGrilleJeu(grilleJeu);
         afficherDeplacementPossible(nomJ);
     }
     
@@ -172,7 +173,7 @@ public class Controller implements Observateur {
         ArrayList<Tuile> tuilesPossibles = getAventurier(nomJ, joueurs).getTuilesPossibles();
         for (Tuile tuile: tuilesPossibles){
             System.out.println(tuile.getNom());
-            System.out.println(tuile.getJoueur());
+            System.out.println(tuile.getJoueurs());
             System.out.println(tuile.getEtat());
             System.out.println(tuile.getX() + " - " + tuile.getY());
             System.out.println("------");
