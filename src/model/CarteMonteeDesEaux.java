@@ -7,8 +7,8 @@ package model;
 
 /**
  *
- * @author jacquett
+ * @author reyneu
  */
-public abstract class Carte {
+public class CarteMonteeDesEaux extends CarteDosOrange {
     
 }
