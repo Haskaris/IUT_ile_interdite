@@ -44,4 +44,29 @@ public class Explorateur extends Aventurier {
         return tuilesPossibles;
     }
     
+    @Override
+    public ArrayList<Tuile> getAssechagePossible(){
+        int posX = getPosition().getX();
+        int posY = getPosition().getY();
+        
+        Tuile[][] tuiles = getGrilleAv().getGrille();
+        ArrayList<Tuile> tuilesPossibles = new ArrayList<>();
+        
+        tuilesPossibles = super.getAssechagePossible();
+        
+        if (tuiles[posX-1][posY-1].getEtat() == Etat.assechee || tuiles[posX-1][posY-1].getEtat() == Etat.inondee){
+            tuilesPossibles.add(tuiles[posX-1][posY]);
+        }
+        else if (tuiles[posX+1][posY+1].getEtat() == Etat.assechee || tuiles[posX+1][posY+1].getEtat() == Etat.inondee) {
+            tuilesPossibles.add(tuiles[posX+1][posY]);
+        }
+        else if (tuiles[posX-1][posY+1].getEtat() == Etat.assechee || tuiles[posX-1][posY+1].getEtat() == Etat.inondee) {
+            tuilesPossibles.add(tuiles[posX][posY+1]);
+        }
+        else if (tuiles[posX+1][posY-1].getEtat() == Etat.assechee || tuiles[posX+1][posY-1].getEtat() == Etat.inondee) {
+            tuilesPossibles.add(tuiles[posX][posY-1]);
+        }
+        return tuilesPossibles;
+    }
+    
 }

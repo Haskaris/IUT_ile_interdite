@@ -18,4 +18,6 @@ public class Ingenieur extends Aventurier{
         super(nom);
     }
     
+    
+    
 }

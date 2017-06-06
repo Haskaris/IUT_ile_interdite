@@ -93,6 +93,33 @@ public class Aventurier {
         
         
     }
+    
+    public ArrayList<Tuile> getAssechagePossible(){
+        int posX = getPosition().getX();
+        int posY = getPosition().getY();
+        ArrayList<Tuile> tuilesPossibles = new ArrayList<>();
+        
+        Tuile[][] tuiles = getGrilleAv().getGrille();
+        
+        if (tuiles[posX-1][posY].getEtat() == Etat.inondee){
+            tuilesPossibles.add(tuiles[posX-1][posY]);
+        }
+        else if (tuiles[posX+1][posY].getEtat() == Etat.inondee) {
+            tuilesPossibles.add(tuiles[posX+1][posY]);
+        }
+        else if (tuiles[posX][posY+1].getEtat() == Etat.inondee) {
+            tuilesPossibles.add(tuiles[posX][posY+1]);
+        }
+        else if (tuiles[posX][posY-1].getEtat() == Etat.inondee) {
+            tuilesPossibles.add(tuiles[posX][posY-1]);
+        }
+        else if (tuiles[posX][posY].getEtat() == Etat.inondee) {
+            tuilesPossibles.add(tuiles[posX][posY-1]);
+        }
+        return tuilesPossibles;
+    }
+    
+    
 
     /**
      * @param position the position to set
