@@ -48,6 +48,7 @@ public class Controller implements Observateur {
         private static Grille grilleJeu;
         private static ArrayList<Aventurier> joueurs;
         private static Aventurier av1, av2, av3, av4;
+        
                 
     
         
@@ -56,7 +57,7 @@ public class Controller implements Observateur {
         // TODO code application logic here
         joueurs = new ArrayList<>();
         c= new Controller();
-        menu = false;
+        menu = true;////////////////////////////////////////////////////////////////////////////////////////////
         bienvenue = new VueBienvenue(c);
         paramJeu = new VueParamJeu(c);
         regles = new VueRegles(c);
@@ -67,14 +68,18 @@ public class Controller implements Observateur {
         joueurs.add(av2);
         vueAv1 = new VueAventurier(nomJ1, "av1", Color.blue, c);
         vueAv2 = new VueAventurier(nomJ2, "av2", Color.green, c);
+        vueAv1.cacher();
+        vueAv2.cacher();
         if (nbJoueurs >= 3) {
             av3 = new Aventurier(nomJ3);
             joueurs.add(av3);
             vueAv3 = new VueAventurier(nomJ3, "av3", Color.yellow, c);
+            vueAv3.cacher();
             if (nbJoueurs == 4) {
                 av4 = new Aventurier(nomJ4);
                 joueurs.add(av4);
                 vueAv4 = new VueAventurier(nomJ4, "av4", Color.pink, c);
+                vueAv4.cacher();
             }
         }
         setGrilleJeu(grilleJeu);
@@ -82,7 +87,7 @@ public class Controller implements Observateur {
         av1.setPosition(grilleJeu.trouverTuile(2, 2));
         av2.setPosition(grilleJeu.trouverTuile(3, 3));
         
-//bienvenue.afficher();
+        bienvenue.afficher();///////////////////////////////////////////////////////////////////////
         
         
     }
@@ -112,6 +117,7 @@ public class Controller implements Observateur {
                 menu = false;
                 // Lancement de la partie
                 paramJeu.fermer();
+                tourDeJeu();
             } else if (msg.getTypeMessage() == TypesMessage.ACTION_Regles) {
                 bienvenue.fermer();
                 regles.afficher();
@@ -146,6 +152,8 @@ public class Controller implements Observateur {
             }
         }
         this.difficulte = difficulte;
+        paramJeu.fermer();//////////////////////////////////////////////////////////////////////////////////////
+        tourDeJeu();
     }
 
     /**
@@ -169,17 +177,28 @@ public class Controller implements Observateur {
     }
     
     public void afficherDeplacementPossible(String nomJ) {
+        afficherJoueurs(nomJ);
         ArrayList<Tuile> tuilesPossibles = getAventurier(nomJ, joueurs).getTuilesPossibles();
         for (Tuile tuile: tuilesPossibles){
             System.out.println(tuile.getNom());
             ArrayList<Aventurier> joueurs = tuile.getJoueurs();
             System.out.println("Joueurs présents: ");
             for (Aventurier av: joueurs){
-                System.out.println("  " + av.getNom());
+                System.out.println(" -" + av.getNom());
             }
             System.out.println(tuile.getEtat());
             System.out.println(tuile.getX() + " - " + tuile.getY());
             System.out.println("------");
+        }
+    }
+    
+    public void afficherJoueurs(String nomJ) {
+        Aventurier aventurier = getAventurier(nomJ, joueurs);
+        Tuile positionAventurier = aventurier.getPosition();
+        ArrayList<Aventurier> listeJoueurs = positionAventurier.getJoueurs();
+        System.out.println("Joueurs présents sur votre position: ");
+        for (Aventurier av: listeJoueurs){
+            System.out.println(" -" + av.getNom());
         }
     }
     
@@ -198,6 +217,14 @@ public class Controller implements Observateur {
         else {
             return null;
         }
+    }
+    
+    public void tourDeJeu(){///////////////////////////////////////////////////////////////////////////////////////
+        VueAventurier vueCourante = vueAv1;
+        
+        vueCourante.afficher();
+        
+        
     }
 
 }
