@@ -83,12 +83,11 @@ public class Aventurier {
                     deplacementEff = true;
                     System.out.println("Joueur déplacé en " + x + ", " + y);
 
-            } else {
-                System.out.println("Joueur non deplacé, il reste en " + position.getX() +", " +position.getY());
-
                 }
-            
-        }
+            }
+            if (deplacementEff == false){
+                System.out.println("Joueur non deplacé, il reste en " + position.getX() +", " +position.getY());
+            }
     }
     
     public ArrayList<Tuile> getAssechagePossible(){
@@ -137,11 +136,11 @@ public class Aventurier {
                     AssechageEff = true;
                     System.out.println("Tuile asséchée en " + x + ", " + y);
 
-            } else {
-                System.out.println("Tuile non assechée en " + position.getX() +", " +position.getY());
-
-                }
+            }
         }
+            if (AssechageEff == false){
+                System.out.println("Tuile non assechée en " + position.getX() +", " +position.getY());
+            }
     }
 
     /**
