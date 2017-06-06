@@ -51,7 +51,7 @@ public class Grille {
     
     
       public Grille(){
-        setGrille();//Erreur
+        setGrille();
         tuilesInondees = new ArrayList<>();
         
     }
@@ -65,7 +65,7 @@ public class Grille {
             tuile2.setEtat(Etat.inondee);
             grille [0][3] = tuile2;
             grille [0][4] = tuileNulle;
-            grille [0][5] = tuileNulle;//Erreur
+            grille [0][5] = tuileNulle;
             
             grille [1][0] = tuileNulle;        // 2° ligne
             grille [1][1] = tuile3;

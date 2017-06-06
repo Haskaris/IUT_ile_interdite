@@ -48,13 +48,13 @@ public class Aventurier {
         if (tuiles[posX-1][posY].getEtat() == Etat.assechee || tuiles[posX-1][posY].getEtat() == Etat.inondee){
             tuilesPossibles.add(tuiles[posX-1][posY]);
         }
-        else if (tuiles[posX+1][posY].getEtat() == Etat.assechee || tuiles[posX+1][posY].getEtat() == Etat.inondee) {
+        if (tuiles[posX+1][posY].getEtat() == Etat.assechee || tuiles[posX+1][posY].getEtat() == Etat.inondee) {
             tuilesPossibles.add(tuiles[posX+1][posY]);
         }
-        else if (tuiles[posX][posY+1].getEtat() == Etat.assechee || tuiles[posX][posY+1].getEtat() == Etat.inondee) {
+        if (tuiles[posX][posY+1].getEtat() == Etat.assechee || tuiles[posX][posY+1].getEtat() == Etat.inondee) {
             tuilesPossibles.add(tuiles[posX][posY+1]);
         }
-        else if (tuiles[posX][posY-1].getEtat() == Etat.assechee || tuiles[posX][posY-1].getEtat() == Etat.inondee) {
+        if (tuiles[posX][posY-1].getEtat() == Etat.assechee || tuiles[posX][posY-1].getEtat() == Etat.inondee) {
             tuilesPossibles.add(tuiles[posX][posY-1]);
         }
         return tuilesPossibles;
@@ -172,5 +172,3 @@ public class Aventurier {
    
    }
    
-    
-

@@ -95,7 +95,7 @@ public class VueAventurier  {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message msg = new Message(ACTION_Aller);
-                controlleur.traiterDeplacement(msg, getJoueur());
+                controlleur.traiterDeplacement(msg, getJoueur(), position.getText());
             }
         });
         
@@ -104,12 +104,14 @@ public class VueAventurier  {
             public void actionPerformed(ActionEvent e) {
                 Message msg = new Message(ACTION_Assecher);
                 controlleur.traiterMessage(msg);
+                controlleur.afficherDeplacementPossible(nomJoueur);
             }
         });
         
         
         this.window.setVisible(true);
         mainPanel.repaint();
+        
     }  
 
      public JButton getBtnAutreAction() {
@@ -143,7 +145,7 @@ public class VueAventurier  {
      public static void main(String [] args) {
         // Instanciation de la fenêtre 
        // VueAventurier vueAventurier = new VueAventurier ("Manon", "Explorateur",Pion.ROUGE.getCouleur() );
-        //vueAventurier.setPosition("3-4");
+        
         
         
         
