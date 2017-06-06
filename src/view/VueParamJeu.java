@@ -95,7 +95,7 @@ public class VueParamJeu {
         btnValider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                c.getDonnees(0, nomJ1.getText(), nomJ2.getText(), nomJ3.getText(), nomJ4.getText(), 0); // 0 = nbjoueurs && 0 = difficulté
+                c.envoyerDonnees(0, nomJ1.getText(), nomJ2.getText(), nomJ3.getText(), nomJ4.getText(), 0); // 0 = nbjoueurs && 0 = difficulté
             }
         });
         
