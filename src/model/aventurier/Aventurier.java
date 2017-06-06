@@ -82,6 +82,7 @@ public class Aventurier {
                     grille.trouverTuile(x, y).setJoueur(this);
                     deplacementEff = true;
                     System.out.println("Joueur déplacé en " + x + ", " + y);
+                    break;
 
                 } else {
                     System.out.println("Joueur non deplacé, il reste en " + position.getX() + ", " + position.getY());
@@ -90,7 +91,63 @@ public class Aventurier {
 
             }
         }
+    
+    }
+    
+    public ArrayList<Tuile> getAssechagePossible(){
+        int posX = getPosition().getX();
+        int posY = getPosition().getY();
+        ArrayList<Tuile> tuilesPossibles = new ArrayList<>();
+        
+        Tuile[][] tuiles = getGrilleAv().getGrille();
+        
+        if (tuiles[posX-1][posY].getEtat() == Etat.inondee){
+            tuilesPossibles.add(tuiles[posX-1][posY]);
+        }
+        else if (tuiles[posX+1][posY].getEtat() == Etat.inondee) {
+            tuilesPossibles.add(tuiles[posX+1][posY]);
+        }
+        else if (tuiles[posX][posY+1].getEtat() == Etat.inondee) {
+            tuilesPossibles.add(tuiles[posX][posY+1]);
+        }
+        else if (tuiles[posX][posY-1].getEtat() == Etat.inondee) {
+            tuilesPossibles.add(tuiles[posX][posY-1]);
+        }
+        else if (tuiles[posX][posY].getEtat() == Etat.inondee) {
+            tuilesPossibles.add(tuiles[posX][posY-1]);
+        }
+        return tuilesPossibles;
+    }
+    
+    public void assechage(String assecher) {
+        char charX = assecher.charAt(0);
+        char charY = assecher.charAt(2);                    // récupération de x et y
+    
+        int x = Character.getNumericValue(charX);
+        int y = Character.getNumericValue(charY);
+        
+        ArrayList<Tuile> tuilesPossibles = new ArrayList <>();
+        
+        tuilesPossibles = getAssechagePossible();
+        
+        boolean AssechageEff = false;
+        
+        while (AssechageEff != true){
+            for (Tuile tuile : tuilesPossibles){
+                if (tuile.getX() == x & tuile.getY() == y){
+                    grille.trouverTuile(position.getX(), position.getY()).setJoueur(null);
+                    this.setPosition(grille.trouverTuile(x ,y));
+                    grille.trouverTuile(x, y).setJoueur(this);
+                    AssechageEff = true;
+                    System.out.println("Tuile asséchée en " + x + ", " + y);
 
+            } else {
+                System.out.println("Tuile non assechée en " + position.getX() +", " +position.getY());
+
+                }
+            
+        }
+        }
     }
 
     /**
