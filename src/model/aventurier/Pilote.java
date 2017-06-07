@@ -6,6 +6,7 @@
 package model.aventurier;
 
 import java.util.ArrayList;
+import model.Etat;
 import model.Tuile;
 
 /**
@@ -14,7 +15,7 @@ import model.Tuile;
  */
 public class Pilote extends Aventurier{
     
-    private boolean pouvoirUtilise;
+    private boolean pouvoirUtilise = false;
     
     public Pilote(String nom) {
         super(nom);
@@ -42,13 +43,13 @@ public class Pilote extends Aventurier{
         
         if (isPouvoirUtilise() == false){
             for(int i = 0; i < tuiles.length; i++){
-                for(int j = 0; j < tuiles[i].length; i++){
-                    tuilesPossibles.add(tuiles[i][j]);  
+                for(int j = 0; j < tuiles[i].length; j++){
+                    if (tuiles[i][j].getEtat() == Etat.assechee || tuiles[i][j].getEtat() == Etat.inondee) {
+                        tuilesPossibles.add(tuiles[i][j]);
+                    }
                 }
             }
-        }
-        
-        else {
+        } else if (isPouvoirUtilise() == true) {
             tuilesPossibles = super.getTuilesPossibles(depl);
         }
         

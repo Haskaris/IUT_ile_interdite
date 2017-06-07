@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Controlleur;
+
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -17,6 +18,8 @@ import util.Message;
 import util.TypesMessage;
 import model.Grille;
 import model.Tuile;
+import model.aventurier.Explorateur;
+import model.aventurier.Pilote;
 import view.VueAventurier;
 //package util;
 
@@ -26,50 +29,38 @@ import view.VueAventurier;
  */
 public class Controller implements Observateur {
 
-    //private final VueBienvenue vuebienvenue; = new VueBienvenue(this);
-    //private final VueAventurier vueaventurier = new VueAventurier();
-    
-    /**
-     * @param args the command line arguments
-     */
-    
-        private static VueBienvenue bienvenue;
-        private static VueParamJeu paramJeu;
-        private static VueRegles regles;
-        private static VueAventurier vueAv1, vueAv2, vueAv3, vueAv4;
-        private static Controller c;
-        private static boolean menu;
-        private static int nbJoueurs = 2;
-        private static String nomJ1 = "Ugo";
-        private static String nomJ2 = "Mathis";
-        private static String nomJ3 = "Andrea";
-        private static String nomJ4 = "Thomas";
-        private static int difficulte;
-        private static Grille grilleJeu;
-        private static ArrayList<Aventurier> joueurs;
-        private static Aventurier av1, av2, av3, av4;
-        
-                
-    
-        
-    
+    //Initialisation des attributs
+    private static VueBienvenue bienvenue;
+    private static VueParamJeu paramJeu;
+    private static VueRegles regles;
+    private static VueAventurier vueAv1, vueAv2, vueAv3, vueAv4;
+    private static Controller c;
+    private static int nbJoueurs = 2;
+    private static String nomJ1 = "Ugo";
+    private static String nomJ2 = "Mathis";
+    private static String nomJ3 = "Andrea";
+    private static String nomJ4 = "Thomas";
+    private static int difficulte;
+    private static Grille grilleJeu;
+    private static ArrayList<Aventurier> joueurs;
+    private static Aventurier av1, av2, av3, av4;
+
     public static void main(String[] args) {
-        // TODO code application logic here
+        
+        c = new Controller();
+        
         joueurs = new ArrayList<>();
-        c= new Controller();
-        menu = false;////////////////////////////////////////////////////////////////////////////////////////////
+        av1 = new Explorateur(nomJ1);
+        av2 = new Pilote(nomJ2);
+        joueurs.add(av1);
+        joueurs.add(av2);
+                                                                  //
         bienvenue = new VueBienvenue(c);
         paramJeu = new VueParamJeu(c);
         regles = new VueRegles(c);
-        Grille grilleJeu = new Grille();
-        av1 = new Aventurier(nomJ1);
-        av2 = new Aventurier(nomJ2);
-        joueurs.add(av1);
-        joueurs.add(av2);
         vueAv1 = new VueAventurier(nomJ1, "av1", Color.blue, c);
         vueAv2 = new VueAventurier(nomJ2, "av2", Color.green, c);
-        /*vueAv1.cacher();
-        vueAv2.cacher();*/
+        
         if (nbJoueurs >= 3) {
             av3 = new Aventurier(nomJ3);
             joueurs.add(av3);
@@ -82,65 +73,40 @@ public class Controller implements Observateur {
                 vueAv4.cacher();
             }
         }
-        setGrilleJeu(grilleJeu);
         
-        av1.setPosition(grilleJeu.trouverTuile(2, 2));
+        setGrilleJeu(new Grille());                                             //Initialisation de la grille
+
+        av1.setPosition(grilleJeu.trouverTuile(2, 2));                          //Initialisation de la position (temporaire) des joueurs
         av2.setPosition(grilleJeu.trouverTuile(3, 3));
-        
-        //bienvenue.afficher();///////////////////////////////////////////////////////////////////////
-        
-        
     }
 
-    public static void setGrilleJeu(Grille GrilleJeu) {
+    public static void setGrilleJeu(Grille GrilleJeu) {                         //Fonction permettant de lier les grilles (joueurs - controlleur) 
         grilleJeu = GrilleJeu;
-        for (Aventurier av : joueurs){        
+        for (Aventurier av : joueurs) {
             av.setGrille(GrilleJeu);
         }
-        
     }
 
-    
-   
-
     @Override
-    public void traiterMessage(Message msg) {
-        if (menu == true) {
-            if (msg.getTypeMessage() == TypesMessage.ACTION_Jouer) {
-                bienvenue.fermer();
-                paramJeu.afficher();
-            } else if (msg.getTypeMessage() == TypesMessage.ACTION_Retour) {
-                paramJeu.fermer();
-                regles.fermer();
-                bienvenue.afficher();
-            } else if (msg.getTypeMessage() == TypesMessage.ACTION_Valider) {
-                menu = false;
-                // Lancement de la partie
-                paramJeu.fermer();
-                //tourDeJeu();
-            } else if (msg.getTypeMessage() == TypesMessage.ACTION_Regles) {
-                bienvenue.fermer();
-                regles.afficher();
-                
-            } else if (msg.getTypeMessage() == TypesMessage.ACTION_Quitter) {
-                bienvenue.fermer();
-            }
-        } else if (menu == false) {
-            if (msg.getTypeMessage() == TypesMessage.ACTION_Aller){
-                //System.out.println(msg.getClass());
-                
-                //vueAv.getJoueur();
-                //joueurs.get(nbJoueurs)
-            } else if (msg.getTypeMessage() == TypesMessage.ACTION_Assecher) {
-                //
-                //
-            }
+    public void traiterMessage(Message msg) {                                   //Permet de traiter l'information des boutons avec l'ihm
+        if (msg.getTypeMessage() == TypesMessage.ACTION_Jouer) {
+            bienvenue.fermer();
+            paramJeu.afficher();
+        } else if (msg.getTypeMessage() == TypesMessage.ACTION_Retour) {
+            paramJeu.fermer();
+            regles.fermer();
+            bienvenue.afficher();
+        } else if (msg.getTypeMessage() == TypesMessage.ACTION_Regles) {
+            bienvenue.fermer();
+            regles.afficher();
+
+        } else if (msg.getTypeMessage() == TypesMessage.ACTION_Quitter) {
+            bienvenue.fermer();
         }
-        
+
     }
 
-
-    @Override
+    @Override                                                                   //Envoie les paramètres de jeu
     public void envoyerDonnees(int nbJoueurs, String nomJ1, String nomJ2, String nomJ3, String nomJ4, int difficulte) {
         this.nbJoueurs = nbJoueurs;
         this.nomJ1 = nomJ1;
@@ -152,38 +118,30 @@ public class Controller implements Observateur {
             }
         }
         this.difficulte = difficulte;
-        //paramJeu.fermer();//////////////////////////////////////////////////////////////////////////////////////
+        paramJeu.fermer();
         //tourDeJeu();
     }
-
-    /**
-     * @return the joueurs
-     */
-    public ArrayList<Aventurier> getJoueurs() {
+    
+    public ArrayList<Aventurier> getJoueurs() {                                 //Permet d'obtenir la liste des joueurs
         return joueurs;
     }
 
-   
-    public void setJoueurs(ArrayList<Aventurier> joueurs) {
-        this.joueurs = joueurs;
-    }
-
-    @Override
+    @Override                                                                   //Effectue un déplacement
     public void traiterDeplacement(Message msg, String nomJ, String positionDemandee) {
         System.out.println(nomJ);
-        getAventurier(nomJ, joueurs).deplacementAssechage(positionDemandee);
-        setGrilleJeu(getAventurier(nomJ, joueurs).getGrilleAv());
+        getAventurier(nomJ, joueurs).deplacementAssechage(positionDemandee, true);  //Deplace le joueur sur la position souhaitée
+        setGrilleJeu(getAventurier(nomJ, joueurs).getGrilleAv());               //Met à jour les grilles du jeu
         afficherDeplacementPossible(nomJ);
     }
-    
+
     public void afficherDeplacementPossible(String nomJ) {
         afficherJoueurs(nomJ);
         ArrayList<Tuile> tuilesPossibles = getAventurier(nomJ, joueurs).getTuilesPossibles(true);
-        for (Tuile tuile: tuilesPossibles){
+        for (Tuile tuile : tuilesPossibles) {
             System.out.println(tuile.getNom());
             ArrayList<Aventurier> joueurs = tuile.getJoueurs();
             System.out.println("Joueurs présents: ");
-            for (Aventurier av: joueurs){
+            for (Aventurier av : joueurs) {
                 System.out.println(" -" + av.getNom());
             }
             System.out.println(tuile.getEtat());
@@ -191,34 +149,33 @@ public class Controller implements Observateur {
             System.out.println("------");
         }
     }
-    
+
     public void afficherJoueurs(String nomJ) {
         Aventurier aventurier = getAventurier(nomJ, joueurs);
         Tuile positionAventurier = aventurier.getPosition();
         ArrayList<Aventurier> listeJoueurs = positionAventurier.getJoueurs();
         System.out.println("Joueurs présents sur votre position: ");
-        for (Aventurier av: listeJoueurs){
+        for (Aventurier av : listeJoueurs) {
             System.out.println(" -" + av.getNom());
         }
     }
-    
+
     public ArrayList<Aventurier> getAventuriers() {
-	return joueurs;
+        return joueurs;
     }
 
-    private Aventurier getAventurier(String nomAv, ArrayList<Aventurier> aventuriers){
+    private Aventurier getAventurier(String nomAv, ArrayList<Aventurier> aventuriers) {
         int i = 0;
-	while (nomAv != aventuriers.get(i).getNom()){
+        while (nomAv != aventuriers.get(i).getNom()) {
             i++;
         }
-        if (nomAv == aventuriers.get(i).getNom()){
+        if (nomAv == aventuriers.get(i).getNom()) {
             return aventuriers.get(i);
-        }
-        else {
+        } else {
             return null;
         }
     }
-    
+
     /*public void tourDeJeu(){///////////////////////////////////////////////////////////////////////////////////////
         VueAventurier vueCourante = vueAv1;
         
@@ -226,5 +183,4 @@ public class Controller implements Observateur {
         
         
     }*/
-
 }
