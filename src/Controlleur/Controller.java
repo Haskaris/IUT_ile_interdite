@@ -57,7 +57,7 @@ public class Controller implements Observateur {
         // TODO code application logic here
         joueurs = new ArrayList<>();
         c= new Controller();
-        menu = true;////////////////////////////////////////////////////////////////////////////////////////////
+        menu = false;////////////////////////////////////////////////////////////////////////////////////////////
         bienvenue = new VueBienvenue(c);
         paramJeu = new VueParamJeu(c);
         regles = new VueRegles(c);
@@ -68,8 +68,8 @@ public class Controller implements Observateur {
         joueurs.add(av2);
         vueAv1 = new VueAventurier(nomJ1, "av1", Color.blue, c);
         vueAv2 = new VueAventurier(nomJ2, "av2", Color.green, c);
-        vueAv1.cacher();
-        vueAv2.cacher();
+        /*vueAv1.cacher();
+        vueAv2.cacher();*/
         if (nbJoueurs >= 3) {
             av3 = new Aventurier(nomJ3);
             joueurs.add(av3);
@@ -87,7 +87,7 @@ public class Controller implements Observateur {
         av1.setPosition(grilleJeu.trouverTuile(2, 2));
         av2.setPosition(grilleJeu.trouverTuile(3, 3));
         
-        bienvenue.afficher();///////////////////////////////////////////////////////////////////////
+        //bienvenue.afficher();///////////////////////////////////////////////////////////////////////
         
         
     }
@@ -117,7 +117,7 @@ public class Controller implements Observateur {
                 menu = false;
                 // Lancement de la partie
                 paramJeu.fermer();
-                tourDeJeu();
+                //tourDeJeu();
             } else if (msg.getTypeMessage() == TypesMessage.ACTION_Regles) {
                 bienvenue.fermer();
                 regles.afficher();
@@ -152,8 +152,8 @@ public class Controller implements Observateur {
             }
         }
         this.difficulte = difficulte;
-        paramJeu.fermer();//////////////////////////////////////////////////////////////////////////////////////
-        tourDeJeu();
+        //paramJeu.fermer();//////////////////////////////////////////////////////////////////////////////////////
+        //tourDeJeu();
     }
 
     /**
@@ -219,12 +219,12 @@ public class Controller implements Observateur {
         }
     }
     
-    public void tourDeJeu(){///////////////////////////////////////////////////////////////////////////////////////
+    /*public void tourDeJeu(){///////////////////////////////////////////////////////////////////////////////////////
         VueAventurier vueCourante = vueAv1;
         
         vueCourante.afficher();
         
         
-    }
+    }*/
 
 }
