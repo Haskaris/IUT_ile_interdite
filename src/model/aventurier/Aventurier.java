@@ -106,7 +106,7 @@ public class Aventurier {
         
         tuilesPossibles = getTuilesPossibles(depl);
         
-        boolean deplacementEff = false;
+        boolean actionEff = false;
         
             if (depl == true) {
                 for (Tuile tuile : tuilesPossibles){
@@ -114,26 +114,28 @@ public class Aventurier {
                         grille.trouverTuile(position.getX(), position.getY()).supprJoueur(this);
                         this.setPosition(grille.trouverTuile(x ,y));
                         grille.trouverTuile(x, y).addJoueur(this);
-                        deplacementEff = true;
+                        actionEff = true;
                         System.out.println("Joueur déplacé en " + x + ", " + y);
                     }
                 }
-                if (deplacementEff == false){
+                if (actionEff == false){
                     System.out.println("Joueur non deplacé, il reste en " + position.getX() +", " +position.getY());
                 }
             } else if (depl == false) {
+                
+                if (grille.trouverTuile(position.getX(), position.getY()).getEtat() == Etat.inondee){   //Ajout de la tuile ou le joueur se trouve dans la collection de tuile assechable si la tuile est innondée
+                tuilesPossibles.add(grille.trouverTuile(position.getX(), position.getY()));
+                }
+                
                 for (Tuile tuile : tuilesPossibles){
                     if (tuile.getX() == x & tuile.getY() == y){
-                        grille.trouverTuile(position.getX(), position.getY()).supprJoueur(this);
-                        this.setPosition(grille.trouverTuile(x ,y));
-                        grille.trouverTuile(x, y).addJoueur(this);
-                        deplacementEff = true;
-                        System.out.println("Joueur déplacé en " + x + ", " + y);
-
+                        
+                        grille.trouverTuile(x, y).setEtat(Etat.assechee);                        
+                        System.out.println("La tuile" + position.getX() +", " +position.getY() + " à été asséchée");
                     }
                 }
-                if (deplacementEff == false){
-                    System.out.println("Joueur non deplacé, il reste en " + position.getX() +", " +position.getY());
+                if (actionEff == false){
+                    System.out.println("La tuile" + position.getX() +", " +position.getY() + " n'à pas été asséchée");
                 }
             }
     }
@@ -159,5 +161,4 @@ public class Aventurier {
         return grille;
     }
    
-   }
-   
+}
