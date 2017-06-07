@@ -20,14 +20,14 @@ public class Plongeur extends Aventurier{
     }
     
     @Override
-    public ArrayList<Tuile> getTuilesPossibles(){           //Retourne une collection de tuiles sur lesquelles le déplacement est possible pour le plongeur
+    public ArrayList<Tuile> getTuilesPossibles(boolean depl){
         int posX = getPosition().getX();
         int posY = getPosition().getY();
         
         Tuile[][] tuiles = getGrilleAv().getGrille();
         ArrayList<Tuile> tuilesPossibles = new ArrayList<>();
         
-        tuilesPossibles = super.getTuilesPossibles();
+        tuilesPossibles = super.getTuilesPossibles(depl);
         
         if (tuiles[posX][posY-1].getEtat() == Etat.submergee){
             tuilesPossibles.add(tuiles[posX-1][posY]);
