@@ -38,7 +38,7 @@ public class Aventurier {
         this.grille = grille;
     }
 
-    public ArrayList<Tuile> getTuilesPossibles(boolean depl){
+    public ArrayList<Tuile> getTuilesPossibles(boolean depl){       //Renvoie une collection de tuiles adjacentes pour le déplacement ou l'asséchage
         int posX = getPosition().getX();
         int posY = getPosition().getY();
         ArrayList<Tuile> tuilesPossibles = new ArrayList<>();
@@ -94,7 +94,7 @@ public class Aventurier {
         return tuilesPossibles;
     }
     
-    public void deplacementAssechage(String tuileChoix, boolean depl) {
+    public void deplacementAssechage(String tuileChoix, boolean depl) {       //Gère le déplacement ou l'asséchement
         char charX = tuileChoix.charAt(0);
         char charY = tuileChoix.charAt(2);                    // récupération de x et y
     
