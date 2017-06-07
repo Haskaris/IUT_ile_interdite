@@ -35,7 +35,7 @@ public class Pilote extends Aventurier{
     }
     
     @Override
-    public ArrayList<Tuile> getTuilesPossibles(){
+    public ArrayList<Tuile> getTuilesPossibles(){          //Retourne une collection de tuiles sur lesquelles le déplacement est possible pour le pilote en fonction de son pouvoir (Utilisé ou Non)
         
         Tuile[][] tuiles = getGrilleAv().getGrille();
         ArrayList<Tuile> tuilesPossibles = new ArrayList<>();

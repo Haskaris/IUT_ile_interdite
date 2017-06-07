@@ -20,7 +20,7 @@ public class Explorateur extends Aventurier {
     }
     
     @Override
-    public ArrayList<Tuile> getTuilesPossibles(){
+    public ArrayList<Tuile> getTuilesPossibles(){           //Retourne une collection de tuiles sur lesquelles le déplacement est possible pour l'explorateur
         int posX = getPosition().getX();
         int posY = getPosition().getY();
         
@@ -45,7 +45,7 @@ public class Explorateur extends Aventurier {
     }
     
     @Override
-    public ArrayList<Tuile> getAssechagePossible(){
+    public ArrayList<Tuile> getAssechagePossible(){         //Retourne une collection de tuiles sur lesquelles l'asséchage est possible pour l'explorateur
         int posX = getPosition().getX();
         int posY = getPosition().getY();
         

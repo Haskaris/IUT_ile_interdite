@@ -20,7 +20,7 @@ public class Plongeur extends Aventurier{
     }
     
     @Override
-    public ArrayList<Tuile> getTuilesPossibles(){
+    public ArrayList<Tuile> getTuilesPossibles(){           //Retourne une collection de tuiles sur lesquelles le déplacement est possible pour le plongeur
         int posX = getPosition().getX();
         int posY = getPosition().getY();
         

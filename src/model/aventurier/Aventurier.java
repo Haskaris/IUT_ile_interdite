@@ -130,9 +130,7 @@ public class Aventurier {
         
             for (Tuile tuile : tuilesPossibles){
                 if (tuile.getX() == x & tuile.getY() == y){
-                    grille.trouverTuile(position.getX(), position.getY()).supprJoueur(this);
-                    this.setPosition(grille.trouverTuile(x ,y));
-                    grille.trouverTuile(x, y).addJoueur(this);
+                    tuile.setEtat(Etat.assechee);
                     AssechageEff = true;
                     System.out.println("Tuile asséchée en " + x + ", " + y);
 
