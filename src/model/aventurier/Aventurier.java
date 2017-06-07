@@ -123,19 +123,15 @@ public class Aventurier {
                 }
             } else if (depl == false) {
                 
-                if (grille.trouverTuile(position.getX(), position.getY()).getEtat() == Etat.inondee){   //Ajout de la tuile ou le joueur se trouve dans la collection de tuile assechable si la tuile est innondée
-                tuilesPossibles.add(grille.trouverTuile(position.getX(), position.getY()));
-                }
-                
                 for (Tuile tuile : tuilesPossibles){
                     if (tuile.getX() == x & tuile.getY() == y){
-                        
                         grille.trouverTuile(x, y).setEtat(Etat.assechee);                        
-                        System.out.println("La tuile" + position.getX() +", " +position.getY() + " à été asséchée");
+                        actionEff = true;
+                        System.out.println("La tuile " + position.getX() +", " +position.getY() + " à été asséchée");
                     }
                 }
                 if (actionEff == false){
-                    System.out.println("La tuile" + position.getX() +", " +position.getY() + " n'à pas été asséchée");
+                    System.out.println("La tuile " + position.getX() +", " +position.getY() + " n'à pas été asséchée");
                 }
             }
     }

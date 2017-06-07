@@ -50,8 +50,8 @@ public class Controller implements Observateur {
         c = new Controller();
         
         joueurs = new ArrayList<>();
-        av1 = new Explorateur(nomJ1);
-        av2 = new Pilote(nomJ2);
+        av1 = new Pilote(nomJ1);
+        av2 = new Aventurier(nomJ2);
         joueurs.add(av1);
         joueurs.add(av2);
                                                                   //
@@ -127,16 +127,16 @@ public class Controller implements Observateur {
     }
 
     @Override                                                                   //Effectue un déplacement
-    public void traiterDeplacement(Message msg, String nomJ, String positionDemandee) {
+    public void traiterAction(Message msg, String nomJ, String positionDemandee, boolean depl) {
         System.out.println(nomJ);
-        getAventurier(nomJ, joueurs).deplacementAssechage(positionDemandee, true);  //Deplace le joueur sur la position souhaitée
+        getAventurier(nomJ, joueurs).deplacementAssechage(positionDemandee, depl);  //Deplace le joueur sur la position souhaitée
         setGrilleJeu(getAventurier(nomJ, joueurs).getGrilleAv());               //Met à jour les grilles du jeu
-        afficherDeplacementPossible(nomJ);
+        afficherTuilesPossibles(nomJ, depl);
     }
 
-    public void afficherDeplacementPossible(String nomJ) {
+    public void afficherTuilesPossibles(String nomJ, boolean depl) {
         afficherJoueurs(nomJ);
-        ArrayList<Tuile> tuilesPossibles = getAventurier(nomJ, joueurs).getTuilesPossibles(true);
+        ArrayList<Tuile> tuilesPossibles = getAventurier(nomJ, joueurs).getTuilesPossibles(depl);
         for (Tuile tuile : tuilesPossibles) {
             System.out.println(tuile.getNom());
             ArrayList<Aventurier> joueurs = tuile.getJoueurs();

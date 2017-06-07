@@ -83,19 +83,26 @@ public class VueAventurier  {
 
         this.btnAller = new JButton("Aller") ;
         this.btnAssecher = new JButton( "Assecher");
-        this.btnAutreAction = new JButton("AutreAction") ;
-        this.btnTerminerTour = new JButton("Terminer Tour") ;
+        this.btnAutreAction = new JButton("Voir Deplacements") ;
+        this.btnTerminerTour = new JButton("Voir assechements") ;
         
         this.panelBoutons.add(btnAller);
         this.panelBoutons.add(btnAssecher);
         this.panelBoutons.add(btnAutreAction);
         this.panelBoutons.add(btnTerminerTour);
         
+        btnTerminerTour.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controlleur.afficherTuilesPossibles(nomJoueur, false);
+            }
+        });
+        
         btnAller.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message msg = new Message(ACTION_Aller);
-                controlleur.traiterDeplacement(msg, getJoueur(), position.getText());
+                controlleur.traiterAction(msg, getJoueur(), position.getText(), true);
             }
         });
         
@@ -103,8 +110,14 @@ public class VueAventurier  {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message msg = new Message(ACTION_Assecher);
-                controlleur.traiterMessage(msg);
-                controlleur.afficherDeplacementPossible(nomJoueur);
+                controlleur.traiterAction(msg, getJoueur(), position.getText(), false);
+            }
+        });
+        
+        btnAutreAction.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controlleur.afficherTuilesPossibles(nomJoueur, true);
             }
         });
         
