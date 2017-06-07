@@ -75,8 +75,6 @@ public class Aventurier {
                 tuilesPossibles.add(tuiles[posX][posY-1]);
             }   
         }
-        
-        
         return tuilesPossibles;
     }
     
