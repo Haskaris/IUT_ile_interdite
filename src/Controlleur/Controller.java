@@ -147,7 +147,7 @@ public class Controller implements Observateur {
             System.out.println(tuile.getEtat());
             System.out.println(tuile.getX() + " - " + tuile.getY());
             System.out.println("------");
-        } 
+        }
     }
 
     public void afficherJoueurs(String nomJ) {      //Affiche les joueurs présent sur une tuile
