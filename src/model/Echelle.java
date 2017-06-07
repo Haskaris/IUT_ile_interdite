@@ -13,21 +13,21 @@ public class Echelle {
     private int niveauEau;
     private int cran;
     
-    public void incrementerCran() {
+    public void incrementerCran() {                 // à la suite d'une montée des eaux 
         setCran(getCran()+1);
     }
 
     /**
      * @return the cran
      */
-    public int getCran() {
+    public int getCran() {                          // récupération du niveau de l'échelle
         return cran;
     }
 
     /**
      * @param cran the cran to set
      */
-    public void setCran(int cran) {
+    public void setCran(int cran) {                 // modification du cran (en début de partie) pour la difficulté
         this.cran = cran;
     }
     
