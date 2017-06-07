@@ -150,7 +150,7 @@ public class Controller implements Observateur {
         } 
     }
 
-    public void afficherJoueurs(String nomJ) {
+    public void afficherJoueurs(String nomJ) {      //Affiche les joueurs présent sur une tuile
         Aventurier aventurier = getAventurier(nomJ, joueurs);
         Tuile positionAventurier = aventurier.getPosition();
         ArrayList<Aventurier> listeJoueurs = positionAventurier.getJoueurs();
