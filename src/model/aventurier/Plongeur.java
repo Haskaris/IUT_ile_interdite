@@ -29,16 +29,16 @@ public class Plongeur extends Aventurier{
         
         tuilesPossibles = super.getTuilesPossibles();
         
-        if (tuiles[posX-1][posY-1].getEtat() == Etat.submergee){
+        if (tuiles[posX][posY-1].getEtat() == Etat.submergee){
             tuilesPossibles.add(tuiles[posX-1][posY]);
         }
-        else if (tuiles[posX+1][posY+1].getEtat() == Etat.submergee) {
+        else if (tuiles[posX][posY+1].getEtat() == Etat.submergee) {
             tuilesPossibles.add(tuiles[posX+1][posY]);
         }
-        else if (tuiles[posX-1][posY+1].getEtat() == Etat.submergee) {
+        else if (tuiles[posX-1][posY].getEtat() == Etat.submergee) {
             tuilesPossibles.add(tuiles[posX][posY+1]);
         }
-        else if (tuiles[posX+1][posY-1].getEtat() == Etat.submergee) {
+        else if (tuiles[posX+1][posY].getEtat() == Etat.submergee) {
             tuilesPossibles.add(tuiles[posX][posY-1]);
         }
         return tuilesPossibles;
