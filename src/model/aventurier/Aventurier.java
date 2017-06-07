@@ -17,8 +17,8 @@ import model.Tuile;
  */
 public class Aventurier {
     private String nom;
-    private Grille grille;
-    private Tuile position;
+    protected Grille grille;
+    protected Tuile position;
     private CarteDosOrange main;
     
     public Aventurier(String nom){
@@ -45,36 +45,52 @@ public class Aventurier {
         
         Tuile[][] tuiles = getGrilleAv().getGrille();
         
-        if (depl == true) {
-            if (tuiles[posX-1][posY].getEtat() == Etat.assechee || tuiles[posX-1][posY].getEtat() == Etat.inondee){
-                tuilesPossibles.add(tuiles[posX-1][posY]);
+            if (depl == true) {
+                if (posX != 0) {
+                    if (tuiles[posX-1][posY].getEtat() == Etat.assechee || tuiles[posX-1][posY].getEtat() == Etat.inondee){
+                        tuilesPossibles.add(tuiles[posX-1][posY]);
+                    } 
+                }
+                if (posX != 5) {
+                    if (tuiles[posX+1][posY].getEtat() == Etat.assechee || tuiles[posX+1][posY].getEtat() == Etat.inondee) {
+                        tuilesPossibles.add(tuiles[posX+1][posY]);
+                    }
+                }
+                if (posY != 5) {
+                    if (tuiles[posX][posY+1].getEtat() == Etat.assechee || tuiles[posX][posY+1].getEtat() == Etat.inondee) {
+                        tuilesPossibles.add(tuiles[posX][posY+1]);
+                    }
+                }
+                if (posY != 0) {
+                    if (tuiles[posX][posY-1].getEtat() == Etat.assechee || tuiles[posX][posY-1].getEtat() == Etat.inondee) {
+                        tuilesPossibles.add(tuiles[posX][posY-1]);
+                    }
+                }
+            } else if (depl == false) {
+                if (posX != 0) {
+                    if (tuiles[posX-1][posY].getEtat() == Etat.inondee){
+                        tuilesPossibles.add(tuiles[posX-1][posY]);
+                    }
+                }
+                if (posX != 5) {
+                    if (tuiles[posX+1][posY].getEtat() == Etat.inondee) {
+                        tuilesPossibles.add(tuiles[posX+1][posY]);
+                    }
+                }
+                if (posY != 5) {
+                    if (tuiles[posX][posY+1].getEtat() == Etat.inondee) {
+                        tuilesPossibles.add(tuiles[posX][posY+1]);
+                    }
+                }
+                if (posY != 0) {
+                    if (tuiles[posX][posY-1].getEtat() == Etat.inondee) {
+                        tuilesPossibles.add(tuiles[posX][posY-1]);
+                    }
+                }
+                if (tuiles[posX][posY].getEtat() == Etat.inondee) {
+                    tuilesPossibles.add(tuiles[posX][posY]);
+                }   
             }
-            if (tuiles[posX+1][posY].getEtat() == Etat.assechee || tuiles[posX+1][posY].getEtat() == Etat.inondee) {
-                tuilesPossibles.add(tuiles[posX+1][posY]);
-            }
-            if (tuiles[posX][posY+1].getEtat() == Etat.assechee || tuiles[posX][posY+1].getEtat() == Etat.inondee) {
-                tuilesPossibles.add(tuiles[posX][posY+1]);
-            }
-            if (tuiles[posX][posY-1].getEtat() == Etat.assechee || tuiles[posX][posY-1].getEtat() == Etat.inondee) {
-                tuilesPossibles.add(tuiles[posX][posY-1]);
-            }
-        } else if (depl == false) {
-            if (tuiles[posX-1][posY].getEtat() == Etat.inondee){
-                tuilesPossibles.add(tuiles[posX-1][posY]);
-            }
-            if (tuiles[posX+1][posY].getEtat() == Etat.inondee) {
-                tuilesPossibles.add(tuiles[posX+1][posY]);
-            }
-            if (tuiles[posX][posY+1].getEtat() == Etat.inondee) {
-                tuilesPossibles.add(tuiles[posX][posY+1]);
-            }
-            if (tuiles[posX][posY-1].getEtat() == Etat.inondee) {
-                tuilesPossibles.add(tuiles[posX][posY-1]);
-            }
-            if (tuiles[posX][posY].getEtat() == Etat.inondee) {
-                tuilesPossibles.add(tuiles[posX][posY-1]);
-            }   
-        }
         return tuilesPossibles;
     }
     
@@ -100,7 +116,6 @@ public class Aventurier {
                         grille.trouverTuile(x, y).addJoueur(this);
                         deplacementEff = true;
                         System.out.println("Joueur déplacé en " + x + ", " + y);
-
                     }
                 }
                 if (deplacementEff == false){
@@ -143,10 +158,6 @@ public class Aventurier {
     public Grille getGrilleAv() {
         return grille;
     }
-  
-    
-    
-    
    
    }
    
