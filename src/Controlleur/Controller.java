@@ -171,7 +171,7 @@ public class Controller implements Observateur {
     @Override
     public void traiterDeplacement(Message msg, String nomJ, String positionDemandee) {
         System.out.println(nomJ);
-        getAventurier(nomJ, joueurs).deplacement(positionDemandee);
+        getAventurier(nomJ, joueurs).deplacementAssechage(positionDemandee);
         setGrilleJeu(getAventurier(nomJ, joueurs).getGrilleAv());
         afficherDeplacementPossible(nomJ);
     }

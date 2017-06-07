@@ -80,9 +80,9 @@ public class Aventurier {
         return tuilesPossibles;
     }
     
-    public void deplacement(String deplacement) {
-        char charX = deplacement.charAt(0);
-        char charY = deplacement.charAt(2);                    // récupération de x et y
+    public void deplacementAssechage(String tuileChoix, boolean depl) {
+        char charX = tuileChoix.charAt(0);
+        char charY = tuileChoix.charAt(2);                    // récupération de x et y
     
         
         int x = Character.getNumericValue(charX);
@@ -90,51 +90,38 @@ public class Aventurier {
         
         ArrayList<Tuile> tuilesPossibles = new ArrayList <>();
         
-        tuilesPossibles = getTuilesPossibles(true);
+        tuilesPossibles = getTuilesPossibles(depl);
         
         boolean deplacementEff = false;
         
+            if (depl == true) {
+                for (Tuile tuile : tuilesPossibles){
+                    if (tuile.getX() == x & tuile.getY() == y){
+                        grille.trouverTuile(position.getX(), position.getY()).supprJoueur(this);
+                        this.setPosition(grille.trouverTuile(x ,y));
+                        grille.trouverTuile(x, y).addJoueur(this);
+                        deplacementEff = true;
+                        System.out.println("Joueur déplacé en " + x + ", " + y);
 
-            for (Tuile tuile : tuilesPossibles){
-                if (tuile.getX() == x & tuile.getY() == y){
-                    grille.trouverTuile(position.getX(), position.getY()).supprJoueur(this);
-                    this.setPosition(grille.trouverTuile(x ,y));
-                    grille.trouverTuile(x, y).addJoueur(this);
-                    deplacementEff = true;
-                    System.out.println("Joueur déplacé en " + x + ", " + y);
-
+                    }
                 }
-            }
-            if (deplacementEff == false){
-                System.out.println("Joueur non deplacé, il reste en " + position.getX() +", " +position.getY());
-            }
-    }
-    
-    public void assechage(String assecher) {
-        char charX = assecher.charAt(0);
-        char charY = assecher.charAt(2);                    // récupération de x et y
-    
-        int x = Character.getNumericValue(charX);
-        int y = Character.getNumericValue(charY);
-        
-        ArrayList<Tuile> tuilesPossibles = new ArrayList <>();
-        
-        tuilesPossibles = getTuilesPossibles(false);
-        
-        boolean AssechageEff = false;
-        
-            for (Tuile tuile : tuilesPossibles){
-                if (tuile.getX() == x & tuile.getY() == y){
-                    grille.trouverTuile(position.getX(), position.getY()).supprJoueur(this);
-                    this.setPosition(grille.trouverTuile(x ,y));
-                    grille.trouverTuile(x, y).addJoueur(this);
-                    AssechageEff = true;
-                    System.out.println("Tuile asséchée en " + x + ", " + y);
+                if (deplacementEff == false){
+                    System.out.println("Joueur non deplacé, il reste en " + position.getX() +", " +position.getY());
+                }
+            } else if (depl == false) {
+                for (Tuile tuile : tuilesPossibles){
+                    if (tuile.getX() == x & tuile.getY() == y){
+                        grille.trouverTuile(position.getX(), position.getY()).supprJoueur(this);
+                        this.setPosition(grille.trouverTuile(x ,y));
+                        grille.trouverTuile(x, y).addJoueur(this);
+                        deplacementEff = true;
+                        System.out.println("Joueur déplacé en " + x + ", " + y);
 
-            }
-        }
-            if (AssechageEff == false){
-                System.out.println("Tuile non assechée en " + position.getX() +", " +position.getY());
+                    }
+                }
+                if (deplacementEff == false){
+                    System.out.println("Joueur non deplacé, il reste en " + position.getX() +", " +position.getY());
+                }
             }
     }
 
