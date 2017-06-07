@@ -78,7 +78,7 @@ public class Aventurier {
         return tuilesPossibles;
     }
     
-    public void deplacementAssechage(String tuileChoix, boolean depl) {
+    public void deplacementAssechage(String tuileChoix, boolean depl) {       
         char charX = tuileChoix.charAt(0);
         char charY = tuileChoix.charAt(2);                    // récupération de x et y
     

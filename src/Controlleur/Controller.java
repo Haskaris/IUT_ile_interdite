@@ -134,7 +134,7 @@ public class Controller implements Observateur {
         afficherDeplacementPossible(nomJ);
     }
 
-    public void afficherDeplacementPossible(String nomJ) {
+    public void afficherDeplacementPossible(String nomJ) {              // affiche les déplacements possibles
         afficherJoueurs(nomJ);
         ArrayList<Tuile> tuilesPossibles = getAventurier(nomJ, joueurs).getTuilesPossibles(true);
         for (Tuile tuile : tuilesPossibles) {
@@ -147,7 +147,7 @@ public class Controller implements Observateur {
             System.out.println(tuile.getEtat());
             System.out.println(tuile.getX() + " - " + tuile.getY());
             System.out.println("------");
-        }
+        } 
     }
 
     public void afficherJoueurs(String nomJ) {
