@@ -35,7 +35,7 @@ public class Pilote extends Aventurier{
     }
     
     @Override
-    public ArrayList<Tuile> getTuilesPossibles(){
+    public ArrayList<Tuile> getTuilesPossibles(boolean depl){
         
         Tuile[][] tuiles = getGrilleAv().getGrille();
         ArrayList<Tuile> tuilesPossibles = new ArrayList<>();
@@ -49,7 +49,7 @@ public class Pilote extends Aventurier{
         }
         
         else {
-            tuilesPossibles = super.getTuilesPossibles();
+            tuilesPossibles = super.getTuilesPossibles(depl);
         }
         
         return tuilesPossibles;

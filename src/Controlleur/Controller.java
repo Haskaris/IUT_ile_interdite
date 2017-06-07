@@ -178,7 +178,7 @@ public class Controller implements Observateur {
     
     public void afficherDeplacementPossible(String nomJ) {
         afficherJoueurs(nomJ);
-        ArrayList<Tuile> tuilesPossibles = getAventurier(nomJ, joueurs).getTuilesPossibles();
+        ArrayList<Tuile> tuilesPossibles = getAventurier(nomJ, joueurs).getTuilesPossibles(true);
         for (Tuile tuile: tuilesPossibles){
             System.out.println(tuile.getNom());
             ArrayList<Aventurier> joueurs = tuile.getJoueurs();

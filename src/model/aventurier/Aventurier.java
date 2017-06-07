@@ -38,25 +38,45 @@ public class Aventurier {
         this.grille = grille;
     }
 
-    public ArrayList<Tuile> getTuilesPossibles(){
+    public ArrayList<Tuile> getTuilesPossibles(boolean depl){
         int posX = getPosition().getX();
         int posY = getPosition().getY();
         ArrayList<Tuile> tuilesPossibles = new ArrayList<>();
         
         Tuile[][] tuiles = getGrilleAv().getGrille();
         
-        if (tuiles[posX-1][posY].getEtat() == Etat.assechee || tuiles[posX-1][posY].getEtat() == Etat.inondee){
-            tuilesPossibles.add(tuiles[posX-1][posY]);
+        if (depl == true) {
+            if (tuiles[posX-1][posY].getEtat() == Etat.assechee || tuiles[posX-1][posY].getEtat() == Etat.inondee){
+                tuilesPossibles.add(tuiles[posX-1][posY]);
+            }
+            if (tuiles[posX+1][posY].getEtat() == Etat.assechee || tuiles[posX+1][posY].getEtat() == Etat.inondee) {
+                tuilesPossibles.add(tuiles[posX+1][posY]);
+            }
+            if (tuiles[posX][posY+1].getEtat() == Etat.assechee || tuiles[posX][posY+1].getEtat() == Etat.inondee) {
+                tuilesPossibles.add(tuiles[posX][posY+1]);
+            }
+            if (tuiles[posX][posY-1].getEtat() == Etat.assechee || tuiles[posX][posY-1].getEtat() == Etat.inondee) {
+                tuilesPossibles.add(tuiles[posX][posY-1]);
+            }
+        } else if (depl == false) {
+            if (tuiles[posX-1][posY].getEtat() == Etat.inondee){
+                tuilesPossibles.add(tuiles[posX-1][posY]);
+            }
+            if (tuiles[posX+1][posY].getEtat() == Etat.inondee) {
+                tuilesPossibles.add(tuiles[posX+1][posY]);
+            }
+            if (tuiles[posX][posY+1].getEtat() == Etat.inondee) {
+                tuilesPossibles.add(tuiles[posX][posY+1]);
+            }
+            if (tuiles[posX][posY-1].getEtat() == Etat.inondee) {
+                tuilesPossibles.add(tuiles[posX][posY-1]);
+            }
+            if (tuiles[posX][posY].getEtat() == Etat.inondee) {
+                tuilesPossibles.add(tuiles[posX][posY-1]);
+            }   
         }
-        if (tuiles[posX+1][posY].getEtat() == Etat.assechee || tuiles[posX+1][posY].getEtat() == Etat.inondee) {
-            tuilesPossibles.add(tuiles[posX+1][posY]);
-        }
-        if (tuiles[posX][posY+1].getEtat() == Etat.assechee || tuiles[posX][posY+1].getEtat() == Etat.inondee) {
-            tuilesPossibles.add(tuiles[posX][posY+1]);
-        }
-        if (tuiles[posX][posY-1].getEtat() == Etat.assechee || tuiles[posX][posY-1].getEtat() == Etat.inondee) {
-            tuilesPossibles.add(tuiles[posX][posY-1]);
-        }
+        
+        
         return tuilesPossibles;
     }
     
@@ -70,7 +90,7 @@ public class Aventurier {
         
         ArrayList<Tuile> tuilesPossibles = new ArrayList <>();
         
-        tuilesPossibles = getTuilesPossibles();
+        tuilesPossibles = getTuilesPossibles(true);
         
         boolean deplacementEff = false;
         
@@ -90,31 +110,6 @@ public class Aventurier {
             }
     }
     
-    public ArrayList<Tuile> getAssechagePossible(){
-        int posX = getPosition().getX();
-        int posY = getPosition().getY();
-        ArrayList<Tuile> tuilesPossibles = new ArrayList<>();
-        
-        Tuile[][] tuiles = getGrilleAv().getGrille();
-        
-        if (tuiles[posX-1][posY].getEtat() == Etat.inondee){
-            tuilesPossibles.add(tuiles[posX-1][posY]);
-        }
-        else if (tuiles[posX+1][posY].getEtat() == Etat.inondee) {
-            tuilesPossibles.add(tuiles[posX+1][posY]);
-        }
-        else if (tuiles[posX][posY+1].getEtat() == Etat.inondee) {
-            tuilesPossibles.add(tuiles[posX][posY+1]);
-        }
-        else if (tuiles[posX][posY-1].getEtat() == Etat.inondee) {
-            tuilesPossibles.add(tuiles[posX][posY-1]);
-        }
-        else if (tuiles[posX][posY].getEtat() == Etat.inondee) {
-            tuilesPossibles.add(tuiles[posX][posY-1]);
-        }
-        return tuilesPossibles;
-    }
-    
     public void assechage(String assecher) {
         char charX = assecher.charAt(0);
         char charY = assecher.charAt(2);                    // récupération de x et y
@@ -124,7 +119,7 @@ public class Aventurier {
         
         ArrayList<Tuile> tuilesPossibles = new ArrayList <>();
         
-        tuilesPossibles = getAssechagePossible();
+        tuilesPossibles = getTuilesPossibles(false);
         
         boolean AssechageEff = false;
         
