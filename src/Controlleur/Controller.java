@@ -54,7 +54,7 @@ public class Controller implements Observateur {
         av2 = new Aventurier(nomJ2);
         joueurs.add(av1);
         joueurs.add(av2);
-                                                                  //
+        
         bienvenue = new VueBienvenue(c);
         paramJeu = new VueParamJeu(c);
         regles = new VueRegles(c);
@@ -134,9 +134,9 @@ public class Controller implements Observateur {
         afficherTuilesPossibles(nomJ, depl);
     }
 
-    public void afficherTuilesPossibles(String nomJ, boolean depl) {
-        afficherJoueurs(nomJ);
-        ArrayList<Tuile> tuilesPossibles = getAventurier(nomJ, joueurs).getTuilesPossibles(depl);
+    public void afficherTuilesPossibles(String nomJ, boolean depl) {            //Affiche les tuiles de déplacement possible
+        afficherJoueurs(nomJ);                                                  //Affiche les joueurs présent sur la tuile concernée
+        ArrayList<Tuile> tuilesPossibles = getAventurier(nomJ, joueurs).getTuilesPossibles(depl);//Affiche l'état de la tuile concernée
         for (Tuile tuile : tuilesPossibles) {
             System.out.println(tuile.getNom());
             ArrayList<Aventurier> joueurs = tuile.getJoueurs();
@@ -150,7 +150,7 @@ public class Controller implements Observateur {
         }
     }
 
-    public void afficherJoueurs(String nomJ) {      //Affiche les joueurs présent sur une tuile
+    public void afficherJoueurs(String nomJ) {                                  //Affiche les joueurs présent sur une tuile
         Aventurier aventurier = getAventurier(nomJ, joueurs);
         Tuile positionAventurier = aventurier.getPosition();
         ArrayList<Aventurier> listeJoueurs = positionAventurier.getJoueurs();
@@ -160,7 +160,7 @@ public class Controller implements Observateur {
         }
     }
 
-    public ArrayList<Aventurier> getAventuriers() {
+    public ArrayList<Aventurier> getAventuriers() {                             
         return joueurs;
     }
 

@@ -81,20 +81,20 @@ public class VueAventurier  {
         this.panelBoutons.setOpaque(false);
         mainPanel.add(this.panelBoutons, BorderLayout.SOUTH);
 
-        this.btnAller = new JButton("Aller") ;
+        this.btnAller = new JButton("Aller") ;                                  //Création des boutons
         this.btnAssecher = new JButton( "Assecher");
         this.btnAutreAction = new JButton("Voir Deplacements") ;
         this.btnTerminerTour = new JButton("Voir assechements") ;
         
-        this.panelBoutons.add(btnAller);
+        this.panelBoutons.add(btnAller);                                        //Ajout des boutons
         this.panelBoutons.add(btnAssecher);
         this.panelBoutons.add(btnAutreAction);
         this.panelBoutons.add(btnTerminerTour);
-        
-        btnTerminerTour.addActionListener(new ActionListener() {
-            @Override
+                            
+        btnTerminerTour.addActionListener(new ActionListener() {                //Ajout d'un listener sur chacun des boutons
+            @Override                                                           //Pour pouvoir executer une action
             public void actionPerformed(ActionEvent e) {
-                controlleur.afficherTuilesPossibles(nomJoueur, false);
+                controlleur.afficherTuilesPossibles(nomJoueur, false);          //Permet de voir les assechements possible
             }
         });
         
@@ -102,22 +102,22 @@ public class VueAventurier  {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message msg = new Message(ACTION_Aller);
-                controlleur.traiterAction(msg, getJoueur(), position.getText(), true);
-            }
+                controlleur.traiterAction(msg, getJoueur(), position.getText(), true);//Permet de se déplacer à la poisition
+            }                                                                   //écrite dans le champs texte
         });
         
         btnAssecher.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message msg = new Message(ACTION_Assecher);
-                controlleur.traiterAction(msg, getJoueur(), position.getText(), false);
-            }
+                controlleur.traiterAction(msg, getJoueur(), position.getText(), false);//Permet d'assecher la tuile indiqué
+            }                                                                   //par la position écrite dans le champs texte
         });
         
         btnAutreAction.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controlleur.afficherTuilesPossibles(nomJoueur, true);
+                controlleur.afficherTuilesPossibles(nomJoueur, true);           //Permet de voir les déplacements possible
             }
         });
         
