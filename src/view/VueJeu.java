@@ -22,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import util.Message;
 import util.TypesMessage;
+import java.util.ArrayList;
 
 /**
  *
@@ -31,9 +32,12 @@ public class VueJeu {
 
     private final JFrame window;
     private static Controller controller;
-    private JButton[] btnTuiles = new JButton[24];
+    private JButton[][] btnTuiles = new JButton[6][6];                // TABLEAU DOUBKLE DIMENSION SAMER
     private Grille grille;
     private String nomJoueurCourant;
+    private boolean depl;
+    private int positionDemandee;
+    private int x, y;
 
     public VueJeu(Controller c, Grille grille) {
         setGrille(grille);
@@ -61,9 +65,12 @@ public class VueJeu {
         Color etatCouleur = null;
         String nomTuile;
 
-        for (int i = 0; i < 24; i++) {
-            btnTuiles[i] = new JButton();
-            btnTuiles[i].setEnabled(false);
+        for (int i = 0; i <= 5; i++) {
+            for (int j = 0; j <= 5; j++){
+                btnTuiles[i][j] = new JButton();
+                btnTuiles[i][j].setEnabled(false);                
+            }
+
         }
 
         JLabel labelJC = new JLabel(getNom() + " joue!");
@@ -86,12 +93,10 @@ public class VueJeu {
                     if (grilleTab[i][j].getNom().equals("null")) {
                         panelGrille.add(new JPanel());
                     } else {
-                        btnTuiles[k].setText(nomTuile);
-                        btnTuiles[k].setBackground(etatCouleur);
-                        btnTuiles[k].setForeground(Color.WHITE);
-                        panelGrille.add(btnTuiles[k]);
-
-                        k++;
+                        btnTuiles[i][j].setText(nomTuile);
+                        btnTuiles[i][j].setBackground(etatCouleur);
+                        btnTuiles[i][j].setForeground(Color.WHITE);
+                        panelGrille.add(btnTuiles[i][j]);
                     }
                 }
 
@@ -115,6 +120,7 @@ public class VueJeu {
         btnAssechement.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                setDepl(false);
                 Message msg = new Message(TypesMessage.ACTION_Assecher);
                 c.traiterMessage(msg);
             }
@@ -123,6 +129,7 @@ public class VueJeu {
         btnDeplacement.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                setDepl(true);
                 Message msg = new Message(TypesMessage.ACTION_Deplacer);
                 c.traiterMessage(msg);
             }
@@ -144,10 +151,35 @@ public class VueJeu {
             }
         });
 
+        for (int i=0;i<5;i++){
+            x = i;
+            for (int j=0;j<5;j++){
+                y = j;
+                setPositionDemandee(i);
+                btnTuiles[i][j].addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    c.traiterAction(nomJoueurCourant, x, y, depl);
+                }
+            });
+            }
+            
+        }
+
     }
 
     public void afficher() {
         window.setVisible(true);
+    }
+    
+    public void afficherPossible(Integer[][] tab){
+        for (int i =0; i<5; i++){
+            for (int j = 0; j<5; j++){
+
+                btnTuiles[i][j].setEnabled(true);
+            }
+           
+        }
     }
 
     public void fermer() {
@@ -165,5 +197,11 @@ public class VueJeu {
     public String getNom() {
         return nomJoueurCourant;
     }
-
+    
+    private void setDepl(boolean bool){
+        depl = bool;
+    }
+    private void setPositionDemandee(int i){
+        this.positionDemandee = i;
+    }
 }

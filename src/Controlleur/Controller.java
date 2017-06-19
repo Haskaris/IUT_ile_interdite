@@ -114,15 +114,19 @@ public class Controller implements Observateur {
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Quitter) {
             bienvenue.fermer();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Deplacer) {
-            joueurC.getTuilesPossibles(true);
-            afficherTuilesPossibles(joueurC.getNom(), true);
-            joueurC.deplacementAssechage(joueurC.getNom(), true);
+            ArrayList<Tuile> tuilesPossibles = joueurC.getTuilesPossibles(true);
+            Integer[][] tableau = new Integer[5][5];
+            int i = 0;
+            for (Tuile tuile: tuilesPossibles){
+                tableau[tuile.getX()][tuile.getY()] = i;
+                i++;
+            }
+            jeu.afficherPossible(tableau);
+            
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_DonnerCarte) {
             //////////////////////////////////////////////
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Assecher) {
-            joueurC.getTuilesPossibles(false);
-            afficherTuilesPossibles(joueurC.getNom(), false);
-            joueurC.deplacementAssechage(joueurC.getNom(), false);
+
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Fin) {
             if (nbJ == nbJoueurs-1) {
                 nbJ = 0;
@@ -146,7 +150,7 @@ public class Controller implements Observateur {
         }
         this.difficulte = difficulte;
         paramJeu.fermer();
-        //tourDeJeu();
+        tourDeJeu();
     }
     
     public ArrayList<Aventurier> getJoueurs() {                                 //Permet d'obtenir la liste des joueurs
@@ -154,9 +158,9 @@ public class Controller implements Observateur {
     }
 
     @Override                                                                   //Effectue un déplacement
-    public void traiterAction(Message msg, String nomJ, String positionDemandee, boolean depl) {
+    public void traiterAction(String nomJ, int x, int y, boolean depl) {
         System.out.println(nomJ);
-        getAventurier(nomJ, joueurs).deplacementAssechage(positionDemandee, depl);  //Deplace le joueur sur la position souhaitée
+        getAventurier(nomJ, joueurs).deplacementAssechage(x, y, depl);  //Deplace le joueur sur la position souhaitée
         setGrilleJeu(getAventurier(nomJ, joueurs).getGrilleAv());               //Met à jour les grilles du jeu
         afficherTuilesPossibles(nomJ, depl);
     }
