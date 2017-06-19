@@ -10,5 +10,7 @@ package model;
  * @author reyneu
  */
 public class CarteHelicoptere extends CarteDosOrange {
+    public CarteHelicoptere(){
     
+    }
 }
