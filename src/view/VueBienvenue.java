@@ -5,7 +5,7 @@
  */
 package view;
 
-import Controlleur.Controller;
+import Controlleur.Observateur;
 import util.Message;
 import util.TypesMessage;
 import java.awt.Dimension;
@@ -25,10 +25,10 @@ import javax.swing.JPanel;
  */
 public class VueBienvenue {
     private final JFrame window;
-    private final Controller controller;
+    private final Observateur o;
     
     
-    public VueBienvenue(Controller c){
+    public VueBienvenue(Observateur o){
         
         this.window = new JFrame();
         window.setSize(800, 600);
@@ -37,7 +37,7 @@ public class VueBienvenue {
         window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
         window.setTitle("ILE INTERDITE");
         
-        controller = c;
+        this.o = o;
         
         JPanel mainPanel = new JPanel(new GridLayout(5, 5));
         window.add(mainPanel);
@@ -71,7 +71,7 @@ public class VueBienvenue {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message m = new Message(TypesMessage.ACTION_Jouer);
-                c.traiterMessage(m);
+                o.traiterMessage(m);
             }
         });
         
@@ -80,7 +80,7 @@ public class VueBienvenue {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message m = new Message(TypesMessage.ACTION_Regles);
-                c.traiterMessage(m);
+                o.traiterMessage(m);
             }
         });
         
@@ -89,7 +89,7 @@ public class VueBienvenue {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message m = new Message(TypesMessage.ACTION_Quitter);
-                c.traiterMessage(m);
+                o.traiterMessage(m);
             }
         });
         
