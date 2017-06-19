@@ -46,12 +46,14 @@ public class VueJeu {
     private JPanel panPlon = new JPanel();
     
     private Grille grille;
-    private String nomJoueurCourant;
+    private String nomJoueurCourant = "AH";
     private boolean depl;
     private int positionDemandee;
     private int x, y;
     private JLabel labelJC;
     private JPanel panelGrille, mainPanel, panelMenu, panel1, panel2, panel2Centre, panel3;
+    private boolean deplApp = false;
+    private boolean assApp = false;
 
     public VueJeu(Observateur o, Grille gr) {
         
@@ -84,11 +86,6 @@ public class VueJeu {
         mainPanel.add(panelMenu, BorderLayout.EAST);
 
         setGrille(gr);
-        init(grille, o);
-
-    }
-    
-    public void init(Grille grille, Observateur o){
         Tuile[][] grilleTab = grille.getGrille();                               // Récupération du tableau de la grille
 
         Color etatCouleur = null;
@@ -192,6 +189,7 @@ public class VueJeu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setDepl(false);
+                assApp = !assApp;
                 
                 btnAssechement.setBackground(Color.GRAY);
                 btnDeplacement.setBackground(Color.LIGHT_GRAY);
@@ -207,6 +205,7 @@ public class VueJeu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setDepl(true);
+                deplApp = !deplApp;
                 
                 btnAssechement.setBackground(Color.LIGHT_GRAY);
                 btnDeplacement.setBackground(Color.GRAY);
@@ -282,31 +281,61 @@ public class VueJeu {
     
     public void afficherPossible(ArrayList<Tuile> tuilesPossibles){
         for (Tuile tuile: tuilesPossibles){
-                btnTuiles[tuile.getX()][tuile.getY()].setBackground(Color.WHITE);
+                btnTuiles[tuile.getX()][tuile.getY()].setBackground(Color.YELLOW);
                 btnTuiles[tuile.getX()][tuile.getY()].setEnabled(true);
            
         }
+        
     }
 
     public void fermer() {
         window.dispose();
     }
 
-    public void setGrille(Grille grille) {
+    private void setGrille(Grille grille) {
         this.grille = grille;
     }
 
     public void setNom(String nom) {
         this.nomJoueurCourant = nom;
+        repaint(); 
+    }
+    
+    public void repaint() {
+        for (int i = 0; i <= 5; i++) {                                          // Affichage de la grille
+            for (int j = 0; j <= 5; j++) {
+                if (grille.getGrille()[i][j].getEtat() == Etat.assechee) {
+                    btnTuiles[i][j].setBackground(Color.DARK_GRAY);
+                    btnTuiles[i][j].setEnabled(false);
+                }
+            }
+        }
     }
 
     public String getNom() {
         return nomJoueurCourant;
     }
     
-    private void setDepl(boolean bool){
+    public boolean getDepl() {
+        return deplApp;
+    }
+    
+    public boolean getAss() {
+        return assApp;
+    }
+    
+    public void setDepl(boolean bool){
         depl = bool;
     }
+    
+    public void setAssApp(boolean bool){
+        assApp = bool;
+    }
+    
+    public void setDeplApp(boolean bool) {
+        deplApp = bool;
+    }
+    
     private void setPositionDemandee(int i){
         this.positionDemandee = i;
     }
