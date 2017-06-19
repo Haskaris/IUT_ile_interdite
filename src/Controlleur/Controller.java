@@ -344,10 +344,10 @@ public class Controller implements Observateur {
     public void distributionCartesOrangeDebut(){                    // distribution des cartes à tous les joueurs au début du jeu          
         
         for (int i = 0; i < nbJoueurs; i++){                        // boucle le me nombre de fois qu'il y à de joueurs
-            for (int j = 0 ; j < 2; j++){                           // donne 2 cartes à chaque joueur
-                int numRandom = getRandom(0, piocheOrange.size()); 
-                if (piocheOrange.get(numRandom).getClass().equals(CarteMonteeDesEaux.class)){
-                    j = j--;   
+            for (int j = 1 ; j < 3; j++){                           // donne 2 cartes à chaque joueur
+                int numRandom = getRandom(0, piocheOrange.size());  
+                if (piocheOrange.get(numRandom).getClass().equals(CarteMonteeDesEaux.class)){ // si la carte potentiellemnent donnée est une carte montée de eaux alors on re-boucle 
+                    j--;   
                 } else {
                     getJoueur(i).addCarteMain(piocheOrange.get(numRandom));     // ajout de la carte dans la main du joueur
                     piocheOrange.remove(numRandom);                             // suppression de la carte de la pioche
@@ -355,6 +355,9 @@ public class Controller implements Observateur {
             }
         }
     }
+    
+    
+    
     
     
     
