@@ -86,12 +86,16 @@ public class Tuile {
         return etat;
     }
     
-    public void addJoueurs(Aventurier joueur){
-        this.joueurs.add(joueur);
+    public void addJoueur(Aventurier joueur){
+        joueurs.add(joueur);
     }
     
     public ArrayList<Aventurier> getJoueurs(){
         return joueurs;
+    }
+    
+    public void supprJoueur(Aventurier joueur) {
+        joueurs.remove(joueur);
     }
     
 }

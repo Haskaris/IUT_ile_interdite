@@ -5,43 +5,10 @@
  */
 package view;
 
-import Controlleur.Controller;
-import util.Message;
-import Controlleur.Observateur;
-
-
-
 /**
  *
- * @author reyneu
+ * @author jacquett
  */
-public class BienvTest implements Observateur  {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        Controller c = new Controller();
-        
-        VueJeu bienvenue = new VueJeu(c);
-        bienvenue.afficher();
-        
-    }
-
-    @Override
-    public void traiterMessage(Message msg) {
-        System.out.println("slt");
-    }
-
-    @Override
-    public void envoyerDonnees(int nbJoueurs, String nomJ1, String nomJ2, String nomJ3, String nomJ4, int difficulte) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void traiterDeplacement(Message msg, String str, String str2) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+public class BienvTest {
     
 }

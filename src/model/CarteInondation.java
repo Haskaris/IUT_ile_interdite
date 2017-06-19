@@ -3,19 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.aventurier;
-
-import java.util.ArrayList;
-import model.Tuile;
+package model;
 
 /**
  *
  * @author reyneu
  */
-public class Ingenieur extends Aventurier{
-    
-    public Ingenieur(String nom) {
-        super(nom);
+public class CarteInondation {
+    private Tuile nomTuile;
+
+    /**
+     * @return the nomTuile
+     */
+    public Tuile getNomTuile() {
+        return nomTuile;
     }
+
     
 }
