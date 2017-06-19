@@ -13,4 +13,8 @@ public class CarteSacDeSable extends CarteDosOrange {
     public CarteSacDeSable(){
     
     }
+    
+    public Tresor getTresor() {
+        return null;
+    }
 }
