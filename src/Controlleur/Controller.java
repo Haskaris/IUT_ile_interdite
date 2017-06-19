@@ -85,6 +85,7 @@ public class Controller implements Observateur {
         
         setGrilleJeu(new Grille());  
         jeu = new VueJeu(c, grilleJeu);//Initialisation de la grille
+        jeu.afficher();
 
         av1.setPosition(grilleJeu.trouverTuile(2, 2));                          //Initialisation de la position (temporaire) des joueurs
         av2.setPosition(grilleJeu.trouverTuile(3, 3));
