@@ -129,7 +129,27 @@ public abstract class Aventurier {
                 }
             }
     }
-
+    
+     public void donnerCarte(Aventurier courant ,ArrayList<CarteDosOrange> cartes, Aventurier joueur){               // le joueur courant donne une/plusieurs carte(s) a un joueur choisi
+         for (CarteDosOrange liste : courant.getMain()){ 
+          for (CarteDosOrange carte : cartes){
+            if (carte == liste){                                                    // la carte se trouve bien dans la main du joueur courant
+                System.out.println("La carte est bien dans la main du joueur.");
+                if (courant.getPosition() == joueur.getPosition()){                 // les deux joueurs sont bien sur la même case
+                    System.out.println("Les deux joueurs sont bien sur la même case.");
+                    courant.removeCarteMain(carte);                                 // echange de la carte.
+                    joueur.addCarteMain(carte);
+                    System.out.println("La carte tresor : " + carte.getTresor() + " à bien été donner au joueur : "+ joueur.getNom());
+                }
+              }
+            }
+          }
+        }
+     
+     
+    
+       
+     
     /**
      * @param position the position to set
      */
@@ -162,5 +182,13 @@ public abstract class Aventurier {
         this.main.add(carte);
     
     }
+    
+    public void removeCarteMain(CarteDosOrange carte){
+        this.main.remove(carte);
+    }
+    
+    
+   
+    
    
 }

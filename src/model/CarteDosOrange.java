@@ -12,7 +12,7 @@ import model.aventurier.Aventurier;
  *
  * @author reyneu
  */
-public class CarteDosOrange {
+public abstract class CarteDosOrange {
     private Aventurier joueur;
 
     
@@ -31,4 +31,5 @@ public class CarteDosOrange {
         this.joueur = joueur;
     }
     
+    public abstract Tresor getTresor();
 }

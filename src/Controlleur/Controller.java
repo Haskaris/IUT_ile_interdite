@@ -24,6 +24,7 @@ import model.Grille;
 import model.Tresor;
 import model.Tuile;
 import model.aventurier.*;
+import static util.Utils.Pion.BLEU;
 import view.*;
 //package util;
 
@@ -53,6 +54,7 @@ public class Controller implements Observateur {
     private static ArrayList<CarteDosOrange> piocheOrange;
     private static ArrayList<CarteDosOrange> defausseOrange;
     private static ArrayList<Tresor> tresors;
+    private static ArrayList<Tresor> tresorsGagnés;
     private static ArrayList<CarteInondation> piocheInondation;
     private static ArrayList<CarteInondation> defausseInondation;
     
@@ -298,6 +300,36 @@ public class Controller implements Observateur {
         }
     }
     
+    @Override
+    public ArrayList<String> getJoueurTuile(Tuile tuile) {         //Retourn une collection des Aventurier présent sur une tuile
+        ArrayList<Aventurier> Aventurier = tuile.getJoueurs();
+        ArrayList<String> Joueurs = null;
+        
+        for (Aventurier j : Aventurier){
+            if (j.getClass() == Explorateur.class){
+                Joueurs.add("Expl");
+            }
+            if (j.getClass() == Ingenieur.class){
+                Joueurs.add("Inge");
+            }
+            if (j.getClass() == Messager.class){
+                Joueurs.add("Messa");
+            }
+            if (j.getClass() == Navigateur.class){
+                Joueurs.add("Navi");
+            }
+            if (j.getClass() == Pilote.class){
+                Joueurs.add("Pilo");
+            }
+            if (j.getClass() == Plongeur.class){
+                Joueurs.add("Plon");
+            }
+        }
+        
+        return Joueurs;
+    }
+    
+    
     public VueAventurier vueAvC(int nb) {
         if (nb == 0) {
             return vueAv1;
@@ -345,11 +377,11 @@ public class Controller implements Observateur {
         
     }
     
-    public void remplirPiocheInondation(){
+    public void remplirPiocheInondation(){                      // création de la pioche de cartes inondation
         Tuile[][] grille = grilleJeu.getGrille();
         for (int i =0; i < 6 ; i ++){
             for (int j =0 ; j< 6; j++){
-                piocheInondation.add(new CarteInondation(grille[i][j]));
+                piocheInondation.add(new CarteInondation(grille[i][j]));        // pour chaque tuile de la grille, il éxiste une carte inondation correspondante
             }
         }
     }
@@ -372,6 +404,91 @@ public class Controller implements Observateur {
             }
         }
     }
+    
+    public void afficherDonCartePossible(){
+        System.out.println("Voici les cartes que vous pouvez donner : ");
+        for (CarteDosOrange liste : joueurC.getMain()){
+            if (liste.getClass().equals(CarteTresor.class)){
+                System.out.print(" -Carte tresor : ");
+                System.out.println(liste.getTresor());
+            }
+            System.out.println("------");
+            }
+        }
+    
+    
+    public ArrayList<Tresor> ListeGagnerTresorPossible(){
+        int cartesTresorPierre = 0;
+        int cartesTresorStatue = 0;
+        int cartesTresorCristal = 0;
+        int cartesTresorCalice = 0;
+        boolean bool = false;
+        ArrayList<Tresor> tresorsPossibles = new ArrayList<>();
+        
+        if (joueurC.getPosition().getNom() == "Le temple du soleil" || joueurC.getPosition().getNom() == "Le temple de la lune" ){ // si le joueur se trouve sur une case pour recuperer le tresor de la pierre sacrée
+            
+            for (CarteDosOrange carte : joueurC.getMain()){
+                if (carte.getTresor().getNomTresor() == "La Pierre sacrée"){ // on compte combien de carte tresor de la pierre sacrée il a dans la main
+                    cartesTresorPierre++;
+                }
+            }
+            if (cartesTresorPierre > 3) {                                   // si il en en 4 ou plus , il peut gagner le tresor
+                tresorsPossibles.add(tresors.get(0));
+            }
+        }
+        if (joueurC.getPosition().getNom() == "Le jardin des hurlements" || joueurC.getPosition().getNom() == "Le jardin des murmures" ){ // si le joueur se trouve sur une case pour recuperer le tresor de la statue du zephyr
+            
+            for (CarteDosOrange carte : joueurC.getMain()){
+                if (carte.getTresor().getNomTresor() == "La Statue du zephyr"){ // on compte combien de carte tresor de la statue du zephyr il a dans la main
+                    cartesTresorStatue++;
+                }
+            }
+            if (cartesTresorStatue > 3) {                                    // si il en en 4 ou plus , il peut gagner le  tresor
+                tresorsPossibles.add(tresors.get(1));
+    
+            }
+        }
+        if (joueurC.getPosition().getNom() == "La caverne du brasier" || joueurC.getPosition().getNom() == "La caverne des ombres" ){ // si le joueur se trouve sur une case pour recuperer le tresor du cristal ardent
+            
+            for (CarteDosOrange carte : joueurC.getMain()){
+                if (carte.getTresor().getNomTresor() == "Le cristal ardent"){ // on compte combien de carte tresor ddu cristal ardent il a dans la main
+                    cartesTresorCristal++;
+                }
+            }
+            if (cartesTresorCristal > 3) {                                  // si il en en 4 ou plus , il peut gagner le  tresor
+                tresorsPossibles.add(tresors.get(2));
+    
+            }
+        }
+        if (joueurC.getPosition().getNom() == "Le palais de corail" || joueurC.getPosition().getNom() == "Le palais des marrées" ){ // si le joueur se trouve sur une case pour recuperer le tresor du calice de l'onde
+            
+            for (CarteDosOrange carte : joueurC.getMain()){
+                if (carte.getTresor().getNomTresor() == "Le Calice de l'onde"){  // on compte combien de carte tresor du calcie de l'onde il a dans la main
+                    cartesTresorCalice++;
+                }
+            }
+            if (cartesTresorCalice > 3) {                                       // si il en en 4 ou plus , il peut gagner le  tresor
+                tresorsPossibles.add(tresors.get(3));
+    
+            }
+        }
+
+        return tresorsPossibles;
+     
+         
+    }
+    
+     public void gagnerTresor(Tresor tresor){
+         for (Tresor liste : ListeGagnerTresorPossible()){              // si le tresor selectionné se trouve dans la liste des tresors possiblement récupérables
+             if (tresor == liste){
+                 tresorsGagnés.add(tresor);                             // ajouter ce tresor dans la liste des tresors gagnés.
+             }
+         }
+     }
+   
+    
+    
+    
 
     public void tourDeJeu(){///////////////////////////////////////////////////////////////////////////////////////
         vueAv1.cacher();

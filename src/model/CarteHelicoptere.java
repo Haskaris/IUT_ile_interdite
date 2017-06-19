@@ -13,4 +13,11 @@ public class CarteHelicoptere extends CarteDosOrange {
     public CarteHelicoptere(){
     
     }
+
+    @Override
+    public Tresor getTresor() {
+        return null;
+    }
+
+
 }
