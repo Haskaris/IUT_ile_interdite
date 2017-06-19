@@ -26,7 +26,7 @@ public class VueJeu {
     private final JFrame window;
     private static Controller controller;
     
-    VueJeu(Controller c, Grille grille){
+    public VueJeu(Controller c, Grille grille){
         this.window = new JFrame();
         window.setSize(800, 600);
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
@@ -73,8 +73,8 @@ public class VueJeu {
         
         int k = 1;
         
-        for (int i = 0; i<=6 ; i++){
-            for (int j = 0; j<= 6; j++){
+        for (int i = 0; i<=5 ; i++){
+            for (int j = 0; j<= 5; j++){
                     nomTuile = grilleTab[i][j].getNom();
                     etat = grilleTab[i][j].getEtat();
                     
