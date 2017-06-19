@@ -95,13 +95,8 @@ public abstract class Aventurier {
         return tuilesPossibles;
     }
     
-    public void deplacementAssechage(String tuileChoix, boolean depl) {       //Gère le déplacement ou l'asséchement
-        char charX = tuileChoix.charAt(0);
-        char charY = tuileChoix.charAt(2);                    // récupération de x et y
-    
-        
-        int x = Character.getNumericValue(charX);
-        int y = Character.getNumericValue(charY);
+    public void deplacementAssechage(int x, int y, boolean depl) {       //Gère le déplacement ou l'asséchement
+
         
         ArrayList<Tuile> tuilesPossibles = getTuilesPossibles(depl);
         

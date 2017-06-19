@@ -22,6 +22,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import util.Message;
 import util.TypesMessage;
+import java.util.ArrayList;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 /**
  *
@@ -30,14 +33,20 @@ import util.TypesMessage;
 public class VueJeu {
 
     private final JFrame window;
-    private Observateur o;
-    private JButton[] btnTuiles = new JButton[24];
+    private static Observateur observateur;
+    private JButton[][] btnTuiles = new JButton[6][6];            
     private Grille grille;
     private String nomJoueurCourant;
+    private boolean depl;
+    private int positionDemandee;
+    private int x, y;
+    private JLabel labelJC;
+    private JPanel panelGrille, mainPanel, panelMenu, panel1, panel2, panel2Centre, panel3;
 
-    public VueJeu(Observateur o, Grille grille) {
-        setGrille(grille);
-
+    public VueJeu(Observateur o, Grille gr) {
+        
+        
+        // Initialisation de la fenêtre
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.window = new JFrame();
         window.setSize(dim.width, dim.height);
@@ -45,37 +54,55 @@ public class VueJeu {
         window.setLocation(dim.width / 2 - window.getSize().width / 2, dim.height / 2 - window.getSize().height / 2);
         window.setTitle("ILE INTERDITE");
 
-        this.o = o;
+        this.observateur = o;
 
-        JPanel mainPanel = new JPanel(new BorderLayout());
-        JPanel panelGrille = new JPanel(new GridLayout(6, 6));
-        JPanel panelMenu = new JPanel(new GridLayout(4, 2));
+        mainPanel = new JPanel(new BorderLayout());
+        panelGrille = new JPanel(new GridLayout(6, 6));                  // Panel de la grille
+        
+        panelMenu = new JPanel(new GridLayout(3,1));                     // Panel des boutons d'actions
+        panel1 = new JPanel();
+        panelMenu.add(panel1);
+        panel2 = new JPanel(new BorderLayout());
+        panel2Centre = new JPanel(new GridLayout(2,2));
+        panel2.add(panel2Centre);
+        panelMenu.add(panel2);
+        panel3 = new JPanel();
+        panelMenu.add(panel3);
 
         window.add(mainPanel);
         mainPanel.add(panelGrille, BorderLayout.CENTER);
         mainPanel.add(panelMenu, BorderLayout.EAST);
 
-        Tuile[][] grilleTab = grille.getGrille();
+        setGrille(gr);
+        init(grille);
 
-        Tuile tuile = null;
+    }
+    
+    public void init(Grille grille){
+        Tuile[][] grilleTab = grille.getGrille();                               // Récupération du tableau de la grille
+
         Color etatCouleur = null;
         String nomTuile;
+        Border border = new LineBorder(Color.WHITE, 5);
+        
+        for (int i = 0; i <= 5; i++) {                                          // Initialisation des boutons
+            for (int j = 0; j <= 5; j++){
+                btnTuiles[i][j] = new JButton();
+                btnTuiles[i][j].setEnabled(false);
+                btnTuiles[i][j].setBorder(border);
+            }
 
-        for (int i = 0; i < 24; i++) {
-            btnTuiles[i] = new JButton();
-            btnTuiles[i].setEnabled(false);
         }
 
-        JLabel labelJC = new JLabel(getNom() + " joue!");
+        labelJC = new JLabel(getNom() + " joue!");                              // Affichage du joueur courant
 
-        int k = 0;
 
-        for (int i = 0; i <= 5; i++) {
+        for (int i = 0; i <= 5; i++) {                                          // Affichage de la grille
             for (int j = 0; j <= 5; j++) {
                 if (i == 0 && j == 0) {
-                    panelGrille.add(labelJC);
+                    panelGrille.add(labelJC);                                   // Affichage du joueur courant
                 } else {
-                    nomTuile = grilleTab[i][j].getNom();
+                    nomTuile = grilleTab[i][j].getNom();                        // Gestion de la couleur du bouton en fonction de l'état de la tuile
                     if (grilleTab[i][j].getEtat() == Etat.assechee) {
                         etatCouleur = Color.DARK_GRAY;
                     } else if (grilleTab[i][j].getEtat() == Etat.inondee) {
@@ -83,71 +110,135 @@ public class VueJeu {
                     } else {
                         etatCouleur = Color.BLUE;
                     }
-                    if (grilleTab[i][j].getNom().equals("null")) {
+                    
+                    if (grilleTab[i][j].getNom().equals("null")) {              // Tuile vide
                         panelGrille.add(new JPanel());
                     } else {
-                        btnTuiles[k].setText(nomTuile);
-                        btnTuiles[k].setBackground(etatCouleur);
-                        btnTuiles[k].setForeground(Color.WHITE);
-                        panelGrille.add(btnTuiles[k]);
-
-                        k++;
+                        btnTuiles[i][j].setText(nomTuile);                      // Tuile classique
+                        btnTuiles[i][j].setBackground(etatCouleur);
+                        btnTuiles[i][j].setForeground(Color.WHITE);
+                        panelGrille.add(btnTuiles[i][j]);
                     }
                 }
-
             }
-
         }
 
-        JButton btnAssechement = new JButton("Assecher");
+        JButton btnAssechement = new JButton("Assecher");                       // 
         JButton btnDeplacement = new JButton("Deplacer");
-        JButton btnDonnerCarte = new JButton("DonnerCarte");
+        JButton btnDonnerCarte = new JButton("Donner une Carte");
+        JButton btnPrendreTresor = new JButton("Prendre un trésor");
         JButton btnFinTour = new JButton("Fin Du Tour");
-        panelMenu.add(new JPanel());
-        panelMenu.add(new JPanel());
-        panelMenu.add(btnAssechement);
-        panelMenu.add(btnDeplacement);
-        panelMenu.add(btnDonnerCarte);
-        panelMenu.add(btnFinTour);
-        panelMenu.add(new JPanel());
-        panelMenu.add(new JPanel());
+        
+        btnAssechement.setBackground(Color.LIGHT_GRAY);
+        btnDeplacement.setBackground(Color.LIGHT_GRAY);
+        btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
+        btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
+        btnFinTour.setBackground(Color.LIGHT_GRAY);
+        
+        panel2Centre.add(btnAssechement);
+        panel2Centre.add(btnDeplacement);
+        panel2Centre.add(btnDonnerCarte);
+        panel2Centre.add(btnPrendreTresor);
+        panel2.add(btnFinTour, BorderLayout.SOUTH);
 
         btnAssechement.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                setDepl(false);
+                
+                btnAssechement.setBackground(Color.GRAY);
+                btnDeplacement.setBackground(Color.LIGHT_GRAY);
+                btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
+                btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
+                
                 Message msg = new Message(TypesMessage.ACTION_Assecher);
-                o.traiterMessage(msg);
+                observateur.traiterMessage(msg);
             }
         });
 
         btnDeplacement.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                setDepl(true);
+                
+                btnAssechement.setBackground(Color.LIGHT_GRAY);
+                btnDeplacement.setBackground(Color.GRAY);
+                btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
+                btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
+                
                 Message msg = new Message(TypesMessage.ACTION_Deplacer);
-                o.traiterMessage(msg);
+                observateur.traiterMessage(msg);
             }
         });
 
         btnDonnerCarte.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                
+                btnAssechement.setBackground(Color.LIGHT_GRAY);
+                btnDeplacement.setBackground(Color.LIGHT_GRAY);
+                btnDonnerCarte.setBackground(Color.GRAY);
+                btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
+                
                 Message msg = new Message(TypesMessage.ACTION_DonnerCarte);
-                o.traiterMessage(msg);
+                observateur.traiterMessage(msg);
+            }
+        });
+        
+        btnPrendreTresor.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                btnAssechement.setBackground(Color.LIGHT_GRAY);
+                btnDeplacement.setBackground(Color.LIGHT_GRAY);
+                btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
+                btnPrendreTresor.setBackground(Color.GRAY);
+                
+                Message msg = new Message(TypesMessage.ACTION_DonnerCarte);
+                observateur.traiterMessage(msg);
             }
         });
 
         btnFinTour.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                
+                btnAssechement.setBackground(Color.LIGHT_GRAY);
+                btnDeplacement.setBackground(Color.LIGHT_GRAY);
+                btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
+                btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
+                
                 Message msg = new Message(TypesMessage.ACTION_Fin);
-                o.traiterMessage(msg);
+                observateur.traiterMessage(msg);
             }
         });
 
+        for (int i=0;i<5;i++){
+            x = i;
+            for (int j=0;j<5;j++){
+                y = j;
+                setPositionDemandee(i);
+                btnTuiles[i][j].addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    observateur.traiterAction(nomJoueurCourant, x, y, depl);
+                }
+            });
+            }
+            
+        }
     }
-
+    
     public void afficher() {
         window.setVisible(true);
+    }
+    
+    public void afficherPossible(ArrayList<Tuile> tuilesPossibles){
+        for (Tuile tuile: tuilesPossibles){
+                btnTuiles[tuile.getX()][tuile.getY()].setBackground(Color.WHITE);
+                btnTuiles[tuile.getX()][tuile.getY()].setEnabled(true);
+           
+        }
     }
 
     public void fermer() {
@@ -165,5 +256,11 @@ public class VueJeu {
     public String getNom() {
         return nomJoueurCourant;
     }
-
+    
+    private void setDepl(boolean bool){
+        depl = bool;
+    }
+    private void setPositionDemandee(int i){
+        this.positionDemandee = i;
+    }
 }
