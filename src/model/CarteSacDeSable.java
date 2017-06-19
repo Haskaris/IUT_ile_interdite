@@ -10,5 +10,7 @@ package model;
  * @author reyneu
  */
 public class CarteSacDeSable extends CarteDosOrange {
+    public CarteSacDeSable(){
     
+    }
 }
