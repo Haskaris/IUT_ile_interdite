@@ -17,6 +17,6 @@ public enum TypesMessage {
     ACTION_Valider,
     ACTION_Deplacer,
     ACTION_Assecher,
-    ACTION_Autre,
+    ACTION_DonnerCarte,
     ACTION_Fin;
 }
