@@ -24,6 +24,7 @@ import model.Grille;
 import model.Tresor;
 import model.Tuile;
 import model.aventurier.*;
+import static util.Utils.Pion.BLEU;
 import view.*;
 //package util;
 
@@ -307,6 +308,36 @@ public class Controller implements Observateur {
             return null;
         }
     }
+    
+    @Override
+    public ArrayList<String> getJoueurTuile(Tuile tuile) {         //Retourn une collection des Aventurier présent sur une tuile
+        ArrayList<Aventurier> Aventurier = tuile.getJoueurs();
+        ArrayList<String> Joueurs = null;
+        
+        for (Aventurier j : Aventurier){
+            if (j.getClass() == Explorateur.class){
+                Joueurs.add("Expl");
+            }
+            if (j.getClass() == Ingenieur.class){
+                Joueurs.add("Inge");
+            }
+            if (j.getClass() == Messager.class){
+                Joueurs.add("Messa");
+            }
+            if (j.getClass() == Navigateur.class){
+                Joueurs.add("Navi");
+            }
+            if (j.getClass() == Pilote.class){
+                Joueurs.add("Pilo");
+            }
+            if (j.getClass() == Plongeur.class){
+                Joueurs.add("Plon");
+            }
+        }
+        
+        return Joueurs;
+    }
+    
     
     public VueAventurier vueAvC(int nb) {
         if (nb == 0) {
