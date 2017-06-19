@@ -55,7 +55,7 @@ public class VueJeu {
         mainPanel.add(panelGrille, BorderLayout.CENTER);
         mainPanel.add(panelMenu, BorderLayout.EAST);
 
-        Tuile[][] grilleTab = grille.getGrille();
+        Tuile[][] grilleTab = this.grille.getGrille();
 
         Tuile tuile = null;
         Color etatCouleur = null;
@@ -94,9 +94,7 @@ public class VueJeu {
                         k++;
                     }
                 }
-
             }
-
         }
 
         JButton btnAssechement = new JButton("Assecher");
@@ -144,6 +142,21 @@ public class VueJeu {
             }
         });
 
+    }
+    
+    public void changeColor(Tuile tuile) {
+        int x = tuile.getX();
+        int y = tuile.getY();
+        
+        int k =0;
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                k++;
+                System.out.println("k = " +k);
+            }
+        }
+                    
+        btnTuiles[k].setForeground(Color.GRAY);
     }
 
     public void afficher() {

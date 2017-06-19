@@ -99,12 +99,27 @@ public class Controller implements Observateur {
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Quitter) {
             bienvenue.fermer();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Deplacer) {
+            /*for (Tuile tuile : joueurC.getTuilesPossibles(true)) {
+                //jeu.
+                
+                ArrayList<Aventurier> joueurs = tuile.getJoueurs();
+                System.out.println("Joueurs présents: ");
+                for (Aventurier av : joueurs) {
+                    System.out.println(" -" + av.getNom());
+                }
+                System.out.println(tuile.getEtat());
+                System.out.println(tuile.getX() + " - " + tuile.getY());
+                System.out.println("------");
+            }*/
+            
+                jeu.changeColor(joueurC.getPosition());
             if (nbAction < 3) {
                 joueurC.getTuilesPossibles(true);
                 afficherTuilesPossibles(joueurC.getNom(), true);
                 joueurC.deplacementAssechage(joueurC.getNom(), true);
                 nbAction++;
                 System.out.println("nb act : " + nbAction);
+                setGrilleJeu(joueurC.getGrilleAv());
             } else {
                 System.out.println("Impossible, toutes les actions sont utilisées");
             }
@@ -124,6 +139,7 @@ public class Controller implements Observateur {
                 afficherTuilesPossibles(joueurC.getNom(), false);
                 joueurC.deplacementAssechage(joueurC.getNom(), false);
                 nbAction++;
+                setGrilleJeu(joueurC.getGrilleAv());
                 System.out.println("nb act : " + nbAction);
             } else {
                 System.out.println("Impossible, toutes les actions sont utilisées");
@@ -154,6 +170,7 @@ public class Controller implements Observateur {
             }
         }
         this.difficulte = difficulte;
+        
         initJoueurs(nbJoueurs, nomJ1, nomJ2, nomJ3, nomJ4);                     //Initialise le role des joueurs
         joueurs.add(av1);
         joueurs.add(av2);
@@ -234,10 +251,13 @@ public class Controller implements Observateur {
                 av1.setPosition(grilleJeu.trouverTuile(nomPos));
             } else if (i == 1) {
                 av2 = role;
+                av2.setPosition(grilleJeu.trouverTuile(nomPos));
             } else if (i == 2) {
                 av3 = role;
+                av3.setPosition(grilleJeu.trouverTuile(nomPos));
             } else {
                 av4 = role;
+                av4.setPosition(grilleJeu.trouverTuile(nomPos));
             }
             
         }
