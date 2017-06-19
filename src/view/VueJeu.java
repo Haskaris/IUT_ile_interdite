@@ -22,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import util.Message;
 import util.TypesMessage;
+import java.util.ArrayList;
 
 /**
  *
@@ -30,14 +31,18 @@ import util.TypesMessage;
 public class VueJeu {
 
     private final JFrame window;
-    private Observateur o;
-    private JButton[] btnTuiles = new JButton[24];
+    private static Observateur observateur;
+    private JButton[][] btnTuiles = new JButton[6][6];            
     private Grille grille;
     private String nomJoueurCourant;
+    private boolean depl;
+    private int positionDemandee;
+    private int x, y;
 
     public VueJeu(Observateur o, Grille grille) {
         setGrille(grille);
-
+        
+        // Initialisation de la fenêtre
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.window = new JFrame();
         window.setSize(dim.width, dim.height);
@@ -45,37 +50,39 @@ public class VueJeu {
         window.setLocation(dim.width / 2 - window.getSize().width / 2, dim.height / 2 - window.getSize().height / 2);
         window.setTitle("ILE INTERDITE");
 
-        this.o = o;
+        this.observateur = o;
 
         JPanel mainPanel = new JPanel(new BorderLayout());
-        JPanel panelGrille = new JPanel(new GridLayout(6, 6));
-        JPanel panelMenu = new JPanel(new GridLayout(4, 2));
+        JPanel panelGrille = new JPanel(new GridLayout(6, 6));                  // Panel de la grille
+        JPanel panelMenu = new JPanel(new GridLayout(4, 2));                    // Panel des boutons d'actions
 
         window.add(mainPanel);
         mainPanel.add(panelGrille, BorderLayout.CENTER);
         mainPanel.add(panelMenu, BorderLayout.EAST);
 
-        Tuile[][] grilleTab = this.grille.getGrille();
+        Tuile[][] grilleTab = grille.getGrille();                               // Récupération du tableau de la grille
 
         Tuile tuile = null;
         Color etatCouleur = null;
         String nomTuile;
 
-        for (int i = 0; i < 24; i++) {
-            btnTuiles[i] = new JButton();
-            btnTuiles[i].setEnabled(false);
+        for (int i = 0; i <= 5; i++) {                                          // Initialisation des boutons
+            for (int j = 0; j <= 5; j++){
+                btnTuiles[i][j] = new JButton();
+                btnTuiles[i][j].setEnabled(false);                
+            }
+
         }
 
-        JLabel labelJC = new JLabel(getNom() + " joue!");
+        JLabel labelJC = new JLabel(getNom() + " joue!");                       // Affichage du joueur courant
 
-        int k = 0;
 
-        for (int i = 0; i <= 5; i++) {
+        for (int i = 0; i <= 5; i++) {                                          // Affichage de la grille
             for (int j = 0; j <= 5; j++) {
                 if (i == 0 && j == 0) {
-                    panelGrille.add(labelJC);
+                    panelGrille.add(labelJC);                                   // Affichage du joueur courant
                 } else {
-                    nomTuile = grilleTab[i][j].getNom();
+                    nomTuile = grilleTab[i][j].getNom();                        // Gestion de la couleur du bouton en fonction de l'état de la tuile
                     if (grilleTab[i][j].getEtat() == Etat.assechee) {
                         etatCouleur = Color.DARK_GRAY;
                     } else if (grilleTab[i][j].getEtat() == Etat.inondee) {
@@ -83,21 +90,20 @@ public class VueJeu {
                     } else {
                         etatCouleur = Color.BLUE;
                     }
-                    if (grilleTab[i][j].getNom().equals("null")) {
+                    
+                    if (grilleTab[i][j].getNom().equals("null")) {              // Tuile vide
                         panelGrille.add(new JPanel());
                     } else {
-                        btnTuiles[k].setText(nomTuile);
-                        btnTuiles[k].setBackground(etatCouleur);
-                        btnTuiles[k].setForeground(Color.WHITE);
-                        panelGrille.add(btnTuiles[k]);
-
-                        k++;
+                        btnTuiles[i][j].setText(nomTuile);                      // Tuile classique
+                        btnTuiles[i][j].setBackground(etatCouleur);
+                        btnTuiles[i][j].setForeground(Color.WHITE);
+                        panelGrille.add(btnTuiles[i][j]);
                     }
                 }
             }
         }
 
-        JButton btnAssechement = new JButton("Assecher");
+        JButton btnAssechement = new JButton("Assecher");                       // 
         JButton btnDeplacement = new JButton("Deplacer");
         JButton btnDonnerCarte = new JButton("DonnerCarte");
         JButton btnFinTour = new JButton("Fin Du Tour");
@@ -113,6 +119,7 @@ public class VueJeu {
         btnAssechement.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                setDepl(false);
                 Message msg = new Message(TypesMessage.ACTION_Assecher);
                 o.traiterMessage(msg);
             }
@@ -121,6 +128,7 @@ public class VueJeu {
         btnDeplacement.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                setDepl(true);
                 Message msg = new Message(TypesMessage.ACTION_Deplacer);
                 o.traiterMessage(msg);
             }
@@ -142,25 +150,39 @@ public class VueJeu {
             }
         });
 
+        for (int i=0;i<5;i++){
+            x = i;
+            for (int j=0;j<5;j++){
+                y = j;
+                setPositionDemandee(i);
+                btnTuiles[i][j].addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    o.traiterAction(nomJoueurCourant, x, y, depl);
+                }
+            });
+            }
+            
+        }
+
     }
     
-    public void changeColor(Tuile tuile) {
-        int x = tuile.getX();
-        int y = tuile.getY();
-        
-        int k =0;
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
-                k++;
-                System.out.println("k = " +k);
-            }
+    public void changeColor(ArrayList<Tuile> tuiles) {
+        for (Tuile tuile : tuiles) {
+        btnTuiles[tuile.getX()][tuile.getY()].setForeground(Color.WHITE);
         }
-                    
-        btnTuiles[k].setForeground(Color.GRAY);
     }
 
     public void afficher() {
         window.setVisible(true);
+    }
+    
+    public void afficherPossible(ArrayList<Tuile> tuilesPossibles){
+        for (Tuile tuile: tuilesPossibles){
+
+                btnTuiles[tuile.getX()][tuile.getY()].setEnabled(true);
+           
+        }
     }
 
     public void fermer() {
@@ -178,5 +200,11 @@ public class VueJeu {
     public String getNom() {
         return nomJoueurCourant;
     }
-
+    
+    private void setDepl(boolean bool){
+        depl = bool;
+    }
+    private void setPositionDemandee(int i){
+        this.positionDemandee = i;
+    }
 }

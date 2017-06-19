@@ -112,11 +112,13 @@ public class Controller implements Observateur {
                 System.out.println("------");
             }*/
             
-                jeu.changeColor(joueurC.getPosition());
+                jeu.changeColor(joueurC.getTuilesPossibles(true));
             if (nbAction < 3) {
                 joueurC.getTuilesPossibles(true);
                 afficherTuilesPossibles(joueurC.getNom(), true);
-                joueurC.deplacementAssechage(joueurC.getNom(), true);
+                joueurC.deplacementAssechage(joueurC.getPosition().getX(), joueurC.getPosition().getY(), true);
+            if (nbAction < 3) {                                                 
+                jeu.afficherPossible(joueurC.getTuilesPossibles(true));         //Affichage des tuiles où le deplacement est possible
                 nbAction++;
                 System.out.println("nb act : " + nbAction);
                 setGrilleJeu(joueurC.getGrilleAv());
@@ -133,11 +135,9 @@ public class Controller implements Observateur {
             } else {
                 System.out.println("Impossible, toutes les actions sont utilisées");
             }
-        } else if (msg.getTypeMessage() == TypesMessage.ACTION_Assecher) {
+        } else if (msg.getTypeMessage() == TypesMessage.ACTION_Assecher) {      //Affichage des tuiles où l'assechement est possible
             if (nbAction < 3) {
-                joueurC.getTuilesPossibles(false);
-                afficherTuilesPossibles(joueurC.getNom(), false);
-                joueurC.deplacementAssechage(joueurC.getNom(), false);
+                jeu.afficherPossible(joueurC.getTuilesPossibles(false));
                 nbAction++;
                 setGrilleJeu(joueurC.getGrilleAv());
                 System.out.println("nb act : " + nbAction);
@@ -155,6 +155,7 @@ public class Controller implements Observateur {
             tourDeJeu();
         }
 
+        }
     }
 
     @Override                                                                   //Envoie les paramètres de jeu
@@ -268,9 +269,9 @@ public class Controller implements Observateur {
     }
 
     @Override                                                                   //Effectue un déplacement
-    public void traiterAction(Message msg, String nomJ, String positionDemandee, boolean depl) {
+    public void traiterAction(String nomJ, int x, int y, boolean depl) {
         System.out.println(nomJ);
-        getAventurier(nomJ, joueurs).deplacementAssechage(positionDemandee, depl);  //Deplace le joueur sur la position souhaitée
+        getAventurier(nomJ, joueurs).deplacementAssechage(x, y, depl);  //Deplace le joueur sur la position souhaitée
         setGrilleJeu(getAventurier(nomJ, joueurs).getGrilleAv());               //Met à jour les grilles du jeu
         afficherTuilesPossibles(nomJ, depl);
     }
@@ -368,9 +369,6 @@ public class Controller implements Observateur {
             }
         }
     }
-    
-    
-    
 
     public int getRandom(int min , int max){                        // renvoi un nombre aléatoire entre min et max
         return min + (int)(Math.random() * ((max - min) + 1));
@@ -390,16 +388,6 @@ public class Controller implements Observateur {
             }
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
     public void tourDeJeu(){///////////////////////////////////////////////////////////////////////////////////////
         vueAv1.cacher();
