@@ -82,13 +82,12 @@ public class Aventurier {
                     grille.trouverTuile(x, y).addJoueurs(this);
                     deplacementEff = true;
                     System.out.println("Joueur déplacé en " + x + ", " + y);
-                    break;
-                } else {
-                    System.out.println("Joueur non deplacé, il reste en " + position.getX() +", " +position.getY());
-                    deplacementEff = true;
+
                 }
-            
-        }
+            }
+            if (deplacementEff == false){
+                System.out.println("Joueur non deplacé, il reste en " + position.getX() +", " +position.getY());
+            }
     }
     
     public ArrayList<Tuile> getAssechagePossible(){
@@ -131,17 +130,17 @@ public class Aventurier {
         
             for (Tuile tuile : tuilesPossibles){
                 if (tuile.getX() == x & tuile.getY() == y){
-                    grille.trouverTuile(position.getX(), position.getY()).setJoueur(null);
+                    //grille.trouverTuile(position.getX(), position.getY()).;    A changer (supprimer liste)
                     this.setPosition(grille.trouverTuile(x ,y));
                     grille.trouverTuile(x, y).addJoueurs(this);
                     AssechageEff = true;
                     System.out.println("Tuile asséchée en " + x + ", " + y);
 
-            } else {
-                System.out.println("Tuile non assechée en " + position.getX() +", " +position.getY());
-
-                }
+            }
         }
+            if (AssechageEff == false){
+                System.out.println("Tuile non assechée en " + position.getX() +", " +position.getY());
+            }
     }
 
     /**

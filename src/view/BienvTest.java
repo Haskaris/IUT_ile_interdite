@@ -23,7 +23,8 @@ public class BienvTest implements Observateur  {
     public static void main(String[] args) {
         // TODO code application logic here
         Controller c = new Controller();
-        VueParamJeu bienvenue = new VueParamJeu(c);
+        
+        VueJeu bienvenue = new VueJeu(c);
         bienvenue.afficher();
         
     }
