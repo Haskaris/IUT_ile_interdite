@@ -59,30 +59,11 @@ public class Controller implements Observateur {
         c = new Controller();
         
         joueurs = new ArrayList<>();
-        av1 = new Explorateur(nomJ1);
-        av2 = new Navigateur(nomJ2);
-        joueurs.add(av1);
-        joueurs.add(av2);
         
         bienvenue = new VueBienvenue(c);
         paramJeu = new VueParamJeu(c);
         regles = new VueRegles(c);
-        vueAv1 = new VueAventurier(nomJ1, "av1", Color.blue, c);
-        vueAv2 = new VueAventurier(nomJ2, "av2", Color.green, c);
         
-        
-        if (nbJoueurs >= 3) {
-            av3 = new Plongeur(nomJ3);
-            joueurs.add(av3);
-            vueAv3 = new VueAventurier(nomJ3, "av3", Color.yellow, c);
-            vueAv3.cacher();
-            if (nbJoueurs == 4) {
-                av4 = new Ingenieur(nomJ4);
-                joueurs.add(av4);
-                vueAv4.cacher();
-                vueAv4 = new VueAventurier(nomJ4, "av4", Color.pink, c);
-            }
-        }
         
         setGrilleJeu(new Grille());                                             //Initialisation de la grille
         jeu = new VueJeu(c, grilleJeu);///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -161,9 +142,10 @@ public class Controller implements Observateur {
 
     @Override                                                                   //Envoie les paramètres de jeu
     public void envoyerDonnees(int nbJoueurs, String nomJ1, String nomJ2, String nomJ3, String nomJ4, int difficulte) {
-        this.nbJoueurs = 2;
+        this.nbJoueurs = nbJoueurs;
         this.nomJ1 = nomJ1;
         this.nomJ2 = nomJ2;
+        
         if (nbJoueurs >= 3) {
             this.nomJ3 = nomJ3;
             if (nbJoueurs == 4) {
@@ -171,9 +153,82 @@ public class Controller implements Observateur {
             }
         }
         this.difficulte = difficulte;
+            initJoueurs(nbJoueurs, nomJ1, nomJ2, nomJ3, nomJ4);
+        joueurs.add(av1);
+        joueurs.add(av2);
+        vueAv1 = new VueAventurier(nomJ1, "av1", Color.blue, c);
+        vueAv2 = new VueAventurier(nomJ2, "av2", Color.green, c);
+        /*if (nbJoueurs >= 3) {
+            av3 = new Plongeur(nomJ3);
+            joueurs.add(av3);
+            vueAv3 = new VueAventurier(nomJ3, "av3", Color.yellow, c);
+            vueAv3.cacher();
+            if (nbJoueurs == 4) {
+                av4 = new Ingenieur(nomJ4);
+                joueurs.add(av4);
+                vueAv4.cacher();
+                vueAv4 = new VueAventurier(nomJ4, "av4", Color.pink, c);
+            }
+        }*/
+        
+        
         paramJeu.fermer();
         jeu.afficher();
         tourDeJeu();
+    }
+    
+    public void initJoueurs(int nbJoueurs, String nomJ1, String nomJ2, String nomJ3, String nomJ4) {
+        String nom;
+        int random;
+        int randomSauv1 = -1;
+        int randomSauv2 = -1;
+        int randomSauv3 = -1;
+        int min = 0;
+        int max = 6;
+        Aventurier role = new Explorateur("");
+        for (int i = 0; i < nbJoueurs; i++) {
+            random = getRandom(min, max);
+            if (i == 0) {
+                nom = nomJ1;
+            } else if (i == 1) {
+                nom = nomJ2;
+            } else if (i == 2) {
+                nom = nomJ3;
+            } else {
+                nom = nomJ4;
+            }
+            while ((random == 0 && (random == randomSauv1 || random == randomSauv2 || random == randomSauv3)) || 
+                    (random == 1 && (random == randomSauv1 || random == randomSauv2 || random == randomSauv3)) || 
+                    (random == 2 && (random == randomSauv1 || random == randomSauv2 || random == randomSauv3)) || 
+                    (random == 3 && (random == randomSauv1 || random == randomSauv2 || random == randomSauv3)) || 
+                    (random == 4 && (random == randomSauv1 || random == randomSauv2 || random == randomSauv3)) ||
+                    (random == 5 && (random == randomSauv1 || random == randomSauv2 || random == randomSauv3))) {
+                random = getRandom(min, max);
+            }
+            if (random == 0) {
+                role = new Explorateur(nom);
+            } else if (random == 1) {
+                role = new Ingenieur(nom);
+            } else if (random == 2) {
+                role = new Messager(nom);
+            } else if (random == 3) {
+                role = new Navigateur(nom);
+            } else if (random == 4) {
+                role = new Pilote(nom);
+            } else if (random == 5) {
+                role = new Plongeur(nom);
+            }
+            if (i == 0) {
+                av1 = role;
+            } else if (i == 1) {
+                av2 = role;
+            } else if (i == 2) {
+                av3 = role;
+            } else {
+                av4 = role;
+            }
+            
+        }
     }
     
     public ArrayList<Aventurier> getJoueurs() {                                 //Permet d'obtenir la liste des joueurs

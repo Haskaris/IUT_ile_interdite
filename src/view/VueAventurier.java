@@ -31,7 +31,7 @@ public class VueAventurier  {
     private final JPanel mainPanel;
     private final JButton btnDeplacer;
     private final JButton btnAssecher;
-    private final JButton btnDonnerCarte;
+    private final JButton btnAutreAction;
     private final JButton btnTerminerTour;
     private final JTextField position;
     private static Controlleur.Controller controlleur;
@@ -83,12 +83,12 @@ public class VueAventurier  {
 
         this.btnDeplacer = new JButton("Deplacer") ;                                  //Création des boutons
         this.btnAssecher = new JButton( "Assecher");
-        this.btnDonnerCarte = new JButton("Donner Carte") ;
-        this.btnTerminerTour = new JButton("Terminer tour") ;
+        this.btnAutreAction = new JButton("Voir Deplacements") ;
+        this.btnTerminerTour = new JButton("Voir assechements") ;
         
         this.panelBoutons.add(btnDeplacer);                                        //Ajout des boutons
         this.panelBoutons.add(btnAssecher);
-        this.panelBoutons.add(btnDonnerCarte);
+        this.panelBoutons.add(btnAutreAction);
         this.panelBoutons.add(btnTerminerTour);
                             
         btnTerminerTour.addActionListener(new ActionListener() {                //Ajout d'un listener sur chacun des boutons
@@ -104,7 +104,7 @@ public class VueAventurier  {
             public void actionPerformed(ActionEvent e) {
                 Message msg = new Message(ACTION_Deplacer);
                 c.traiterMessage(msg);
-                //c.traiterAction(msg, getJoueur(), position.getText(), true);//Permet de se déplacer à la poisition
+                c.traiterAction(msg, getJoueur(), position.getText(), true);//Permet de se déplacer à la poisition
             }                                                                   //écrite dans le champs texte
         });
         
@@ -113,16 +113,16 @@ public class VueAventurier  {
             public void actionPerformed(ActionEvent e) {
                 Message msg = new Message(ACTION_Assecher);
                 c.traiterMessage(msg);
-                //c.traiterAction(msg, getJoueur(), position.getText(), false);//Permet d'assecher la tuile indiqué
+                c.traiterAction(msg, getJoueur(), position.getText(), false);//Permet d'assecher la tuile indiqué
             }                                                                   //par la position écrite dans le champs texte
         });
         
-        btnDonnerCarte.addActionListener(new ActionListener() {
+        btnAutreAction.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message msg = new Message(ACTION_DonnerCarte);
                 c.traiterMessage(msg);
-                //c.afficherTuilesPossibles(nomJoueur, true);           //Permet de voir les déplacements possible
+                c.afficherTuilesPossibles(nomJoueur, true);           //Permet de voir les déplacements possible
             }
         });
         
@@ -134,7 +134,7 @@ public class VueAventurier  {
 
      public JButton getBtnAutreAction() {
         System.out.println("boutonAutreAction");
-        return btnDonnerCarte;
+        return btnAutreAction;
     }
 
     public void setPosition(String pos) {
