@@ -50,75 +50,90 @@ public class Grille {
     private Tuile tuile24 = new Tuile("Le jardin des murmures");
     
     
-      public Grille(){
+    public Grille(){
         setGrille();
         tuilesInondees = new ArrayList<>();
-        
     }
       
+    public int getRandom(int min , int max){                        // renvoi un nombre aléatoire entre min et max
+        return min + (int)(Math.random() * ((max - min) + 1));
+    }
       
-      public void setGrille(){
-            tuileNulle.setEtat(Etat.nulle);
-            grille [0][0] = tuileNulle;        // 1° ligne
-            grille [0][1] = tuileNulle;
-            grille [0][2] = tuile1;
-            tuile2.setEtat(Etat.inondee);
-            grille [0][3] = tuile2;
-            grille [0][4] = tuileNulle;
-            grille [0][5] = tuileNulle;
-            
-            grille [1][0] = tuileNulle;        // 2° ligne
-            grille [1][1] = tuile3;
-            grille [1][2] = tuile4;
-            grille [1][3] = tuile5;
-            grille [1][4] = tuile6;
-            grille [1][5] = tuileNulle;
-            
-            grille [2][0] = tuile7;            // 3 ° ligne
-            grille [2][1] = tuile8;
-            tuile9.setEtat(Etat.submergee);
-            grille [2][2] = tuile9;
-            grille [2][3] = tuile10;
-            grille [2][4] = tuile11;
-            grille [2][5] = tuile12;
-            
-            grille [3][0] = tuile13;            // 4 ° ligne
-            tuile14.setEtat(Etat.inondee);
-            grille [3][1] = tuile14;
-            tuile15.setEtat(Etat.submergee);
-            grille [3][2] = tuile15;
-            tuile16.setEtat(Etat.inondee);
-            grille [3][3] = tuile16;
-            tuile17.setEtat(Etat.submergee);
-            grille [3][4] = tuile17;
-            tuile18.setEtat(Etat.inondee);
-            grille [3][5] = tuile18;
-          
-            
-            grille [4][0] = tuileNulle;            // 5 ° ligne
-            grille [4][1] = tuile19;
-            tuile20.setEtat(Etat.submergee);
-            grille [4][2] = tuile20;
-            grille [4][3] = tuile21;
-            grille [4][4] = tuile22;
-            grille [4][5] = tuileNulle;
-            
-            grille [5][0] = tuileNulle;            // 6 ° ligne
-            grille [5][1] = tuileNulle;
-            grille [5][2] = tuile23;
-            tuile14.setEtat(Etat.inondee);
-            grille [5][3] = tuile24;
-            grille [5][4] = tuileNulle;
-            grille [5][5] = tuileNulle;
-            
-            for (int i = 0 ; i <= 5 ; i++){
-                for (int j =0 ; j <= 5 ; j++){
-                    if (grille[i][j] != tuileNulle){
-                        grille[i][j].setX(i);
-                        grille[i][j].setY(j);
-                    }
+    public void setGrille(){
+        int k;
+        int t = 23;
+        ArrayList<Tuile> tuiles = new ArrayList<>();
+        tuiles.add(tuile1);
+        tuiles.add(tuile2);
+        tuiles.add(tuile3);
+        tuiles.add(tuile4);
+        tuiles.add(tuile5);
+        tuiles.add(tuile6);
+        tuiles.add(tuile7);
+        tuiles.add(tuile8);
+        tuiles.add(tuile9);
+        tuiles.add(tuile10);
+        tuiles.add(tuile11);
+        tuiles.add(tuile12);
+        tuiles.add(tuile13);
+        tuiles.add(tuile14);
+        tuiles.add(tuile15);
+        tuiles.add(tuile16);
+        tuiles.add(tuile17);
+        tuiles.add(tuile18);
+        tuiles.add(tuile19);
+        tuiles.add(tuile20);
+        tuiles.add(tuile21);
+        tuiles.add(tuile22);
+        tuiles.add(tuile23);
+        tuiles.add(tuile24);
+        
+        for (int i = 0; i <= 5; i++) {
+            for (int j = 0; j <= 5; j++) {
+                if (i == 0 && j > 1 && j < 4) {
+                    k = getRandom(0, t);
+                    grille[i][j] = tuiles.get(k);
+                    tuiles.remove(k);
+                    t--;
+                    System.out.println("t = " + t + " k = " + k);
+                } else if (i == 1 && j > 0 && j < 5) {
+                    k = getRandom(0, t);
+                    grille[i][j] = tuiles.get(k);
+                    tuiles.remove(k);
+                    t--;
+                    System.out.println("t = " + t + " k = " + k);
+                } else if (i == 4 && j > 0 && j < 5) {
+                    k = getRandom(0, t);
+                    grille[i][j] = tuiles.get(k);
+                    tuiles.remove(k);
+                    t--;
+                    System.out.println("t = " + t + " k = " + k);
+                } else if (i == 5 && j > 1 && j < 4) {
+                    k = getRandom(0, t);
+                    grille[i][j] = tuiles.get(k);
+                    tuiles.remove(k);
+                    t--;
+                    System.out.println("t = " + t + " k = " + k);
+                } else if (i == 2 || i == 3) {
+                    k = getRandom(0, t);
+                    grille[i][j] = tuiles.get(k);
+                    tuiles.remove(k);
+                    t--;
+                    System.out.println("t = " + t + " k = " + k);
+                } else {
+                    grille[i][j] = tuileNulle;
                 }
             }
+        }
+        
+        for (int m = 0 ; m <= 5 ; m++){
+            for (int n =0 ; n <= 5 ; n++){
+                if (grille[m][n] != tuileNulle){
+                    grille[m][n].setX(m);                                   //Met le X de la tuile dans la grille à la tuile
+                    grille[m][n].setY(n);                                   //Met le Y de la tuile dans la grille à la tuile
+                }
+            }
+        }
             
          
       }
@@ -126,7 +141,6 @@ public class Grille {
     public Tuile[][] getGrille() {
         return grille;
     }
-
     
     public ArrayList<Tuile> getTuilesInondée() {
         for (int j = 0 ; j<6;j++){

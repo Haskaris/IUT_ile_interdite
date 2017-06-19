@@ -54,18 +54,23 @@ public class Controller implements Observateur {
     private static ArrayList<Tresor> tresors;
     
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
         
         //c = new Controller();
         
         joueurs = new ArrayList<>();
         
+        
+        setGrilleJeu(new Grille());                                             //Initialisation de la grille
+        new Controller();
+        bienvenue.afficher();
+    }
+    
+    public Controller() {
         bienvenue = new VueBienvenue(this);
         paramJeu = new VueParamJeu(this);
         regles = new VueRegles(this);
-        setGrilleJeu(new Grille());                                             //Initialisation de la grille
         jeu = new VueJeu(this, grilleJeu);///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        bienvenue.afficher();
     }
 
     public static void setGrilleJeu(Grille GrilleJeu) {                         //Fonction permettant de lier les grilles (joueurs - controlleur) 
@@ -301,7 +306,6 @@ public class Controller implements Observateur {
         return joueurs.get(jc);
     }
     
-    
     public void créerTresors(){
         tresors = new ArrayList<>();
         Tresor tresor1 = new Tresor("La Pierre sacrée");        // création des 4 tresors du jeu
@@ -333,13 +337,9 @@ public class Controller implements Observateur {
         
     }
 
-    
-        
     public int getRandom(int min , int max){                        // renvoi un nombre aléatoire entre min et max
         return min + (int)(Math.random() * ((max - min) + 1));
-    
     }
-    
     
     public void distributionCartesOrangeDebut(){                    // distribution des cartes à tous les joueurs au début du jeu          
         
