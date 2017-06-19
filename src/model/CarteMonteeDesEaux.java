@@ -14,4 +14,9 @@ public class CarteMonteeDesEaux extends CarteDosOrange {
         
     
     }
+
+    @Override
+    public Tresor getTresor() {
+        return null;
+    }
 }

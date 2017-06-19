@@ -336,11 +336,11 @@ public class Controller implements Observateur {
         
     }
     
-    public void remplirPiocheInondation(){
+    public void remplirPiocheInondation(){                      // création de la pioche de cartes inondation
         Tuile[][] grille = grilleJeu.getGrille();
         for (int i =0; i < 6 ; i ++){
             for (int j =0 ; j< 6; j++){
-                piocheInondation.add(new CarteInondation(grille[i][j]));
+                piocheInondation.add(new CarteInondation(grille[i][j]));        // pour chaque tuile de la grille, il éxiste une carte inondation correspondante
             }
         }
     }
@@ -371,14 +371,17 @@ public class Controller implements Observateur {
         }
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
+    public void AfficherDonCartePossible(){
+        System.out.println("Voici les cartes que vous pouvez donner : ");
+        for (CarteDosOrange liste : joueurC.getMain()){
+            System.out.print(" - ");
+            if (liste.getClass().equals(CarteTresor.class)){
+                System.out.print(" Carte tresor : ");
+                System.out.println(liste.getTresor());
+            }
+            System.out.println("------");
+            }
+        }
     
 
     public void tourDeJeu(){///////////////////////////////////////////////////////////////////////////////////////

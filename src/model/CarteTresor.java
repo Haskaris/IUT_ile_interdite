@@ -23,6 +23,13 @@ public class CarteTresor extends CarteDosOrange {
     public void setTresor(Tresor nomTresor) {
         this.tresor = nomTresor;
     }
+
+    /**
+     * @return the tresor
+     */
+    public Tresor getTresor() {
+        return tresor;
+    }
     
     
     
