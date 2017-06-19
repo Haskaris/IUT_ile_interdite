@@ -23,6 +23,8 @@ import javax.swing.JPanel;
 import util.Message;
 import util.TypesMessage;
 import java.util.ArrayList;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 /**
  *
@@ -54,7 +56,16 @@ public class VueJeu {
 
         JPanel mainPanel = new JPanel(new BorderLayout());
         JPanel panelGrille = new JPanel(new GridLayout(6, 6));                  // Panel de la grille
-        JPanel panelMenu = new JPanel(new GridLayout(4, 2));                    // Panel des boutons d'actions
+        
+        JPanel panelMenu = new JPanel(new GridLayout(3,1));                     // Panel des boutons d'actions
+        JPanel panel1 = new JPanel();
+        panelMenu.add(panel1);
+        JPanel panel2 = new JPanel(new BorderLayout());
+        JPanel panel2Centre = new JPanel(new GridLayout(2,2));
+        panel2.add(panel2Centre);
+        panelMenu.add(panel2);
+        JPanel panel3 = new JPanel();
+        panelMenu.add(panel3);
 
         window.add(mainPanel);
         mainPanel.add(panelGrille, BorderLayout.CENTER);
@@ -65,11 +76,13 @@ public class VueJeu {
         Tuile tuile = null;
         Color etatCouleur = null;
         String nomTuile;
-
+        Border border = new LineBorder(Color.WHITE, 5);
+        
         for (int i = 0; i <= 5; i++) {                                          // Initialisation des boutons
             for (int j = 0; j <= 5; j++){
                 btnTuiles[i][j] = new JButton();
-                btnTuiles[i][j].setEnabled(false);                
+                btnTuiles[i][j].setEnabled(false);
+                btnTuiles[i][j].setBorder(border);
             }
 
         }
@@ -107,21 +120,32 @@ public class VueJeu {
 
         JButton btnAssechement = new JButton("Assecher");                       // 
         JButton btnDeplacement = new JButton("Deplacer");
-        JButton btnDonnerCarte = new JButton("DonnerCarte");
+        JButton btnDonnerCarte = new JButton("Donner une Carte");
+        JButton btnPrendreTresor = new JButton("Prendre un trésor");
         JButton btnFinTour = new JButton("Fin Du Tour");
-        panelMenu.add(new JPanel());
-        panelMenu.add(new JPanel());
-        panelMenu.add(btnAssechement);
-        panelMenu.add(btnDeplacement);
-        panelMenu.add(btnDonnerCarte);
-        panelMenu.add(btnFinTour);
-        panelMenu.add(new JPanel());
-        panelMenu.add(new JPanel());
+        
+        btnAssechement.setBackground(Color.LIGHT_GRAY);
+        btnDeplacement.setBackground(Color.LIGHT_GRAY);
+        btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
+        btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
+        btnFinTour.setBackground(Color.LIGHT_GRAY);
+        
+        panel2Centre.add(btnAssechement);
+        panel2Centre.add(btnDeplacement);
+        panel2Centre.add(btnDonnerCarte);
+        panel2Centre.add(btnPrendreTresor);
+        panel2.add(btnFinTour, BorderLayout.SOUTH);
 
         btnAssechement.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setDepl(false);
+                
+                btnAssechement.setBackground(Color.GRAY);
+                btnDeplacement.setBackground(Color.LIGHT_GRAY);
+                btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
+                btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
+                
                 Message msg = new Message(TypesMessage.ACTION_Assecher);
                 o.traiterMessage(msg);
             }
@@ -131,6 +155,12 @@ public class VueJeu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setDepl(true);
+                
+                btnAssechement.setBackground(Color.LIGHT_GRAY);
+                btnDeplacement.setBackground(Color.GRAY);
+                btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
+                btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
+                
                 Message msg = new Message(TypesMessage.ACTION_Deplacer);
                 o.traiterMessage(msg);
             }
@@ -139,6 +169,26 @@ public class VueJeu {
         btnDonnerCarte.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                
+                btnAssechement.setBackground(Color.LIGHT_GRAY);
+                btnDeplacement.setBackground(Color.LIGHT_GRAY);
+                btnDonnerCarte.setBackground(Color.GRAY);
+                btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
+                
+                Message msg = new Message(TypesMessage.ACTION_DonnerCarte);
+                o.traiterMessage(msg);
+            }
+        });
+        
+        btnPrendreTresor.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                btnAssechement.setBackground(Color.LIGHT_GRAY);
+                btnDeplacement.setBackground(Color.LIGHT_GRAY);
+                btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
+                btnPrendreTresor.setBackground(Color.GRAY);
+                
                 Message msg = new Message(TypesMessage.ACTION_DonnerCarte);
                 o.traiterMessage(msg);
             }
@@ -147,6 +197,12 @@ public class VueJeu {
         btnFinTour.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                
+                btnAssechement.setBackground(Color.LIGHT_GRAY);
+                btnDeplacement.setBackground(Color.LIGHT_GRAY);
+                btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
+                btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
+                
                 Message msg = new Message(TypesMessage.ACTION_Fin);
                 o.traiterMessage(msg);
             }
