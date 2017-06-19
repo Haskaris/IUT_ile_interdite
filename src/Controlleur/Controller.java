@@ -12,6 +12,7 @@ import java.util.Random;
 import javax.swing.JFrame;
 import model.CarteDosOrange;
 import model.CarteHelicoptere;
+import model.CarteInondation;
 import model.CarteMonteeDesEaux;
 import model.CarteSacDeSable;
 import model.CarteTresor;
@@ -52,6 +53,8 @@ public class Controller implements Observateur {
     private static ArrayList<CarteDosOrange> piocheOrange;
     private static ArrayList<CarteDosOrange> defausseOrange;
     private static ArrayList<Tresor> tresors;
+    private static ArrayList<CarteInondation> piocheInondation;
+    private static ArrayList<CarteInondation> defausseInondation;
     
 
     public static void main(String[] args) {
@@ -336,6 +339,18 @@ public class Controller implements Observateur {
         
         
     }
+    
+    public void remplirPiocheInondation(){
+        Tuile[][] grille = grilleJeu.getGrille();
+        for (int i =0; i < 6 ; i ++){
+            for (int j =0 ; j< 6; j++){
+                piocheInondation.add(new CarteInondation(grille[i][j]));
+            }
+        }
+    }
+    
+    
+    
 
     public int getRandom(int min , int max){                        // renvoi un nombre aléatoire entre min et max
         return min + (int)(Math.random() * ((max - min) + 1));
@@ -355,6 +370,8 @@ public class Controller implements Observateur {
             }
         }
     }
+    
+    
     
     
     

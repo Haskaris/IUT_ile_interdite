@@ -10,13 +10,25 @@ package model;
  * @author reyneu
  */
 public class CarteInondation {
-    private Tuile nomTuile;
+    private Tuile tuile;
 
+    public CarteInondation(Tuile tuile){
+        setTuile(tuile);
+    }
+    
+    
     /**
      * @return the nomTuile
      */
-    public Tuile getNomTuile() {
-        return nomTuile;
+    public Tuile getTuile() {
+        return tuile;
+    }
+
+    /**
+     * @param nomTuile the nomTuile to set
+     */
+    public void setTuile(Tuile nomTuile) {
+        this.tuile = nomTuile;
     }
 
     
