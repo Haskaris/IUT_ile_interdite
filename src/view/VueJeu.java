@@ -40,8 +40,8 @@ public class VueJeu {
     private int x, y;
     private JLabel labelJC;
 
-    public VueJeu(Observateur o, Grille grille) {
-        setGrille(grille);
+    public VueJeu(Observateur o, Grille gr) {
+        setGrille(gr);
         
         // Initialisation de la fenêtre
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -167,7 +167,11 @@ public class VueJeu {
         }
 
     }
-
+    
+    public void init(Grille grille){
+        
+    }
+    
     public void afficher() {
         window.setVisible(true);
     }
