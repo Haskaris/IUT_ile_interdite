@@ -41,9 +41,10 @@ public class VueJeu {
     private int positionDemandee;
     private int x, y;
     private JLabel labelJC;
+    private JPanel panelGrille, mainPanel, panelMenu, panel1, panel2, panel2Centre, panel3;
 
     public VueJeu(Observateur o, Grille gr) {
-        setGrille(gr);
+        
         
         // Initialisation de la fenêtre
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -55,26 +56,31 @@ public class VueJeu {
 
         this.observateur = o;
 
-        JPanel mainPanel = new JPanel(new BorderLayout());
-        JPanel panelGrille = new JPanel(new GridLayout(6, 6));                  // Panel de la grille
+        mainPanel = new JPanel(new BorderLayout());
+        panelGrille = new JPanel(new GridLayout(6, 6));                  // Panel de la grille
         
-        JPanel panelMenu = new JPanel(new GridLayout(3,1));                     // Panel des boutons d'actions
-        JPanel panel1 = new JPanel();
+        panelMenu = new JPanel(new GridLayout(3,1));                     // Panel des boutons d'actions
+        panel1 = new JPanel();
         panelMenu.add(panel1);
-        JPanel panel2 = new JPanel(new BorderLayout());
-        JPanel panel2Centre = new JPanel(new GridLayout(2,2));
+        panel2 = new JPanel(new BorderLayout());
+        panel2Centre = new JPanel(new GridLayout(2,2));
         panel2.add(panel2Centre);
         panelMenu.add(panel2);
-        JPanel panel3 = new JPanel();
+        panel3 = new JPanel();
         panelMenu.add(panel3);
 
         window.add(mainPanel);
         mainPanel.add(panelGrille, BorderLayout.CENTER);
         mainPanel.add(panelMenu, BorderLayout.EAST);
 
+        setGrille(gr);
+        init(grille);
+
+    }
+    
+    public void init(Grille grille){
         Tuile[][] grilleTab = grille.getGrille();                               // Récupération du tableau de la grille
 
-        Tuile tuile = null;
         Color etatCouleur = null;
         String nomTuile;
         Border border = new LineBorder(Color.WHITE, 5);
@@ -88,7 +94,7 @@ public class VueJeu {
 
         }
 
-        labelJC = new JLabel(getNom() + " joue!");                       // Affichage du joueur courant
+        labelJC = new JLabel(getNom() + " joue!");                              // Affichage du joueur courant
 
 
         for (int i = 0; i <= 5; i++) {                                          // Affichage de la grille
@@ -146,7 +152,7 @@ public class VueJeu {
                 btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
                 
                 Message msg = new Message(TypesMessage.ACTION_Assecher);
-                o.traiterMessage(msg);
+                observateur.traiterMessage(msg);
             }
         });
 
@@ -161,7 +167,7 @@ public class VueJeu {
                 btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
                 
                 Message msg = new Message(TypesMessage.ACTION_Deplacer);
-                o.traiterMessage(msg);
+                observateur.traiterMessage(msg);
             }
         });
 
@@ -175,7 +181,7 @@ public class VueJeu {
                 btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
                 
                 Message msg = new Message(TypesMessage.ACTION_DonnerCarte);
-                o.traiterMessage(msg);
+                observateur.traiterMessage(msg);
             }
         });
         
@@ -189,7 +195,7 @@ public class VueJeu {
                 btnPrendreTresor.setBackground(Color.GRAY);
                 
                 Message msg = new Message(TypesMessage.ACTION_DonnerCarte);
-                o.traiterMessage(msg);
+                observateur.traiterMessage(msg);
             }
         });
 
@@ -203,7 +209,7 @@ public class VueJeu {
                 btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
                 
                 Message msg = new Message(TypesMessage.ACTION_Fin);
-                o.traiterMessage(msg);
+                observateur.traiterMessage(msg);
             }
         });
 
@@ -215,17 +221,12 @@ public class VueJeu {
                 btnTuiles[i][j].addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    o.traiterAction(nomJoueurCourant, x, y, depl);
+                    observateur.traiterAction(nomJoueurCourant, x, y, depl);
                 }
             });
             }
             
         }
-
-    }
-    
-    public void init(Grille grille){
-        
     }
     
     public void afficher() {
@@ -250,8 +251,6 @@ public class VueJeu {
 
     public void setNom(String nom) {
         this.nomJoueurCourant = nom;
-        
-        labelJC.repaint();
     }
 
     public String getNom() {
