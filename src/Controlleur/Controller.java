@@ -8,6 +8,7 @@ package Controlleur;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.Random;
 import javax.swing.JFrame;
 import model.CarteDosOrange;
 import model.CarteHelicoptere;
@@ -293,8 +294,7 @@ public class Controller implements Observateur {
         }
     }
     
-    public Aventurier getJoueurCourant(int jc) {
-        System.out.println(joueurs.get(jc).getNom());
+    public Aventurier getJoueur(int jc) {
         return joueurs.get(jc);
     }
     
@@ -329,6 +329,33 @@ public class Controller implements Observateur {
         
         
     }
+
+    
+        
+    public int getRandom(int min , int max){                        // renvoi un nombre aléatoire entre min et max
+        return min + (int)(Math.random() * ((max - min) + 1));
+    
+    }
+    
+    
+    public void distributionCartesOrangeDebut(){                    // distribution des cartes à tous les joueurs au début du jeu          
+        
+        for (int i = 0; i < nbJoueurs; i++){                        // boucle le me nombre de fois qu'il y à de joueurs
+            for (int j = 0 ; j < 2; j++){                           // donne 2 cartes à chaque joueur
+                int numRandom = getRandom(0, piocheOrange.size()); 
+                if (piocheOrange.get(numRandom).getClass().equals(CarteMonteeDesEaux.class)){
+                    j = j--;   
+                } else {
+                    getJoueur(i).addCarteMain(piocheOrange.get(numRandom));     // ajout de la carte dans la main du joueur
+                    piocheOrange.remove(numRandom);                             // suppression de la carte de la pioche
+                  }
+            }
+        }
+    }
+    
+    
+    
+    
     
 
     public void tourDeJeu(){///////////////////////////////////////////////////////////////////////////////////////
