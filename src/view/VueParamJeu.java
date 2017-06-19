@@ -58,7 +58,7 @@ public class VueParamJeu {
         JRadioButton j2 = new JRadioButton("2");
         JRadioButton j3 = new JRadioButton("3");
         JRadioButton j4 = new JRadioButton("4");
-        j4.setSelected(true);
+        j2.setSelected(true);
         
         ButtonGroup groupeNb = new ButtonGroup();
         groupeNb.add(j2);
@@ -76,10 +76,10 @@ public class VueParamJeu {
         JRadioButton NivNovice = new JRadioButton("Novice");
         
         ButtonGroup groupeNiveau = new ButtonGroup();
-        groupeNiveau.add(NivLegendaire);
-        groupeNiveau.add(NivElite);
-        groupeNiveau.add(NivNormal);
         groupeNiveau.add(NivNovice);
+        groupeNiveau.add(NivNormal);
+        groupeNiveau.add(NivElite);
+        groupeNiveau.add(NivLegendaire);
         
         JButton btnValider = new JButton("Valider");
         JButton btnRetour = new JButton("Retour");
@@ -134,16 +134,16 @@ public class VueParamJeu {
                     panelCentre.add(new JLabel("Difficulté:"));
                 break;
                 case 12:
-                    panelCentre.add(NivLegendaire);
+                    panelCentre.add(NivNovice);
                 break;
                 case 13:
-                    panelCentre.add(NivElite);
-                break;
-                case 14:
                     panelCentre.add(NivNormal);
                 break;
+                case 14:
+                    panelCentre.add(NivElite);
+                break;
                 case 15:
-                    panelCentre.add(NivNovice);
+                    panelCentre.add(NivLegendaire);
                 break;
                 
                 case 21:

@@ -33,6 +33,7 @@ public class Controller implements Observateur {
     private static VueAventurier vueAv1, vueAv2, vueAv3, vueAv4;
     private static Controller c;
     private static int nbJoueurs = 2;
+    private static int nbAction = 0;
     private static String nomJ1 = "Ugo";
     private static String nomJ2 = "Mathis";
     private static String nomJ3 = "Andrea";
@@ -48,7 +49,7 @@ public class Controller implements Observateur {
         c = new Controller();
         
         joueurs = new ArrayList<>();
-        av1 = new Pilote(nomJ1);
+        av1 = new Explorateur(nomJ1);
         av2 = new Navigateur(nomJ2);
         joueurs.add(av1);
         joueurs.add(av2);
@@ -59,6 +60,7 @@ public class Controller implements Observateur {
         vueAv1 = new VueAventurier(nomJ1, "av1", Color.blue, c);
         vueAv2 = new VueAventurier(nomJ2, "av2", Color.green, c);
         
+        
         if (nbJoueurs >= 3) {
             av3 = new Plongeur(nomJ3);
             joueurs.add(av3);
@@ -67,16 +69,18 @@ public class Controller implements Observateur {
             if (nbJoueurs == 4) {
                 av4 = new Ingenieur(nomJ4);
                 joueurs.add(av4);
-                vueAv4 = new VueAventurier(nomJ4, "av4", Color.pink, c);
                 vueAv4.cacher();
+                vueAv4 = new VueAventurier(nomJ4, "av4", Color.pink, c);
             }
         }
         
-        setGrilleJeu(new Grille());  
-        jeu = new VueJeu(c, grilleJeu);//Initialisation de la grille
-
+        setGrilleJeu(new Grille());                                             //Initialisation de la grille
+        jeu = new VueJeu(c, grilleJeu);///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         av1.setPosition(grilleJeu.trouverTuile(2, 2));                          //Initialisation de la position (temporaire) des joueurs
         av2.setPosition(grilleJeu.trouverTuile(3, 3));
+        vueAv1.cacher();
+        vueAv2.cacher();
+        bienvenue.afficher();
     }
 
     public static void setGrilleJeu(Grille GrilleJeu) {                         //Fonction permettant de lier les grilles (joueurs - controlleur) 
@@ -90,8 +94,7 @@ public class Controller implements Observateur {
     public void traiterMessage(Message msg) {                                   //Permet de traiter l'information des boutons avec l'ihm
         if (msg.getTypeMessage() == TypesMessage.ACTION_Jouer) {
             bienvenue.fermer();
-            jeu.afficher();
-            //paramJeu.afficher();
+            paramJeu.afficher();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Retour) {
             paramJeu.fermer();
             regles.fermer();
@@ -103,28 +106,45 @@ public class Controller implements Observateur {
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Quitter) {
             bienvenue.fermer();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Deplacer) {
-            joueurC.getTuilesPossibles(true);
-            afficherTuilesPossibles(joueurC.getNom(), true);
-            joueurC.deplacementAssechage(joueurC.getNom(), true);
+            if (nbAction < 3) {
+                joueurC.getTuilesPossibles(true);
+                afficherTuilesPossibles(joueurC.getNom(), true);
+                joueurC.deplacementAssechage(joueurC.getNom(), true);
+                nbAction++;
+                System.out.println("nb act : " + nbAction);
+            }
+            
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_DonnerCarte) {
             //////////////////////////////////////////////
+            if (nbAction < 3) {
+                afficherTuilesPossibles(joueurC.getNom(), true);
+                nbAction++;
+                System.out.println("nb act : " + nbAction);
+            }
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Assecher) {
-            joueurC.getTuilesPossibles(false);
-            afficherTuilesPossibles(joueurC.getNom(), false);
-            joueurC.deplacementAssechage(joueurC.getNom(), false);
+            if (nbAction < 3) {
+                joueurC.getTuilesPossibles(false);
+                afficherTuilesPossibles(joueurC.getNom(), false);
+                joueurC.deplacementAssechage(joueurC.getNom(), false);
+                nbAction++;
+                System.out.println("nb act : " + nbAction);
+            }
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Fin) {
+            System.out.println("nbj : " + nbJ);
+            System.out.println("nombrejoueur : " + nbJoueurs);
             if (nbJ == nbJoueurs-1) {
                 nbJ = 0;
             } else {
                 nbJ++;
             }
+            tourDeJeu();
         }
 
     }
 
     @Override                                                                   //Envoie les paramètres de jeu
     public void envoyerDonnees(int nbJoueurs, String nomJ1, String nomJ2, String nomJ3, String nomJ4, int difficulte) {
-        this.nbJoueurs = nbJoueurs;
+        this.nbJoueurs = 2;
         this.nomJ1 = nomJ1;
         this.nomJ2 = nomJ2;
         if (nbJoueurs >= 3) {
@@ -135,7 +155,8 @@ public class Controller implements Observateur {
         }
         this.difficulte = difficulte;
         paramJeu.fermer();
-        //tourDeJeu();
+        jeu.afficher();
+        tourDeJeu();
     }
     
     public ArrayList<Aventurier> getJoueurs() {                                 //Permet d'obtenir la liste des joueurs
@@ -201,19 +222,22 @@ public class Controller implements Observateur {
     }
     
     public Aventurier getJoueurCourant(int jc) {
+        System.out.println(joueurs.get(jc).getNom());
         return joueurs.get(jc);
     }
 
     public void tourDeJeu(){///////////////////////////////////////////////////////////////////////////////////////
-        int nbAction = 0;
+        vueAv1.cacher();
+        vueAv2.cacher();
+        if (nbJoueurs >= 3) {
+            vueAv3.cacher();
+            if (nbJoueurs == 4) {
+                vueAv4.cacher();
+            }
+        }
+        nbAction = 0;
         joueurC = getJoueurCourant(nbJ);
         VueAventurier vueCourante = vueAvC(nbJ);
-        
         vueCourante.afficher();
-        
-        
-        
-        
-        
     }
 }
