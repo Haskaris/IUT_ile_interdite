@@ -12,6 +12,12 @@ package model;
 public class Tresor {
     private String nomTresor;
 
+    
+    public Tresor(String nomT){
+        setNomTresor(nomTresor);
+    
+    
+    }
     /**
      * @return the nomTresor
      */

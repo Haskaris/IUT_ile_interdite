@@ -9,11 +9,17 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Observable;
 import javax.swing.JFrame;
+import model.CarteDosOrange;
+import model.CarteHelicoptere;
+import model.CarteMonteeDesEaux;
+import model.CarteSacDeSable;
+import model.CarteTresor;
 import model.aventurier.Aventurier;
 import model.Grille;
 import util.Message;
 import util.TypesMessage;
 import model.Grille;
+import model.Tresor;
 import model.Tuile;
 import model.aventurier.*;
 import view.*;
@@ -42,6 +48,10 @@ public class Controller implements Observateur {
     private static Grille grilleJeu;
     private static ArrayList<Aventurier> joueurs;
     private static Aventurier av1, av2, av3, av4, joueurC;
+    private static ArrayList<CarteDosOrange> piocheOrange;
+    private static ArrayList<CarteDosOrange> defausseOrange;
+    private static ArrayList<Tresor> tresors;
+    
 
     public static void main(String[] args) {
         
@@ -204,6 +214,39 @@ public class Controller implements Observateur {
     public Aventurier getJoueurCourant(int jc) {
         return joueurs.get(jc);
     }
+    
+    
+    public void créerTresors(){
+        tresors = new ArrayList<>();
+        Tresor tresor1 = new Tresor("La Pierre sacrée");        // création des 4 tresors du jeu
+        Tresor tresor2 = new Tresor("La Statue du zéphyr");
+        Tresor tresor3 = new Tresor("Le Cristal ardent");
+        Tresor tresor4 = new Tresor("Le calice de l'onde");
+        tresors.add(tresor1);                                   // ajout des tresors dans la liste des tresors
+        tresors.add(tresor2);
+        tresors.add(tresor3);
+        tresors.add(tresor4);
+    }
+    
+    public void remplirPiocheOrange(){                          //Création de la pioche remplie de la totalité des cartes dos orange.
+        piocheOrange = new ArrayList<>();
+        for (int i =0; i < 5; i++){                             // ajout des 20 cartes tresors correspondant aux 4 tresors (5 carte pour chaque tresor)
+            piocheOrange.add(new CarteTresor(tresors.get(0)));
+            piocheOrange.add(new CarteTresor(tresors.get(1)));
+            piocheOrange.add(new CarteTresor(tresors.get(2)));
+            piocheOrange.add(new CarteTresor(tresors.get(3)));
+        }
+        for (int i = 0; i < 3; i++){                            // ajout des 3 cartes Montee des Eaux et 3 cartes Helicoptere
+            piocheOrange.add(new CarteMonteeDesEaux());
+            piocheOrange.add(new CarteHelicoptere());
+        }
+        for (int i = 0; i < 2; i++){                            // ajout des 2 cartes sac de sable
+            piocheOrange.add(new CarteSacDeSable());
+        }
+        
+        
+    }
+    
 
     public void tourDeJeu(){///////////////////////////////////////////////////////////////////////////////////////
         int nbAction = 0;
