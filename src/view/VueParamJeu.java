@@ -95,7 +95,32 @@ public class VueParamJeu {
         btnValider.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                c.envoyerDonnees(0, nomJ1.getText(), nomJ2.getText(), nomJ3.getText(), nomJ4.getText(), 0); // 0 = nbjoueurs && 0 = difficulté
+                int nbJoueur;
+                int niveau;
+                if (j2.isSelected()) {
+                    nbJoueur = 2;
+                }
+                else if (j3.isSelected()){
+                    nbJoueur = 3;
+                }
+                else{
+                    nbJoueur = 4;
+                }
+                
+                if (NivLegendaire.isSelected()){
+                    niveau = 3;
+                }
+                else if (NivElite.isSelected()){
+                    niveau = 2;
+                }
+                else if (NivNormal.isSelected()){
+                    niveau = 1;
+                }
+                else {
+                    niveau = 0;
+                }
+                
+                c.envoyerDonnees(nbJoueur, nomJ1.getText(), nomJ2.getText(), nomJ3.getText(), nomJ4.getText(), niveau); // 0 = nbjoueurs && 0 = difficulté
             }
         });
         

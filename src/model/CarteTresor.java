@@ -10,7 +10,20 @@ package model;
  * @author reyneu
  */
 public class CarteTresor extends CarteDosOrange {
-    private Tresor nomTresor;
+    private Tresor tresor;
+    
+    public CarteTresor(Tresor tresor){
+        setTresor(tresor);
+    
+    }
+
+    /**
+     * @param nomTresor the nomTresor to set
+     */
+    public void setTresor(Tresor nomTresor) {
+        this.tresor = nomTresor;
+    }
+    
     
     
 }

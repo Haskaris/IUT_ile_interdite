@@ -102,9 +102,7 @@ public abstract class Aventurier {
         int x = Character.getNumericValue(charX);
         int y = Character.getNumericValue(charY);
         
-        ArrayList<Tuile> tuilesPossibles = new ArrayList <>();
-        
-        tuilesPossibles = getTuilesPossibles(depl);
+        ArrayList<Tuile> tuilesPossibles = getTuilesPossibles(depl);
         
         boolean actionEff = false;
         

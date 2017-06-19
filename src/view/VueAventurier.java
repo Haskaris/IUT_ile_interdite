@@ -120,7 +120,7 @@ public class VueAventurier  {
         btnAutreAction.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Message msg = new Message(ACTION_Autre);
+                Message msg = new Message(ACTION_DonnerCarte);
                 c.traiterMessage(msg);
                 c.afficherTuilesPossibles(nomJoueur, true);           //Permet de voir les déplacements possible
             }
@@ -165,6 +165,10 @@ public class VueAventurier  {
     }
     public void cacher(){
         window.setVisible(false);
+    }
+    
+    public String getChoix() {
+        return position.getText();
     }
     
      public static void main(String [] args) {

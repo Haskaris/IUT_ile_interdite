@@ -10,5 +10,8 @@ package model;
  * @author reyneu
  */
 public class CarteMonteeDesEaux extends CarteDosOrange {
+    public CarteMonteeDesEaux(){
+        
     
+    }
 }
