@@ -8,9 +8,6 @@ package Controlleur;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Observable;
-import view.VueBienvenue;
-import view.VueParamJeu;
-import view.VueRegles;
 import javax.swing.JFrame;
 import model.aventurier.Aventurier;
 import model.Grille;
@@ -19,7 +16,7 @@ import util.TypesMessage;
 import model.Grille;
 import model.Tuile;
 import model.aventurier.*;
-import view.VueAventurier;
+import view.*;
 //package util;
 
 /**
@@ -32,6 +29,7 @@ public class Controller implements Observateur {
     private static VueBienvenue bienvenue;
     private static VueParamJeu paramJeu;
     private static VueRegles regles;
+    private static VueJeu jeu;
     private static VueAventurier vueAv1, vueAv2, vueAv3, vueAv4;
     private static Controller c;
     private static int nbJoueurs = 2;
@@ -74,7 +72,9 @@ public class Controller implements Observateur {
             }
         }
         
-        setGrilleJeu(new Grille());                                             //Initialisation de la grille
+        setGrilleJeu(new Grille());  
+        jeu = new VueJeu(c, grilleJeu);//Initialisation de la grille
+        jeu.afficher();
 
         av1.setPosition(grilleJeu.trouverTuile(2, 2));                          //Initialisation de la position (temporaire) des joueurs
         av2.setPosition(grilleJeu.trouverTuile(3, 3));
@@ -91,7 +91,8 @@ public class Controller implements Observateur {
     public void traiterMessage(Message msg) {                                   //Permet de traiter l'information des boutons avec l'ihm
         if (msg.getTypeMessage() == TypesMessage.ACTION_Jouer) {
             bienvenue.fermer();
-            paramJeu.afficher();
+            jeu.afficher();
+            //paramJeu.afficher();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Retour) {
             paramJeu.fermer();
             regles.fermer();
@@ -103,15 +104,21 @@ public class Controller implements Observateur {
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Quitter) {
             bienvenue.fermer();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Deplacer) {
-            getJoueurCourant().getTuilesPossibles(true);
-            
-        } else if (msg.getTypeMessage() == TypesMessage.ACTION_Autre) {
-            
+            joueurC.getTuilesPossibles(true);
+            afficherTuilesPossibles(joueurC.getNom(), true);
+            joueurC.deplacementAssechage(joueurC.getNom(), true);
+        } else if (msg.getTypeMessage() == TypesMessage.ACTION_DonnerCarte) {
+            //////////////////////////////////////////////
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Assecher) {
-            
+            joueurC.getTuilesPossibles(false);
+            afficherTuilesPossibles(joueurC.getNom(), false);
+            joueurC.deplacementAssechage(joueurC.getNom(), false);
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Fin) {
-          
-                c.afficherTuilesPossibles(nomJoueur, false);  
+            if (nbJ == nbJoueurs-1) {
+                nbJ = 0;
+            } else {
+                nbJ++;
+            }
         }
 
     }
@@ -183,11 +190,11 @@ public class Controller implements Observateur {
     }
     
     public VueAventurier vueAvC(int nb) {
-        if (nb == 1) {
+        if (nb == 0) {
             return vueAv1;
-        } else if (nb == 2) {
+        } else if (nb == 1) {
             return vueAv2;
-        } else if (nb == 3) {
+        } else if (nb == 2) {
             return vueAv3;
         } else {
             return vueAv4;
