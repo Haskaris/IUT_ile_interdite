@@ -13,7 +13,7 @@ import model.Tuile;
  *
  * @author reyneu
  */
-public class Pilote extends Aventurier{
+public class Pilote extends Aventurier {
     
     private boolean pouvoirUtilise = false;
     
@@ -57,12 +57,7 @@ public class Pilote extends Aventurier{
     }
     
     @Override
-    public void deplacementAssechage(String tuileChoix, boolean depl) {
-        char charX = tuileChoix.charAt(0);
-        char charY = tuileChoix.charAt(2);                    // récupération de x et y
-    
-        int x = Character.getNumericValue(charX);
-        int y = Character.getNumericValue(charY);
+    public void deplacementAssechage(int x, int y, boolean depl) {
         
         ArrayList<Tuile> tuilesPossibles = new ArrayList <>();
         

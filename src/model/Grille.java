@@ -95,31 +95,26 @@ public class Grille {
                     grille[i][j] = tuiles.get(k);
                     tuiles.remove(k);
                     t--;
-                    System.out.println("t = " + t + " k = " + k);
                 } else if (i == 1 && j > 0 && j < 5) {
                     k = getRandom(0, t);
                     grille[i][j] = tuiles.get(k);
                     tuiles.remove(k);
                     t--;
-                    System.out.println("t = " + t + " k = " + k);
                 } else if (i == 4 && j > 0 && j < 5) {
                     k = getRandom(0, t);
                     grille[i][j] = tuiles.get(k);
                     tuiles.remove(k);
                     t--;
-                    System.out.println("t = " + t + " k = " + k);
                 } else if (i == 5 && j > 1 && j < 4) {
                     k = getRandom(0, t);
                     grille[i][j] = tuiles.get(k);
                     tuiles.remove(k);
                     t--;
-                    System.out.println("t = " + t + " k = " + k);
                 } else if (i == 2 || i == 3) {
                     k = getRandom(0, t);
                     grille[i][j] = tuiles.get(k);
                     tuiles.remove(k);
                     t--;
-                    System.out.println("t = " + t + " k = " + k);
                 } else {
                     grille[i][j] = tuileNulle;
                 }
@@ -134,8 +129,6 @@ public class Grille {
                 }
             }
         }
-            
-         
       }
 
     public Tuile[][] getGrille() {
@@ -147,13 +140,9 @@ public class Grille {
             for (int i = 0; i < 6; i++){                //Parcours grille
                 if (grille[i][j].getEtat() == Etat.inondee){
                     tuilesInondees.add(grille[i][j]);   // ajout de la tuil inondée dans la liste des tuiles inondées
-                
                 }
-            
             }
-        
         }
-         
         return tuilesInondees;
     }
     
@@ -171,8 +160,7 @@ public class Grille {
             }
         }
         return grille[0][0];
-    }
-      
+    }  
 }
     
     
