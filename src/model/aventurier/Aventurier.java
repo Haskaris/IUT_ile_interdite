@@ -19,9 +19,10 @@ public abstract class Aventurier {
     private String nom;
     protected Grille grille;
     protected Tuile position;
-    private CarteDosOrange main;
+    private ArrayList<CarteDosOrange> main;
     
     public Aventurier(String nom){
+        main = new ArrayList<>();
         setNom(nom);
     }
     
@@ -153,6 +154,18 @@ public abstract class Aventurier {
      */
     public Grille getGrilleAv() {
         return grille;
+    }
+
+    /**
+     * @return the main
+     */
+    public ArrayList<CarteDosOrange> getMain() {
+        return main;
+    }
+    
+    public void addCarteMain(CarteDosOrange carte){
+        this.main.add(carte);
+    
     }
    
 }
