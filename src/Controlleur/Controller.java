@@ -8,7 +8,7 @@ package Controlleur;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Observable;
-import view.VueBieabstractnvenue;
+import view.VueBienvenue;
 import view.VueParamJeu;
 import view.VueRegles;
 import javax.swing.JFrame;
