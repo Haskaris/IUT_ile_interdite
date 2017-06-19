@@ -15,7 +15,7 @@ import model.Tuile;
  *
  * @author reyneu
  */
-public class Aventurier {
+public abstract class Aventurier {
     private String nom;
     protected Grille grille;
     protected Tuile position;
@@ -38,51 +38,51 @@ public class Aventurier {
         this.grille = grille;
     }
 
-    public ArrayList<Tuile> getTuilesPossibles(boolean depl){       //Renvoie une collection de tuiles adjacentes pour le déplacement ou l'asséchage
+    public ArrayList<Tuile> getTuilesPossibles(boolean depl){         //Renvoie une collection de tuiles adjacentes pour le déplacement ou l'asséchage
         int posX = getPosition().getX();
         int posY = getPosition().getY();
         ArrayList<Tuile> tuilesPossibles = new ArrayList<>();
         
         Tuile[][] tuiles = getGrilleAv().getGrille();
         
-            if (depl == true) {
-                if (posX != 0) {
+            if (depl == true) {                                                 //Si la recherche de tuile est pour un déplacement
+                if (posX != 0) {                                                //Si le joueur n'est pas sur la bordure de gauche
                     if (tuiles[posX-1][posY].getEtat() == Etat.assechee || tuiles[posX-1][posY].getEtat() == Etat.inondee){
                         tuilesPossibles.add(tuiles[posX-1][posY]);
                     } 
                 }
-                if (posX != 5) {
+                if (posX != 5) {                                                //Si le joueur n'est pas sur la bordure de droite
                     if (tuiles[posX+1][posY].getEtat() == Etat.assechee || tuiles[posX+1][posY].getEtat() == Etat.inondee) {
                         tuilesPossibles.add(tuiles[posX+1][posY]);
                     }
                 }
-                if (posY != 5) {
+                if (posY != 5) {                                                //Si le joueur n'est pas sur la bordure du bas
                     if (tuiles[posX][posY+1].getEtat() == Etat.assechee || tuiles[posX][posY+1].getEtat() == Etat.inondee) {
                         tuilesPossibles.add(tuiles[posX][posY+1]);
                     }
                 }
-                if (posY != 0) {
+                if (posY != 0) {                                                //Si le joueur n'est pas sur la bordure du haut
                     if (tuiles[posX][posY-1].getEtat() == Etat.assechee || tuiles[posX][posY-1].getEtat() == Etat.inondee) {
                         tuilesPossibles.add(tuiles[posX][posY-1]);
                     }
                 }
-            } else if (depl == false) {
-                if (posX != 0) {
+            } else if (depl == false) {                                         //Si la recherche de tuile est pour un assechement
+                if (posX != 0) {                                                //Si le joueur n'est pas sur la bordure de gauche
                     if (tuiles[posX-1][posY].getEtat() == Etat.inondee){
                         tuilesPossibles.add(tuiles[posX-1][posY]);
                     }
                 }
-                if (posX != 5) {
+                if (posX != 5) {                                                //Si le joueur n'est pas sur la bordure de droite
                     if (tuiles[posX+1][posY].getEtat() == Etat.inondee) {
                         tuilesPossibles.add(tuiles[posX+1][posY]);
                     }
                 }
-                if (posY != 5) {
+                if (posY != 5) {                                                //Si le joueur n'est pas sur la bordure du bas
                     if (tuiles[posX][posY+1].getEtat() == Etat.inondee) {
                         tuilesPossibles.add(tuiles[posX][posY+1]);
                     }
                 }
-                if (posY != 0) {
+                if (posY != 0) {                                                //Si le joueur n'est pas sur la bordure du haut
                     if (tuiles[posX][posY-1].getEtat() == Etat.inondee) {
                         tuilesPossibles.add(tuiles[posX][posY-1]);
                     }
@@ -106,7 +106,7 @@ public class Aventurier {
         
         boolean actionEff = false;
         
-            if (depl == true) {
+            if (depl == true) {                                                 //Si la fonction est utilisée pour un déplacement
                 for (Tuile tuile : tuilesPossibles){
                     if (tuile.getX() == x & tuile.getY() == y){
                         grille.trouverTuile(position.getX(), position.getY()).supprJoueur(this);
@@ -119,7 +119,7 @@ public class Aventurier {
                 if (actionEff == false){
                     System.out.println("Joueur non deplacé, il reste en " + position.getX() +", " +position.getY());
                 }
-            } else if (depl == false) {
+            } else if (depl == false) {                                         //Si la fonction est utilisée pour un assechement
                 
                 for (Tuile tuile : tuilesPossibles){
                     if (tuile.getX() == x & tuile.getY() == y){

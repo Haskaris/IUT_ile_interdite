@@ -29,7 +29,7 @@ public class VueAventurier  {
     private final JFrame window;
     private final JPanel panelAventurier;
     private final JPanel mainPanel;
-    private final JButton btnAller  ;
+    private final JButton btnDeplacer;
     private final JButton btnAssecher;
     private final JButton btnAutreAction;
     private final JButton btnTerminerTour;
@@ -81,43 +81,48 @@ public class VueAventurier  {
         this.panelBoutons.setOpaque(false);
         mainPanel.add(this.panelBoutons, BorderLayout.SOUTH);
 
-        this.btnAller = new JButton("Aller") ;
+        this.btnDeplacer = new JButton("Deplacer") ;                                  //Création des boutons
         this.btnAssecher = new JButton( "Assecher");
         this.btnAutreAction = new JButton("Voir Deplacements") ;
         this.btnTerminerTour = new JButton("Voir assechements") ;
         
-        this.panelBoutons.add(btnAller);
+        this.panelBoutons.add(btnDeplacer);                                        //Ajout des boutons
         this.panelBoutons.add(btnAssecher);
         this.panelBoutons.add(btnAutreAction);
         this.panelBoutons.add(btnTerminerTour);
-        
-        btnTerminerTour.addActionListener(new ActionListener() {
-            @Override
+                            
+        btnTerminerTour.addActionListener(new ActionListener() {                //Ajout d'un listener sur chacun des boutons
+            @Override                                                           //Pour pouvoir executer une action
             public void actionPerformed(ActionEvent e) {
-                controlleur.afficherTuilesPossibles(nomJoueur, false);
+                Message msg = new Message(ACTION_Fin);
+                c.traiterMessage(msg);          //Permet de voir les assechements possible
             }
         });
         
-        btnAller.addActionListener(new ActionListener() {
+        btnDeplacer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Message msg = new Message(ACTION_Aller);
-                controlleur.traiterAction(msg, getJoueur(), position.getText(), true);
-            }
+                Message msg = new Message(ACTION_Deplacer);
+                c.traiterMessage(msg);
+                c.traiterAction(msg, getJoueur(), position.getText(), true);//Permet de se déplacer à la poisition
+            }                                                                   //écrite dans le champs texte
         });
         
         btnAssecher.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message msg = new Message(ACTION_Assecher);
-                controlleur.traiterAction(msg, getJoueur(), position.getText(), false);
-            }
+                c.traiterMessage(msg);
+                c.traiterAction(msg, getJoueur(), position.getText(), false);//Permet d'assecher la tuile indiqué
+            }                                                                   //par la position écrite dans le champs texte
         });
         
         btnAutreAction.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controlleur.afficherTuilesPossibles(nomJoueur, true);
+                Message msg = new Message(ACTION_Autre);
+                c.traiterMessage(msg);
+                c.afficherTuilesPossibles(nomJoueur, true);           //Permet de voir les déplacements possible
             }
         });
         
@@ -136,9 +141,9 @@ public class VueAventurier  {
         this.position.setText(pos);
     }
 
-    public JButton getBtnAller() {
-        System.out.println("boutonAller");
-        return btnAller;
+    public JButton getBtnDeplacer() {
+        System.out.println("boutonDeplacer");
+        return btnDeplacer;
     }
     
     public JButton getBtnAssecher() {

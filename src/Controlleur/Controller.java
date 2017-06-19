@@ -18,8 +18,7 @@ import util.Message;
 import util.TypesMessage;
 import model.Grille;
 import model.Tuile;
-import model.aventurier.Explorateur;
-import model.aventurier.Pilote;
+import model.aventurier.*;
 import view.VueAventurier;
 //package util;
 
@@ -41,9 +40,10 @@ public class Controller implements Observateur {
     private static String nomJ3 = "Andrea";
     private static String nomJ4 = "Thomas";
     private static int difficulte;
+    private static int nbJ = 0;
     private static Grille grilleJeu;
     private static ArrayList<Aventurier> joueurs;
-    private static Aventurier av1, av2, av3, av4;
+    private static Aventurier av1, av2, av3, av4, joueurC;
 
     public static void main(String[] args) {
         
@@ -51,10 +51,10 @@ public class Controller implements Observateur {
         
         joueurs = new ArrayList<>();
         av1 = new Pilote(nomJ1);
-        av2 = new Aventurier(nomJ2);
+        av2 = new Navigateur(nomJ2);
         joueurs.add(av1);
         joueurs.add(av2);
-                                                                  //
+        
         bienvenue = new VueBienvenue(c);
         paramJeu = new VueParamJeu(c);
         regles = new VueRegles(c);
@@ -62,12 +62,12 @@ public class Controller implements Observateur {
         vueAv2 = new VueAventurier(nomJ2, "av2", Color.green, c);
         
         if (nbJoueurs >= 3) {
-            av3 = new Aventurier(nomJ3);
+            av3 = new Plongeur(nomJ3);
             joueurs.add(av3);
             vueAv3 = new VueAventurier(nomJ3, "av3", Color.yellow, c);
             vueAv3.cacher();
             if (nbJoueurs == 4) {
-                av4 = new Aventurier(nomJ4);
+                av4 = new Ingenieur(nomJ4);
                 joueurs.add(av4);
                 vueAv4 = new VueAventurier(nomJ4, "av4", Color.pink, c);
                 vueAv4.cacher();
@@ -102,6 +102,16 @@ public class Controller implements Observateur {
 
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Quitter) {
             bienvenue.fermer();
+        } else if (msg.getTypeMessage() == TypesMessage.ACTION_Deplacer) {
+            getJoueurCourant().getTuilesPossibles(true);
+            
+        } else if (msg.getTypeMessage() == TypesMessage.ACTION_Autre) {
+            
+        } else if (msg.getTypeMessage() == TypesMessage.ACTION_Assecher) {
+            
+        } else if (msg.getTypeMessage() == TypesMessage.ACTION_Fin) {
+          
+                c.afficherTuilesPossibles(nomJoueur, false);  
         }
 
     }
@@ -134,9 +144,9 @@ public class Controller implements Observateur {
         afficherTuilesPossibles(nomJ, depl);
     }
 
-    public void afficherTuilesPossibles(String nomJ, boolean depl) {
-        afficherJoueurs(nomJ);
-        ArrayList<Tuile> tuilesPossibles = getAventurier(nomJ, joueurs).getTuilesPossibles(depl);
+    public void afficherTuilesPossibles(String nomJ, boolean depl) {            //Affiche les tuiles de déplacement possible
+        afficherJoueurs(nomJ);                                                  //Affiche les joueurs présent sur la tuile concernée
+        ArrayList<Tuile> tuilesPossibles = getAventurier(nomJ, joueurs).getTuilesPossibles(depl);//Affiche l'état de la tuile concernée
         for (Tuile tuile : tuilesPossibles) {
             System.out.println(tuile.getNom());
             ArrayList<Aventurier> joueurs = tuile.getJoueurs();
@@ -150,7 +160,7 @@ public class Controller implements Observateur {
         }
     }
 
-    public void afficherJoueurs(String nomJ) {      //Affiche les joueurs présent sur une tuile
+    public void afficherJoueurs(String nomJ) {                                  //Affiche les joueurs présent sur une tuile
         Aventurier aventurier = getAventurier(nomJ, joueurs);
         Tuile positionAventurier = aventurier.getPosition();
         ArrayList<Aventurier> listeJoueurs = positionAventurier.getJoueurs();
@@ -158,10 +168,6 @@ public class Controller implements Observateur {
         for (Aventurier av : listeJoueurs) {
             System.out.println(" -" + av.getNom());
         }
-    }
-
-    public ArrayList<Aventurier> getAventuriers() {
-        return joueurs;
     }
 
     private Aventurier getAventurier(String nomAv, ArrayList<Aventurier> aventuriers) {
@@ -175,12 +181,33 @@ public class Controller implements Observateur {
             return null;
         }
     }
+    
+    public VueAventurier vueAvC(int nb) {
+        if (nb == 1) {
+            return vueAv1;
+        } else if (nb == 2) {
+            return vueAv2;
+        } else if (nb == 3) {
+            return vueAv3;
+        } else {
+            return vueAv4;
+        }
+    }
+    
+    public Aventurier getJoueurCourant(int jc) {
+        return joueurs.get(jc);
+    }
 
-    /*public void tourDeJeu(){///////////////////////////////////////////////////////////////////////////////////////
-        VueAventurier vueCourante = vueAv1;
+    public void tourDeJeu(){///////////////////////////////////////////////////////////////////////////////////////
+        int nbAction = 0;
+        joueurC = getJoueurCourant(nbJ);
+        VueAventurier vueCourante = vueAvC(nbJ);
         
         vueCourante.afficher();
         
         
-    }*/
+        
+        
+        
+    }
 }
