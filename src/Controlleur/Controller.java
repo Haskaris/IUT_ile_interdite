@@ -323,7 +323,7 @@ public class Controller implements Observateur {
                 Joueurs.add("Inge");
             }
             if (j.getClass() == Messager.class){
-                Joueurs.add("Messa");
+                Joueurs.add("Mess");
             }
             if (j.getClass() == Navigateur.class){
                 Joueurs.add("Navi");

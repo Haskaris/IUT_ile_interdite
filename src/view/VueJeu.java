@@ -149,7 +149,7 @@ public class VueJeu {
                                     panJTuiles[i][j].add(panExpl);
                                 } else if (joueur == "Inge"){
                                     panJTuiles[i][j].add(panInge);
-                                } else if (joueur == "Messa"){
+                                } else if (joueur == "Mess"){
                                     panJTuiles[i][j].add(panMessa);
                                 } else if (joueur == "Navi"){
                                     panJTuiles[i][j].add(panNavi);
