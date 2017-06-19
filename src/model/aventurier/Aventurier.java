@@ -15,7 +15,7 @@ import model.Tuile;
  *
  * @author reyneu
  */
-public class Aventurier {
+public abstract class Aventurier {
     private String nom;
     protected Grille grille;
     protected Tuile position;
