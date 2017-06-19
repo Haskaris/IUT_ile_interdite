@@ -12,6 +12,7 @@ import java.util.Random;
 import javax.swing.JFrame;
 import model.CarteDosOrange;
 import model.CarteHelicoptere;
+import model.CarteInondation;
 import model.CarteMonteeDesEaux;
 import model.CarteSacDeSable;
 import model.CarteTresor;
@@ -52,6 +53,8 @@ public class Controller implements Observateur {
     private static ArrayList<CarteDosOrange> piocheOrange;
     private static ArrayList<CarteDosOrange> defausseOrange;
     private static ArrayList<Tresor> tresors;
+    private static ArrayList<CarteInondation> piocheInondation;
+    private static ArrayList<CarteInondation> defausseInondation;
     
 
     public static void main(String[] args) {
@@ -60,12 +63,17 @@ public class Controller implements Observateur {
         
         joueurs = new ArrayList<>();
         
+        
+        setGrilleJeu(new Grille());                                             //Initialisation de la grille
+        new Controller();
+        bienvenue.afficher();
+    }
+    
+    public Controller() {
         bienvenue = new VueBienvenue(this);
         paramJeu = new VueParamJeu(this);
         regles = new VueRegles(this);
-        setGrilleJeu(new Grille());                                             //Initialisation de la grille
         jeu = new VueJeu(this, grilleJeu);///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        bienvenue.afficher();
     }
 
     public static void setGrilleJeu(Grille GrilleJeu) {                         //Fonction permettant de lier les grilles (joueurs - controlleur) 
@@ -297,7 +305,6 @@ public class Controller implements Observateur {
         return joueurs.get(jc);
     }
     
-    
     public void créerTresors(){
         tresors = new ArrayList<>();
         Tresor tresor1 = new Tresor("La Pierre sacrée");        // création des 4 tresors du jeu
@@ -328,14 +335,22 @@ public class Controller implements Observateur {
         
         
     }
-
     
-        
-    public int getRandom(int min , int max){                        // renvoi un nombre aléatoire entre min et max
-        return min + (int)(Math.random() * ((max - min) + 1));
-    
+    public void remplirPiocheInondation(){
+        Tuile[][] grille = grilleJeu.getGrille();
+        for (int i =0; i < 6 ; i ++){
+            for (int j =0 ; j< 6; j++){
+                piocheInondation.add(new CarteInondation(grille[i][j]));
+            }
+        }
     }
     
+    
+    
+
+    public int getRandom(int min , int max){                        // renvoi un nombre aléatoire entre min et max
+        return min + (int)(Math.random() * ((max - min) + 1));
+    }
     
     public void distributionCartesOrangeDebut(){                    // distribution des cartes à tous les joueurs au début du jeu          
         
@@ -351,6 +366,8 @@ public class Controller implements Observateur {
             }
         }
     }
+    
+    
     
     
     
