@@ -38,6 +38,7 @@ public class VueJeu {
     private boolean depl;
     private int positionDemandee;
     private int x, y;
+    private JLabel labelJC;
 
     public VueJeu(Observateur o, Grille grille) {
         setGrille(grille);
@@ -74,7 +75,7 @@ public class VueJeu {
 
         }
 
-        JLabel labelJC = new JLabel(getNom() + " joue!");                       // Affichage du joueur courant
+        labelJC = new JLabel(getNom() + " joue!");                       // Affichage du joueur courant
 
 
         for (int i = 0; i <= 5; i++) {                                          // Affichage de la grille
@@ -166,12 +167,6 @@ public class VueJeu {
         }
 
     }
-    
-    public void changeColor(ArrayList<Tuile> tuiles) {
-        for (Tuile tuile : tuiles) {
-        btnTuiles[tuile.getX()][tuile.getY()].setForeground(Color.WHITE);
-        }
-    }
 
     public void afficher() {
         window.setVisible(true);
@@ -179,7 +174,7 @@ public class VueJeu {
     
     public void afficherPossible(ArrayList<Tuile> tuilesPossibles){
         for (Tuile tuile: tuilesPossibles){
-
+                btnTuiles[tuile.getX()][tuile.getY()].setBackground(Color.WHITE);
                 btnTuiles[tuile.getX()][tuile.getY()].setEnabled(true);
            
         }
@@ -195,6 +190,8 @@ public class VueJeu {
 
     public void setNom(String nom) {
         this.nomJoueurCourant = nom;
+        
+        labelJC.repaint();
     }
 
     public String getNom() {

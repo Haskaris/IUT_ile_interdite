@@ -112,11 +112,6 @@ public class Controller implements Observateur {
                 System.out.println("------");
             }*/
             
-                jeu.changeColor(joueurC.getTuilesPossibles(true));
-            if (nbAction < 3) {
-                joueurC.getTuilesPossibles(true);
-                afficherTuilesPossibles(joueurC.getNom(), true);
-                joueurC.deplacementAssechage(joueurC.getPosition().getX(), joueurC.getPosition().getY(), true);
             if (nbAction < 3) {                                                 
                 jeu.afficherPossible(joueurC.getTuilesPossibles(true));         //Affichage des tuiles où le deplacement est possible
                 nbAction++;
@@ -124,12 +119,12 @@ public class Controller implements Observateur {
                 setGrilleJeu(joueurC.getGrilleAv());
             } else {
                 System.out.println("Impossible, toutes les actions sont utilisées");
-            }
             
-        } else if (msg.getTypeMessage() == TypesMessage.ACTION_DonnerCarte) {
+            }
+        }else if (msg.getTypeMessage() == TypesMessage.ACTION_DonnerCarte) {
             //////////////////////////////////////////////
             if (nbAction < 3) {
-                afficherTuilesPossibles(joueurC.getNom(), true);
+                //afficherTuilesPossibles(joueurC.getNom(), true);
                 nbAction++;
                 System.out.println("nb act : " + nbAction);
             } else {
@@ -156,8 +151,7 @@ public class Controller implements Observateur {
         }
 
         }
-    }
-
+    
     @Override                                                                   //Envoie les paramètres de jeu
     public void envoyerDonnees(int nbJoueurs, String nomJ1, String nomJ2, String nomJ3, String nomJ4, int difficulte) {
         this.nbJoueurs = nbJoueurs;
@@ -189,9 +183,7 @@ public class Controller implements Observateur {
                 vueAv4 = new VueAventurier(nomJ4, "av4", Color.pink, this);
             }
         }
-        
-        av1.setPosition(grilleJeu.trouverTuile(2, 2));                          //Initialisation de la position (temporaire) des joueurs
-        av2.setPosition(grilleJeu.trouverTuile(3, 3));
+        setGrilleJeu(grilleJeu);
         vueAv1.cacher();
         vueAv2.cacher();
         paramJeu.fermer();
@@ -303,9 +295,12 @@ public class Controller implements Observateur {
 
     private Aventurier getAventurier(String nomAv, ArrayList<Aventurier> aventuriers) {
         int i = 0;
-        while (nomAv != aventuriers.get(i).getNom()) {
+        while (nomAv != aventuriers.get(i).getNom() && i < aventuriers.size()) {
+            System.out.println("i size :" + aventuriers.get(i).getNom());
             i++;
+            System.out.println("i après :" +i);
         }
+        
         if (nomAv == aventuriers.get(i).getNom()) {
             return aventuriers.get(i);
         } else {
@@ -325,7 +320,7 @@ public class Controller implements Observateur {
         }
     }
     
-    public Aventurier getJoueur(int jc) {
+    public Aventurier getJoueurCourant(int jc) {
         return joueurs.get(jc);
     }
     
@@ -381,7 +376,7 @@ public class Controller implements Observateur {
                 if (piocheOrange.get(numRandom).getClass().equals(CarteMonteeDesEaux.class)){ // si la carte potentiellemnent donnée est une carte montée de eaux alors on re-boucle 
                     j--;   
                 } else {
-                    getJoueur(i).addCarteMain(piocheOrange.get(numRandom));     // ajout de la carte dans la main du joueur
+                    getJoueurCourant(i).addCarteMain(piocheOrange.get(numRandom));     // ajout de la carte dans la main du joueur
                     piocheOrange.remove(numRandom);                             // suppression de la carte de la pioche
                   }
             }
@@ -398,7 +393,8 @@ public class Controller implements Observateur {
             }
         }
         nbAction = 0;
-        joueurC = getJoueur(nbJ);
+        joueurC = getJoueurCourant(nbJ);
+        jeu.setNom(joueurC.getNom());
         VueAventurier vueCourante = vueAvC(nbJ);
         vueCourante.afficher();
         
