@@ -145,6 +145,9 @@ public abstract class Aventurier {
             }
           }
         }
+     
+     
+    
        
      
     /**
@@ -183,6 +186,9 @@ public abstract class Aventurier {
     public void removeCarteMain(CarteDosOrange carte){
         this.main.remove(carte);
     }
+    
+    
+   
     
    
 }

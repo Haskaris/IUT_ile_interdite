@@ -53,6 +53,7 @@ public class Controller implements Observateur {
     private static ArrayList<CarteDosOrange> piocheOrange;
     private static ArrayList<CarteDosOrange> defausseOrange;
     private static ArrayList<Tresor> tresors;
+    private static ArrayList<Tresor> tresorsGagnés;
     private static ArrayList<CarteInondation> piocheInondation;
     private static ArrayList<CarteInondation> defausseInondation;
     
@@ -386,9 +387,8 @@ public class Controller implements Observateur {
     public void afficherDonCartePossible(){
         System.out.println("Voici les cartes que vous pouvez donner : ");
         for (CarteDosOrange liste : joueurC.getMain()){
-            System.out.print(" - ");
             if (liste.getClass().equals(CarteTresor.class)){
-                System.out.print(" Carte tresor : ");
+                System.out.print(" -Carte tresor : ");
                 System.out.println(liste.getTresor());
             }
             System.out.println("------");
@@ -396,12 +396,13 @@ public class Controller implements Observateur {
         }
     
     
-    public boolean gagnerTresorPossible(){
+    public ArrayList<Tresor> ListeGagnerTresorPossible(){
         int cartesTresorPierre = 0;
         int cartesTresorStatue = 0;
         int cartesTresorCristal = 0;
         int cartesTresorCalice = 0;
         boolean bool = false;
+        ArrayList<Tresor> tresorsPossibles = new ArrayList<>();
         
         if (joueurC.getPosition().getNom() == "Le temple du soleil" || joueurC.getPosition().getNom() == "Le temple de la lune" ){ // si le joueur se trouve sur une case pour recuperer le tresor de la pierre sacrée
             
@@ -411,7 +412,7 @@ public class Controller implements Observateur {
                 }
             }
             if (cartesTresorPierre > 3) {                                   // si il en en 4 ou plus , il peut gagner le tresor
-                bool = true;            
+                tresorsPossibles.add(tresors.get(0));
             }
         }
         if (joueurC.getPosition().getNom() == "Le jardin des hurlements" || joueurC.getPosition().getNom() == "Le jardin des murmures" ){ // si le joueur se trouve sur une case pour recuperer le tresor de la statue du zephyr
@@ -422,7 +423,7 @@ public class Controller implements Observateur {
                 }
             }
             if (cartesTresorStatue > 3) {                                    // si il en en 4 ou plus , il peut gagner le  tresor
-                bool =true;
+                tresorsPossibles.add(tresors.get(1));
     
             }
         }
@@ -434,7 +435,7 @@ public class Controller implements Observateur {
                 }
             }
             if (cartesTresorCristal > 3) {                                  // si il en en 4 ou plus , il peut gagner le  tresor
-                bool =true;
+                tresorsPossibles.add(tresors.get(2));
     
             }
         }
@@ -446,16 +447,24 @@ public class Controller implements Observateur {
                 }
             }
             if (cartesTresorCalice > 3) {                                       // si il en en 4 ou plus , il peut gagner le  tresor
-                bool =true;
+                tresorsPossibles.add(tresors.get(3));
     
             }
         }
-        
-        
-        
-       return bool; 
+
+        return tresorsPossibles;
+     
+         
     }
     
+     public void gagnerTresor(Tresor tresor){
+         for (Tresor liste : ListeGagnerTresorPossible()){              // si le tresor selectionné se trouve dans la liste des tresors possiblement récupérables
+             if (tresor == liste){
+                 tresorsGagnés.add(tresor);                             // ajouter ce tresor dans la liste des tresors gagnés.
+             }
+         }
+     }
+   
     
     
     
