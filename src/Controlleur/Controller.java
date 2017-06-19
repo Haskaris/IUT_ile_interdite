@@ -91,15 +91,8 @@ public class Controller implements Observateur {
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Quitter) {
             bienvenue.fermer();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Deplacer) {
-            if (nbAction < 3) {
-                ArrayList<Tuile> tuiles = joueurC.getTuilesPossibles(true);
-                Integer[][] tableau = new Integer[5][5];
-                int i = 0;
-                for (Tuile tuile: tuiles){
-                    tableau[tuile.getX()][tuile.getY()] = i;
-                    i++;
-                }
-                jeu.afficherPossible(tableau);
+            if (nbAction < 3) {                                                 
+                jeu.afficherPossible(joueurC.getTuilesPossibles(true));         //Affichage des tuiles où le deplacement est possible
                 nbAction++;
                 System.out.println("nb act : " + nbAction);
             } else {
@@ -115,11 +108,9 @@ public class Controller implements Observateur {
             } else {
                 System.out.println("Impossible, toutes les actions sont utilisées");
             }
-        } else if (msg.getTypeMessage() == TypesMessage.ACTION_Assecher) {
+        } else if (msg.getTypeMessage() == TypesMessage.ACTION_Assecher) {      //Affichage des tuiles où l'assechement est possible
             if (nbAction < 3) {
-                joueurC.getTuilesPossibles(false);
-                afficherTuilesPossibles(joueurC.getNom(), false);
-                joueurC.deplacementAssechage(joueurC.getNom(), false);
+                jeu.afficherPossible(joueurC.getTuilesPossibles(false));
                 nbAction++;
                 System.out.println("nb act : " + nbAction);
             } else {

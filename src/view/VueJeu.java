@@ -31,8 +31,8 @@ import java.util.ArrayList;
 public class VueJeu {
 
     private final JFrame window;
-    private static Controller controller;
-    private JButton[][] btnTuiles = new JButton[6][6];                // TABLEAU DOUBKLE DIMENSION SAMER
+    private static Observateur observateur;
+    private JButton[][] btnTuiles = new JButton[6][6];            
     private Grille grille;
     private String nomJoueurCourant;
     private boolean depl;
@@ -41,7 +41,8 @@ public class VueJeu {
 
     public VueJeu(Observateur o, Grille grille) {
         setGrille(grille);
-
+        
+        // Initialisation de la fenêtre
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.window = new JFrame();
         window.setSize(dim.width, dim.height);
@@ -49,23 +50,23 @@ public class VueJeu {
         window.setLocation(dim.width / 2 - window.getSize().width / 2, dim.height / 2 - window.getSize().height / 2);
         window.setTitle("ILE INTERDITE");
 
-        this.o = o;
+        this.observateur = o;
 
         JPanel mainPanel = new JPanel(new BorderLayout());
-        JPanel panelGrille = new JPanel(new GridLayout(6, 6));
-        JPanel panelMenu = new JPanel(new GridLayout(4, 2));
+        JPanel panelGrille = new JPanel(new GridLayout(6, 6));                  // Panel de la grille
+        JPanel panelMenu = new JPanel(new GridLayout(4, 2));                    // Panel des boutons d'actions
 
         window.add(mainPanel);
         mainPanel.add(panelGrille, BorderLayout.CENTER);
         mainPanel.add(panelMenu, BorderLayout.EAST);
 
-        Tuile[][] grilleTab = grille.getGrille();
+        Tuile[][] grilleTab = grille.getGrille();                               // Récupération du tableau de la grille
 
         Tuile tuile = null;
         Color etatCouleur = null;
         String nomTuile;
 
-        for (int i = 0; i <= 5; i++) {
+        for (int i = 0; i <= 5; i++) {                                          // Initialisation des boutons
             for (int j = 0; j <= 5; j++){
                 btnTuiles[i][j] = new JButton();
                 btnTuiles[i][j].setEnabled(false);                
@@ -73,16 +74,15 @@ public class VueJeu {
 
         }
 
-        JLabel labelJC = new JLabel(getNom() + " joue!");
+        JLabel labelJC = new JLabel(getNom() + " joue!");                       // Affichage du joueur courant
 
-        int k = 0;
 
-        for (int i = 0; i <= 5; i++) {
+        for (int i = 0; i <= 5; i++) {                                          // Affichage de la grille
             for (int j = 0; j <= 5; j++) {
                 if (i == 0 && j == 0) {
-                    panelGrille.add(labelJC);
+                    panelGrille.add(labelJC);                                   // Affichage du joueur courant
                 } else {
-                    nomTuile = grilleTab[i][j].getNom();
+                    nomTuile = grilleTab[i][j].getNom();                        // Gestion de la couleur du bouton en fonction de l'état de la tuile
                     if (grilleTab[i][j].getEtat() == Etat.assechee) {
                         etatCouleur = Color.DARK_GRAY;
                     } else if (grilleTab[i][j].getEtat() == Etat.inondee) {
@@ -90,10 +90,11 @@ public class VueJeu {
                     } else {
                         etatCouleur = Color.BLUE;
                     }
-                    if (grilleTab[i][j].getNom().equals("null")) {
+                    
+                    if (grilleTab[i][j].getNom().equals("null")) {              // Tuile vide
                         panelGrille.add(new JPanel());
                     } else {
-                        btnTuiles[i][j].setText(nomTuile);
+                        btnTuiles[i][j].setText(nomTuile);                      // Tuile classique
                         btnTuiles[i][j].setBackground(etatCouleur);
                         btnTuiles[i][j].setForeground(Color.WHITE);
                         panelGrille.add(btnTuiles[i][j]);
@@ -104,7 +105,7 @@ public class VueJeu {
 
         }
 
-        JButton btnAssechement = new JButton("Assecher");
+        JButton btnAssechement = new JButton("Assecher");                       // 
         JButton btnDeplacement = new JButton("Deplacer");
         JButton btnDonnerCarte = new JButton("DonnerCarte");
         JButton btnFinTour = new JButton("Fin Du Tour");
@@ -159,7 +160,7 @@ public class VueJeu {
                 btnTuiles[i][j].addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    c.traiterAction(nomJoueurCourant, x, y, depl);
+                    o.traiterAction(nomJoueurCourant, x, y, depl);
                 }
             });
             }
@@ -172,12 +173,10 @@ public class VueJeu {
         window.setVisible(true);
     }
     
-    public void afficherPossible(Integer[][] tab){
-        for (int i =0; i<5; i++){
-            for (int j = 0; j<5; j++){
+    public void afficherPossible(ArrayList<Tuile> tuilesPossibles){
+        for (Tuile tuile: tuilesPossibles){
 
-                btnTuiles[i][j].setEnabled(true);
-            }
+                btnTuiles[tuile.getX()][tuile.getY()].setEnabled(true);
            
         }
     }
