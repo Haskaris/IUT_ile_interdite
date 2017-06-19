@@ -396,13 +396,12 @@ public class Controller implements Observateur {
         }
     
     
-    public ArrayList<Tresor> ListeGagnerTresorPossible(){
+    public Tresor GagnerTresorPossible(){
         int cartesTresorPierre = 0;
         int cartesTresorStatue = 0;
         int cartesTresorCristal = 0;
         int cartesTresorCalice = 0;
-        boolean bool = false;
-        ArrayList<Tresor> tresorsPossibles = new ArrayList<>();
+        
         
         if (joueurC.getPosition().getNom() == "Le temple du soleil" || joueurC.getPosition().getNom() == "Le temple de la lune" ){ // si le joueur se trouve sur une case pour recuperer le tresor de la pierre sacrée
             
@@ -412,7 +411,7 @@ public class Controller implements Observateur {
                 }
             }
             if (cartesTresorPierre > 3) {                                   // si il en en 4 ou plus , il peut gagner le tresor
-                tresorsPossibles.add(tresors.get(0));
+                return tresors.get(0);
             }
         }
         if (joueurC.getPosition().getNom() == "Le jardin des hurlements" || joueurC.getPosition().getNom() == "Le jardin des murmures" ){ // si le joueur se trouve sur une case pour recuperer le tresor de la statue du zephyr
@@ -423,7 +422,7 @@ public class Controller implements Observateur {
                 }
             }
             if (cartesTresorStatue > 3) {                                    // si il en en 4 ou plus , il peut gagner le  tresor
-                tresorsPossibles.add(tresors.get(1));
+                return tresors.get(1);
     
             }
         }
@@ -435,7 +434,7 @@ public class Controller implements Observateur {
                 }
             }
             if (cartesTresorCristal > 3) {                                  // si il en en 4 ou plus , il peut gagner le  tresor
-                tresorsPossibles.add(tresors.get(2));
+                return tresors.get(2);
     
             }
         }
@@ -447,22 +446,19 @@ public class Controller implements Observateur {
                 }
             }
             if (cartesTresorCalice > 3) {                                       // si il en en 4 ou plus , il peut gagner le  tresor
-                tresorsPossibles.add(tresors.get(3));
-    
+                return tresors.get(3);
             }
         }
 
-        return tresorsPossibles;
+        return null;
      
          
     }
     
      public void gagnerTresor(Tresor tresor){
-         for (Tresor liste : ListeGagnerTresorPossible()){              // si le tresor selectionné se trouve dans la liste des tresors possiblement récupérables
-             if (tresor == liste){
-                 tresorsGagnés.add(tresor);                             // ajouter ce tresor dans la liste des tresors gagnés.
-             }
-         }
+        if (tresor == GagnerTresorPossible()){                      // si le trésor correspond a un trésor qui peut être gagné
+            tresorsGagnés.add(tresor);                              // on l'ajoute a la liste des trésors gagnés;
+        }
      }
    
     
