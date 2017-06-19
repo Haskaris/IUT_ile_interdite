@@ -139,7 +139,7 @@ public abstract class Aventurier {
                     System.out.println("Les deux joueurs sont bien sur la même case.");
                     courant.removeCarteMain(carte);                                 // echange de la carte.
                     joueur.addCarteMain(carte);
-                    System.out.println("La carte : " + carte.getClass() + " à bien été donner au joueur : "+ joueur.getNom());
+                    System.out.println("La carte tresor : " + carte.getTresor() + " à bien été donner au joueur : "+ joueur.getNom());
                 }
               }
             }
@@ -147,10 +147,6 @@ public abstract class Aventurier {
         }
        
      
-    
-    
-    
-
     /**
      * @param position the position to set
      */
