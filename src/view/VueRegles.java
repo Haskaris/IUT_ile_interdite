@@ -5,7 +5,7 @@
  */
 package view;
 
-import Controlleur.Controller;
+import Controlleur.Observateur;
 import util.Message;
 import util.TypesMessage;
 import java.awt.Dimension;
@@ -22,19 +22,17 @@ import javax.swing.JPanel;
  */
 public class VueRegles {
     private final JFrame window;
-    private final Controller controller;
+    private final Observateur o;
     
     
-    public VueRegles(Controller c){
-        
+    public VueRegles(Observateur o) {
+        this.o = o;
         this.window = new JFrame();
         window.setSize(800, 600);
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
         window.setTitle("REGLES DU JEU");
-        
-        controller = c;
         
         JPanel mainPanel = new JPanel();
         window.add(mainPanel);
@@ -46,8 +44,7 @@ public class VueRegles {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message msg = new Message(TypesMessage.ACTION_Retour);
-                
-                controller.traiterMessage(msg);
+                o.traiterMessage(msg);
             }
         });
     }

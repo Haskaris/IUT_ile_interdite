@@ -6,7 +6,7 @@
 package view;
 
 import model.*;
-import Controlleur.Controller;
+import Controlleur.Observateur;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -30,12 +30,12 @@ import util.TypesMessage;
 public class VueJeu {
 
     private final JFrame window;
-    private static Controller controller;
+    private Observateur o;
     private JButton[] btnTuiles = new JButton[24];
     private Grille grille;
     private String nomJoueurCourant;
 
-    public VueJeu(Controller c, Grille grille) {
+    public VueJeu(Observateur o, Grille grille) {
         setGrille(grille);
 
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -45,7 +45,7 @@ public class VueJeu {
         window.setLocation(dim.width / 2 - window.getSize().width / 2, dim.height / 2 - window.getSize().height / 2);
         window.setTitle("ILE INTERDITE");
 
-        controller = c;
+        this.o = o;
 
         JPanel mainPanel = new JPanel(new BorderLayout());
         JPanel panelGrille = new JPanel(new GridLayout(6, 6));
@@ -116,7 +116,7 @@ public class VueJeu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message msg = new Message(TypesMessage.ACTION_Assecher);
-                c.traiterMessage(msg);
+                o.traiterMessage(msg);
             }
         });
 
@@ -124,7 +124,7 @@ public class VueJeu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message msg = new Message(TypesMessage.ACTION_Deplacer);
-                c.traiterMessage(msg);
+                o.traiterMessage(msg);
             }
         });
 
@@ -132,7 +132,7 @@ public class VueJeu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message msg = new Message(TypesMessage.ACTION_DonnerCarte);
-                c.traiterMessage(msg);
+                o.traiterMessage(msg);
             }
         });
 
@@ -140,7 +140,7 @@ public class VueJeu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message msg = new Message(TypesMessage.ACTION_Fin);
-                c.traiterMessage(msg);
+                o.traiterMessage(msg);
             }
         });
 

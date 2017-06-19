@@ -5,7 +5,7 @@
  */
 package view;
 
-import Controlleur.Controller;
+import Controlleur.Observateur;
 import util.Message;
 import util.TypesMessage;
 import java.awt.BorderLayout;
@@ -29,10 +29,10 @@ import javax.swing.JTextField;
  */
 public class VueParamJeu {
     private final JFrame window;
-    private final Controller controller;
+    private final Observateur Observateur;
     
     
-    public VueParamJeu(Controller c){
+    public VueParamJeu(Observateur o){
         
         this.window = new JFrame();
         window.setSize(800, 600);
@@ -41,7 +41,7 @@ public class VueParamJeu {
         window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
         window.setTitle("PARAMETRE DU JEU");
         
-        controller = c;
+        Observateur = o;
         
         JPanel mainPanel = new JPanel(new BorderLayout());
         window.add(mainPanel);
@@ -88,7 +88,7 @@ public class VueParamJeu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message m = new Message(TypesMessage.ACTION_Retour);
-                c.traiterMessage(m);
+                o.traiterMessage(m);
             }
         });
         
@@ -115,7 +115,7 @@ public class VueParamJeu {
                     niveau = 0;
                 }
                 
-                c.envoyerDonnees(nbJoueur, nomJ1.getText(), nomJ2.getText(), nomJ3.getText(), nomJ4.getText(), niveau); // 0 = nbjoueurs && 0 = difficulté
+                o.envoyerDonnees(nbJoueur, nomJ1.getText(), nomJ2.getText(), nomJ3.getText(), nomJ4.getText(), niveau); // 0 = nbjoueurs && 0 = difficulté
             }
         });
         

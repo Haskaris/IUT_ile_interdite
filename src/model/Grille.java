@@ -26,28 +26,28 @@ public class Grille {
     private Tuile tuileNulle = new Tuile("null");
     private Tuile tuile1 = new Tuile("Le pont des abimes");
     private Tuile tuile2 = new Tuile("La porte de bronze");
-    private Tuile tuile3 = new Tuile ("La caverne des ombres");
-    private Tuile tuile4 = new Tuile ("La porte de fer");
-    private Tuile tuile5 = new Tuile ("La porte d'or");
-    private Tuile tuile6 = new Tuile ("Les falaises de l'oubli");
-    private Tuile tuile7 = new Tuile ("Le palais de corail");
-    private Tuile tuile8 = new Tuile ("La porte d'argent");
-    private Tuile tuile9 = new Tuile ("Les dunes de l'illusion");
-    private Tuile tuile10 = new Tuile ("Heliport");
-    private Tuile tuile11 = new Tuile ("La porte de cuivre");
-    private Tuile tuile12 = new Tuile ("Les jardins des hurlements");
-    private Tuile tuile13 = new Tuile ("La forêt pourpre");
-    private Tuile tuile14 = new Tuile ("Le lagon perdu");
-    private Tuile tuile15 = new Tuile ("Le marais brumeux");
-    private Tuile tuile16 = new Tuile ("Observatoire");
-    private Tuile tuile17 = new Tuile ("Le rocher fantome");
-    private Tuile tuile18 = new Tuile ("La caverne du brasier");
-    private Tuile tuile19 = new Tuile ("Le temple du soleil");
-    private Tuile tuile20 = new Tuile ("Le temple de la lune");
-    private Tuile tuile21 = new Tuile ("Le palais des marrées");
-    private Tuile tuile22 = new Tuile ("Le val du crepuscule");
-    private Tuile tuile23 = new Tuile ("La tour du guets");
-    private Tuile tuile24 = new Tuile ("Le jardin des murmures");
+    private Tuile tuile3 = new Tuile("La caverne des ombres");
+    private Tuile tuile4 = new Tuile("La porte de fer");
+    private Tuile tuile5 = new Tuile("La porte d'or");
+    private Tuile tuile6 = new Tuile("Les falaises de l'oubli");
+    private Tuile tuile7 = new Tuile("Le palais de corail");
+    private Tuile tuile8 = new Tuile("La porte d'argent");
+    private Tuile tuile9 = new Tuile("Les dunes de l'illusion");
+    private Tuile tuile10 = new Tuile("Heliport");
+    private Tuile tuile11 = new Tuile("La porte de cuivre");
+    private Tuile tuile12 = new Tuile("Les jardins des hurlements");
+    private Tuile tuile13 = new Tuile("La forêt pourpre");
+    private Tuile tuile14 = new Tuile("Le lagon perdu");
+    private Tuile tuile15 = new Tuile("Le marais brumeux");
+    private Tuile tuile16 = new Tuile("Observatoire");
+    private Tuile tuile17 = new Tuile("Le rocher fantome");
+    private Tuile tuile18 = new Tuile("La caverne du brasier");
+    private Tuile tuile19 = new Tuile("Le temple du soleil");
+    private Tuile tuile20 = new Tuile("Le temple de la lune");
+    private Tuile tuile21 = new Tuile("Le palais des marrées");
+    private Tuile tuile22 = new Tuile("Le val du crepuscule");
+    private Tuile tuile23 = new Tuile("La tour du guets");
+    private Tuile tuile24 = new Tuile("Le jardin des murmures");
     
     
       public Grille(){
@@ -143,9 +143,20 @@ public class Grille {
         return tuilesInondees;
     }
     
-    public Tuile trouverTuile(int x, int y){
+    public Tuile trouverTuile(int x, int y) {
         Tuile[][] tuiles = getGrille();
         return tuiles[x][y];
+    }
+    
+    public Tuile trouverTuile(String nomTuile) {
+        for (int i = 0; i <= 5; i ++){
+            for (int j = 0 ; j <= 5; j++){
+                if (grille[i][j].getNom() == nomTuile){
+                    return grille[i][j];
+                }
+            }
+        }
+        return grille[0][0];
     }
       
 }
