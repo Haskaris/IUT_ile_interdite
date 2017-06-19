@@ -5,7 +5,9 @@
  */
 package Controlleur;
 
+import java.util.ArrayList;
 import java.util.Observable;
+import model.Tuile;
 import util.Message;
 
 /**
@@ -16,4 +18,5 @@ public interface Observateur {
     public void traiterMessage(Message msg);
     public void traiterAction(String str, int x, int y, boolean depl);
     public void envoyerDonnees(int nbJoueurs, String nomJ1, String nomJ2, String nomJ3, String nomJ4, int difficulte);
+    public ArrayList<String> getJoueurTuile(Tuile tuile);
 }

@@ -28,24 +28,47 @@ public class Explorateur extends Aventurier {
         ArrayList<Tuile> tuilesPossibles = new ArrayList<>();
         
         tuilesPossibles = super.getTuilesPossibles(depl);
-        if (posX != 0 && posY != 0) {
-            if (tuiles[posX-1][posY-1].getEtat() == Etat.assechee || tuiles[posX-1][posY-1].getEtat() == Etat.inondee){
-                tuilesPossibles.add(tuiles[posX-1][posY]);
-            } 
-        }
-        if (posX != 5 && posY != 5) {
-            if (tuiles[posX+1][posY+1].getEtat() == Etat.assechee || tuiles[posX+1][posY+1].getEtat() == Etat.inondee) {
-                tuilesPossibles.add(tuiles[posX+1][posY]);
+        if (depl) {
+            if (posX != 0 && posY != 0) {
+                if (tuiles[posX-1][posY-1].getEtat() == Etat.assechee || tuiles[posX-1][posY-1].getEtat() == Etat.inondee){
+                    tuilesPossibles.add(tuiles[posX-1][posY]);
+                } 
             }
-        }
-        if (posX != 0 && posY != 5) {
-            if (tuiles[posX-1][posY+1].getEtat() == Etat.assechee || tuiles[posX-1][posY+1].getEtat() == Etat.inondee) {
-                tuilesPossibles.add(tuiles[posX][posY+1]);
+            if (posX != 5 && posY != 5) {
+                if (tuiles[posX+1][posY+1].getEtat() == Etat.assechee || tuiles[posX+1][posY+1].getEtat() == Etat.inondee) {
+                    tuilesPossibles.add(tuiles[posX+1][posY]);
+                }
             }
-        }
-        if (posX != 5 && posY != 0) {
-            if (tuiles[posX+1][posY-1].getEtat() == Etat.assechee || tuiles[posX+1][posY-1].getEtat() == Etat.inondee) {
-                tuilesPossibles.add(tuiles[posX][posY-1]);
+            if (posX != 0 && posY != 5) {
+                if (tuiles[posX-1][posY+1].getEtat() == Etat.assechee || tuiles[posX-1][posY+1].getEtat() == Etat.inondee) {
+                    tuilesPossibles.add(tuiles[posX][posY+1]);
+                }
+            }
+            if (posX != 5 && posY != 0) {
+                if (tuiles[posX+1][posY-1].getEtat() == Etat.assechee || tuiles[posX+1][posY-1].getEtat() == Etat.inondee) {
+                    tuilesPossibles.add(tuiles[posX][posY-1]);
+                }
+            }
+        } else {
+            if (posX != 0 && posY != 0) {
+                if (tuiles[posX-1][posY-1].getEtat() == Etat.inondee){
+                    tuilesPossibles.add(tuiles[posX-1][posY]);
+                } 
+            }
+            if (posX != 5 && posY != 5) {
+                if (tuiles[posX+1][posY+1].getEtat() == Etat.inondee) {
+                    tuilesPossibles.add(tuiles[posX+1][posY]);
+                }
+            }
+            if (posX != 0 && posY != 5) {
+                if (tuiles[posX-1][posY+1].getEtat() == Etat.inondee) {
+                    tuilesPossibles.add(tuiles[posX][posY+1]);
+                }
+            }
+            if (posX != 5 && posY != 0) {
+                if (tuiles[posX+1][posY-1].getEtat() == Etat.inondee) {
+                    tuilesPossibles.add(tuiles[posX][posY-1]);
+                }
             }
         }
         

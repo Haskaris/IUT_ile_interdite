@@ -34,14 +34,26 @@ public class VueJeu {
 
     private final JFrame window;
     private static Observateur observateur;
-    private JButton[][] btnTuiles = new JButton[6][6];            
+    
+    private JButton[][] btnTuiles = new JButton[6][6];
+    private JPanel[][] panTuiles = new JPanel[6][6];
+    private JPanel[][] panJTuiles = new JPanel[6][6];
+    private JPanel panExpl = new JPanel();
+    private JPanel panInge = new JPanel();
+    private JPanel panMessa = new JPanel();
+    private JPanel panNavi = new JPanel();
+    private JPanel panPilo = new JPanel();
+    private JPanel panPlon = new JPanel();
+    
     private Grille grille;
-    private String nomJoueurCourant;
+    private String nomJoueurCourant = "AH";
     private boolean depl;
     private int positionDemandee;
     private int x, y;
     private JLabel labelJC;
     private JPanel panelGrille, mainPanel, panelMenu, panel1, panel2, panel2Centre, panel3;
+    private boolean deplApp = false;
+    private boolean assApp = false;
 
     public VueJeu(Observateur o, Grille gr) {
         
@@ -74,22 +86,30 @@ public class VueJeu {
         mainPanel.add(panelMenu, BorderLayout.EAST);
 
         setGrille(gr);
-        init(grille);
-
-    }
-    
-    public void init(Grille grille){
         Tuile[][] grilleTab = grille.getGrille();                               // Récupération du tableau de la grille
 
         Color etatCouleur = null;
         String nomTuile;
-        Border border = new LineBorder(Color.WHITE, 5);
+        Border border = new LineBorder(Color.GRAY, 5);
+        
+        panExpl.setBackground(Color.GREEN);         //initialisation des panels de joueurs
+        panInge.setBackground(Color.RED);
+        panMessa.setBackground(Color.GRAY);
+        panNavi.setBackground(Color.YELLOW);
+        panPilo.setBackground(Color.BLUE);
+        panPlon.setBackground(Color.BLACK);
         
         for (int i = 0; i <= 5; i++) {                                          // Initialisation des boutons
             for (int j = 0; j <= 5; j++){
                 btnTuiles[i][j] = new JButton();
+                panTuiles[i][j] = new JPanel(new BorderLayout());
+                panJTuiles[i][j] = new JPanel(new GridLayout(1,4));
                 btnTuiles[i][j].setEnabled(false);
-                btnTuiles[i][j].setBorder(border);
+                panTuiles[i][j].add(panJTuiles[i][j], BorderLayout.SOUTH);
+                panTuiles[i][j].add(btnTuiles[i][j], BorderLayout.CENTER);
+                panTuiles[i][j].setBorder(border);
+                
+                
             }
 
         }
@@ -117,7 +137,31 @@ public class VueJeu {
                         btnTuiles[i][j].setText(nomTuile);                      // Tuile classique
                         btnTuiles[i][j].setBackground(etatCouleur);
                         btnTuiles[i][j].setForeground(Color.WHITE);
-                        panelGrille.add(btnTuiles[i][j]);
+                        panelGrille.add(panTuiles[i][j]);
+                        
+                        int k = 0;
+                        if (o.getJoueurTuile(grilleTab[i][j]) != null){
+                            for (String joueur : o.getJoueurTuile(grilleTab[i][j])){    //parcours des joueurs présent sur la tuile
+                                if (joueur == "Expl"){
+                                    panJTuiles[i][j].add(panExpl);
+                                } else if (joueur == "Inge"){
+                                    panJTuiles[i][j].add(panInge);
+                                } else if (joueur == "Mess"){
+                                    panJTuiles[i][j].add(panMessa);
+                                } else if (joueur == "Navi"){
+                                    panJTuiles[i][j].add(panNavi);
+                                } else if (joueur == "Pilo"){
+                                    panJTuiles[i][j].add(panPilo);
+                                } else if (joueur == "Plon"){
+                                    panJTuiles[i][j].add(panPlon);
+                                }
+                                k++;
+                            }
+                        }
+                        for (int l = k; l < 5; l++){                //Ajout de panel vide pour combler panJTuiles si il ni a pas les 4 aventurier sur la tuile
+                            panJTuiles[i][j].add(new JPanel());
+                        }
+                        
                     }
                 }
             }
@@ -145,6 +189,7 @@ public class VueJeu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setDepl(false);
+                assApp = !assApp;
                 
                 btnAssechement.setBackground(Color.GRAY);
                 btnDeplacement.setBackground(Color.LIGHT_GRAY);
@@ -160,6 +205,7 @@ public class VueJeu {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setDepl(true);
+                deplApp = !deplApp;
                 
                 btnAssechement.setBackground(Color.LIGHT_GRAY);
                 btnDeplacement.setBackground(Color.GRAY);
@@ -235,31 +281,61 @@ public class VueJeu {
     
     public void afficherPossible(ArrayList<Tuile> tuilesPossibles){
         for (Tuile tuile: tuilesPossibles){
-                btnTuiles[tuile.getX()][tuile.getY()].setBackground(Color.WHITE);
+                btnTuiles[tuile.getX()][tuile.getY()].setBackground(Color.YELLOW);
                 btnTuiles[tuile.getX()][tuile.getY()].setEnabled(true);
            
         }
+        
     }
 
     public void fermer() {
         window.dispose();
     }
 
-    public void setGrille(Grille grille) {
+    private void setGrille(Grille grille) {
         this.grille = grille;
     }
 
     public void setNom(String nom) {
         this.nomJoueurCourant = nom;
+        repaint(); 
+    }
+    
+    public void repaint() {
+        for (int i = 0; i <= 5; i++) {                                          // Affichage de la grille
+            for (int j = 0; j <= 5; j++) {
+                if (grille.getGrille()[i][j].getEtat() == Etat.assechee) {
+                    btnTuiles[i][j].setBackground(Color.DARK_GRAY);
+                    btnTuiles[i][j].setEnabled(false);
+                }
+            }
+        }
     }
 
     public String getNom() {
         return nomJoueurCourant;
     }
     
-    private void setDepl(boolean bool){
+    public boolean getDepl() {
+        return deplApp;
+    }
+    
+    public boolean getAss() {
+        return assApp;
+    }
+    
+    public void setDepl(boolean bool){
         depl = bool;
     }
+    
+    public void setAssApp(boolean bool){
+        assApp = bool;
+    }
+    
+    public void setDeplApp(boolean bool) {
+        deplApp = bool;
+    }
+    
     private void setPositionDemandee(int i){
         this.positionDemandee = i;
     }
