@@ -16,6 +16,7 @@ import model.CarteInondation;
 import model.CarteMonteeDesEaux;
 import model.CarteSacDeSable;
 import model.CarteTresor;
+import model.Echelle;
 import model.aventurier.Aventurier;
 import model.Grille;
 import util.Message;
@@ -46,7 +47,9 @@ public class Controller implements Observateur {
     private static String nomJ2;
     private static String nomJ3;
     private static String nomJ4;
-    private static int difficulte;
+    private static int difficulte;// à changer pour l'échelle
+    private static Echelle echelle;
+    
     private static int nbJ = 0;
     private static Grille grilleJeu;
     private static ArrayList<Aventurier> joueurs;
@@ -100,7 +103,7 @@ public class Controller implements Observateur {
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Deplacer) {
             if (jeu.getDepl()) {
                 jeu.afficherPossible(joueurC.getTuilesPossibles(true));         //Affichage des tuiles où le deplacement est possible
-                if (msg.getTypeMessage() == TypesMessage.ACTION_Action) {
+                /*if (msg.getTypeMessage() == TypesMessage.ACTION_Action) {
                     if (nbAction < 3) {  
                         joueurC.deplacementAssechage(msg.x, msg.y, true);
                         nbAction++;
@@ -110,7 +113,7 @@ public class Controller implements Observateur {
                     } else {
                         System.out.println("Impossible, toutes les actions sont utilisées");
                     }
-                }
+                }*/
             } else {
                 jeu.repaint();
             }
@@ -258,6 +261,15 @@ public class Controller implements Observateur {
         System.out.println("Deplacement voulu : " + x +"-" + y);
         getAventurier(nomJ, joueurs).deplacementAssechage(x, y, depl);          //Deplace le joueur sur la position souhaitée
         setGrilleJeu(getAventurier(nomJ, joueurs).getGrilleAv());               //Met à jour les grilles du jeu
+        nbAction++;
+        System.out.println("nb act : " + nbAction);
+        jeu.repaint();
+        if (nbAction < 3) {
+            jeu.afficherPossible(joueurC.getTuilesPossibles(true));
+        } else {
+            jeu.repaint();
+            jeu.finTourObligatoire();
+        }
     }
 
     public void afficherTuilesPossibles(String nomJ, boolean depl) {            //Affiche les tuiles de déplacement possible
@@ -314,7 +326,7 @@ public class Controller implements Observateur {
                 Joueurs.add("Inge");
             }
             if (j.getClass() == Messager.class){
-                Joueurs.add("Messa");
+                Joueurs.add("Mess");
             }
             if (j.getClass() == Navigateur.class){
                 Joueurs.add("Navi");
@@ -414,13 +426,13 @@ public class Controller implements Observateur {
             }
         }
     
-    public ArrayList<Tresor> ListeGagnerTresorPossible(){
+    
+    public Tresor GagnerTresorPossible(){
         int cartesTresorPierre = 0;
         int cartesTresorStatue = 0;
         int cartesTresorCristal = 0;
         int cartesTresorCalice = 0;
-        boolean bool = false;
-        ArrayList<Tresor> tresorsPossibles = new ArrayList<>();
+        
         
         if (joueurC.getPosition().getNom() == "Le temple du soleil" || joueurC.getPosition().getNom() == "Le temple de la lune" ) { // si le joueur se trouve sur une case pour recuperer le tresor de la pierre sacrée     
             for (CarteDosOrange carte : joueurC.getMain()){
@@ -429,7 +441,7 @@ public class Controller implements Observateur {
                 }
             }
             if (cartesTresorPierre > 3) {                                   // si il en en 4 ou plus , il peut gagner le tresor
-                tresorsPossibles.add(tresors.get(0));
+                return tresors.get(0);
             }
         }
         if (joueurC.getPosition().getNom() == "Le jardin des hurlements" || joueurC.getPosition().getNom() == "Le jardin des murmures" ) { // si le joueur se trouve sur une case pour recuperer le tresor de la statue du zephyr
@@ -439,7 +451,8 @@ public class Controller implements Observateur {
                 }
             }
             if (cartesTresorStatue > 3) {                                    // si il en en 4 ou plus , il peut gagner le  tresor
-                tresorsPossibles.add(tresors.get(1));
+                return tresors.get(1);
+    
             }
         }
         if (joueurC.getPosition().getNom() == "La caverne du brasier" || joueurC.getPosition().getNom() == "La caverne des ombres" ) { // si le joueur se trouve sur une case pour recuperer le tresor du cristal ardent
@@ -449,7 +462,8 @@ public class Controller implements Observateur {
                 }
             }
             if (cartesTresorCristal > 3) {                                  // si il en en 4 ou plus , il peut gagner le  tresor
-                tresorsPossibles.add(tresors.get(2));
+                return tresors.get(2);
+    
             }
         }
         if (joueurC.getPosition().getNom() == "Le palais de corail" || joueurC.getPosition().getNom() == "Le palais des marrées" ) { // si le joueur se trouve sur une case pour recuperer le tresor du calice de l'onde
@@ -459,20 +473,59 @@ public class Controller implements Observateur {
                 }
             }
             if (cartesTresorCalice > 3) {                                       // si il en en 4 ou plus , il peut gagner le  tresor
-                tresorsPossibles.add(tresors.get(3));
+                return tresors.get(3);
             }
         }
-        return tresorsPossibles;
+
+        return null;
+     
+         
     }
     
-    public void gagnerTresor(Tresor tresor){
-         for (Tresor liste : ListeGagnerTresorPossible()){              // si le tresor selectionné se trouve dans la liste des tresors possiblement récupérables
-             if (tresor == liste){
-                 tresorsGagnés.add(tresor);                             // ajouter ce tresor dans la liste des tresors gagnés.
-             }
-         }
+     public void gagnerTresor(Tresor tresor){
+        if (tresor == GagnerTresorPossible()){                      // si le trésor correspond a un trésor qui peut être gagné
+            tresorsGagnés.add(tresor);                              // on l'ajoute a la liste des trésors gagnés;
+        }
      }
+   
      
+     public void piocherDeuxCartes(){
+         for (int i = 0; i<3; i++){
+             if (piocheOrange.size() == 0){                                 // a chaque fois on verifie si la pioche est vide, et si elle l'est
+                 for (CarteDosOrange liste : defausseOrange){               // on parcours toute la defausse
+                     int numRandom = getRandom(0, piocheOrange.size());    
+                     piocheOrange.add(defausseOrange.get(numRandom));
+                     defausseOrange.remove(defausseOrange.get(numRandom));
+                 
+                 }
+             
+             
+             }
+
+
+
+                                                                            // on pioche 2 cartes
+             int numRandom = getRandom(0, piocheOrange.size());             // au hasard
+             if (piocheOrange.get(numRandom).getClass().equals(CarteMonteeDesEaux.class)){      // si la carte est une carte montées des eaux
+                 defausseOrange.add(piocheOrange.get(numRandom));                               // on ajoute la carte dans la defausse orange
+                 piocheOrange.remove(piocheOrange.get(numRandom));                              //  on la supprime de la pioche
+                 echelle.incrementerCran();                                                     // on incrémente l'echelle
+         } else {                                                                               // sinon
+               joueurC.addCarteMain(piocheOrange.get(numRandom));                               // on ajoute la carte dans la main du joueur courant
+               piocheOrange.remove(piocheOrange.get(numRandom));                                // on la supprime de la pioche
+         }
+     
+        }
+         
+         
+     }
+    
+    
+     
+     
+     
+     
+
     public void tourDeJeu(){///////////////////////////////////////////////////////////////////////////////////////
         /*vueAv1.cacher();
         vueAv2.cacher();
@@ -486,6 +539,7 @@ public class Controller implements Observateur {
         joueurC = getJoueurCourant(nbJ);
         System.out.println(joueurC.getNom());
         jeu.setNom(joueurC.getNom());
+        jeu.debutTour();
         jeu.repaint();
         //VueAventurier vueCourante = vueAvC(nbJ);
         //vueCourante.afficher();

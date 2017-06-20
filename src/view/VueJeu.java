@@ -45,6 +45,12 @@ public class VueJeu {
     private JPanel panPilo = new JPanel();
     private JPanel panPlon = new JPanel();
     
+    private JButton btnAssechement = new JButton("Assecher");                       // 
+    private JButton btnDeplacement = new JButton("Deplacer");
+    private JButton btnDonnerCarte = new JButton("Donner une Carte");
+    private JButton btnPrendreTresor = new JButton("Prendre un trésor");
+    private JButton btnFinTour = new JButton("Fin Du Tour");
+    
     private Grille grille;
     private String nomJoueurCourant;
     private boolean depl;
@@ -166,7 +172,7 @@ public class VueJeu {
                                     panJTuiles[i][j].add(panExpl);
                                 } else if (joueur == "Inge"){
                                     panJTuiles[i][j].add(panInge);
-                                } else if (joueur == "Messa"){
+                                } else if (joueur == "Mess"){
                                     panJTuiles[i][j].add(panMessa);
                                 } else if (joueur == "Navi"){
                                     panJTuiles[i][j].add(panNavi);
@@ -187,11 +193,6 @@ public class VueJeu {
             }
         }
 
-        JButton btnAssechement = new JButton("Assecher");                       // 
-        JButton btnDeplacement = new JButton("Deplacer");
-        JButton btnDonnerCarte = new JButton("Donner une Carte");
-        JButton btnPrendreTresor = new JButton("Prendre un trésor");
-        JButton btnFinTour = new JButton("Fin Du Tour");
         
         btnAssechement.setBackground(Color.LIGHT_GRAY);
         btnDeplacement.setBackground(Color.LIGHT_GRAY);
@@ -303,9 +304,31 @@ public class VueJeu {
         for (Tuile tuile: tuilesPossibles){
                 btnTuiles[tuile.getX()][tuile.getY()].setBackground(Color.YELLOW);
                 btnTuiles[tuile.getX()][tuile.getY()].setEnabled(true);
-           
         }
+    }
+    
+    public void finTourObligatoire(){
+        btnAssechement.setBackground(Color.GRAY);
+        btnDeplacement.setBackground(Color.GRAY);
+        btnDonnerCarte.setBackground(Color.GRAY);
+        btnPrendreTresor.setBackground(Color.GRAY);
         
+        btnAssechement.setEnabled(false);
+        btnDeplacement.setEnabled(false);
+        btnDonnerCarte.setEnabled(false);
+        btnPrendreTresor.setEnabled(false);
+    }
+    
+    public void debutTour(){
+        btnAssechement.setBackground(Color.LIGHT_GRAY);
+        btnDeplacement.setBackground(Color.LIGHT_GRAY);
+        btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
+        btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
+        
+        btnAssechement.setEnabled(true);
+        btnDeplacement.setEnabled(true);
+        btnDonnerCarte.setEnabled(true);
+        btnPrendreTresor.setEnabled(true);
     }
 
     public void fermer() {
