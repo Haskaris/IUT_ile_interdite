@@ -11,11 +11,15 @@ package util;
  */
 public class Message {
     private TypesMessage type;
-    public int x;
-    public int y;
+    private int numBtn;
+    
     
     public Message(TypesMessage type){
         setTypeMessage(type);
+    }
+
+    public Message() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     public void setTypeMessage(TypesMessage type){
@@ -24,5 +28,12 @@ public class Message {
     
     public TypesMessage getTypeMessage(){
         return type;
+    }
+
+    public void setNumBtn(int numBtn) {
+        this.numBtn = numBtn;
+    }
+    public int getNumBtn() {
+        return numBtn;
     }
 }

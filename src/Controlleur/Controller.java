@@ -146,6 +146,13 @@ public class Controller implements Observateur {
             afficherMain();
             System.out.println("N° courant : " + nbJ);
             tourDeJeu();
+        } else if (msg.getTypeMessage() == TypesMessage.ACTION_CHOIX_CARTE){
+             popUp.fermer();
+             enleverCarteSurplus(joueurC.getMain().get(msg.getNumBtn()));
+             if (joueurC.getMain().size() > 5) {
+                    popUp = new VuePopUp(this, joueurC.getMain());
+                    popUp.afficher();
+             }
         }
     }
     
@@ -572,6 +579,15 @@ public class Controller implements Observateur {
     
     @Override
     public void enleverCarteSurplus(CarteDosOrange carte){
+        String nomCarte;
+            if (carte.getClass().equals(CarteTresor.class)){
+                nomCarte =carte.getTresor().getNomTresor() ;
+            
+            } else {
+                nomCarte = carte.getClass().getSimpleName() ;
+            
+            }
+        System.out.println("La carte : " + nomCarte  + " à été supprimée de la main");
         defausseOrange.add(carte);                          // ajoute la carte a la defausse
         joueurC.removeCarteMain(carte);                     // retire la carte de la main du joueur
     }  // ajoute la carte à la defausse orange et retire la carte de la main du joueur
@@ -610,13 +626,14 @@ public class Controller implements Observateur {
         }
         
         jeu.changeJoueurCourant(joueurC.getNom(), pion);
-        jeu.debutTour();
-        jeu.repaint();
-        /*if (joueurC.getMain().size() > 5) {
+        if (joueurC.getMain().size() > 5) {
             popUp = new VuePopUp(this, joueurC.getMain());
             popUp.afficher();
-        }*/
-        jeu.afficherMain(joueurC.getMain());
+        }
+         
+        jeu.debutTour();
+        jeu.repaint();
+        
         afficherMain();
         //VueAventurier vueCourante = vueAvC(nbJ);
         //vueCourante.afficher();

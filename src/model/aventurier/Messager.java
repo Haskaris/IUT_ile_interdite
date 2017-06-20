@@ -23,15 +23,22 @@ public class Messager extends Aventurier{
     public void donnerCarte(Aventurier courant ,ArrayList<CarteDosOrange> cartes, Aventurier joueur){               // le joueur courant donne une/plusieurs carte(s) a un joueur choisi
          for (CarteDosOrange liste : courant.getMain()){ 
           for (CarteDosOrange carte : cartes){
-            if (carte == liste){                                                    // la carte se trouve bien dans la main du joueur courant
-                System.out.println("La carte est bien dans la main du joueur.");
-                    courant.removeCarteMain(carte);                                 // echange de la carte.
-                    joueur.addCarteMain(carte);
-                    System.out.println("La carte tresor : " + carte.getTresor() + " à bien été donner au joueur : "+ joueur.getNom());
-                }
-              }
-            }
+            if(joueur.getMain().size() + cartes.size() < 6){
+                 System.out.println("Le receveur à la place dans sa main.");              
+                if (carte == liste){                                                    // la carte se trouve bien dans la main du joueur courant
+                    System.out.println("La carte est bien dans la main du joueur.");
+                        courant.removeCarteMain(carte);                                 // echange de la carte.
+                        joueur.addCarteMain(carte);
+                        System.out.println("La carte tresor : " + carte.getTresor() + " à bien été donner au joueur : "+ joueur.getNom());
+                    } else {
+                        System.out.println("La carte n'est pas dans la main du joueur");
+                    }
+            } else {
+                        System.out.println("Je receveur n'as pas la place de recevoir autant de carte(s)");
+                    }
           }
+        }
+    }
 }
     
     
