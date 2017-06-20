@@ -106,13 +106,13 @@ public class VueParamJeu {
                 }
                 
                 if (NivLegendaire.isSelected()) {
-                    niveau = 3;
+                    niveau = 4;
                 } else if (NivElite.isSelected()) {
-                    niveau = 2;
+                    niveau = 3;
                 } else if (NivNormal.isSelected()) {
-                    niveau = 1;
+                    niveau = 2;
                 } else {
-                    niveau = 0;
+                    niveau = 1;
                 }
                 
                 o.envoyerDonnees(nbJoueur, nomJ1.getText(), nomJ2.getText(), nomJ3.getText(), nomJ4.getText(), niveau); // 0 = nbjoueurs && 0 = difficulté

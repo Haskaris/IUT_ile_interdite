@@ -23,17 +23,11 @@ public class Echelle {
         setCran(getCran()+1);
     }
 
-    /**
-     * @return the cran
-     */
     public int getCran() {                          // récupération du niveau de l'échelle
         return cran;
     }
 
-    /**
-     * @param cran the cran to set
-     */
-    public void setCran(int cran) {                 // modification du cran (en début de partie) pour la difficulté
+    private void setCran(int cran) {                 // modification du cran (en début de partie) pour la difficulté
         this.cran = cran;
     }
 
@@ -50,16 +44,15 @@ public class Echelle {
             return niveauEau = 6;
         }
     }
-
-   
+    
     public void setNiveauEau() {
-        if(getCran() < 2){
+        if(getCran() <= 2){
             this.niveauEau = 2;
         } else if (getCran() > 2 && getCran() < 6){
             this.niveauEau = 3;
-        } else if (getCran() > 6 && getCran() < 8){
+        } else if (getCran() >= 6 && getCran() < 8){
             this.niveauEau = 4;
-        } else if (getCran() > 8 && getCran() < 10){
+        } else if (getCran() >= 8 && getCran() < 10){
             this.niveauEau = 5;
         } else {
             this.niveauEau = 6;

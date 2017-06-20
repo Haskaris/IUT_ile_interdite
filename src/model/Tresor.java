@@ -12,23 +12,15 @@ package model;
 public class Tresor {
     private String nomTresor;
 
-    
     public Tresor(String nomT){
-        setNomTresor(nomTresor);
-    
-    
+        setNomTresor(nomT);
     }
-    /**
-     * @return the nomTresor
-     */
+    
     public String getNomTresor() {
         return nomTresor;
     }
 
-    /**
-     * @param nomTresor the nomTresor to set
-     */
-    public void setNomTresor(String nomTresor) {
+    private void setNomTresor(String nomTresor) {
         this.nomTresor = nomTresor;
     }
 }

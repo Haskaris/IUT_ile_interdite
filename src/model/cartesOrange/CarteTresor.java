@@ -16,19 +16,12 @@ public class CarteTresor extends CarteDosOrange {
     
     public CarteTresor(Tresor tresor){
         setTresor(tresor);
-    
     }
-
-    /**
-     * @param nomTresor the nomTresor to set
-     */
-    public void setTresor(Tresor nomTresor) {
+    
+    private void setTresor(Tresor nomTresor) {
         this.tresor = nomTresor;
     }
 
-    /**
-     * @return the tresor
-     */
     public Tresor getTresor() {
         return tresor;
     }
