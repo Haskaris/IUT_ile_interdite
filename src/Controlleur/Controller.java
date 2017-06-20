@@ -7,6 +7,7 @@ package Controlleur;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Observable;
 import java.util.Random;
 import javax.swing.JFrame;
@@ -17,6 +18,7 @@ import model.CarteMonteeDesEaux;
 import model.CarteSacDeSable;
 import model.CarteTresor;
 import model.Echelle;
+import model.Etat;
 import model.aventurier.Aventurier;
 import model.Grille;
 import util.Message;
@@ -25,6 +27,7 @@ import model.Grille;
 import model.Tresor;
 import model.Tuile;
 import model.aventurier.*;
+import util.Parameters;
 import static util.Utils.Pion.BLEU;
 import view.*;
 //package util;
@@ -358,6 +361,20 @@ public class Controller implements Observateur {
         return joueurs.get(jc);
     }
     
+    public static ArrayList<CarteDosOrange> melangerCartesOranges(ArrayList<CarteDosOrange> arrayList) {
+        if (Parameters.ALEAS) {
+            Collections.shuffle(arrayList);
+        }
+        return arrayList ;
+    } // melange une liste de carte orange
+    
+    public static ArrayList<CarteInondation> melangerCartesInondation(ArrayList<CarteInondation> arrayList) {
+        if (Parameters.ALEAS) {
+            Collections.shuffle(arrayList);
+        }
+        return arrayList ;
+    }   //melange une liste de carte inondation
+    
     public void créerTresors(){
         tresors = new ArrayList<>();
         Tresor tresor1 = new Tresor("La Pierre sacrée");        // création des 4 tresors du jeu
@@ -368,7 +385,7 @@ public class Controller implements Observateur {
         tresors.add(tresor2);
         tresors.add(tresor3);
         tresors.add(tresor4);
-    }
+    }   // création des 4 tresors dans la liste "tresors"
     
     public void remplirPiocheOrange(){                          //Création de la pioche remplie de la totalité des cartes dos orange.
         piocheOrange = new ArrayList<>();
@@ -385,7 +402,9 @@ public class Controller implements Observateur {
         for (int i = 0; i < 2; i++){                            // ajout des 2 cartes sac de sable
             piocheOrange.add(new CarteSacDeSable());
         }
-    }
+        
+        
+    }   // création de la pioche des cartes oranges
     
     public void remplirPiocheInondation(){                      // création de la pioche de cartes inondation
         Tuile[][] grille = grilleJeu.getGrille();
@@ -394,11 +413,12 @@ public class Controller implements Observateur {
                 piocheInondation.add(new CarteInondation(grille[i][j]));        // pour chaque tuile de la grille, il éxiste une carte inondation correspondante
             }
         }
-    }
+        piocheInondation = melangerCartesInondation(piocheInondation);          // on melange la pioche des cartes inondation car les cartes etaitent triées dans l'ordre des tuiles    
+    }   // création de la pioche des cartes inondation
 
-    public int getRandom(int min , int max){                        // renvoi un nombre aléatoire entre min et max
+    public int getRandom(int min , int max){                        
         return min + (int)(Math.random() * ((max - min) + 1));
-    }
+    }  // renvoi un nombre aléatoire entre min et max
     
     public void distributionCartesOrangeDebut(){                    // distribution des cartes à tous les joueurs au début du jeu          
         
@@ -413,7 +433,7 @@ public class Controller implements Observateur {
                   }
             }
         }
-    }
+    } // distribution des cartes a tous les joueurs
     
     public void afficherDonCartePossible(){
         System.out.println("Voici les cartes que vous pouvez donner : ");
@@ -424,8 +444,7 @@ public class Controller implements Observateur {
             }
             System.out.println("------");
             }
-        }
-    
+        }       // affiche si un don de carte est possible entre joueurs
     
     public Tresor GagnerTresorPossible(){
         int cartesTresorPierre = 0;
@@ -480,32 +499,23 @@ public class Controller implements Observateur {
         return null;
      
          
-    }
+    }       // renvoi un tresor qui peut être gagné actuellement par le joueur courant
     
-     public void gagnerTresor(Tresor tresor){
-        if (tresor == GagnerTresorPossible()){                      // si le trésor correspond a un trésor qui peut être gagné
-            tresorsGagnés.add(tresor);                              // on l'ajoute a la liste des trésors gagnés;
-        }
-     }
-   
-     
-     public void piocherDeuxCartes(){
+    public void gagnerTresor(){
+            tresorsGagnés.add(GagnerTresorPossible());                              // on l'ajoute a la liste des trésors gagnés;
+        }                   // ajout du tresor possible dans la liste des tresors récupérés
+           
+        
+    public void piocherDeuxCartesOrange(){
          for (int i = 0; i<3; i++){
              if (piocheOrange.size() == 0){                                 // a chaque fois on verifie si la pioche est vide, et si elle l'est
-                 for (CarteDosOrange liste : defausseOrange){               // on parcours toute la defausse
-                     int numRandom = getRandom(0, piocheOrange.size());    
-                     piocheOrange.add(defausseOrange.get(numRandom));
-                     defausseOrange.remove(defausseOrange.get(numRandom));
-                 
+                 for (CarteDosOrange carte : melangerCartesOranges(defausseOrange)){               // on parcours toute la defausse melangée
+                     piocheOrange.add(carte);                                                      // on rempli la pioche.
                  }
-             
-             
+            defausseOrange.clear();                                                                 // on vide la defausse
+                 
              }
-
-
-
-                                                                            // on pioche 2 cartes
-             int numRandom = getRandom(0, piocheOrange.size());             // au hasard
+            int numRandom = getRandom(0, piocheOrange.size());                                  // au hasard
              if (piocheOrange.get(numRandom).getClass().equals(CarteMonteeDesEaux.class)){      // si la carte est une carte montées des eaux
                  defausseOrange.add(piocheOrange.get(numRandom));                               // on ajoute la carte dans la defausse orange
                  piocheOrange.remove(piocheOrange.get(numRandom));                              //  on la supprime de la pioche
@@ -518,10 +528,31 @@ public class Controller implements Observateur {
         }
          
          
-     }
+     }  // pioche 2 cartes oranges, les ajoutes dans la main du joueur courant (+ rempli la pioche si vide) + si carte piochées = montées des eaux, alors augmente le cran de l'echelle 
+   
+    public void piocherCartesInondation(){
+        for (int i =0 ; i<echelle.getNiveauEau(); i++){                 // on pioche le nombre de cartes = niveau d'eau
+            if (piocheInondation.size() == 0){                          // si pioche vide
+                for (CarteInondation carte : melangerCartesInondation(defausseInondation)){     // on parcours toute la defausse melangée
+                    piocheInondation.add(carte);                                                // on rempli la pioche
+                }
+            defausseInondation.clear();                                                         // on vide la defausse
+            }
+            int numRandom = getRandom(0, piocheInondation.size());                              // au hasard
+            
+            if (piocheInondation.get(numRandom).getTuile().getEtat() == Etat.assechee){         // on regarde l'etat de la tuile correspondant à la carte choisie au hasard 
+                piocheInondation.get(numRandom).getTuile().setEtat(Etat.inondee);               // si la tuile est asséchée elle devient inondée
+        } else if (piocheInondation.get(numRandom).getTuile().getEtat() == Etat.inondee){
+                piocheInondation.get(numRandom).getTuile().setEtat(Etat.submergee);             // si la tuile est inondée elle devient submergée
+            } 
+            
+            defausseInondation.add(piocheInondation.get(numRandom));                            // puis on ajoute la carte dans la defausse
+            piocheInondation.remove(piocheInondation.get(numRandom));                           // et on retire la carte de la pioche
+            
+            
     
-    
-     
+        }
+    } // pioche nb de cartes inondation = niveau d'eau de l'echelle , gere pioche vide + change l'etat des tuiles
      
      
      
