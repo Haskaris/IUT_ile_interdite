@@ -18,6 +18,7 @@ import model.CarteMonteeDesEaux;
 import model.CarteSacDeSable;
 import model.CarteTresor;
 import model.Echelle;
+import model.Etat;
 import model.aventurier.Aventurier;
 import model.Grille;
 import util.Message;
@@ -493,12 +494,12 @@ public class Controller implements Observateur {
          
     }       // renvoi un tresor qui peut être gagné actuellement par le joueur courant
     
-     public void gagnerTresor(){
+    public void gagnerTresor(){
             tresorsGagnés.add(GagnerTresorPossible());                              // on l'ajoute a la liste des trésors gagnés;
         }                   // ajout du tresor possible dans la liste des tresors récupérés
            
         
-     public void piocherDeuxCartesOrange(){
+    public void piocherDeuxCartesOrange(){
          for (int i = 0; i<3; i++){
              if (piocheOrange.size() == 0){                                 // a chaque fois on verifie si la pioche est vide, et si elle l'est
                  for (CarteDosOrange carte : melangerCartesOranges(defausseOrange)){               // on parcours toute la defausse melangée
@@ -521,9 +522,30 @@ public class Controller implements Observateur {
          
          
      }
+   
+    public void piocherCartesInondation(){
+        for (int i =0 ; i<echelle.getCran(); i++){
+            if ()
+            
+            
+            
+            
+            
+            int numRandom = getRandom(0, piocheInondation.size()); 
+            
+            if (piocheInondation.get(numRandom).getTuile().getEtat() == Etat.assechee){
+                piocheInondation.get(numRandom).getTuile().setEtat(Etat.inondee);
+        } else if (piocheInondation.get(numRandom).getTuile().getEtat() == Etat.inondee){
+                piocheInondation.get(numRandom).getTuile().setEtat(Etat.submergee);
+            } 
+            
+            defausseInondation.add(piocheInondation.get(numRandom));
+            piocheInondation.remove(piocheInondation.get(numRandom));
+            
+            
     
-    
-     
+        }
+    }
      
      
      
