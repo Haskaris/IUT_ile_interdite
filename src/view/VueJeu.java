@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import util.Message;
 import util.TypesMessage;
 import java.util.ArrayList;
+import javax.swing.ButtonGroup;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import model.cartesOrange.CarteDosOrange;
@@ -52,13 +53,14 @@ public class VueJeu {
     private JButton btnDonnerCarte = new JButton("Donner une Carte");
     private JButton btnPrendreTresor = new JButton("Prendre un trésor");
     private JButton btnFinTour = new JButton("Fin Du Tour");
+    private JButton[] cartesMain = new JButton[5];
     
     private Grille grille;
     private String nomJoueurCourant;
     private boolean depl;
     private int x, y;
     private JLabel labelJC;
-    private JPanel panelGrille, panelPrincipal, panelMenu, panel1, panel2, panel2Centre, panel3, panelMain;
+    private JPanel panelGrille, panelPrincipal, panelMenu, panelBtn, panelBtnAction, panelSouth, panelMain;
     private boolean deplApp = false;
     private boolean assApp = false;
 
@@ -77,20 +79,20 @@ public class VueJeu {
 
         panelPrincipal = new JPanel(new BorderLayout());
         panelGrille = new JPanel(new GridLayout(6, 6));                  // Panel de la grille
+        panelPrincipal.add(panelGrille, BorderLayout.CENTER);
         
-        panelMenu = new JPanel(new GridLayout(3,1));                     // Panel des boutons d'actions
-        panel1 = new JPanel();
-        panelMenu.add(panel1);
-        panel2 = new JPanel(new BorderLayout());
-        panel2Centre = new JPanel(new GridLayout(2,2));
-        panel2.add(panel2Centre);
-        panelMenu.add(panel2);
-        panel3 = new JPanel();
-        panelMenu.add(panel3);
+        panelSouth = new JPanel(new BorderLayout());
+        panelPrincipal.add(panelSouth, BorderLayout.SOUTH);
+        
+        panelMenu = new JPanel();                     // Panel des boutons d'actions
+        panelSouth.add(panelMenu,BorderLayout.EAST);
+        
+        panelBtn = new JPanel(new BorderLayout());
+        panelBtnAction = new JPanel(new GridLayout(2,2));
+        panelBtn.add(panelBtnAction, BorderLayout.CENTER);
+        panelMenu.add(panelBtn);
 
         window.add(panelPrincipal);
-        panelPrincipal.add(panelGrille, BorderLayout.CENTER);
-        panelPrincipal.add(panelMenu, BorderLayout.EAST);
 
         setGrille(gr);
         Tuile[][] grilleTab = grille.getGrille();                               // Récupération du tableau de la grille
@@ -182,11 +184,11 @@ public class VueJeu {
         btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
         btnFinTour.setBackground(Color.LIGHT_GRAY);
         
-        panel2Centre.add(btnAssechement);
-        panel2Centre.add(btnDeplacement);
-        panel2Centre.add(btnDonnerCarte);
-        panel2Centre.add(btnPrendreTresor);
-        panel2.add(btnFinTour, BorderLayout.SOUTH);
+        panelBtnAction.add(btnAssechement);
+        panelBtnAction.add(btnDeplacement);
+        panelBtnAction.add(btnDonnerCarte);
+        panelBtnAction.add(btnPrendreTresor);
+        panelBtn.add(btnFinTour, BorderLayout.SOUTH);
 
         btnAssechement.addActionListener(new ActionListener() {
             @Override
@@ -284,20 +286,15 @@ public class VueJeu {
     
     
     public void afficherMain(ArrayList<CarteDosOrange> main){
-        panelMain = new JPanel(new GridLayout(1, 5));
-        panelPrincipal.add(panelMain, BorderLayout.SOUTH);
+        panelMain = new JPanel(new GridLayout(1,5));
+        panelSouth.add(panelMain, BorderLayout.CENTER);
         
-        JButton carte1 = new JButton();
-        JButton carte2 = new JButton();
-        JButton carte3 = new JButton();
-        JButton carte4= new JButton();
-        JButton carte5 = new JButton();
-        
-        
-        for (CarteDosOrange carte: main){
-            
-        }
- 
+        int i = 0;
+        while (i<cartesMain.length && i < main.size()){
+            cartesMain[i] = new JButton(main.get(i).getClass().getName());
+            panelMain.add(cartesMain[i]);
+            i++;
+        } 
         
     }   
     

@@ -253,6 +253,7 @@ public class Controller implements Observateur {
                 grilleJeu.trouverTuile(nomPos).addJoueur(av4);
             }
             jeu = new VueJeu(this, grilleJeu);
+            
         }
     }
     
@@ -425,7 +426,7 @@ public class Controller implements Observateur {
         
         for (int i = 0; i < nbJoueurs; i++){                        // boucle le me nombre de fois qu'il y à de joueurs
             for (int j = 1 ; j < 3; j++){                           // donne 2 cartes à chaque joueur
-                int numRandom = getRandom(0, piocheOrange.size());  
+                int numRandom = getRandom(0, piocheOrange.size()-1);  
                 if (piocheOrange.get(numRandom).getClass().equals(CarteMonteeDesEaux.class)){ // si la carte potentiellemnent donnée est une carte montée de eaux alors on re-boucle 
                     j--;   
                 } else {
@@ -611,10 +612,11 @@ public class Controller implements Observateur {
         jeu.changeJoueurCourant(joueurC.getNom(), pion);
         jeu.debutTour();
         jeu.repaint();
-        if (joueurC.getMain().size() > 5) {
+        /*if (joueurC.getMain().size() > 5) {
             popUp = new VuePopUp(this, joueurC.getMain());
             popUp.afficher();
-        }
+        }*/
+        jeu.afficherMain(joueurC.getMain());
         afficherMain();
         //VueAventurier vueCourante = vueAvC(nbJ);
         //vueCourante.afficher();
