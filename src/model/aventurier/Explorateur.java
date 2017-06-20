@@ -29,43 +29,44 @@ public class Explorateur extends Aventurier {
         
         tuilesPossibles = super.getTuilesPossibles(depl);
         if (depl) {
-            if (posX != 0 && posY != 0) {
+            
+            if ((posX != 1 && posY != 1) && (posX != 2 && posY != 1) && (posX != 1 && posY != 2)) {
                 if (tuiles[posX-1][posY-1].getEtat() == Etat.assechee || tuiles[posX-1][posY-1].getEtat() == Etat.inondee){
                     tuilesPossibles.add(tuiles[posX-1][posY]);
                 } 
             }
-            if (posX != 5 && posY != 5) {
+            if ((posX != 4 && posY != 4) && (posX != 3 && posY != 4) && (posX != 4 && posY != 3)) {
                 if (tuiles[posX+1][posY+1].getEtat() == Etat.assechee || tuiles[posX+1][posY+1].getEtat() == Etat.inondee) {
                     tuilesPossibles.add(tuiles[posX+1][posY]);
                 }
             }
-            if (posX != 0 && posY != 5) {
+            if ((posX != 1 && posY != 4) && (posX != 1 && posY != 3) && (posX != 2 && posY != 4)) {
                 if (tuiles[posX-1][posY+1].getEtat() == Etat.assechee || tuiles[posX-1][posY+1].getEtat() == Etat.inondee) {
                     tuilesPossibles.add(tuiles[posX][posY+1]);
                 }
             }
-            if (posX != 5 && posY != 0) {
+            if ((posX != 4 && posY != 1) && (posX != 3 && posY != 1) && (posX != 4 && posY != 2)) {
                 if (tuiles[posX+1][posY-1].getEtat() == Etat.assechee || tuiles[posX+1][posY-1].getEtat() == Etat.inondee) {
                     tuilesPossibles.add(tuiles[posX][posY-1]);
                 }
             }
         } else {
-            if (posX != 0 && posY != 0) {
-                if (tuiles[posX-1][posY-1].getEtat() == Etat.inondee){
+            if ((posX != 1 && posY != 1) && (posX != 2 && posY != 1) && (posX != 1 && posY != 2)) {
+                if (tuiles[posX-1][posY-1].getEtat() == Etat.assechee){
                     tuilesPossibles.add(tuiles[posX-1][posY]);
                 } 
             }
-            if (posX != 5 && posY != 5) {
+            if ((posX != 4 && posY != 4) && (posX != 3 && posY != 4) && (posX != 4 && posY != 3)) {
                 if (tuiles[posX+1][posY+1].getEtat() == Etat.inondee) {
                     tuilesPossibles.add(tuiles[posX+1][posY]);
                 }
             }
-            if (posX != 0 && posY != 5) {
+            if ((posX != 1 && posY != 4) && (posX != 1 && posY != 3) && (posX != 2 && posY != 4)) {
                 if (tuiles[posX-1][posY+1].getEtat() == Etat.inondee) {
                     tuilesPossibles.add(tuiles[posX][posY+1]);
                 }
             }
-            if (posX != 5 && posY != 0) {
+            if ((posX != 4 && posY != 1) && (posX != 3 && posY != 1) && (posX != 4 && posY != 2)) {
                 if (tuiles[posX+1][posY-1].getEtat() == Etat.inondee) {
                     tuilesPossibles.add(tuiles[posX][posY-1]);
                 }

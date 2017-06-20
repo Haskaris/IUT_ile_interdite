@@ -124,8 +124,8 @@ public class Grille {
         for (int m = 0 ; m <= 5 ; m++){
             for (int n =0 ; n <= 5 ; n++){
                 if (grille[m][n] != tuileNulle){
-                    grille[m][n].setX(m);                                   //Met le X de la tuile dans la grille à la tuile
-                    grille[m][n].setY(n);                                   //Met le Y de la tuile dans la grille à la tuile
+                    grille[m][n].setX(n);                                   //Met le X de la tuile dans la grille à la tuile
+                    grille[m][n].setY(m);                                   //Met le Y de la tuile dans la grille à la tuile
                 }
             }
         }

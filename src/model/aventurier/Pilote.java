@@ -52,7 +52,6 @@ public class Pilote extends Aventurier {
         } else if (isPouvoirUtilise() == true) {
             tuilesPossibles = super.getTuilesPossibles(depl);
         }
-        
         return tuilesPossibles;
     }
     
@@ -60,20 +59,16 @@ public class Pilote extends Aventurier {
     public void deplacementAssechage(int x, int y, boolean depl) {
         
         ArrayList<Tuile> tuilesPossibles = new ArrayList <>();
+        ArrayList<Tuile> tuilesPossiblesAss = new ArrayList <>();
         
         tuilesPossibles = getTuilesPossibles(depl);
+        tuilesPossiblesAss = super.getTuilesPossibles(depl);
         
         boolean actionEff = false;
         
-            if (depl == true) {
+            if (depl == true) {                                                 //Si la fonction est utilisée pour un déplacement
                 for (Tuile tuile : tuilesPossibles){
                     if (tuile.getX() == x & tuile.getY() == y){
-                        if ((grille.trouverTuile(x, y) != grille.trouverTuile(position.getX(), position.getY() + 1)) 
-                        && (grille.trouverTuile(x, y) != grille.trouverTuile(position.getX(), position.getY() - 1))
-                        && (grille.trouverTuile(x, y) != grille.trouverTuile(position.getX() + 1, position.getY()))
-                        && (grille.trouverTuile(x, y) != grille.trouverTuile(position.getX() - 1, position.getY()))) {
-                            setPouvoirUtilise(true);
-                        } 
                         grille.trouverTuile(position.getX(), position.getY()).supprJoueur(this);
                         this.setPosition(grille.trouverTuile(x ,y));
                         grille.trouverTuile(x, y).addJoueur(this);
@@ -113,7 +108,7 @@ public class Pilote extends Aventurier {
                 if (tuiles[posX][posY].getEtat() == Etat.inondee) {
                     tuilesPossibles.add(tuiles[posX][posY]);
                 } 
-                for (Tuile tuile : tuilesPossibles){
+                for (Tuile tuile : tuilesPossiblesAss){
                     if (tuile.getX() == x & tuile.getY() == y){
                         grille.trouverTuile(x, y).setEtat(Etat.assechee);                        
                         actionEff = true;
