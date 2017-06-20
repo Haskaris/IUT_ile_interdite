@@ -505,7 +505,7 @@ public class Controller implements Observateur {
                  for (CarteDosOrange carte : melangerCartesOranges(defausseOrange)){               // on parcours toute la defausse melangée
                      piocheOrange.add(carte);                                                      // on rempli la pioche.
                  }
-                 defausseOrange.clear();                                                             // on vide ka defausse
+            defausseOrange.clear();                                                                 // on vide ka defausse
                  
              }
             int numRandom = getRandom(0, piocheOrange.size());                                  // au hasard
@@ -521,16 +521,16 @@ public class Controller implements Observateur {
         }
          
          
-     }
+     }  // pioche 2 cartes oranges, les ajoutes dans la main du joueur courant (+ rempli la pioche si vide) + si carte piochées = montées des eaux, alors augmente le cran de l'echelle 
    
     public void piocherCartesInondation(){
-        for (int i =0 ; i<echelle.getCran(); i++){
-            if ()
-            
-            
-            
-            
-            
+        for (int i =0 ; i<echelle.getNiveauEau(); i++){
+            if (piocheInondation.size() == 0){
+                for (CarteInondation carte : melangerCartesInondation(defausseInondation)){
+                    piocheInondation.add(carte);
+                }
+            defausseInondation.clear();
+            }
             int numRandom = getRandom(0, piocheInondation.size()); 
             
             if (piocheInondation.get(numRandom).getTuile().getEtat() == Etat.assechee){
@@ -545,8 +545,10 @@ public class Controller implements Observateur {
             
     
         }
-    }
+    } // pioche nb de cartes inondation = niveau d'eau de l'echelle , gere pioche vide + change l'etat des tuiles de la grille
      
+    
+    
      
      
 
