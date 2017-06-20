@@ -435,6 +435,7 @@ public class Controller implements Observateur {
             }
         }       // affiche si un don de carte est possible entre joueurs
     
+    
     public Tresor gagnerTresorPossible(){
         int cartesTresorPierre = 0;
         int cartesTresorStatue = 0;
