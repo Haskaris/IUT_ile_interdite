@@ -487,17 +487,33 @@ public class Controller implements Observateur {
      
      public void piocherDeuxCartes(){
          for (int i = 0; i<3; i++){
-             int numRandom = getRandom(0, piocheOrange.size());
-             if (piocheOrange.get(numRandom).getClass().equals(CarteMonteeDesEaux.class)){
-                 piocheOrange.remove(piocheOrange.get(numRandom));
-                 echelle.incrementerCran();
-                 defausseOrange.add(piocheOrange.get(numRandom));
-         } else {
-               joueurC.addCarteMain(piocheOrange.get(numRandom));
-               piocheOrange.remove(piocheOrange.get(numRandom));
+             if (piocheOrange.size() == 0){                                 // a chaque fois on verifie si la pioche est vide, et si elle l'est
+                 for (CarteDosOrange liste : defausseOrange){               // on parcours toute la defausse
+                     int numRandom = getRandom(0, piocheOrange.size());    
+                     piocheOrange.add(defausseOrange.get(numRandom));
+                     defausseOrange.remove(defausseOrange.get(numRandom));
+                 
+                 }
+             
+             
+             }
+
+
+
+                                                                            // on pioche 2 cartes
+             int numRandom = getRandom(0, piocheOrange.size());             // au hasard
+             if (piocheOrange.get(numRandom).getClass().equals(CarteMonteeDesEaux.class)){      // si la carte est une carte montées des eaux
+                 defausseOrange.add(piocheOrange.get(numRandom));                               // on ajoute la carte dans la defausse orange
+                 piocheOrange.remove(piocheOrange.get(numRandom));                              //  on la supprime de la pioche
+                 echelle.incrementerCran();                                                     // on incrémente l'echelle
+         } else {                                                                               // sinon
+               joueurC.addCarteMain(piocheOrange.get(numRandom));                               // on ajoute la carte dans la main du joueur courant
+               piocheOrange.remove(piocheOrange.get(numRandom));                                // on la supprime de la pioche
          }
      
         }
+         
+         
      }
     
     
