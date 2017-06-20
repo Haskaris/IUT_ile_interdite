@@ -43,7 +43,8 @@ public class Controller implements Observateur {
     private static VueParamJeu paramJeu;
     private static VueRegles regles;
     private static VueJeu jeu;
-    private static VueAventurier vueAv1, vueAv2, vueAv3, vueAv4;
+    private static VuePopUp popUp;
+    //private static VueAventurier vueAv1, vueAv2, vueAv3, vueAv4;
     private static int nbJoueurs = 2;
     private static int nbAction = 0;
     private static String nomJ1;
@@ -65,11 +66,7 @@ public class Controller implements Observateur {
     private static ArrayList<CarteInondation> defausseInondation;
     
     public static void main(String[] args) {
-        
-        //c = new Controller();
-        
         joueurs = new ArrayList<>();
-        
         setGrilleJeu(new Grille());                                             //Initialisation de la grille
         new Controller();
         bienvenue.afficher();
@@ -79,7 +76,12 @@ public class Controller implements Observateur {
         bienvenue = new VueBienvenue(this);
         paramJeu = new VueParamJeu(this);
         regles = new VueRegles(this);
-        jeu = new VueJeu(this, grilleJeu);///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        jeu = new VueJeu(this, grilleJeu);
+        defausseOrange = new ArrayList<>();
+        defausseInondation = new ArrayList<>();
+        créerTresors();
+        remplirPiocheOrange();
+        remplirPiocheInondation();
     }
 
     public static void setGrilleJeu(Grille GrilleJeu) {                         //Fonction permettant de lier les grilles (joueurs - controlleur) 
@@ -97,6 +99,7 @@ public class Controller implements Observateur {
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Retour) {
             paramJeu.fermer();
             regles.fermer();
+            popUp.fermer();
             bienvenue.afficher();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Regles) {
             bienvenue.fermer();
@@ -106,29 +109,12 @@ public class Controller implements Observateur {
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Deplacer) {
             if (jeu.getDepl()) {
                 jeu.afficherPossible(joueurC.getTuilesPossibles(true));         //Affichage des tuiles où le deplacement est possible
-                /*if (msg.getTypeMessage() == TypesMessage.ACTION_Action) {
-                    if (nbAction < 3) {  
-                        joueurC.deplacementAssechage(msg.x, msg.y, true);
-                        nbAction++;
-                        System.out.println("nb act : " + nbAction);
-                        setGrilleJeu(joueurC.getGrilleAv());
-                        
-                    } else {
-                        System.out.println("Impossible, toutes les actions sont utilisées");
-                    }
-                }*/
             } else {
                 jeu.repaint();
             }
         }else if (msg.getTypeMessage() == TypesMessage.ACTION_DonnerCarte) {
-            //////////////////////////////////////////////
-            /*if (nbAction < 3) {
-                //afficherTuilesPossibles(joueurC.getNom(), true);
-                nbAction++;
-                System.out.println("nb act : " + nbAction);
-            } else {
-                System.out.println("Impossible, toutes les actions sont utilisées");
-            }*/
+            afficherDonCartePossible();
+            //joueurC.donnerCarte(joueurC, piocheOrange, joueurC);
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Assecher) {      //Affichage des tuiles où l'assechement est possible
             
             if (nbAction < 3) {
@@ -140,8 +126,6 @@ public class Controller implements Observateur {
                 System.out.println("Impossible, toutes les actions sont utilisées");
             }
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Fin) {
-            System.out.println("nbj : " + nbJ);
-            System.out.println("nombrejoueur : " + nbJoueurs);
             if (nbJ == nbJoueurs-1) {
                 nbJ = 0;
             } else {
@@ -149,6 +133,9 @@ public class Controller implements Observateur {
             }
             jeu.setDeplApp(false);
             jeu.setAssApp(false);
+            piocherDeuxCartesOrange();
+            afficherMain();
+            System.out.println("N° courant : " + nbJ);
             tourDeJeu();
         }
     }
@@ -165,7 +152,7 @@ public class Controller implements Observateur {
                 this.nomJ4 = nomJ4;
             }
         }
-        this.difficulte = difficulte;
+        echelle = new Echelle(difficulte);
         
         initJoueurs(nbJoueurs, nomJ1, nomJ2, nomJ3, nomJ4);                     //Initialise le role des joueurs
         
@@ -188,6 +175,7 @@ public class Controller implements Observateur {
         //vueAv1.cacher();
         //vueAv2.cacher();
         paramJeu.fermer();
+        distributionCartesOrangeDebut();
         jeu.afficher();
         tourDeJeu();
     }
@@ -361,33 +349,33 @@ public class Controller implements Observateur {
         return joueurs.get(jc);
     }
     
-    public static ArrayList<CarteDosOrange> melangerCartesOranges(ArrayList<CarteDosOrange> arrayList) {
+    private static ArrayList<CarteDosOrange> melangerCartesOranges(ArrayList<CarteDosOrange> arrayList) {
         if (Parameters.ALEAS) {
             Collections.shuffle(arrayList);
         }
         return arrayList ;
     } // melange une liste de carte orange
     
-    public static ArrayList<CarteInondation> melangerCartesInondation(ArrayList<CarteInondation> arrayList) {
+    private static ArrayList<CarteInondation> melangerCartesInondation(ArrayList<CarteInondation> arrayList) {
         if (Parameters.ALEAS) {
             Collections.shuffle(arrayList);
         }
         return arrayList ;
     }   //melange une liste de carte inondation
     
-    public void créerTresors(){
+    private void créerTresors() {
         tresors = new ArrayList<>();
         Tresor tresor1 = new Tresor("La Pierre sacrée");        // création des 4 tresors du jeu
         Tresor tresor2 = new Tresor("La Statue du zéphyr");
         Tresor tresor3 = new Tresor("Le Cristal ardent");
-        Tresor tresor4 = new Tresor("Le calice de l'onde");
+        Tresor tresor4 = new Tresor("Le Calice de l'onde");
         tresors.add(tresor1);                                   // ajout des tresors dans la liste des tresors
         tresors.add(tresor2);
         tresors.add(tresor3);
         tresors.add(tresor4);
     }   // création des 4 tresors dans la liste "tresors"
     
-    public void remplirPiocheOrange(){                          //Création de la pioche remplie de la totalité des cartes dos orange.
+    private void remplirPiocheOrange() {                          //Création de la pioche remplie de la totalité des cartes dos orange.
         piocheOrange = new ArrayList<>();
         for (int i =0; i < 5; i++){                             // ajout des 20 cartes tresors correspondant aux 4 tresors (5 carte pour chaque tresor)
             piocheOrange.add(new CarteTresor(tresors.get(0)));
@@ -406,10 +394,11 @@ public class Controller implements Observateur {
         
     }   // création de la pioche des cartes oranges
     
-    public void remplirPiocheInondation(){                      // création de la pioche de cartes inondation
+    private void remplirPiocheInondation() {                      // création de la pioche de cartes inondation
+        piocheInondation = new ArrayList<>();
         Tuile[][] grille = grilleJeu.getGrille();
-        for (int i =0; i < 6 ; i ++){
-            for (int j =0 ; j< 6; j++){
+        for (int i = 0; i <= 5 ; i ++){
+            for (int j = 0 ; j<= 5; j++){
                 piocheInondation.add(new CarteInondation(grille[i][j]));        // pour chaque tuile de la grille, il éxiste une carte inondation correspondante
             }
         }
@@ -420,7 +409,7 @@ public class Controller implements Observateur {
         return min + (int)(Math.random() * ((max - min) + 1));
     }  // renvoi un nombre aléatoire entre min et max
     
-    public void distributionCartesOrangeDebut(){                    // distribution des cartes à tous les joueurs au début du jeu          
+    public void distributionCartesOrangeDebut() {                   // distribution des cartes à tous les joueurs au début du jeu          
         
         for (int i = 0; i < nbJoueurs; i++){                        // boucle le me nombre de fois qu'il y à de joueurs
             for (int j = 1 ; j < 3; j++){                           // donne 2 cartes à chaque joueur
@@ -435,17 +424,17 @@ public class Controller implements Observateur {
         }
     } // distribution des cartes a tous les joueurs
     
-    public void afficherDonCartePossible(){
+    public void afficherDonCartePossible() {
         System.out.println("Voici les cartes que vous pouvez donner : ");
         for (CarteDosOrange liste : joueurC.getMain()){
             if (liste.getClass().equals(CarteTresor.class)){
-                System.out.print(" -Carte tresor : ");
-                System.out.println(liste.getTresor());
+                System.out.print(" - Carte tresor : ");
+                System.out.println(liste.getTresor().getNomTresor());
             }
-            System.out.println("------");
-            }
-        }       // affiche si un don de carte est possible entre joueurs
-    
+        }
+        
+        System.out.println("------");
+    }       // affiche si un don de carte est possible entre joueurs
     
     public Tresor gagnerTresorPossible(){
         int cartesTresorPierre = 0;
@@ -496,42 +485,40 @@ public class Controller implements Observateur {
                 return tresors.get(3);
             }
         }
-
-        return null;
-     
-         
+    return null;
     }       // renvoi un tresor qui peut être gagné actuellement par le joueur courant
     
     public void gagnerTresor(){
             tresorsGagnés.add(gagnerTresorPossible());                              // on l'ajoute a la liste des trésors gagnés;
         }                   // ajout du tresor possible dans la liste des tresors récupérés
-           
-        
-    public void piocherDeuxCartesOrange(){
-         for (int i = 0; i<3; i++){
-             if (piocheOrange.size() == 0){                                 // a chaque fois on verifie si la pioche est vide, et si elle l'est
-                 for (CarteDosOrange carte : melangerCartesOranges(defausseOrange)){               // on parcours toute la defausse melangée
-                     piocheOrange.add(carte);                                                      // on rempli la pioche.
-                 }
-            defausseOrange.clear();                                                                 // on vide la defausse
-                 
-             }
-            int numRandom = getRandom(0, piocheOrange.size());                                  // au hasard
-             if (piocheOrange.get(numRandom).getClass().equals(CarteMonteeDesEaux.class)){      // si la carte est une carte montées des eaux
-                 defausseOrange.add(piocheOrange.get(numRandom));                               // on ajoute la carte dans la defausse orange
-                 piocheOrange.remove(piocheOrange.get(numRandom));                              //  on la supprime de la pioche
-                 echelle.incrementerCran();                                                     // on incrémente l'echelle
-         } else {                                                                               // sinon
-               joueurC.addCarteMain(piocheOrange.get(numRandom));                               // on ajoute la carte dans la main du joueur courant
-               piocheOrange.remove(piocheOrange.get(numRandom));                                // on la supprime de la pioche
-         }
-     
+       
+    public void piocherDeuxCartesOrange() {
+         for (int i = 1; i < 3; i++){
+            if (piocheOrange.size() == 0){                                 // a chaque fois on verifie si la pioche est vide, et si elle l'est
+                for (CarteDosOrange carte : melangerCartesOranges(defausseOrange)){               // on parcours toute la defausse melangée
+                    piocheOrange.add(carte);                                                      // on rempli la pioche.
+                }
+            defausseOrange.clear();                                                                 // on vide la defausse  
+            }
+            int numRandom = getRandom(0, piocheOrange.size()-1);                                 // au hasard
+            if (piocheOrange.get(numRandom).getClass().equals(CarteMonteeDesEaux.class)) {     // si la carte est une carte montées des eaux
+                defausseOrange.add(piocheOrange.get(numRandom));                               // on ajoute la carte dans la defausse orange
+                piocheOrange.remove(piocheOrange.get(numRandom));                              //  on la supprime de la pioche
+                echelle.incrementerCran();                                                     // on incrémente l'echelle
+                System.out.println("Vous avez pioché une carte montée des eaux");
+            } else {                                                                             // sinon
+                joueurC.addCarteMain(piocheOrange.get(numRandom));                               // on ajoute la carte dans la main du joueur courant
+                if (piocheOrange.get(numRandom).getClass().equals(CarteTresor.class)) {
+                    System.out.println("Vous avez pioché une carte trésor : " + piocheOrange.get(numRandom).getTresor().getNomTresor());
+                } else if ((piocheOrange.get(numRandom).getClass().equals(CarteHelicoptere.class)) || (piocheOrange.get(numRandom).getClass().equals(CarteSacDeSable.class))){
+                    System.out.println("Vous avez pioché une " + piocheOrange.get(numRandom).getClass().getSimpleName());
+                    piocheOrange.remove(piocheOrange.get(numRandom));                                // on la supprime de la pioche
+                }
+            }   
         }
-         
-         
-     }  // pioche 2 cartes oranges, les ajoutes dans la main du joueur courant (+ rempli la pioche si vide) + si carte piochées = montées des eaux, alors augmente le cran de l'echelle 
+    }// pioche 2 cartes oranges, les ajoutes dans la main du joueur courant (+ rempli la pioche si vide) + si carte piochées = montées des eaux, alors augmente le cran de l'echelle 
    
-    public void piocherCartesInondation(){
+    public void piocherCartesInondation() {
         for (int i =0 ; i<echelle.getNiveauEau(); i++){                 // on pioche le nombre de cartes = niveau d'eau
             if (piocheInondation.size() == 0){                          // si pioche vide
                 for (CarteInondation carte : melangerCartesInondation(defausseInondation)){     // on parcours toute la defausse melangée
@@ -560,7 +547,7 @@ public class Controller implements Observateur {
         for (CarteDosOrange carte : joueurC.getMain()){
             if (carte.getClass().equals(CarteTresor.class)){
                 System.out.print(" - Carte tresor : ");
-                System.out.println(carte.getTresor());
+                System.out.println(carte.getTresor().getNomTresor());
             } else if (carte.getClass().equals(CarteHelicoptere.class)){
                 System.out.println(" - Carte Helicoptère");
             } else if (carte.getClass().equals(CarteSacDeSable.class)){
@@ -570,15 +557,13 @@ public class Controller implements Observateur {
     
     }
     
-    
-    
+    @Override
     public void enleverCarteSurplus(CarteDosOrange carte){
         defausseOrange.add(carte);                          // ajoute la carte a la defausse
         joueurC.removeCarteMain(carte);                     // retire la carte de la main du joueur
     }  // ajoute la carte à la defausse orange et retire la carte de la main du joueur
      
-
-    public void tourDeJeu(){///////////////////////////////////////////////////////////////////////////////////////
+    public void tourDeJeu() {///////////////////////////////////////////////////////////////////////////////////////
         /*vueAv1.cacher();
         vueAv2.cacher();
         if (nbJoueurs >= 3) {
@@ -593,6 +578,11 @@ public class Controller implements Observateur {
         jeu.setNom(joueurC.getNom());
         jeu.debutTour();
         jeu.repaint();
+        if (joueurC.getMain().size() > 5) {
+            popUp = new VuePopUp(this, joueurC.getMain());
+            popUp.afficher();
+        }
+        afficherMain();
         //VueAventurier vueCourante = vueAvC(nbJ);
         //vueCourante.afficher();
         

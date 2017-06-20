@@ -345,7 +345,6 @@ public class VueJeu {
     }
     
     public void repaint() {
-        System.out.println(nomJoueurCourant);
         for (int i = 0; i <= 5; i++) {                                          // Affichage de la grille
             for (int j = 0; j <= 5; j++) {
                 if (grille.getGrille()[i][j].getEtat() == Etat.assechee) {

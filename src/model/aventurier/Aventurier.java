@@ -146,34 +146,18 @@ public abstract class Aventurier {
           }
         }
      
-     
-    
-       
-     
-    /**
-     * @param position the position to set
-     */
     public void setPosition(Tuile position) {
         this.position = position;
     }
 
-    /**
-     * @return the position
-     */
     public Tuile getPosition() {
         return position;
     }
 
-    /**
-     * @return the grille
-     */
     public Grille getGrilleAv() {
         return grille;
     }
 
-    /**
-     * @return the main
-     */
     public ArrayList<CarteDosOrange> getMain() {
         return main;
     }

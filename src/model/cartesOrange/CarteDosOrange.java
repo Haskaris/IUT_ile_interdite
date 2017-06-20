@@ -16,21 +16,13 @@ import model.aventurier.Aventurier;
 public abstract class CarteDosOrange {
     private Aventurier joueur;
 
-    
-    
-    /**
-     * @return the joueur
-     */
-    public Aventurier getJoueur() {
+   /*public Aventurier getJoueur() {
         return joueur;
     }
 
-    /**
-     * @param joueur the joueur to set
-     */
     public void setJoueur(Aventurier joueur) {
         this.joueur = joueur;
-    }
+    }*/
     
     public abstract Tresor getTresor();
 }
