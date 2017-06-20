@@ -332,8 +332,7 @@ public class Controller implements Observateur {
         
         return Joueurs;
     }
-    
-    
+        
     public VueAventurier vueAvC(int nb) {
         if (nb == 0) {
             return vueAv1;
@@ -355,14 +354,14 @@ public class Controller implements Observateur {
             Collections.shuffle(arrayList);
         }
         return arrayList ;
-    }
+    } // melange une liste de carte orange
     
     public static ArrayList<CarteInondation> melangerCartesInondation(ArrayList<CarteInondation> arrayList) {
         if (Parameters.ALEAS) {
             Collections.shuffle(arrayList);
         }
         return arrayList ;
-    }
+    }   //melange une liste de carte inondation
     
     public void créerTresors(){
         tresors = new ArrayList<>();
@@ -374,7 +373,7 @@ public class Controller implements Observateur {
         tresors.add(tresor2);
         tresors.add(tresor3);
         tresors.add(tresor4);
-    }
+    }   // création des 4 tresors dans la liste "tresors"
     
     public void remplirPiocheOrange(){                          //Création de la pioche remplie de la totalité des cartes dos orange.
         piocheOrange = new ArrayList<>();
@@ -393,7 +392,7 @@ public class Controller implements Observateur {
         }
         
         
-    }
+    }   // création de la pioche des cartes oranges
     
     public void remplirPiocheInondation(){                      // création de la pioche de cartes inondation
         Tuile[][] grille = grilleJeu.getGrille();
@@ -403,11 +402,11 @@ public class Controller implements Observateur {
             }
         }
         piocheInondation = melangerCartesInondation(piocheInondation);          // on melange la pioche des cartes inondation car les cartes etaitent triées dans l'ordre des tuiles    
-    }
+    }   // création de la pioche des cartes inondation
 
-    public int getRandom(int min , int max){                        // renvoi un nombre aléatoire entre min et max
+    public int getRandom(int min , int max){                        
         return min + (int)(Math.random() * ((max - min) + 1));
-    }
+    }  // renvoi un nombre aléatoire entre min et max
     
     public void distributionCartesOrangeDebut(){                    // distribution des cartes à tous les joueurs au début du jeu          
         
@@ -422,7 +421,7 @@ public class Controller implements Observateur {
                   }
             }
         }
-    }
+    } // distribution des cartes a tous les joueurs
     
     public void afficherDonCartePossible(){
         System.out.println("Voici les cartes que vous pouvez donner : ");
@@ -433,8 +432,7 @@ public class Controller implements Observateur {
             }
             System.out.println("------");
             }
-        }
-    
+        }       // affiche si un don de carte est possible entre joueurs
     
     public Tresor GagnerTresorPossible(){
         int cartesTresorPierre = 0;
@@ -493,16 +491,14 @@ public class Controller implements Observateur {
         return null;
      
          
-    }
+    }       // renvoi un tresor qui peut être gagné actuellement par le joueur courant
     
-     public void gagnerTresor(Tresor tresor){
-        if (tresor == GagnerTresorPossible()){                      // si le trésor correspond a un trésor qui peut être gagné
-            tresorsGagnés.add(tresor);                              // on l'ajoute a la liste des trésors gagnés;
-        }
-     }
-   
-     
-     public void piocherDeuxCartes(){
+     public void gagnerTresor(){
+            tresorsGagnés.add(GagnerTresorPossible());                              // on l'ajoute a la liste des trésors gagnés;
+        }                   // ajout du tresor possible dans la liste des tresors récupérés
+           
+        
+     public void piocherDeuxCartesOrange(){
          for (int i = 0; i<3; i++){
              if (piocheOrange.size() == 0){                                 // a chaque fois on verifie si la pioche est vide, et si elle l'est
                  for (CarteDosOrange carte : melangerCartesOranges(defausseOrange)){               // on parcours toute la defausse melangée
