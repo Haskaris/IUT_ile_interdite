@@ -108,7 +108,7 @@ public abstract class Aventurier {
                         grille.trouverTuile(position.getX(), position.getY()).supprJoueur(this);
                         this.setPosition(grille.trouverTuile(x ,y));
                         grille.trouverTuile(x, y).addJoueur(this);
-                        actionEff = true;
+                        actionEff = true;    
                         System.out.println("Joueur déplacé en " + x + ", " + y);
                     }
                 }

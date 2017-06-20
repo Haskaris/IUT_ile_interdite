@@ -25,6 +25,7 @@ import util.TypesMessage;
 import java.util.ArrayList;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import util.Utils.Pion;
 
 /**
  *
@@ -96,13 +97,14 @@ public class VueJeu {
         Color etatCouleur = null;
         String nomTuile;
         Border border = new LineBorder(Color.GRAY, 5);
+        Border borderJ = new LineBorder(Color.BLACK, 1);
         
-        panExpl.setBackground(Color.GREEN);         //initialisation des panels de joueurs
-        panInge.setBackground(Color.RED);
-        panMessa.setBackground(Color.GRAY);
-        panNavi.setBackground(Color.YELLOW);
-        panPilo.setBackground(Color.BLUE);
-        panPlon.setBackground(Color.BLACK);
+        panExpl.setBackground(util.Utils.Pion.VERT.getCouleur());         //initialisation des panels de joueurs
+        panInge.setBackground(util.Utils.Pion.ROUGE.getCouleur());
+        panMessa.setBackground(util.Utils.Pion.ORANGE.getCouleur());
+        panNavi.setBackground(util.Utils.Pion.JAUNE.getCouleur());
+        panPilo.setBackground(util.Utils.Pion.BLEU.getCouleur());
+        panPlon.setBackground(util.Utils.Pion.VIOLET.getCouleur());
         
         for (int i = 0; i <= 5; i++) {                                          // Initialisation des boutons
             //x = i;
@@ -116,6 +118,7 @@ public class VueJeu {
                 panTuiles[i][j].add(panJTuiles[i][j], BorderLayout.SOUTH);
                 panTuiles[i][j].add(btnTuiles[i][j], BorderLayout.CENTER);
                 panTuiles[i][j].setBorder(border);
+                panJTuiles[i][j].setBorder(borderJ);
                 
                 btnTuiles[i][j].addActionListener(new ActionListener() {
                     @Override
@@ -140,7 +143,7 @@ public class VueJeu {
 
         }
 
-        labelJC = new JLabel(getNom() + " joue!");                              // Affichage du joueur courant
+        labelJC = new JLabel(getNom());                              // Affichage du joueur courant
 
 
         for (int i = 0; i <= 5; i++) {                                          // Affichage de la grille
@@ -165,34 +168,12 @@ public class VueJeu {
                         btnTuiles[i][j].setForeground(Color.WHITE);
                         panelGrille.add(panTuiles[i][j]);
                         
-                        int k = 0;
-                        if (o.getJoueurTuile(grilleTab[i][j]) != null){
-                            for (String joueur : o.getJoueurTuile(grilleTab[i][j])){    //parcours des joueurs présent sur la tuile
-                                if (joueur == "Expl"){
-                                    panJTuiles[i][j].add(panExpl);
-                                } else if (joueur == "Inge"){
-                                    panJTuiles[i][j].add(panInge);
-                                } else if (joueur == "Mess"){
-                                    panJTuiles[i][j].add(panMessa);
-                                } else if (joueur == "Navi"){
-                                    panJTuiles[i][j].add(panNavi);
-                                } else if (joueur == "Pilo"){
-                                    panJTuiles[i][j].add(panPilo);
-                                } else if (joueur == "Plon"){
-                                    panJTuiles[i][j].add(panPlon);
-                                }
-                                k++;
-                            }
-                        }
-                        for (int l = k; l < 5; l++){                //Ajout de panel vide pour combler panJTuiles si il ni a pas les 4 aventurier sur la tuile
-                            panJTuiles[i][j].add(new JPanel());
-                        }
+                        afficheJoueurGrille(i, j);
                         
                     }
                 }
             }
         }
-
         
         btnAssechement.setBackground(Color.LIGHT_GRAY);
         btnDeplacement.setBackground(Color.LIGHT_GRAY);
@@ -335,22 +316,67 @@ public class VueJeu {
         window.dispose();
     }
 
-    private void setGrille(Grille grille) {
+    public void setGrille(Grille grille) {
         this.grille = grille;
     }
 
-    public void setNom(String nom) {
+    private void setNom(String nom) {
         this.nomJoueurCourant = nom;
-        repaint(); 
+        repaint();
     }
     
+    public void changeJoueurCourant(String nomJC, Pion pion){
+        setNom(nomJC);
+        labelJC.setText(nomJC);
+        labelJC.setForeground(pion.getCouleur());
+        
+    }
+    
+    public void afficheJoueurGrille(int i, int j){ 
+                
+                panJTuiles[i][j].removeAll();
+                int k = 0;
+
+                if (observateur.getJoueurTuile(grille.getGrille()[i][j]).size() != 0){
+                    for (String joueur : observateur.getJoueurTuile(grille.getGrille()[i][j])){    //parcours des joueurs présent sur la tuile
+                        if (joueur == "Expl"){
+                            panJTuiles[i][j].add(panExpl);
+                        } else if (joueur == "Inge"){
+                            panJTuiles[i][j].add(panInge);
+                        } else if (joueur == "Mess"){
+                            panJTuiles[i][j].add(panMessa);
+                        } else if (joueur == "Navi"){
+                            panJTuiles[i][j].add(panNavi);
+                        } else if (joueur == "Pilo"){
+                            panJTuiles[i][j].add(panPilo);
+                        } else if (joueur == "Plon"){
+                            panJTuiles[i][j].add(panPlon);
+                        }
+                        k++;
+                        System.out.println("/// " +joueur);
+                    }
+                }
+                for (int l = k; l < 5; l++){                //Ajout de panel vide pour combler panJTuiles si il ni a pas les 4 aventurier sur la tuile
+                    JPanel panDefaut = new JPanel();
+                    panDefaut.setBackground(Color.LIGHT_GRAY);
+                    panJTuiles[i][j].add(panDefaut);
+                }
+            }
+    
+    
     public void repaint() {
+        
         for (int i = 0; i <= 5; i++) {                                          // Affichage de la grille
             for (int j = 0; j <= 5; j++) {
+                
+                
                 if (grille.getGrille()[i][j].getEtat() == Etat.assechee) {
                     btnTuiles[i][j].setBackground(Color.DARK_GRAY);
                     btnTuiles[i][j].setEnabled(false);
                 }
+                        
+                afficheJoueurGrille(i, j);
+                        
             }
         }
     }
@@ -378,4 +404,5 @@ public class VueJeu {
     public void setDeplApp(boolean bool) {
         deplApp = bool;
     }
+    
 }
