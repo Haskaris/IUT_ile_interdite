@@ -11,6 +11,8 @@ package util;
  */
 public class Message {
     private TypesMessage type;
+    public int x;
+    public int y;
     
     public Message(TypesMessage type){
         setTypeMessage(type);

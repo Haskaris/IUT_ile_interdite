@@ -45,10 +45,15 @@ public class VueJeu {
     private JPanel panPilo = new JPanel();
     private JPanel panPlon = new JPanel();
     
+    private JButton btnAssechement = new JButton("Assecher");                       // 
+    private JButton btnDeplacement = new JButton("Deplacer");
+    private JButton btnDonnerCarte = new JButton("Donner une Carte");
+    private JButton btnPrendreTresor = new JButton("Prendre un trésor");
+    private JButton btnFinTour = new JButton("Fin Du Tour");
+    
     private Grille grille;
     private String nomJoueurCourant;
     private boolean depl;
-    private int positionDemandee;
     private int x, y;
     private JLabel labelJC;
     private JPanel panelGrille, mainPanel, panelMenu, panel1, panel2, panel2Centre, panel3;
@@ -100,16 +105,37 @@ public class VueJeu {
         panPlon.setBackground(Color.BLACK);
         
         for (int i = 0; i <= 5; i++) {                                          // Initialisation des boutons
+            //x = i;
             for (int j = 0; j <= 5; j++){
+                //y = j;
                 btnTuiles[i][j] = new JButton();
                 panTuiles[i][j] = new JPanel(new BorderLayout());
                 panJTuiles[i][j] = new JPanel(new GridLayout(1,4));
-                btnTuiles[i][j].setEnabled(false);
+                
+                //btnTuiles[i][j].setEnabled(false);
                 panTuiles[i][j].add(panJTuiles[i][j], BorderLayout.SOUTH);
                 panTuiles[i][j].add(btnTuiles[i][j], BorderLayout.CENTER);
                 panTuiles[i][j].setBorder(border);
                 
-                
+                btnTuiles[i][j].addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        Message msg = new Message(TypesMessage.ACTION_Action);
+                        //msg.x = x;
+                        //msg.y = y;
+                        //observateur.traiterMessage(msg);
+                        for (int i = 0; i <= 5; i++) {
+                            for (int j = 0; j <= 5; j++) {
+                                if (e.getSource().equals(btnTuiles[i][j])) {
+                                    x = i;
+                                    y = j;
+                                    btnTuiles[i][j].setEnabled(false);
+                                }
+                            }
+                        }
+                        observateur.traiterAction(nomJoueurCourant, x, y, depl);
+                    }
+                });
             }
 
         }
@@ -176,11 +202,6 @@ public class VueJeu {
             }
         }
 
-        JButton btnAssechement = new JButton("Assecher");                       // 
-        JButton btnDeplacement = new JButton("Deplacer");
-        JButton btnDonnerCarte = new JButton("Donner une Carte");
-        JButton btnPrendreTresor = new JButton("Prendre un trésor");
-        JButton btnFinTour = new JButton("Fin Du Tour");
         
         btnAssechement.setBackground(Color.LIGHT_GRAY);
         btnDeplacement.setBackground(Color.LIGHT_GRAY);
@@ -268,11 +289,11 @@ public class VueJeu {
             }
         });
 
-        for (int i=0;i<5;i++){
+        /*for (int i=0;i<=5;i++){
             x = i;
-            for (int j=0;j<5;j++){
+            for (int j=0;j<=5;j++){
                 y = j;
-                setPositionDemandee(i);
+                
                 btnTuiles[i][j].addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -281,7 +302,7 @@ public class VueJeu {
             });
             }
             
-        }
+        }*/
     }
     
     public void afficher() {
@@ -292,9 +313,31 @@ public class VueJeu {
         for (Tuile tuile: tuilesPossibles){
                 btnTuiles[tuile.getX()][tuile.getY()].setBackground(Color.YELLOW);
                 btnTuiles[tuile.getX()][tuile.getY()].setEnabled(true);
-           
         }
+    }
+    
+    public void finTourObligatoire(){
+        btnAssechement.setBackground(Color.GRAY);
+        btnDeplacement.setBackground(Color.GRAY);
+        btnDonnerCarte.setBackground(Color.GRAY);
+        btnPrendreTresor.setBackground(Color.GRAY);
         
+        btnAssechement.setEnabled(false);
+        btnDeplacement.setEnabled(false);
+        btnDonnerCarte.setEnabled(false);
+        btnPrendreTresor.setEnabled(false);
+    }
+    
+    public void debutTour(){
+        btnAssechement.setBackground(Color.LIGHT_GRAY);
+        btnDeplacement.setBackground(Color.LIGHT_GRAY);
+        btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
+        btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
+        
+        btnAssechement.setEnabled(true);
+        btnDeplacement.setEnabled(true);
+        btnDonnerCarte.setEnabled(true);
+        btnPrendreTresor.setEnabled(true);
     }
 
     public void fermer() {
@@ -311,6 +354,7 @@ public class VueJeu {
     }
     
     public void repaint() {
+        System.out.println(nomJoueurCourant);
         for (int i = 0; i <= 5; i++) {                                          // Affichage de la grille
             for (int j = 0; j <= 5; j++) {
                 if (grille.getGrille()[i][j].getEtat() == Etat.assechee) {
@@ -343,9 +387,5 @@ public class VueJeu {
     
     public void setDeplApp(boolean bool) {
         deplApp = bool;
-    }
-    
-    private void setPositionDemandee(int i){
-        this.positionDemandee = i;
     }
 }
