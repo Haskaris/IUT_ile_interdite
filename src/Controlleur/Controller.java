@@ -357,6 +357,13 @@ public class Controller implements Observateur {
         return arrayList ;
     }
     
+    public static ArrayList<CarteInondation> melangerCartesInondation(ArrayList<CarteInondation> arrayList) {
+        if (Parameters.ALEAS) {
+            Collections.shuffle(arrayList);
+        }
+        return arrayList ;
+    }
+    
     public void créerTresors(){
         tresors = new ArrayList<>();
         Tresor tresor1 = new Tresor("La Pierre sacrée");        // création des 4 tresors du jeu
@@ -395,10 +402,7 @@ public class Controller implements Observateur {
                 piocheInondation.add(new CarteInondation(grille[i][j]));        // pour chaque tuile de la grille, il éxiste une carte inondation correspondante
             }
         }
-        
-        
-        
-        
+        piocheInondation = melangerCartesInondation(piocheInondation);          // on melange la pioche des cartes inondation car les cartes etaitent triées dans l'ordre des tuiles    
     }
 
     public int getRandom(int min , int max){                        // renvoi un nombre aléatoire entre min et max
@@ -502,11 +506,12 @@ public class Controller implements Observateur {
          for (int i = 0; i<3; i++){
              if (piocheOrange.size() == 0){                                 // a chaque fois on verifie si la pioche est vide, et si elle l'est
                  for (CarteDosOrange carte : melangerCartesOranges(defausseOrange)){               // on parcours toute la defausse melangée
-                     piocheOrange.add(carte);                                                      // on ajoute les carte de la defausse dans la pioche
-                     defausseOrange.remove(carte);                                                 // on vide ka defausse
+                     piocheOrange.add(carte);                                                      // on rempli la pioche.
                  }
+                 defausseOrange.clear();                                                             // on vide ka defausse
+                 
              }
-            int numRandom = getRandom(0, piocheOrange.size());             // au hasard
+            int numRandom = getRandom(0, piocheOrange.size());                                  // au hasard
              if (piocheOrange.get(numRandom).getClass().equals(CarteMonteeDesEaux.class)){      // si la carte est une carte montées des eaux
                  defausseOrange.add(piocheOrange.get(numRandom));                               // on ajoute la carte dans la defausse orange
                  piocheOrange.remove(piocheOrange.get(numRandom));                              //  on la supprime de la pioche
