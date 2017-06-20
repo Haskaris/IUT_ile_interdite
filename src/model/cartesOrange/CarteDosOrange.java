@@ -1,5 +1,6 @@
-package model;
+package model.cartesOrange;
 
+import model.Tresor;
 import model.aventurier.Aventurier;
 
 /*

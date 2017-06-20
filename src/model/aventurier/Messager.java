@@ -6,7 +6,7 @@
 package model.aventurier;
 
 import java.util.ArrayList;
-import model.CarteDosOrange;
+import model.cartesOrange.CarteDosOrange;
 import model.Tuile;
 
 /**
