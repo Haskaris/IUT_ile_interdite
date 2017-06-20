@@ -25,6 +25,7 @@ import util.TypesMessage;
 import java.util.ArrayList;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import model.cartesOrange.CarteDosOrange;
 import util.Utils.Pion;
 
 /**
@@ -57,7 +58,7 @@ public class VueJeu {
     private boolean depl;
     private int x, y;
     private JLabel labelJC;
-    private JPanel panelGrille, mainPanel, panelMenu, panel1, panel2, panel2Centre, panel3;
+    private JPanel panelGrille, panelPrincipal, panelMenu, panel1, panel2, panel2Centre, panel3, panelMain;
     private boolean deplApp = false;
     private boolean assApp = false;
 
@@ -74,7 +75,7 @@ public class VueJeu {
 
         this.observateur = o;
 
-        mainPanel = new JPanel(new BorderLayout());
+        panelPrincipal = new JPanel(new BorderLayout());
         panelGrille = new JPanel(new GridLayout(6, 6));                  // Panel de la grille
         
         panelMenu = new JPanel(new GridLayout(3,1));                     // Panel des boutons d'actions
@@ -87,9 +88,9 @@ public class VueJeu {
         panel3 = new JPanel();
         panelMenu.add(panel3);
 
-        window.add(mainPanel);
-        mainPanel.add(panelGrille, BorderLayout.CENTER);
-        mainPanel.add(panelMenu, BorderLayout.EAST);
+        window.add(panelPrincipal);
+        panelPrincipal.add(panelGrille, BorderLayout.CENTER);
+        panelPrincipal.add(panelMenu, BorderLayout.EAST);
 
         setGrille(gr);
         Tuile[][] grilleTab = grille.getGrille();                               // Récupération du tableau de la grille
@@ -280,6 +281,25 @@ public class VueJeu {
     public void afficher() {
         window.setVisible(true);
     }
+    
+    
+    public void afficherMain(ArrayList<CarteDosOrange> main){
+        panelMain = new JPanel(new GridLayout(1, 5));
+        panelPrincipal.add(panelMain, BorderLayout.SOUTH);
+        
+        JButton carte1 = new JButton();
+        JButton carte2 = new JButton();
+        JButton carte3 = new JButton();
+        JButton carte4= new JButton();
+        JButton carte5 = new JButton();
+        
+        
+        for (CarteDosOrange carte: main){
+            
+        }
+ 
+        
+    }   
     
     public void afficherPossible(ArrayList<Tuile> tuilesPossibles){
         for (Tuile tuile: tuilesPossibles){

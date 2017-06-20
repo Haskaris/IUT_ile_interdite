@@ -5,12 +5,8 @@
  */
 package Controlleur;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Observable;
-import java.util.Random;
-import javax.swing.JFrame;
 import model.cartesOrange.CarteDosOrange;
 import model.cartesOrange.CarteHelicoptere;
 import model.CarteInondation;
@@ -20,7 +16,6 @@ import model.cartesOrange.CarteTresor;
 import model.Echelle;
 import model.Etat;
 import model.aventurier.Aventurier;
-import model.Grille;
 import util.Message;
 import util.TypesMessage;
 import model.Grille;
@@ -29,9 +24,7 @@ import model.Tuile;
 import model.aventurier.*;
 import util.Parameters;
 import util.Utils.Pion;
-import static util.Utils.Pion.BLEU;
 import view.*;
-//package util;
 
 /**
  *
