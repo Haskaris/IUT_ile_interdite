@@ -28,6 +28,7 @@ import model.Tresor;
 import model.Tuile;
 import model.aventurier.*;
 import util.Parameters;
+import util.Utils.Pion;
 import static util.Utils.Pion.BLEU;
 import view.*;
 //package util;
@@ -88,7 +89,11 @@ public class Controller implements Observateur {
     public static void setGrilleJeu(Grille GrilleJeu) {                         //Fonction permettant de lier les grilles (joueurs - controlleur) 
         grilleJeu = GrilleJeu;
         for (Aventurier av : joueurs) {
-            av.setGrille(GrilleJeu);
+            av.setGrille(grilleJeu);
+        }
+        
+        if (jeu != null){
+            jeu.setGrille(grilleJeu);
         }
     }
 
@@ -107,22 +112,15 @@ public class Controller implements Observateur {
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Quitter) {
             bienvenue.fermer();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Deplacer) {
-            if (jeu.getDepl()) {
-                jeu.afficherPossible(joueurC.getTuilesPossibles(true));         //Affichage des tuiles où le deplacement est possible
-                /*if (msg.getTypeMessage() == TypesMessage.ACTION_Action) {
-                    if (nbAction < 3) {  
-                        joueurC.deplacementAssechage(msg.x, msg.y, true);
-                        nbAction++;
-                        System.out.println("nb act : " + nbAction);
-                        setGrilleJeu(joueurC.getGrilleAv());
-                        
-                    } else {
-                        System.out.println("Impossible, toutes les actions sont utilisées");
-                    }
-                }*/
+            if (nbAction < 3) {
+                jeu.afficherPossible(joueurC.getTuilesPossibles(true)); //Affichage des tuiles où le deplacement est possible
+                setGrilleJeu(joueurC.getGrilleAv());
+                System.out.println("nb act : " + nbAction);
             } else {
-                jeu.repaint();
-            }
+                System.out.println("Impossible, toutes les actions sont utilisées");
+            }    
+            
+            
         }else if (msg.getTypeMessage() == TypesMessage.ACTION_DonnerCarte) {
             //////////////////////////////////////////////
             /*if (nbAction < 3) {
@@ -136,7 +134,7 @@ public class Controller implements Observateur {
             
             if (nbAction < 3) {
                 jeu.afficherPossible(joueurC.getTuilesPossibles(false));
-                nbAction++;
+
                 setGrilleJeu(joueurC.getGrilleAv());
                 System.out.println("nb act : " + nbAction);
             } else {
@@ -276,8 +274,7 @@ public class Controller implements Observateur {
         jeu.repaint();
         if (nbAction < 3) {
             jeu.afficherPossible(joueurC.getTuilesPossibles(true));
-        } else {
-            jeu.repaint();
+            } else {
             jeu.finTourObligatoire();
         }
     }
@@ -597,7 +594,28 @@ public class Controller implements Observateur {
         nbAction = 0;
         joueurC = getJoueurCourant(nbJ);
         System.out.println(joueurC.getNom());
-        jeu.setNom(joueurC.getNom());
+        
+        Pion pion;
+        if (joueurC.getClass().equals(Explorateur.class)){
+            pion = Pion.VERT;
+        }
+        else if (joueurC.getClass().equals(Messager.class)){
+            pion =  Pion.ORANGE;
+        }
+        else if (joueurC.getClass().equals(Pilote.class)){
+            pion =  Pion.BLEU;
+        }
+        else if (joueurC.getClass().equals(Navigateur.class)){
+            pion = Pion.JAUNE;
+        }
+        else  if (joueurC.getClass().equals(Plongeur.class)){
+            pion = Pion.VIOLET;
+        }
+        else {
+            pion = Pion.ROUGE;
+        }
+        
+        jeu.changeJoueurCourant(joueurC.getNom(), pion);
         jeu.debutTour();
         jeu.repaint();
         //VueAventurier vueCourante = vueAvC(nbJ);
