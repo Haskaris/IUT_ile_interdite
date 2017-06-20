@@ -46,12 +46,13 @@ public class Controller implements Observateur {
     private static VueAventurier vueAv1, vueAv2, vueAv3, vueAv4;
     private static int nbJoueurs = 2;
     private static int nbAction = 0;
-    private static String nomJ1 = "Ugo";
-    private static String nomJ2 = "Mathis";
-    private static String nomJ3 = "Andrea";
-    private static String nomJ4 = "Thomas";
+    private static String nomJ1;
+    private static String nomJ2;
+    private static String nomJ3;
+    private static String nomJ4;
     private static int difficulte;// à changer pour l'échelle
     private static Echelle echelle;
+    
     private static int nbJ = 0;
     private static Grille grilleJeu;
     private static ArrayList<Aventurier> joueurs;
@@ -100,23 +101,24 @@ public class Controller implements Observateur {
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Regles) {
             bienvenue.fermer();
             regles.afficher();
-
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Quitter) {
             bienvenue.fermer();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Deplacer) {
-            
-            if (nbAction < 3) {  
-                if (jeu.getDepl()) {
-                    jeu.afficherPossible(joueurC.getTuilesPossibles(true));         //Affichage des tuiles où le deplacement est possible
-                    nbAction++;
-                    System.out.println("nb act : " + nbAction);
-                    setGrilleJeu(joueurC.getGrilleAv());
-                } else {
-                    jeu.repaint();
-                }
+            if (jeu.getDepl()) {
+                jeu.afficherPossible(joueurC.getTuilesPossibles(true));         //Affichage des tuiles où le deplacement est possible
+                /*if (msg.getTypeMessage() == TypesMessage.ACTION_Action) {
+                    if (nbAction < 3) {  
+                        joueurC.deplacementAssechage(msg.x, msg.y, true);
+                        nbAction++;
+                        System.out.println("nb act : " + nbAction);
+                        setGrilleJeu(joueurC.getGrilleAv());
+                        
+                    } else {
+                        System.out.println("Impossible, toutes les actions sont utilisées");
+                    }
+                }*/
             } else {
-                System.out.println("Impossible, toutes les actions sont utilisées");
-            
+                jeu.repaint();
             }
         }else if (msg.getTypeMessage() == TypesMessage.ACTION_DonnerCarte) {
             //////////////////////////////////////////////
@@ -128,6 +130,7 @@ public class Controller implements Observateur {
                 System.out.println("Impossible, toutes les actions sont utilisées");
             }*/
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Assecher) {      //Affichage des tuiles où l'assechement est possible
+            
             if (nbAction < 3) {
                 jeu.afficherPossible(joueurC.getTuilesPossibles(false));
                 nbAction++;
@@ -148,8 +151,7 @@ public class Controller implements Observateur {
             jeu.setAssApp(false);
             tourDeJeu();
         }
-
-        }
+    }
     
     @Override                                                                   //Envoie les paramètres de jeu
     public void envoyerDonnees(int nbJoueurs, String nomJ1, String nomJ2, String nomJ3, String nomJ4, int difficulte) {
@@ -169,22 +171,22 @@ public class Controller implements Observateur {
         
         joueurs.add(av1);
         joueurs.add(av2);
-        vueAv1 = new VueAventurier(nomJ1, "av1", Color.blue, this);
-        vueAv2 = new VueAventurier(nomJ2, "av2", Color.green, this);
+        //vueAv1 = new VueAventurier(nomJ1, "av1", Color.blue, this);
+        //vueAv2 = new VueAventurier(nomJ2, "av2", Color.green, this);
         
         if (nbJoueurs >= 3) {
             joueurs.add(av3);
-            vueAv3 = new VueAventurier(nomJ3, "av3", Color.yellow, this);
-            vueAv3.cacher();
+        //    vueAv3 = new VueAventurier(nomJ3, "av3", Color.yellow, this);
+        //    vueAv3.cacher();
             if (nbJoueurs == 4) {
                 joueurs.add(av4);
-                vueAv4 = new VueAventurier(nomJ4, "av4", Color.pink, this);
-                vueAv4.cacher();
+        //        vueAv4 = new VueAventurier(nomJ4, "av4", Color.pink, this);
+        //        vueAv4.cacher();
             }
         }
         setGrilleJeu(grilleJeu);
-        vueAv1.cacher();
-        vueAv2.cacher();
+        //vueAv1.cacher();
+        //vueAv2.cacher();
         paramJeu.fermer();
         jeu.afficher();
         tourDeJeu();
@@ -259,9 +261,18 @@ public class Controller implements Observateur {
 
     @Override                                                                   //Effectue un déplacement
     public void traiterAction(String nomJ, int x, int y, boolean depl) {
-
-        getAventurier(nomJ, joueurs).deplacementAssechage(x, y, depl);  //Deplace le joueur sur la position souhaitée
+        System.out.println("Deplacement voulu : " + x +"-" + y);
+        getAventurier(nomJ, joueurs).deplacementAssechage(x, y, depl);          //Deplace le joueur sur la position souhaitée
         setGrilleJeu(getAventurier(nomJ, joueurs).getGrilleAv());               //Met à jour les grilles du jeu
+        nbAction++;
+        System.out.println("nb act : " + nbAction);
+        jeu.repaint();
+        if (nbAction < 3) {
+            jeu.afficherPossible(joueurC.getTuilesPossibles(true));
+        } else {
+            jeu.repaint();
+            jeu.finTourObligatoire();
+        }
     }
 
     public void afficherTuilesPossibles(String nomJ, boolean depl) {            //Affiche les tuiles de déplacement possible
@@ -330,11 +341,11 @@ public class Controller implements Observateur {
                 Joueurs.add("Plon");
             }
         }
-        
         return Joueurs;
     }
-        
-    public VueAventurier vueAvC(int nb) {
+    
+    
+    /*public VueAventurier vueAvC(int nb) {
         if (nb == 0) {
             return vueAv1;
         } else if (nb == 1) {
@@ -344,7 +355,7 @@ public class Controller implements Observateur {
         } else {
             return vueAv4;
         }
-    }
+    }*/
     
     public Aventurier getJoueurCourant(int jc) {
         return joueurs.get(jc);
@@ -443,8 +454,7 @@ public class Controller implements Observateur {
         int cartesTresorCalice = 0;
         
         
-        if (joueurC.getPosition().getNom() == "Le temple du soleil" || joueurC.getPosition().getNom() == "Le temple de la lune" ){ // si le joueur se trouve sur une case pour recuperer le tresor de la pierre sacrée
-            
+        if (joueurC.getPosition().getNom() == "Le temple du soleil" || joueurC.getPosition().getNom() == "Le temple de la lune" ) { // si le joueur se trouve sur une case pour recuperer le tresor de la pierre sacrée     
             for (CarteDosOrange carte : joueurC.getMain()){
                 if (carte.getTresor().getNomTresor() == "La Pierre sacrée"){ // on compte combien de carte tresor de la pierre sacrée il a dans la main
                     cartesTresorPierre++;
@@ -454,8 +464,7 @@ public class Controller implements Observateur {
                 return tresors.get(0);
             }
         }
-        if (joueurC.getPosition().getNom() == "Le jardin des hurlements" || joueurC.getPosition().getNom() == "Le jardin des murmures" ){ // si le joueur se trouve sur une case pour recuperer le tresor de la statue du zephyr
-            
+        if (joueurC.getPosition().getNom() == "Le jardin des hurlements" || joueurC.getPosition().getNom() == "Le jardin des murmures" ) { // si le joueur se trouve sur une case pour recuperer le tresor de la statue du zephyr
             for (CarteDosOrange carte : joueurC.getMain()){
                 if (carte.getTresor().getNomTresor() == "La Statue du zephyr"){ // on compte combien de carte tresor de la statue du zephyr il a dans la main
                     cartesTresorStatue++;
@@ -466,8 +475,7 @@ public class Controller implements Observateur {
     
             }
         }
-        if (joueurC.getPosition().getNom() == "La caverne du brasier" || joueurC.getPosition().getNom() == "La caverne des ombres" ){ // si le joueur se trouve sur une case pour recuperer le tresor du cristal ardent
-            
+        if (joueurC.getPosition().getNom() == "La caverne du brasier" || joueurC.getPosition().getNom() == "La caverne des ombres" ) { // si le joueur se trouve sur une case pour recuperer le tresor du cristal ardent
             for (CarteDosOrange carte : joueurC.getMain()){
                 if (carte.getTresor().getNomTresor() == "Le cristal ardent"){ // on compte combien de carte tresor ddu cristal ardent il a dans la main
                     cartesTresorCristal++;
@@ -478,8 +486,7 @@ public class Controller implements Observateur {
     
             }
         }
-        if (joueurC.getPosition().getNom() == "Le palais de corail" || joueurC.getPosition().getNom() == "Le palais des marrées" ){ // si le joueur se trouve sur une case pour recuperer le tresor du calice de l'onde
-            
+        if (joueurC.getPosition().getNom() == "Le palais de corail" || joueurC.getPosition().getNom() == "Le palais des marrées" ) { // si le joueur se trouve sur une case pour recuperer le tresor du calice de l'onde
             for (CarteDosOrange carte : joueurC.getMain()){
                 if (carte.getTresor().getNomTresor() == "Le Calice de l'onde"){  // on compte combien de carte tresor du calcie de l'onde il a dans la main
                     cartesTresorCalice++;
@@ -572,18 +579,19 @@ public class Controller implements Observateur {
      
 
     public void tourDeJeu(){///////////////////////////////////////////////////////////////////////////////////////
-        vueAv1.cacher();
+        /*vueAv1.cacher();
         vueAv2.cacher();
         if (nbJoueurs >= 3) {
             vueAv3.cacher();
             if (nbJoueurs == 4) {
                 vueAv4.cacher();
             }
-        }
+        }*/
         nbAction = 0;
         joueurC = getJoueurCourant(nbJ);
         System.out.println(joueurC.getNom());
         jeu.setNom(joueurC.getNom());
+        jeu.debutTour();
         jeu.repaint();
         //VueAventurier vueCourante = vueAvC(nbJ);
         //vueCourante.afficher();
