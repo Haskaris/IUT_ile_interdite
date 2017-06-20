@@ -7,6 +7,7 @@ package Controlleur;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Observable;
 import java.util.Random;
 import javax.swing.JFrame;
@@ -25,6 +26,7 @@ import model.Grille;
 import model.Tresor;
 import model.Tuile;
 import model.aventurier.*;
+import util.Parameters;
 import static util.Utils.Pion.BLEU;
 import view.*;
 //package util;
@@ -348,6 +350,13 @@ public class Controller implements Observateur {
         return joueurs.get(jc);
     }
     
+    public static ArrayList<CarteDosOrange> melangerCartesOranges(ArrayList<CarteDosOrange> arrayList) {
+        if (Parameters.ALEAS) {
+            Collections.shuffle(arrayList);
+        }
+        return arrayList ;
+    }
+    
     public void créerTresors(){
         tresors = new ArrayList<>();
         Tresor tresor1 = new Tresor("La Pierre sacrée");        // création des 4 tresors du jeu
@@ -386,6 +395,10 @@ public class Controller implements Observateur {
                 piocheInondation.add(new CarteInondation(grille[i][j]));        // pour chaque tuile de la grille, il éxiste une carte inondation correspondante
             }
         }
+        
+        
+        
+        
     }
 
     public int getRandom(int min , int max){                        // renvoi un nombre aléatoire entre min et max
@@ -488,11 +501,9 @@ public class Controller implements Observateur {
      public void piocherDeuxCartes(){
          for (int i = 0; i<3; i++){
              if (piocheOrange.size() == 0){                                 // a chaque fois on verifie si la pioche est vide, et si elle l'est
-                 for (CarteDosOrange liste : defausseOrange){               // on parcours toute la defausse
-                     int numRandom = getRandom(0, defausseOrange.size());    
-                     piocheOrange.add(defausseOrange.get(numRandom));       // on remplie la pioche avec les cartes de la defausse dans un ordre aléatoire (pour mélanger)
-                     defausseOrange.remove(defausseOrange.get(numRandom));
-                 
+                 for (CarteDosOrange carte : melangerCartesOranges(defausseOrange)){               // on parcours toute la defausse melangée
+                     piocheOrange.add(carte);                                                      // on ajoute les carte de la defausse dans la pioche
+                     defausseOrange.remove(carte);                                                 // on vide ka defausse
                  }
              }
             int numRandom = getRandom(0, piocheOrange.size());             // au hasard
