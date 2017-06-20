@@ -435,7 +435,7 @@ public class Controller implements Observateur {
             }
         }       // affiche si un don de carte est possible entre joueurs
     
-    public Tresor GagnerTresorPossible(){
+    public Tresor gagnerTresorPossible(){
         int cartesTresorPierre = 0;
         int cartesTresorStatue = 0;
         int cartesTresorCristal = 0;
@@ -495,7 +495,7 @@ public class Controller implements Observateur {
     }       // renvoi un tresor qui peut être gagné actuellement par le joueur courant
     
     public void gagnerTresor(){
-            tresorsGagnés.add(GagnerTresorPossible());                              // on l'ajoute a la liste des trésors gagnés;
+            tresorsGagnés.add(gagnerTresorPossible());                              // on l'ajoute a la liste des trésors gagnés;
         }                   // ajout du tresor possible dans la liste des tresors récupérés
            
         
@@ -547,12 +547,27 @@ public class Controller implements Observateur {
         }
     } // pioche nb de cartes inondation = niveau d'eau de l'echelle , gere pioche vide + change l'etat des tuiles
      
-    public void EneleverCarteSurplus(CarteDosOrange carte){
+    public void afficherMain(){
+        System.out.println("Voici vos cartes :");
+        for (CarteDosOrange carte : joueurC.getMain()){
+            if (carte.getClass().equals(CarteTresor.class)){
+                System.out.print(" - Carte tresor : ");
+                System.out.println(carte.getTresor());
+            } else if (carte.getClass().equals(CarteHelicoptere.class)){
+                System.out.println(" - Carte Helicoptère");
+            } else if (carte.getClass().equals(CarteSacDeSable.class)){
+                System.out.println(" - Carte Sac de sable");
+            }
+        }
+    
+    }
+    
+    
+    
+    public void enleverCarteSurplus(CarteDosOrange carte){
         defausseOrange.add(carte);                          // ajoute la carte a la defausse
         joueurC.removeCarteMain(carte);                     // retire la carte de la main du joueur
     }  // ajoute la carte à la defausse orange et retire la carte de la main du joueur
-    
-    
      
 
     public void tourDeJeu(){///////////////////////////////////////////////////////////////////////////////////////
