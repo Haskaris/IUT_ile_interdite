@@ -43,10 +43,10 @@ public class Controller implements Observateur {
     private static VueAventurier vueAv1, vueAv2, vueAv3, vueAv4;
     private static int nbJoueurs = 2;
     private static int nbAction = 0;
-    private static String nomJ1 = "Ugo";
-    private static String nomJ2 = "Mathis";
-    private static String nomJ3 = "Andrea";
-    private static String nomJ4 = "Thomas";
+    private static String nomJ1;
+    private static String nomJ2;
+    private static String nomJ3;
+    private static String nomJ4;
     private static int difficulte;// à changer pour l'échelle
     private static Echelle echelle;
     private static int nbJ = 0;
@@ -64,18 +64,21 @@ public class Controller implements Observateur {
         
         //c = new Controller();
         
-        joueurs = new ArrayList<>();
         
-        setGrilleJeu(new Grille());                                             //Initialisation de la grille
+        
+                                                     //Initialisation de la grille
         new Controller();
-        bienvenue.afficher();
+        
     }
     
     public Controller() {
+        joueurs = new ArrayList<>();
+        setGrilleJeu(new Grille());
         bienvenue = new VueBienvenue(this);
         paramJeu = new VueParamJeu(this);
         regles = new VueRegles(this);
-        jeu = new VueJeu(this, grilleJeu);///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        bienvenue.afficher();
     }
 
     public static void setGrilleJeu(Grille GrilleJeu) {                         //Fonction permettant de lier les grilles (joueurs - controlleur) 
@@ -233,20 +236,24 @@ public class Controller implements Observateur {
             if (i == 0) {
                 av1 = role;
                 av1.setPosition(grilleJeu.trouverTuile(nomPos));
+                grilleJeu.trouverTuile(nomPos).addJoueur(av1);
                 randomSauv1 = random;
             } else if (i == 1) {
                 av2 = role;
                 av2.setPosition(grilleJeu.trouverTuile(nomPos));
+                grilleJeu.trouverTuile(nomPos).addJoueur(av2);
                 randomSauv2 = random;
             } else if (i == 2) {
                 av3 = role;
                 av3.setPosition(grilleJeu.trouverTuile(nomPos));
+                grilleJeu.trouverTuile(nomPos).addJoueur(av3);
                 randomSauv3 = random;
             } else {
                 av4 = role;
                 av4.setPosition(grilleJeu.trouverTuile(nomPos));
+                grilleJeu.trouverTuile(nomPos).addJoueur(av4);
             }
-            
+            jeu = new VueJeu(this, grilleJeu);
         }
     }
     
@@ -305,7 +312,7 @@ public class Controller implements Observateur {
     @Override
     public ArrayList<String> getJoueurTuile(Tuile tuile) {         //Retourn une collection des Aventurier présent sur une tuile
         ArrayList<Aventurier> Aventurier = tuile.getJoueurs();
-        ArrayList<String> Joueurs = null;
+        ArrayList<String> Joueurs = new ArrayList<>();
         
         for (Aventurier j : Aventurier){
             if (j.getClass() == Explorateur.class){
@@ -523,21 +530,23 @@ public class Controller implements Observateur {
      
 
     public void tourDeJeu(){///////////////////////////////////////////////////////////////////////////////////////
-        vueAv1.cacher();
-        vueAv2.cacher();
-        if (nbJoueurs >= 3) {
-            vueAv3.cacher();
-            if (nbJoueurs == 4) {
-                vueAv4.cacher();
+            vueAv1.cacher();
+            vueAv2.cacher();
+            if (nbJoueurs >= 3) {
+                vueAv3.cacher();
+                if (nbJoueurs == 4) {
+                    vueAv4.cacher();
+                }
             }
-        }
-        nbAction = 0;
-        joueurC = getJoueurCourant(nbJ);
-        System.out.println(joueurC.getNom());
-        jeu.setNom(joueurC.getNom());
-        jeu.repaint();
-        //VueAventurier vueCourante = vueAvC(nbJ);
-        //vueCourante.afficher();
+            nbAction = 0;
+            joueurC = getJoueurCourant(nbJ);
+            System.out.println(joueurC.getNom());
+            jeu.setNom(joueurC.getNom());
+            jeu.repaint();
+            //VueAventurier vueCourante = vueAvC(nbJ);
+            //vueCourante.afficher
+        
+        
         
     }
 }

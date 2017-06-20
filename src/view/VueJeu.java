@@ -46,7 +46,7 @@ public class VueJeu {
     private JPanel panPlon = new JPanel();
     
     private Grille grille;
-    private String nomJoueurCourant = "AH";
+    private String nomJoueurCourant;
     private boolean depl;
     private int positionDemandee;
     private int x, y;
@@ -139,8 +139,14 @@ public class VueJeu {
                         btnTuiles[i][j].setForeground(Color.WHITE);
                         panelGrille.add(panTuiles[i][j]);
                         
+                        System.out.println("ntm");
                         int k = 0;
-                        if (o.getJoueurTuile(grilleTab[i][j]) != null){
+                        for (String joueur: o.getJoueurTuile(grilleTab[i][j])){
+                            System.out.println(joueur + " tuile: " + grilleTab[i][j].getNom());
+                        }
+                        
+                        
+                        if (o.getJoueurTuile(grilleTab[i][j]).size() != 0){
                             for (String joueur : o.getJoueurTuile(grilleTab[i][j])){    //parcours des joueurs présent sur la tuile
                                 if (joueur == "Expl"){
                                     panJTuiles[i][j].add(panExpl);
@@ -156,10 +162,13 @@ public class VueJeu {
                                     panJTuiles[i][j].add(panPlon);
                                 }
                                 k++;
+                                System.out.println("/// " +joueur);
                             }
                         }
                         for (int l = k; l < 5; l++){                //Ajout de panel vide pour combler panJTuiles si il ni a pas les 4 aventurier sur la tuile
-                            panJTuiles[i][j].add(new JPanel());
+                            JPanel panDefaut = new JPanel();
+                            panDefaut.setBackground(Color.LIGHT_GRAY);
+                            panJTuiles[i][j].add(panDefaut);
                         }
                         
                     }
