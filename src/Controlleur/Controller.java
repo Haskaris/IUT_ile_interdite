@@ -547,7 +547,12 @@ public class Controller implements Observateur {
         }
     } // pioche nb de cartes inondation = niveau d'eau de l'echelle , gere pioche vide + change l'etat des tuiles
      
-     
+    public void jetterCartesurplus(CarteDosOrange carte){
+        defausseOrange.add(carte);                          // ajoute la carte a la defausse
+        joueurC.removeCarteMain(carte);                     // retire la carte de la main du joueur
+    }  // ajoute la carte à la defausse orange et retire la carte de la main du joueur
+    
+    
      
 
     public void tourDeJeu(){///////////////////////////////////////////////////////////////////////////////////////
