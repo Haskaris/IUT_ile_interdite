@@ -89,6 +89,7 @@ public class Controller implements Observateur {
         créerTresors();
         remplirPiocheOrange();
         remplirPiocheInondation();
+        bienvenue.afficher();
     }
 
     public static void setGrilleJeu(Grille GrilleJeu) {                         //Fonction permettant de lier les grilles (joueurs - controlleur) 
