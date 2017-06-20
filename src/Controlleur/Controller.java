@@ -489,19 +489,13 @@ public class Controller implements Observateur {
          for (int i = 0; i<3; i++){
              if (piocheOrange.size() == 0){                                 // a chaque fois on verifie si la pioche est vide, et si elle l'est
                  for (CarteDosOrange liste : defausseOrange){               // on parcours toute la defausse
-                     int numRandom = getRandom(0, piocheOrange.size());    
-                     piocheOrange.add(defausseOrange.get(numRandom));
+                     int numRandom = getRandom(0, defausseOrange.size());    
+                     piocheOrange.add(defausseOrange.get(numRandom));       // on remplie la pioche avec les cartes de la defausse dans un ordre aléatoire (pour mélanger)
                      defausseOrange.remove(defausseOrange.get(numRandom));
                  
                  }
-             
-             
              }
-
-
-
-                                                                            // on pioche 2 cartes
-             int numRandom = getRandom(0, piocheOrange.size());             // au hasard
+            int numRandom = getRandom(0, piocheOrange.size());             // au hasard
              if (piocheOrange.get(numRandom).getClass().equals(CarteMonteeDesEaux.class)){      // si la carte est une carte montées des eaux
                  defausseOrange.add(piocheOrange.get(numRandom));                               // on ajoute la carte dans la defausse orange
                  piocheOrange.remove(piocheOrange.get(numRandom));                              //  on la supprime de la pioche
