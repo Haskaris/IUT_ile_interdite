@@ -16,6 +16,7 @@ import model.CarteInondation;
 import model.CarteMonteeDesEaux;
 import model.CarteSacDeSable;
 import model.CarteTresor;
+import model.Echelle;
 import model.aventurier.Aventurier;
 import model.Grille;
 import util.Message;
@@ -46,7 +47,8 @@ public class Controller implements Observateur {
     private static String nomJ2 = "Mathis";
     private static String nomJ3 = "Andrea";
     private static String nomJ4 = "Thomas";
-    private static int difficulte;
+    private static int difficulte;// à changer pour l'échelle
+    private static Echelle echelle;
     private static int nbJ = 0;
     private static Grille grilleJeu;
     private static ArrayList<Aventurier> joueurs;
@@ -482,9 +484,27 @@ public class Controller implements Observateur {
         }
      }
    
+     
+     public void piocherDeuxCartes(){
+         for (int i = 0; i<3; i++){
+             int numRandom = getRandom(0, piocheOrange.size());
+             if (piocheOrange.get(numRandom).getClass().equals(CarteMonteeDesEaux.class)){
+                 piocheOrange.remove(piocheOrange.get(numRandom));
+                 echelle.incrementerCran();
+                 defausseOrange.add(piocheOrange.get(numRandom));
+         } else {
+               joueurC.addCarteMain(piocheOrange.get(numRandom));
+               piocheOrange.remove(piocheOrange.get(numRandom));
+         }
+     
+        }
+     }
     
     
-    
+     
+     
+     
+     
 
     public void tourDeJeu(){///////////////////////////////////////////////////////////////////////////////////////
         vueAv1.cacher();
