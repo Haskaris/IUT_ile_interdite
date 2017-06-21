@@ -150,6 +150,18 @@ public class Controller implements Observateur {
                     popUp = new VuePopUp(this, joueurC.getMain());
                     popUp.afficher();
              }
+             Boolean bool;
+            jeu.resetMainIHM();
+            for (Aventurier av: joueurs){
+                if (av == joueurC){
+                    bool = true;
+               } 
+                else {
+                    bool = false;
+                }
+                jeu.afficherMain(av.getMain(), bool, av.getNom(), av.getPion());
+            }
+            jeu.repaint();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_PrendreTresors) {
             gagnerTresor();
             ArrayList<CarteDosOrange> carteTemp = new ArrayList<>();
