@@ -272,7 +272,6 @@ public class VueJeu {
             });
 
             btnFinTour.addActionListener(new ActionListener() {                     // Fin de tour
-                @Override
                 public void actionPerformed(ActionEvent e) {
 
                     // Affichage de la selection de l'action
@@ -286,7 +285,6 @@ public class VueJeu {
                 }
             });
         }
-    
 
     public void afficher() {
         window.setVisible(true);
