@@ -588,6 +588,7 @@ public class Controller implements Observateur {
                 System.out.println(" - Carte Sac de sable");
             }
         }
+        
     
     }
     
@@ -648,7 +649,18 @@ public class Controller implements Observateur {
         jeu.debutTour();
         jeu.repaint();
         
-        afficherMain();
+        //afficherMain();
+        Boolean bool;
+        for (Aventurier av: joueurs){
+            if (av == joueurC){
+                bool = true;
+            }
+            else {
+                bool = false;
+            }
+            jeu.afficherMain(av.getMain(), bool);
+        }
+        
         //VueAventurier vueCourante = vueAvC(nbJ);
         //vueCourante.afficher();
         
