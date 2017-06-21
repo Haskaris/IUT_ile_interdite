@@ -308,6 +308,7 @@ public class VueJeu {
     public void afficherMain(ArrayList<CarteDosOrange> main, boolean jc, String nomJ, Pion pion) {
         JPanel panelTmp;
         JButton[] cartesMainTmp = new JButton[5];
+        JLabel labelCarteMainAutre;
         tailleMain = Integer.min(main.size()-1,cartesMain.length-1)+1;
         System.out.println(cartesMain.length);
         if (jc) {                                                                //Gestion de la main du joueur courant ou autres joueurs?
@@ -324,13 +325,24 @@ public class VueJeu {
 
         int i = 0;
         while (i < tailleMain ) {                         // Parcours de la main du joueurs
-            if (main.get(i).getClass().equals(CarteTresor.class)) {
+            if (jc){
+                if (main.get(i).getClass().equals(CarteTresor.class)) {
                 cartesMainTmp[i] = new JButton(main.get(i).getTresor().getNomTresor());
-            } else {
+                }   else {
                 cartesMainTmp[i] = new JButton(main.get(i).getClass().getSimpleName());
+                }
+                cartesMainTmp[i].setEnabled(false);
+                panelTmp.add(cartesMainTmp[i]);
             }
-            cartesMainTmp[i].setEnabled(false);
-            panelTmp.add(cartesMainTmp[i]);
+            else {
+                if (main.get(i).getClass().equals(CarteTresor.class)) {
+                labelCarteMainAutre = new JLabel(main.get(i).getTresor().getNomTresor());
+                }   else {
+                labelCarteMainAutre = new JLabel(main.get(i).getClass().getSimpleName());
+                }
+                panelTmp.add(labelCarteMainAutre);
+            }
+ 
             i++;
         }
         
