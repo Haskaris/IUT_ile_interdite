@@ -597,8 +597,6 @@ public class Controller implements Observateur {
                 }
             }
         }
-        
-        
         // pas fini du tout
        
     } // gestion de la fin du jeu (lose ou win) (win pas encore fait)
@@ -615,8 +613,6 @@ public class Controller implements Observateur {
                 System.out.println(" - Carte Sac de sable");
             }
         }
-        
-    
     }
     
     @Override
@@ -658,6 +654,7 @@ public class Controller implements Observateur {
     
      
     public void tourDeJeu() {
+        Pilote avP = new Pilote("");
         nbAction = 0;
         joueurC = getJoueurCourant(nbJ);
         System.out.println(joueurC.getNom());
@@ -667,7 +664,14 @@ public class Controller implements Observateur {
             popUp = new VuePopUp(this, joueurC.getMain());
             popUp.afficher();
         }
-        //////////////////////  Ici mettre le pouvoir du pilote à faux  /////////////////////
+        
+        if (joueurC.getClass().getSimpleName().equals("Pilote")) {
+            avP = (Pilote) joueurC;
+            avP.setPouvoirUtilise(false);
+            joueurC = avP;
+            System.out.println("Pouvoir remis à 0");
+        }
+        
         jeu.debutTour();
         jeu.repaint();
         
@@ -685,7 +689,7 @@ public class Controller implements Observateur {
         }
         
         gestionFinJeu();
-        System.out.println("Made by JACQUETCorp ©");
+        System.out.println("Made by JACQUETCorp + Ugo le stagiaire ©");
         
     }
 }
