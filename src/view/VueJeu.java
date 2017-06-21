@@ -57,7 +57,7 @@ public class VueJeu {
     private boolean depl;
     private int x, y;
     private JLabel labelJC;
-    private JPanel panelGrille, panelPrincipal, panelMenu, panelBtn, panelBtnAction, panelSouth, panelMain, panelLateral;
+    private JPanel panelGrille, panelPrincipal, panelMenu, panelBtnAction, panelSouth, panelMain, panelLateral;
     private boolean deplApp = false;
     private boolean assApp = false;
 
@@ -74,20 +74,23 @@ public class VueJeu {
 
         this.observateur = o;
         
-        panelPrincipal = new JPanel(new BorderLayout());
-        panelGrille = new JPanel(new GridLayout(6, 6));                  // Panel de la grille
+        // Initialisation des panneaux 
+        panelPrincipal = new JPanel(new BorderLayout());                        
+        
+        panelGrille = new JPanel(new GridLayout(6, 6));                         // Contient la grille
         panelPrincipal.add(panelGrille, BorderLayout.CENTER);
         
-        panelSouth = new JPanel(new BorderLayout());
+        panelSouth = new JPanel(new BorderLayout());                            // Contient la main du joueur Courant et boutons d'actions
         panelPrincipal.add(panelSouth, BorderLayout.SOUTH);
         
-        panelMenu = new JPanel();                     // Panel des boutons d'actions
+        panelMenu = new JPanel(new BorderLayout());                             // Panel des boutons d'actions
         panelSouth.add(panelMenu,BorderLayout.EAST);
         
-        panelBtn = new JPanel(new BorderLayout());
-        panelBtnAction = new JPanel(new GridLayout(2,2));
-        panelBtn.add(panelBtnAction, BorderLayout.CENTER);
-        panelMenu.add(panelBtn);
+                                    // 
+        
+        panelBtnAction = new JPanel(new GridLayout(2,2));                       // Panel boutons d'actions (sauf Fin Tour)
+        panelMenu.add(panelBtnAction, BorderLayout.CENTER);
+        
         
         panelLateral = new JPanel(new GridLayout(4, 1));
         panelPrincipal.add(panelLateral, BorderLayout.EAST);
@@ -191,7 +194,7 @@ public class VueJeu {
         panelBtnAction.add(btnDeplacement);
         panelBtnAction.add(btnDonnerCarte);
         panelBtnAction.add(btnPrendreTresor);
-        panelBtn.add(btnFinTour, BorderLayout.SOUTH);
+        panelMenu.add(btnFinTour, BorderLayout.SOUTH);
 
         btnAssechement.addActionListener(new ActionListener() {
             @Override
@@ -291,28 +294,28 @@ public class VueJeu {
     public void afficherMain(ArrayList<CarteDosOrange> main, boolean jc){
         JPanel panelTmp;
         
-        if (jc){
+        if (jc){                                                                //Gestion de la main du joueur courant ou autres joueurs?
             panelTmp = panelMain;
         }
         else {
             panelTmp = panelLateral;
         }
         
-        panelTmp.removeAll();
+        panelTmp.removeAll();                                                   //Actualisation des panels
         
         int i = 0;
-        while (i<cartesMain.length && i < main.size()){
-            cartesMain[i] = new JButton(main.get(i).getClass().getName());
+        while (i<cartesMain.length && i < main.size()){                         // Parcours de la main du joueurs
+            cartesMain[i] = new JButton(main.get(i).getClass().getName());      
             panelTmp.add(cartesMain[i]);
             i++;
         }
         
     }   
     
-    public void afficherPossible(ArrayList<Tuile> tuilesPossibles){
-        for (Tuile tuile: tuilesPossibles){
-                btnTuiles[tuile.getX()][tuile.getY()].setBackground(Color.YELLOW);
-                btnTuiles[tuile.getX()][tuile.getY()].setEnabled(true);
+    public void afficherPossible(ArrayList<Tuile> tuilesPossibles){             
+        for (Tuile tuile: tuilesPossibles){                                     // Parcours des tuiles possibles
+                btnTuiles[tuile.getX()][tuile.getY()].setBackground(Color.YELLOW);  //Affichage en jaune 
+                btnTuiles[tuile.getX()][tuile.getY()].setEnabled(true);         // Activation des boutons
         }
     }
     
