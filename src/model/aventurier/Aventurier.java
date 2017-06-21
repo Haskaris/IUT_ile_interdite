@@ -74,34 +74,29 @@ public abstract class Aventurier {
                 }
             } else if (depl == false) {                                         //Si la recherche de tuile est pour un assechement
                 if (posX > 0) {                                                //Si le joueur n'est pas sur la bordure de gauche
-                    System.out.println(tuiles[posX-1][posY].getNom());
                     if (tuiles[posX-1][posY].getNom() != "null" &&
                             (tuiles[posX-1][posY].getEtat() == Etat.inondee)) {
                         tuilesPossibles.add(tuiles[posX-1][posY]);
                     }
                 }
                 if (posX < 5) {                                                //Si le joueur n'est pas sur la bordure de droite
-                    System.out.println(tuiles[posX+1][posY].getNom());
                     if (tuiles[posX+1][posY].getNom() != "null" &&
                             (tuiles[posX+1][posY].getEtat() == Etat.inondee)) {
                         tuilesPossibles.add(tuiles[posX+1][posY]);
                     }
                 }
                 if (posY < 5) {                                                //Si le joueur n'est pas sur la bordure du bas
-                    System.out.println(tuiles[posX][posY+1].getNom());
                     if (tuiles[posX][posY+1].getNom() != "null" &&
                             (tuiles[posX][posY+1].getEtat() == Etat.inondee)) {
                         tuilesPossibles.add(tuiles[posX][posY+1]);
                     }
                 }
                 if (posY > 0) {                                                //Si le joueur n'est pas sur la bordure du haut
-                    System.out.println(tuiles[posX][posY-1].getNom());
                     if (tuiles[posX][posY-1].getNom() != "null" &&
                             (tuiles[posX][posY-1].getEtat() == Etat.inondee)) {
                         tuilesPossibles.add(tuiles[posX][posY-1]);
                     }
                 }
-                System.out.println(tuiles[posX][posY].getNom());
                 if (tuiles[posX][posY].getEtat() == Etat.inondee) {
                     tuilesPossibles.add(tuiles[posX][posY]);
                 }   
