@@ -19,6 +19,7 @@ public class Tuile {
     private int y;
     private Etat etat;
     private ArrayList<Aventurier> joueurs;
+    private Tresor tresor;
     
     Tuile(String nom, int x, int y){
         setNom(nom);
@@ -96,6 +97,20 @@ public class Tuile {
     
     public void supprJoueur(Aventurier joueur) {
         joueurs.remove(joueur);
+    }
+
+    /**
+     * @return the tresor
+     */
+    public Tresor getTresor() {
+        return tresor;
+    }
+
+    /**
+     * @param tresor the tresor to set
+     */
+    public void setTresor(Tresor tresor) {
+        this.tresor = tresor;
     }
     
 }
