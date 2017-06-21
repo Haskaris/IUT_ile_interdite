@@ -76,7 +76,7 @@ public class VueJeu {
         window.setTitle("ILE INTERDITE");
 
         this.observateur = o;
-
+        
         panelPrincipal = new JPanel(new BorderLayout());
         panelGrille = new JPanel(new GridLayout(6, 6));                  // Panel de la grille
         panelPrincipal.add(panelGrille, BorderLayout.CENTER);
@@ -294,7 +294,7 @@ public class VueJeu {
             cartesMain[i] = new JButton(main.get(i).getClass().getName());
             panelMain.add(cartesMain[i]);
             i++;
-        } 
+        }
         
     }   
     
@@ -393,10 +393,12 @@ public class VueJeu {
                 }
                         
                 afficheJoueurGrille(i, j);
-                        
+                
             }
         }
+        window.revalidate();
     }
+   
 
     public String getNom() {
         return nomJoueurCourant;

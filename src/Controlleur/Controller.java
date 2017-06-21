@@ -574,6 +574,8 @@ public class Controller implements Observateur {
                 System.out.println(" - Carte Sac de sable");
             }
         }
+        
+        jeu.afficherMain(joueurC.getMain());
     
     }
     
