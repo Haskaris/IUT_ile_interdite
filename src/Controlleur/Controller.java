@@ -644,11 +644,16 @@ public class Controller implements Observateur {
     }  // la tuile donnée devient assechée
     
     public void utiliserCarteHelicoptere(Tuile tuile){
+        if (tuile.getEtat() != Utils.EtatTuile.COULEE){                         // vérifie si la tuile cible est une tuile submergée
+            for(Aventurier av : joueurC.getPosition().getJoueurs()){            // si non 
+                tuile.addJoueur(av);                                            // alors on déplace tous les joueurs qui sont sur la me case qe le joueur courant sur la case cible
+            }
+        } else {
+            afficherInformation("La tuile cible est submergée, utilisation hélicoptere impossible");
         
+        }
     
-    
-    
-    } // pas fait
+    } // deplace tous les joueurs d'une case sur la tuile donnée
     
     
      
