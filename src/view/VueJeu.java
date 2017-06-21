@@ -204,6 +204,7 @@ public class VueJeu {
 
                 }
             }
+        }
 
             // Actions Listeners des boutons d'actions
             btnAssechement.addActionListener(new ActionListener() {                 // Assechement
@@ -285,7 +286,7 @@ public class VueJeu {
                 }
             });
         }
-    }
+    
 
     public void afficher() {
         window.setVisible(true);
