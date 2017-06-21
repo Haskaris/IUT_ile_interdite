@@ -48,44 +48,52 @@ public abstract class Aventurier {
         Tuile[][] tuiles = getGrilleAv().getGrille();
         
             if (depl == true) {                                                 //Si la recherche de tuile est pour un déplacement
-                if ((posX > 2 && (posY == 0 || posY == 5)) || (posX > 1 && (posY == 1 || posY == 4)) || (posX > 0 && (posY == 2 || posY == 3))) {                                                //Si le joueur n'est pas sur la bordure de gauche
-                    if (tuiles[posX-1][posY].getEtat() == Etat.assechee || tuiles[posX-1][posY].getEtat() == Etat.inondee){
+                if (posX > 0) {                                                //Si le joueur n'est pas sur la bordure de gauche
+                    if (tuiles[posX-1][posY].getNom() != "null" && 
+                            (tuiles[posX-1][posY].getEtat() == Etat.assechee || tuiles[posX-1][posY].getEtat() == Etat.inondee)){
                         tuilesPossibles.add(tuiles[posX-1][posY]);
                     } 
                 }
-                if ((posX < 3 && (posY == 0 || posY == 5)) || (posX < 4 && (posY == 1 || posY == 4)) || (posX < 5 && (posY == 2 || posY == 3))) {                                                //Si le joueur n'est pas sur la bordure de droite
-                    if (tuiles[posX+1][posY].getEtat() == Etat.assechee || tuiles[posX+1][posY].getEtat() == Etat.inondee) {
+                if (posX < 5) {                                                //Si le joueur n'est pas sur la bordure de droite
+                    if (tuiles[posX+1][posY].getNom() != "null" && 
+                            (tuiles[posX+1][posY].getEtat() == Etat.assechee || tuiles[posX+1][posY].getEtat() == Etat.inondee)) {
                         tuilesPossibles.add(tuiles[posX+1][posY]);
                     }
                 }
-                if ((posY < 5 && (posX == 2 || posX == 3)) || (posY < 4 && (posX == 1 || posX == 4)) || (posY < 3 && (posX == 0 || posX == 5))) {                                                //Si le joueur n'est pas sur la bordure du bas
-                    if (tuiles[posX][posY+1].getEtat() == Etat.assechee || tuiles[posX][posY+1].getEtat() == Etat.inondee) {
+                if (posY < 5) {                                                //Si le joueur n'est pas sur la bordure du bas
+                    if (tuiles[posX][posY+1].getNom() != "null" &&
+                            (tuiles[posX][posY+1].getEtat() == Etat.assechee || tuiles[posX][posY+1].getEtat() == Etat.inondee)) {
                         tuilesPossibles.add(tuiles[posX][posY+1]);
                     }
                 }
-                if ((posY > 0 && (posX == 2 || posX == 3)) || (posY > 1 && (posX == 1 || posX == 4)) || (posY > 2 && (posX == 0 || posX == 5))) {                                                //Si le joueur n'est pas sur la bordure du haut
-                    if (tuiles[posX][posY-1].getEtat() == Etat.assechee || tuiles[posX][posY-1].getEtat() == Etat.inondee) {
+                if (posY > 0) {                                                //Si le joueur n'est pas sur la bordure du haut
+                    if (tuiles[posX][posY-1].getNom() != "null" &&
+                            (tuiles[posX][posY-1].getEtat() == Etat.assechee || tuiles[posX][posY-1].getEtat() == Etat.inondee)) {
                         tuilesPossibles.add(tuiles[posX][posY-1]);
                     }
                 }
             } else if (depl == false) {                                         //Si la recherche de tuile est pour un assechement
-                if ((posX > 2 && (posY == 0 || posY == 5)) || (posX > 1 && (posY == 1 || posY == 4)) || (posX > 0 && (posY == 2 || posY == 3))) {                                                //Si le joueur n'est pas sur la bordure de gauche
-                    if (tuiles[posX-1][posY].getEtat() == Etat.inondee){
+                if (posX > 0) {                                                //Si le joueur n'est pas sur la bordure de gauche
+                    if (tuiles[posX-1][posY].getNom() != "null" &&
+                            (tuiles[posX-1][posY].getEtat() == Etat.inondee)) {
                         tuilesPossibles.add(tuiles[posX-1][posY]);
                     }
                 }
-                if ((posX < 3 && (posY == 0 || posY == 5)) || (posX < 4 && (posY == 1 || posY == 4)) || (posX < 5 && (posY == 2 || posY == 3))) {                                                //Si le joueur n'est pas sur la bordure de droite
-                    if (tuiles[posX+1][posY].getEtat() == Etat.inondee) {
+                if (posX < 5) {                                                //Si le joueur n'est pas sur la bordure de droite
+                    if (tuiles[posX+1][posY].getNom() != "null" &&
+                            (tuiles[posX+1][posY].getEtat() == Etat.inondee)) {
                         tuilesPossibles.add(tuiles[posX+1][posY]);
                     }
                 }
-                if ((posY < 5 && (posX == 2 || posX == 3)) || (posY < 4 && (posX == 1 || posX == 4)) || (posY < 3 && (posX == 0 && posX == 5))) {                                                //Si le joueur n'est pas sur la bordure du bas
-                    if (tuiles[posX][posY+1].getEtat() == Etat.inondee) {
+                if (posY < 5) {                                                //Si le joueur n'est pas sur la bordure du bas
+                    if (tuiles[posX][posY+1].getNom() != "null" &&
+                            (tuiles[posX][posY+1].getEtat() == Etat.inondee)) {
                         tuilesPossibles.add(tuiles[posX][posY+1]);
                     }
                 }
-                if ((posY > 0 && (posX == 2 || posX == 3)) || (posY > 1 && (posX == 1 || posX == 4)) || (posY > 2 && (posX == 0 && posX == 5))) {                                                //Si le joueur n'est pas sur la bordure du haut
-                    if (tuiles[posX][posY-1].getEtat() == Etat.inondee) {
+                if (posY > 0) {                                                //Si le joueur n'est pas sur la bordure du haut
+                    if (tuiles[posX][posY-1].getNom() != "null" &&
+                            (tuiles[posX][posY-1].getEtat() == Etat.inondee)) {
                         tuilesPossibles.add(tuiles[posX][posY-1]);
                     }
                 }

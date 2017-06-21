@@ -111,27 +111,32 @@ public class Controller implements Observateur {
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Quitter) {
             bienvenue.fermer();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Deplacer) {
-            if (nbAction < 3) {
-                jeu.afficherPossible(joueurC.getTuilesPossibles(true)); //Affichage des tuiles où le deplacement est possible
-                setGrilleJeu(joueurC.getGrilleAv());
-                System.out.println("nb act : " + nbAction);
+            if (jeu.getDeplApp()) {
+                if (nbAction < 3) {
+                    jeu.afficherPossible(joueurC.getTuilesPossibles(true)); //Affichage des tuiles où le deplacement est possible
+                    setGrilleJeu(joueurC.getGrilleAv());
+                    System.out.println("nb act : " + nbAction);
+                }
             } else {
-                System.out.println("Impossible, toutes les actions sont utilisées");
-            }    
-            
-            
+                jeu.repaint();
+            }
         }else if (msg.getTypeMessage() == TypesMessage.ACTION_DonnerCarte) {
             afficherDonCartePossible();
             //joueurC.donnerCarte(joueurC, piocheOrange, joueurC);
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Assecher) {      //Affichage des tuiles où l'assechement est possible
-            
-            if (nbAction < 3) {
-                jeu.afficherPossible(joueurC.getTuilesPossibles(false));
-
-                setGrilleJeu(joueurC.getGrilleAv());
-                System.out.println("nb act : " + nbAction);
-            } else {
-                System.out.println("Impossible, toutes les actions sont utilisées");
+            if (jeu.getAss()) {
+                if (nbAction < 3) {
+                    if (jeu.getDeplApp()) {
+                        jeu.repaint();
+                        jeu.setDeplApp(false);
+                    }
+                    jeu.afficherPossible(joueurC.getTuilesPossibles(false));
+                    setGrilleJeu(joueurC.getGrilleAv());
+                    System.out.println("nb act : " + nbAction);
+                } 
+            }
+            else {
+                jeu.repaint();
             }
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Fin) {
             if (nbJ == nbJoueurs-1) {
@@ -141,7 +146,8 @@ public class Controller implements Observateur {
             }
             jeu.setDeplApp(false);
             jeu.setAssApp(false);
-            piocherDeuxCartesOrange();
+            //piocherDeuxCartesOrange();
+            piocherCartesInondation();
             afficherMain();
             System.out.println("N° courant : " + nbJ);
             tourDeJeu();
@@ -273,7 +279,7 @@ public class Controller implements Observateur {
         getAventurier(nomJ, joueurs).deplacementAssechage(x, y, depl);          //Deplace le joueur sur la position souhaitée
         setGrilleJeu(getAventurier(nomJ, joueurs).getGrilleAv());               //Met à jour les grilles du jeu
         nbAction++;
-        System.out.println("nb act : " + nbAction);
+        System.out.println("Ici on a fait avec un boolean " + depl);
         jeu.repaint();
         if (nbAction < 3) {
             jeu.afficherPossible(joueurC.getTuilesPossibles(true));
@@ -418,7 +424,9 @@ public class Controller implements Observateur {
         Tuile[][] grille = grilleJeu.getGrille();
         for (int i = 0; i <= 5 ; i ++){
             for (int j = 0 ; j<= 5; j++){
+                if (grille[i][j].getNom() != "null" ){
                 piocheInondation.add(new CarteInondation(grille[i][j]));        // pour chaque tuile de la grille, il éxiste une carte inondation correspondante
+                }
             }
         }
         piocheInondation = melangerCartesInondation(piocheInondation);          // on melange la pioche des cartes inondation car les cartes etaitent triées dans l'ordre des tuiles    
@@ -538,29 +546,40 @@ public class Controller implements Observateur {
     }// pioche 2 cartes oranges, les ajoutes dans la main du joueur courant (+ rempli la pioche si vide) + si carte piochées = montées des eaux, alors augmente le cran de l'echelle 
    
     public void piocherCartesInondation() {
-        for (int i =0 ; i<echelle.getNiveauEau(); i++){                 // on pioche le nombre de cartes = niveau d'eau
-            if (piocheInondation.size() == 0){                          // si pioche vide
-                for (CarteInondation carte : melangerCartesInondation(defausseInondation)){     // on parcours toute la defausse melangée
+        System.out.println(echelle.getNiveauEau());
+        for (int i = 0 ; i < echelle.getNiveauEau(); i++){                  // on pioche le nombre de cartes = niveau d'eau
+            if (piocheInondation.size() == 0){                              // si pioche vide
+                for (CarteInondation carte : melangerCartesInondation(defausseInondation)) {     // on parcours toute la defausse melangée
                     piocheInondation.add(carte);                                                // on rempli la pioche
                 }
             defausseInondation.clear();                                                         // on vide la defausse
             }
-            int numRandom = getRandom(0, piocheInondation.size());                              // au hasard
+            int numRandom = getRandom(0, piocheInondation.size()-1);                              // au hasard
             
-            if (piocheInondation.get(numRandom).getTuile().getEtat() == Etat.assechee){         // on regarde l'etat de la tuile correspondant à la carte choisie au hasard 
+            if (piocheInondation.get(numRandom).getTuile().getEtat() == Etat.assechee) {         // on regarde l'etat de la tuile correspondant à la carte choisie au hasard 
                 piocheInondation.get(numRandom).getTuile().setEtat(Etat.inondee);               // si la tuile est asséchée elle devient inondée
-        } else if (piocheInondation.get(numRandom).getTuile().getEtat() == Etat.inondee){
+                defausseInondation.add(piocheInondation.get(numRandom));                            // puis on ajoute la carte dans la defausse
+                piocheInondation.remove(piocheInondation.get(numRandom));                           // et on retire la carte de la pioche
+            } else if (piocheInondation.get(numRandom).getTuile().getEtat() == Etat.inondee) {
                 piocheInondation.get(numRandom).getTuile().setEtat(Etat.submergee);             // si la tuile est inondée elle devient submergée
-            } 
-            
-            defausseInondation.add(piocheInondation.get(numRandom));                            // puis on ajoute la carte dans la defausse
-            piocheInondation.remove(piocheInondation.get(numRandom));                           // et on retire la carte de la pioche
-            
-            
-    
+                piocheInondation.remove(piocheInondation.get(numRandom));                           // et on retire la carte inondation du jeu
+            }
         }
     } // pioche nb de cartes inondation = niveau d'eau de l'echelle , gere pioche vide + change l'etat des tuiles
      
+    public void gestionFinTour() {
+        for (int i = 0; i < tresorsGagnés.size(); i++) {
+        }
+        if (grilleJeu.trouverTuile("Heliport").getEtat() == Etat.submergee ){
+            jeu.fermer();
+        }
+        if ((grilleJeu.trouverTuile("Le temple du soleil").getEtat() == Etat.submergee) || 
+                    (grilleJeu.trouverTuile("Le temple du soleil").getEtat() == Etat.submergee)) {
+            
+        
+        }
+    }
+    
     public void afficherMain(){
         System.out.println("Voici vos cartes :");
         for (CarteDosOrange carte : joueurC.getMain()){
@@ -610,7 +629,7 @@ public class Controller implements Observateur {
             popUp = new VuePopUp(this, joueurC.getMain());
             popUp.afficher();
         }
-         
+        //////////////////////  Ici mettre le pouvoir du pilote à faux  /////////////////////
         jeu.debutTour();
         jeu.repaint();
         
