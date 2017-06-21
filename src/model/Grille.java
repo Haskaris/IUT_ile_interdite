@@ -7,6 +7,7 @@
 package model;
 
 import java.util.ArrayList;
+import util.Utils;
 
 /**
  *
@@ -138,7 +139,7 @@ public class Grille {
     public ArrayList<Tuile> getTuilesInondée() {
         for (int j = 0 ; j<6;j++){
             for (int i = 0; i < 6; i++){                //Parcours grille
-                if (grille[i][j].getEtat() == Etat.inondee){
+                if (grille[i][j].getEtat() == Utils.EtatTuile.INONDEE){
                     tuilesInondees.add(grille[i][j]);   // ajout de la tuil inondée dans la liste des tuiles inondées
                 }
             }
@@ -161,6 +162,23 @@ public class Grille {
         }
         return grille[0][0];
     }  
+    
+    public ArrayList<Tuile> getTuilesTresor(Tresor tresor){
+        ArrayList<Tuile> tuiles = new ArrayList<>();
+        for (int i = 0; i <= 5 ; i++){
+            for (int j =0; j <=5 ;j++){
+                if (getGrille()[i][j].getTresor() == tresor)
+                    tuiles.add(getGrille()[i][j]);
+            
+            }
+        }
+        
+        return tuiles;
+    
+    
+    }
+    
+    
 }
     
     

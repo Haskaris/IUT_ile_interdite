@@ -6,7 +6,6 @@
 package model.aventurier;
 
 import java.util.ArrayList;
-import model.Etat;
 import model.Tuile;
 import util.Utils;
 import util.Utils.Pion;
@@ -33,46 +32,46 @@ public class Explorateur extends Aventurier {
         if (depl) {
             if (posX > 0 && posY > 0) {
                 if (tuiles[posX-1][posY-1].getNom() != "null" && 
-                        (tuiles[posX-1][posY-1].getEtat() == Etat.assechee || tuiles[posX-1][posY-1].getEtat() == Etat.inondee)){
+                        (tuiles[posX-1][posY-1].getEtat() == Utils.EtatTuile.ASSECHEE || tuiles[posX-1][posY-1].getEtat() == Utils.EtatTuile.INONDEE)){
                     tuilesPossibles.add(tuiles[posX-1][posY-1]);
                 }
             }
             if (posX < 5 && posY < 5) {
                 if (tuiles[posX+1][posY+1].getNom() != "null" && 
-                        (tuiles[posX+1][posY+1].getEtat() == Etat.assechee || tuiles[posX+1][posY+1].getEtat() == Etat.inondee)) {
+                        (tuiles[posX+1][posY+1].getEtat() == Utils.EtatTuile.ASSECHEE || tuiles[posX+1][posY+1].getEtat() == Utils.EtatTuile.INONDEE)) {
                     tuilesPossibles.add(tuiles[posX+1][posY+1]);
                 }
             }
             if (posX > 0 && posY < 5) {
                 if (tuiles[posX-1][posY+1].getNom() != "null" &&
-                        (tuiles[posX-1][posY+1].getEtat() == Etat.assechee || tuiles[posX-1][posY+1].getEtat() == Etat.inondee)) {
+                        (tuiles[posX-1][posY+1].getEtat() == Utils.EtatTuile.ASSECHEE || tuiles[posX-1][posY+1].getEtat() == Utils.EtatTuile.INONDEE)) {
                     tuilesPossibles.add(tuiles[posX-1][posY+1]);
                 }
             }
             if (posX < 5 && posY > 0) {
                 if (tuiles[posX+1][posY-1].getNom() != "null" &&
-                         (tuiles[posX+1][posY-1].getEtat() == Etat.assechee || tuiles[posX+1][posY-1].getEtat() == Etat.inondee)) {
+                         (tuiles[posX+1][posY-1].getEtat() == Utils.EtatTuile.ASSECHEE || tuiles[posX+1][posY-1].getEtat() == Utils.EtatTuile.INONDEE)) {
                     tuilesPossibles.add(tuiles[posX+1][posY-1]);
                 }
             }
         } else {
             if (posX > 0 && posY > 0) {
-                if (tuiles[posX-1][posY-1].getNom() != "null" && (tuiles[posX-1][posY-1].getEtat() == Etat.inondee)){
+                if (tuiles[posX-1][posY-1].getNom() != "null" && (tuiles[posX-1][posY-1].getEtat() == Utils.EtatTuile.INONDEE)){
                     tuilesPossibles.add(tuiles[posX-1][posY-1]);
                 } 
             }
             if (posX < 5 && posY < 5) {
-                if (tuiles[posX+1][posY+1].getNom() != "null" && (tuiles[posX+1][posY+1].getEtat() == Etat.inondee)) {
+                if (tuiles[posX+1][posY+1].getNom() != "null" && (tuiles[posX+1][posY+1].getEtat() == Utils.EtatTuile.INONDEE)) {
                     tuilesPossibles.add(tuiles[posX+1][posY+1]);
                 }
             }
             if (posX > 0 && posY < 5) {
-                if (tuiles[posX-1][posY+1].getNom() != "null" && (tuiles[posX-1][posY+1].getEtat() == Etat.inondee)) {
+                if (tuiles[posX-1][posY+1].getNom() != "null" && (tuiles[posX-1][posY+1].getEtat() == Utils.EtatTuile.INONDEE)) {
                     tuilesPossibles.add(tuiles[posX-1][posY+1]);
                 }
             }
             if (posX < 5 && posY > 0) {
-                if (tuiles[posX+1][posY-1].getNom() != "null" && (tuiles[posX+1][posY-1].getEtat() == Etat.inondee)) {
+                if (tuiles[posX+1][posY-1].getNom() != "null" && (tuiles[posX+1][posY-1].getEtat() == Utils.EtatTuile.INONDEE)) {
                     tuilesPossibles.add(tuiles[posX+1][posY-1]);
                 }
             }

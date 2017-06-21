@@ -21,6 +21,7 @@ public class Echelle {
     
     public void incrementerCran() {                 // à la suite d'une montée des eaux 
         setCran(getCran()+1);
+        setNiveauEau();
     }
 
     public int getCran() {                          // récupération du niveau de l'échelle
@@ -45,7 +46,7 @@ public class Echelle {
         }
     }
     
-    public void setNiveauEau() {
+    private void setNiveauEau() {
         if(getCran() <= 2){
             this.niveauEau = 2;
         } else if (getCran() > 2 && getCran() < 6){
