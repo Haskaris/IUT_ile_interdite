@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import util.Message;
 import util.TypesMessage;
 import java.util.ArrayList;
+import javax.swing.BoxLayout;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import model.cartesOrange.CarteDosOrange;
@@ -89,10 +90,10 @@ public class VueJeu {
         panelBtn.add(panelBtnAction, BorderLayout.CENTER);
         panelMenu.add(panelBtn);
         
-        panelLateral = new JPanel(new GridLayout(4, 1));
+        panelLateral = new JPanel();
         panelPrincipal.add(panelLateral, BorderLayout.EAST);
         
-        panelMain = new JPanel(new GridLayout(1,5));
+        panelMain = new JPanel();
         panelSouth.add(panelMain, BorderLayout.CENTER);
         
         window.add(panelPrincipal);
@@ -301,6 +302,8 @@ public class VueJeu {
         panelTmp.removeAll();
         
         int i = 0;
+        
+        
         while (i<cartesMain.length && i < main.size()){
             cartesMain[i] = new JButton(main.get(i).getClass().getName());
             panelTmp.add(cartesMain[i]);
