@@ -391,6 +391,14 @@ public class VueJeu {
                     btnTuiles[i][j].setBackground(Color.DARK_GRAY);
                     btnTuiles[i][j].setEnabled(false);
                 }
+                if (grille.getGrille()[i][j].getEtat() == Etat.inondee) {
+                    btnTuiles[i][j].setBackground(Color.ORANGE);
+                    btnTuiles[i][j].setEnabled(false);
+                }
+                if (grille.getGrille()[i][j].getEtat() == Etat.submergee) {
+                    btnTuiles[i][j].setBackground(Color.BLUE);
+                    btnTuiles[i][j].setEnabled(false);
+                }
                         
                 afficheJoueurGrille(i, j);
                         
