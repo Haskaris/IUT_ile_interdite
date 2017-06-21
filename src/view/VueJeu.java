@@ -261,8 +261,6 @@ public class VueJeu {
                     }
                 }
                 
-                Message msg = new Message(TypesMessage.ACTION_DonnerCarte);
-                observateur.traiterMessage(msg);
             }
         });
 
@@ -307,7 +305,6 @@ public class VueJeu {
 
     public void afficherMain(ArrayList<CarteDosOrange> main, boolean jc, String nomJ, Pion pion) {
         JPanel panelTmp;
-        JButton[] cartesMainTmp = new JButton[5];
         JLabel labelCarteMainAutre;
         tailleMain = Integer.min(main.size()-1,cartesMain.length-1)+1;
         System.out.println(cartesMain.length);
@@ -324,17 +321,31 @@ public class VueJeu {
         }
 
         int i = 0;
-        while (i < tailleMain ) {                         // Parcours de la main du joueurs
-            if (jc){
-                if (main.get(i).getClass().equals(CarteTresor.class)) {
-                cartesMainTmp[i] = new JButton(main.get(i).getTresor().getNomTresor());
+        while (i < tailleMain ) {                                               // Parcours de la main du joueur
+            if (jc){                                                            // Création de boutons
+                if (main.get(i).getClass().equals(CarteTresor.class)) {         
+                cartesMain[i] = new JButton(main.get(i).getTresor().getNomTresor());
                 }   else {
-                cartesMainTmp[i] = new JButton(main.get(i).getClass().getSimpleName());
+                cartesMain[i] = new JButton(main.get(i).getClass().getSimpleName());
                 }
-                cartesMainTmp[i].setEnabled(false);
-                panelTmp.add(cartesMainTmp[i]);
+                cartesMain[i].setEnabled(false);
+                panelTmp.add(cartesMain[i]);
+                
+                // Action Listeners de la main principale
+                x = i;
+                if (main.get(i).getClass().equals(CarteTresor.class)){
+                    cartesMain[i].addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            Message msg = new Message(TypesMessage.ACTION_DonnerCarte);
+                            msg.setCarte(main.get(x));
+                            observateur.traiterMessage(msg);
+                        }
+                    });
+                }
+                    
             }
-            else {
+            else {                                                              // Création de label
                 if (main.get(i).getClass().equals(CarteTresor.class)) {
                 labelCarteMainAutre = new JLabel(main.get(i).getTresor().getNomTresor());
                 }   else {
@@ -344,11 +355,14 @@ public class VueJeu {
             }
  
             i++;
+            
+
+            
         }
         
-        if (jc){
-            cartesMain = cartesMainTmp; 
-        }
+
+        
+        
 
     }
 

@@ -22,24 +22,25 @@ public class Messager extends Aventurier{
     }
     
     @Override
-    public void donnerCarte(ArrayList<CarteDosOrange> cartes, Aventurier joueur){               // le joueur courant donne une/plusieurs carte(s) a un joueur choisi
-         for (CarteDosOrange carteMain : this.getMain()){ 
-          for (CarteDosOrange carte : cartes){
-            if(joueur.getMain().size() + cartes.size() < 6){
+    public boolean donnerCarte( CarteDosOrange carteADonner, Aventurier joueur){               // le joueur courant donne une/plusieurs carte(s) a un joueur choisi
+        Boolean bool = false; 
+        for (CarteDosOrange carteMain : this.getMain()){ 
+            if(joueur.getMain().size() + 1 < 6){
                  System.out.println("Le receveur à la place dans sa main.");              
-                if (carte == carteMain){                                                    // la carte se trouve bien dans la main du joueur courant
+                if (carteADonner == carteMain){                                                    // la carte se trouve bien dans la main du joueur courant
                     System.out.println("La carte est bien dans la main du joueur.");
-                        this.removeCarteMain(carte);                                 // echange de la carte.
-                        joueur.addCarteMain(carte);
-                        System.out.println("La carte tresor : " + carte.getTresor() + " à bien été donner au joueur : "+ joueur.getNom());
+                        this.removeCarteMain(carteADonner);                                 // echange de la carte.
+                        joueur.addCarteMain(carteADonner);
+                        System.out.println("La carte tresor : " + carteADonner.getTresor() + " à bien été donner au joueur : "+ joueur.getNom());
+                        bool = true;
                     } else {
                         System.out.println("La carte n'est pas dans la main du joueur");
                     }
             } else {
                         System.out.println("Le receveur n'as pas la place de recevoir autant de carte(s)");
                     }
-          }
         }
+        return bool;
     }
 
     @Override
