@@ -1,37 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controlleur;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import model.cartesOrange.CarteDosOrange;
 import model.cartesOrange.CarteHelicoptere;
-import model.CarteInondation;
 import model.cartesOrange.CarteMonteeDesEaux;
 import model.cartesOrange.CarteSacDeSable;
 import model.cartesOrange.CarteTresor;
-import model.Echelle;
-//import model.Etat;
 import model.aventurier.Aventurier;
-import util.Message;
-import util.TypesMessage;
+import model.aventurier.Explorateur;
+import model.aventurier.Ingenieur;
+import model.aventurier.Messager;
+import model.aventurier.Navigateur;
+import model.aventurier.Pilote;
+import model.aventurier.Plongeur;
+import model.CarteInondation;
+import model.Echelle;
 import model.Grille;
 import model.Tresor;
 import model.Tuile;
-import model.aventurier.*;
+import util.Message;
 import util.Parameters;
+import util.TypesMessage;
 import util.Utils;
 import util.Utils.Pion;
 import static util.Utils.afficherInformation;
 import view.*;
 
-/**
- *
- * @author JacquetCorp
- */
 public class Controller implements Observateur {
 
     //Initialisation des attributs
@@ -40,14 +35,14 @@ public class Controller implements Observateur {
     private static VueRegles regles;
     private static VueJeu jeu;
     private static VuePopUp popUp;
-    //private static VueAventurier vueAv1, vueAv2, vueAv3, vueAv4;
+    
     private static int nbJoueurs = 2;
     private static int nbAction = 0;
     private static String nomJ1;
     private static String nomJ2;
     private static String nomJ3;
     private static String nomJ4;
-    private static int difficulte;// à changer pour l'échelle
+    private static int difficulte;                                              // à changer pour l'échelle
     private static Echelle echelle;
     
     private static int nbJ = 0;
@@ -106,7 +101,7 @@ public class Controller implements Observateur {
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Deplacer) {
             if (jeu.getDeplApp()) {
                 if (nbAction < 3) {
-                    jeu.afficherPossible(joueurC.getTuilesPossibles(true)); //Affichage des tuiles où le deplacement est possible
+                    jeu.afficherPossible(joueurC.getTuilesPossibles(true));     //Affichage des tuiles où le deplacement est possible
                     setGrilleJeu(joueurC.getGrilleAv());
                     System.out.println("nb act : " + nbAction);
                 }
@@ -170,22 +165,14 @@ public class Controller implements Observateur {
         
         joueurs.add(av1);
         joueurs.add(av2);
-        //vueAv1 = new VueAventurier(nomJ1, "av1", Color.blue, this);
-        //vueAv2 = new VueAventurier(nomJ2, "av2", Color.green, this);
         
         if (nbJoueurs >= 3) {
             joueurs.add(av3);
-        //    vueAv3 = new VueAventurier(nomJ3, "av3", Color.yellow, this);
-        //    vueAv3.cacher();
             if (nbJoueurs == 4) {
                 joueurs.add(av4);
-        //        vueAv4 = new VueAventurier(nomJ4, "av4", Color.pink, this);
-        //        vueAv4.cacher();
             }
         }
         setGrilleJeu(grilleJeu);
-        //vueAv1.cacher();
-        //vueAv2.cacher();
         paramJeu.fermer();
         initInondationDebut();
         distributionCartesOrangeDebut();
@@ -257,7 +244,6 @@ public class Controller implements Observateur {
                 av4.setPosition(grilleJeu.trouverTuile(nomPos));
                 grilleJeu.trouverTuile(nomPos).addJoueur(av4);
             }
-            //jeu = new VueJeu(this, grilleJeu);
             setGrilleJeu(grilleJeu);
         }
     }
@@ -349,19 +335,6 @@ public class Controller implements Observateur {
         }
         return Joueurs;
     }
-    
-    
-    /*public VueAventurier vueAvC(int nb) {
-        if (nb == 0) {
-            return vueAv1;
-        } else if (nb == 1) {
-            return vueAv2;
-        } else if (nb == 2) {
-            return vueAv3;
-        } else {
-            return vueAv4;
-        }
-    }*/
     
     public Aventurier getJoueurCourant(int jc) {
         return joueurs.get(jc);
@@ -589,12 +562,14 @@ public class Controller implements Observateur {
      
     public void gestionFinJeu() {
         if (grilleJeu.trouverTuile("Heliport").getEtat() == Utils.EtatTuile.COULEE){           // fermer le jeu si l'héliport est submergé
-            System.out.println("Jeu terminé, Heliport submergé");
-            jeu.fermer();                                           
+            jeu.fermer();                                                        // si oui , fin du jeu
+            popUp.fermer();                
+            afficherInformation("Jeu terminé, Heliport submergé");                        
         }
         if (echelle.getNiveauEau()>5){                                                  // fermer le jeu si le niveau d'eau est critique
-            System.out.println("Jeu terminé, Ile totalement sous les eaux");
-            jeu.fermer();
+            jeu.fermer();                                                     // si oui , fin du jeu
+            popUp.fermer();
+            afficherInformation("Jeu terminé, Ile totalement sous les eaux");
         }
         
                 
@@ -602,8 +577,9 @@ public class Controller implements Observateur {
         for (Tresor tresor: tresors){                                                               // pour chaque tresor
             for (Tuile tuile : grilleJeu.getTuilesTresor(tresors.get(tresors.indexOf(tresor)))){        // et pour chaque tuile permettant de récupérer ce tresor
                 if (bool && tuile.getEtat() == Utils.EtatTuile.COULEE){                                     // verifier si la deuxieme tuile est submergée
-                    System.out.println("Jeu terminé, trésor :" + tresor.getNomTresor() + " n'est plus récupérable");
-                    jeu.fermer();                                                                   // si oui , fin du jeu
+                    jeu.fermer();                                                       // si oui , fin du jeu
+                    popUp.fermer();
+                    afficherInformation("Jeu terminé, trésor :" + tresor.getNomTresor() + " n'est plus récupérable");
                 }
                 if (tuile.getEtat() == Utils.EtatTuile.COULEE){                                             // vérifier si la 1° est submergée
                     bool = true;
@@ -615,8 +591,9 @@ public class Controller implements Observateur {
         for (Aventurier av: joueurs){                                                           // pour chaque aventurier
             if (av.getPosition().getEtat() == Utils.EtatTuile.COULEE){                                  // si la case sur laquelle il se trouve est submergée
                 if (av.getTuilesPossibles(true).size() == 0){                                   // et si aucun deplacement n'est possible
-                    System.out.println("Jeu terminé, Un joueur est mort dans les abysses.");
                     jeu.fermer();                                                               // fin du jeu
+                    popUp.fermer();
+                    afficherInformation("Jeu terminé, Un joueur est mort dans les abysses.");
                 }
             }
         }
@@ -675,15 +652,7 @@ public class Controller implements Observateur {
     
     
      
-    public void tourDeJeu() {///////////////////////////////////////////////////////////////////////////////////////
-        /*vueAv1.cacher();
-        vueAv2.cacher();
-        if (nbJoueurs >= 3) {
-            vueAv3.cacher();
-            if (nbJoueurs == 4) {
-                vueAv4.cacher();
-            }
-        }*/
+    public void tourDeJeu() {
         nbAction = 0;
         joueurC = getJoueurCourant(nbJ);
         System.out.println(joueurC.getNom());
@@ -709,10 +678,6 @@ public class Controller implements Observateur {
             }
             jeu.afficherMain(av.getMain(), bool, av.getNom(), av.getPion());
         }
-        
-        //VueAventurier vueCourante = vueAvC(nbJ);
-        //vueCourante.afficher();
-        
         
         gestionFinJeu();
         System.out.println("Made by JACQUETCorp ©");
