@@ -220,7 +220,7 @@ public class VueJeu {
                 btnAssechement.setBackground(Color.GRAY);
                 btnDeplacement.setBackground(Color.LIGHT_GRAY);
                 btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
-                btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
+                btnPrendreTresor.setBackground(Color.GRAY);
 
                 Message msg = new Message(TypesMessage.ACTION_Assecher);
                 observateur.traiterMessage(msg);
@@ -237,7 +237,7 @@ public class VueJeu {
                 btnAssechement.setBackground(Color.LIGHT_GRAY);
                 btnDeplacement.setBackground(Color.GRAY);
                 btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
-                btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
+                btnPrendreTresor.setBackground(Color.GRAY);
 
                 Message msg = new Message(TypesMessage.ACTION_Deplacer);
                 observateur.traiterMessage(msg);
@@ -252,7 +252,7 @@ public class VueJeu {
                 btnAssechement.setBackground(Color.LIGHT_GRAY);
                 btnDeplacement.setBackground(Color.LIGHT_GRAY);
                 btnDonnerCarte.setBackground(Color.GRAY);
-                btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
+                btnPrendreTresor.setBackground(Color.GRAY);
 
                 // Activation des boutons de mains
                 for (int i = 0; i<tailleMain; i++){
@@ -288,7 +288,7 @@ public class VueJeu {
                 btnAssechement.setBackground(Color.LIGHT_GRAY);
                 btnDeplacement.setBackground(Color.LIGHT_GRAY);
                 btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
-                btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
+                btnPrendreTresor.setBackground(Color.GRAY);
 
                 Message msg = new Message(TypesMessage.ACTION_Fin);
                 observateur.traiterMessage(msg);
