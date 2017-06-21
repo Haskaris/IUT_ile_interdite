@@ -290,6 +290,7 @@ public class VueJeu {
     
     public void afficherMain(ArrayList<CarteDosOrange> main, boolean jc){
         JPanel panelTmp;
+        
         if (jc){
             panelTmp = panelMain;
         }
@@ -297,7 +298,7 @@ public class VueJeu {
             panelTmp = panelLateral;
         }
         
-
+        panelTmp.removeAll();
         
         int i = 0;
         while (i<cartesMain.length && i < main.size()){
