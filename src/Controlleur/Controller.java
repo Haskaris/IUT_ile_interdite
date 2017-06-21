@@ -176,6 +176,7 @@ public class Controller implements Observateur {
         paramJeu.fermer();
         initInondationDebut();
         distributionCartesOrangeDebut();
+        jeu.afficherTresors(tresors);
         jeu.afficher();
         tourDeJeu();
     }
@@ -379,6 +380,7 @@ public class Controller implements Observateur {
            }
        }
         setGrilleJeu(grilleJeu);
+        
         
         
     }   // création des 4 tresors dans la liste "tresors"

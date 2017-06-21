@@ -49,6 +49,8 @@ public class VueJeu {
     private final JPanel panPilo = new JPanel();
     private final JPanel panPlon = new JPanel();
     private final JPanel panelGrille, panelPrincipal, panelMenu, panelBtnAction, panelBtn, panelTop, panelBottom, panelMain, panelLateral;
+    
+    private final JPanel[][] panTresor = new JPanel[6][6];              // panel qui affiche les tresors sur les tuiles
 
     // Attribut boutons
     private JButton btnAssechement = new JButton("Assecher");                       // 
@@ -95,9 +97,10 @@ public class VueJeu {
 
         panelBottom = new JPanel(new BorderLayout());                           // Contient les mains
         panelPrincipal.add(panelBottom, BorderLayout.SOUTH);
+        
 
         panelBtn = new JPanel(new BorderLayout());                              // Panel des boutons d'actions
-        panelMenu = new JPanel(new GridLayout(3, 1));                            // Panel des boutons + panneaux vides
+        panelMenu = new JPanel(new GridLayout(3, 1));                           // Panel des boutons + panneaux vides
         panelMenu.add(new JPanel());
         panelMenu.add(panelBtn);
         panelMenu.add(new JPanel());
@@ -114,6 +117,7 @@ public class VueJeu {
         panelMain = new JPanel(new GridLayout(1, 5));                            // Panel de la main du joueur principal
         panelMain.setBorder(borderM);
         panelBottom.add(panelMain, BorderLayout.CENTER);
+        
 
         panelLateral = new JPanel(new GridLayout(1, 5));                         // panel des mains des autres joueurs
         panelLateral.setBorder(borderM);
@@ -351,6 +355,41 @@ public class VueJeu {
         }
 
     }
+    
+    public void afficherTresors(ArrayList<Tresor> tresors){
+        for (int i =0; i<= 5 ; i++){
+            for (int j = 0; j <= 5; j++ )
+                if (grille.getGrille()[i][j].getTresor() == tresors.get(0)){
+                    panTresor[i][j] = new JPanel();
+                    panTresor[i][j].setBackground(Color.lightGray);
+                    panTresor[i][j].setBorder(new LineBorder(Color.white, 2));
+                    panTuiles[i][j].add(panTresor[i][j], BorderLayout.NORTH);
+                    
+                } else if (grille.getGrille()[i][j].getTresor() == tresors.get(1)){
+                    panTresor[i][j] = new JPanel();
+                    panTresor[i][j].setBackground(Color.yellow);
+                    panTresor[i][j].setBorder(new LineBorder(Color.white, 2));
+                    panTuiles[i][j].add(panTresor[i][j], BorderLayout.NORTH);
+                    
+                } else if (grille.getGrille()[i][j].getTresor() == tresors.get(2)){
+                    panTresor[i][j] = new JPanel();
+                    panTresor[i][j].setBackground(Color.red);
+                    panTresor[i][j].setBorder(new LineBorder(Color.white, 2));
+                    panTuiles[i][j].add(panTresor[i][j], BorderLayout.NORTH);
+                    
+                } else if (grille.getGrille()[i][j].getTresor() == tresors.get(3)){
+                    panTresor[i][j] = new JPanel();
+                    panTresor[i][j].setBackground(Color.cyan);
+                    panTresor[i][j].setBorder(new LineBorder(Color.white, 2));
+                    panTuiles[i][j].add(panTresor[i][j], BorderLayout.NORTH);
+                    
+                } 
+            
+        
+        }
+    
+    }
+    
 
     public void afficherPossible(ArrayList<Tuile> tuilesPossibles) {
         for (Tuile tuile : tuilesPossibles) {                                     // Parcours des tuiles possibles
