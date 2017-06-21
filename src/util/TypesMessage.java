@@ -20,5 +20,6 @@ public enum TypesMessage {
     ACTION_DonnerCarte,
     ACTION_Fin,
     ACTION_Action,
-    ACTION_CHOIX_CARTE;
+    ACTION_CHOIX_CARTE,
+    ACTION_PrendreTresors;
 }

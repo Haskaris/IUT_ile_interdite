@@ -137,13 +137,16 @@ public class Controller implements Observateur {
             System.out.println("N° courant : " + nbJ);
             tourDeJeu();
             
-        } else if (msg.getTypeMessage() == TypesMessage.ACTION_CHOIX_CARTE){
+        } else if (msg.getTypeMessage() == TypesMessage.ACTION_CHOIX_CARTE) {
              popUp.fermer();
              enleverCarteSurplus(joueurC.getMain().get(msg.getNumBtn()));
              if (joueurC.getMain().size() > 5) {
                     popUp = new VuePopUp(this, joueurC.getMain());
                     popUp.afficher();
              }
+        } else if (msg.getTypeMessage() == TypesMessage.ACTION_PrendreTresors) {
+            gagnerTresor();
+            nbAction++;
         }
     }
     
@@ -387,9 +390,9 @@ public class Controller implements Observateur {
         piocheOrange = new ArrayList<>();
         for (int i =0; i < 5; i++){                             // ajout des 20 cartes tresors correspondant aux 4 tresors (5 carte pour chaque tresor)
             piocheOrange.add(new CarteTresor(tresors.get(0)));
-            piocheOrange.add(new CarteTresor(tresors.get(1)));
-            piocheOrange.add(new CarteTresor(tresors.get(2)));
-            piocheOrange.add(new CarteTresor(tresors.get(3)));
+            piocheOrange.add(new CarteTresor(tresors.get(0)));
+            piocheOrange.add(new CarteTresor(tresors.get(0)));
+            piocheOrange.add(new CarteTresor(tresors.get(0)));
         }
         for (int i = 0; i < 3; i++){                            // ajout des 3 cartes Montee des Eaux et 3 cartes Helicoptere
             piocheOrange.add(new CarteMonteeDesEaux());
@@ -450,7 +453,6 @@ public class Controller implements Observateur {
         int cartesTresorCristal = 0;
         int cartesTresorCalice = 0;
         
-        
         if (joueurC.getPosition().getNom() == "Le temple du soleil" || joueurC.getPosition().getNom() == "Le temple de la lune" ) { // si le joueur se trouve sur une case pour recuperer le tresor de la pierre sacrée     
             for (CarteDosOrange carte : joueurC.getMain()){
                 if (carte.getTresor().getNomTresor() == "La Pierre sacrée"){ // on compte combien de carte tresor de la pierre sacrée il a dans la main
@@ -459,6 +461,7 @@ public class Controller implements Observateur {
             }
             if (cartesTresorPierre > 3) {                                   // si il en en 4 ou plus , il peut gagner le tresor
                 return tresors.get(0);
+                //return true;
             }
         }
         if (joueurC.getPosition().getNom() == "Le jardin des hurlements" || joueurC.getPosition().getNom() == "Le jardin des murmures" ) { // si le joueur se trouve sur une case pour recuperer le tresor de la statue du zephyr
@@ -469,6 +472,7 @@ public class Controller implements Observateur {
             }
             if (cartesTresorStatue > 3) {                                    // si il en en 4 ou plus , il peut gagner le  tresor
                 return tresors.get(1);
+                //return true;
     
             }
         }
@@ -480,6 +484,7 @@ public class Controller implements Observateur {
             }
             if (cartesTresorCristal > 3) {                                  // si il en en 4 ou plus , il peut gagner le  tresor
                 return tresors.get(2);
+                //return true;
     
             }
         }
@@ -491,6 +496,7 @@ public class Controller implements Observateur {
             }
             if (cartesTresorCalice > 3) {                                       // si il en en 4 ou plus , il peut gagner le  tresor
                 return tresors.get(3);
+                //return true;
             }
         }
     return null;
@@ -559,7 +565,6 @@ public class Controller implements Observateur {
         }
     }
     
-     
     public void gestionFinJeu() {
         if (grilleJeu.trouverTuile("Heliport").getEtat() == Utils.EtatTuile.COULEE){           // fermer le jeu si l'héliport est submergé
             jeu.fermer();                                                        // si oui , fin du jeu
@@ -646,8 +651,6 @@ public class Controller implements Observateur {
     
     } // pas fait
     
-    
-     
     public void tourDeJeu() {
         Pilote avP = new Pilote("");
         nbAction = 0;
@@ -665,6 +668,11 @@ public class Controller implements Observateur {
             avP.setPouvoirUtilise(false);
             joueurC = avP;
             System.out.println("Pouvoir remis à 0");
+        }
+        
+        if (gagnerTresorPossible() != null) {
+            jeu.tresorPossible();
+            System.out.println("Il est possible");
         }
         
         jeu.debutTour();
