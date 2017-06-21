@@ -60,14 +60,7 @@ public class Controller implements Observateur {
     private static ArrayList<CarteInondation> defausseInondation;
     
     public static void main(String[] args) {
-        
-        //c = new Controller();
-        
-        
-        
-                                                     //Initialisation de la grille
         new Controller();
-        
     }
     
     public Controller() {
@@ -146,6 +139,7 @@ public class Controller implements Observateur {
             afficherMain();
             System.out.println("N° courant : " + nbJ);
             tourDeJeu();
+            
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_CHOIX_CARTE){
              popUp.fermer();
              enleverCarteSurplus(joueurC.getMain().get(msg.getNumBtn()));
@@ -271,14 +265,14 @@ public class Controller implements Observateur {
 
     @Override                                                                   //Effectue un déplacement
     public void traiterAction(String nomJ, int x, int y, boolean depl) {
-        System.out.println("Deplacement voulu : " + x +"-" + y);
+        System.out.println("Deplacement voulu : " + x + "-" + y);
         getAventurier(nomJ, joueurs).deplacementAssechage(x, y, depl);          //Deplace le joueur sur la position souhaitée
         setGrilleJeu(getAventurier(nomJ, joueurs).getGrilleAv());               //Met à jour les grilles du jeu
         nbAction++;
         System.out.println("Ici on a fait avec un boolean " + depl);
         jeu.repaint();
         if (nbAction < 3) {
-                jeu.afficherPossible(joueurC.getTuilesPossibles(depl));
+            jeu.afficherPossible(joueurC.getTuilesPossibles(depl));
         } else {
             jeu.finTourObligatoire();
         }
@@ -411,8 +405,6 @@ public class Controller implements Observateur {
         for (int i = 0; i < 2; i++){                            // ajout des 2 cartes sac de sable
             piocheOrange.add(new CarteSacDeSable());
         }
-        
-        
     }   // création de la pioche des cartes oranges
     
     private void remplirPiocheInondation() {                      // création de la pioche de cartes inondation
