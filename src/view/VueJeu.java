@@ -413,7 +413,6 @@ public class VueJeu {
         // Affichage de la grille
         for (int i = 0; i <= 5; i++) {
             for (int j = 0; j <= 5; j++) {
-
                 if (grille.getGrille()[i][j].getEtat() == Etat.assechee) {
                     btnTuiles[i][j].setBackground(Color.DARK_GRAY);
                     btnTuiles[i][j].setEnabled(false);
@@ -426,9 +425,7 @@ public class VueJeu {
                     btnTuiles[i][j].setBackground(Color.BLUE);
                     btnTuiles[i][j].setEnabled(false);
                 }
-
                 afficheJoueurGrille(i, j);
-
             }
         }
         window.revalidate();

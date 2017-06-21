@@ -36,7 +36,7 @@ public class Messager extends Aventurier{
                         System.out.println("La carte n'est pas dans la main du joueur");
                     }
             } else {
-                        System.out.println("Je receveur n'as pas la place de recevoir autant de carte(s)");
+                        System.out.println("Le receveur n'as pas la place de recevoir autant de carte(s)");
                     }
           }
         }

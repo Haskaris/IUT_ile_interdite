@@ -36,15 +36,19 @@ public class Pilote extends Aventurier {
         Tuile[][] tuiles = getGrilleAv().getGrille();
         ArrayList<Tuile> tuilesPossibles = new ArrayList<>();
         
-        if (isPouvoirUtilise() == false){
-            for(int i = 0; i < tuiles.length; i++){
-                for(int j = 0; j < tuiles[i].length; j++){
-                    if (tuiles[i][j].getEtat() == Etat.assechee || tuiles[i][j].getEtat() == Etat.inondee) {
-                        tuilesPossibles.add(tuiles[i][j]);
+        if (depl) {
+            if (isPouvoirUtilise() == false){
+                for(int i = 0; i < tuiles.length; i++){
+                    for(int j = 0; j < tuiles[i].length; j++){
+                        if (tuiles[i][j].getEtat() == Etat.assechee || tuiles[i][j].getEtat() == Etat.inondee) {
+                            tuilesPossibles.add(tuiles[i][j]);
+                        }
                     }
                 }
+            } else if (isPouvoirUtilise() == true) {
+                tuilesPossibles = super.getTuilesPossibles(depl);
             }
-        } else if (isPouvoirUtilise() == true) {
+        } else {
             tuilesPossibles = super.getTuilesPossibles(depl);
         }
         return tuilesPossibles;
@@ -57,7 +61,7 @@ public class Pilote extends Aventurier {
         ArrayList<Tuile> tuilesPossiblesAss = new ArrayList <>();
         
         tuilesPossibles = getTuilesPossibles(depl);
-        tuilesPossiblesAss = super.getTuilesPossibles(depl);
+        //tuilesPossiblesAss = super.getTuilesPossibles(depl);
         
         boolean actionEff = false;
         
@@ -75,50 +79,53 @@ public class Pilote extends Aventurier {
                     System.out.println("Joueur non deplacé, il reste en " + position.getX() +", " +position.getY());
                 }
             } else if (depl == false) {
-                
+                /*
                 int posX = getPosition().getX();
                 int posY = getPosition().getY();
                 Tuile[][] tuiles = getGrilleAv().getGrille();
-                tuilesPossibles.clear();
                 if (posX > 0) {
                     if (tuiles[posX-1][posY].getNom() != "null" &&
                             tuiles[posX-1][posY].getEtat() == Etat.inondee){
-                        tuilesPossibles.add(tuiles[posX-1][posY]);
+                        tuilesPossiblesAss.add(tuiles[posX-1][posY]);
                     }
                 }
                 if (posX < 5) {
                     if (tuiles[posX+1][posY].getNom() != "null" &&
                             tuiles[posX+1][posY].getEtat() == Etat.inondee) {
-                        tuilesPossibles.add(tuiles[posX+1][posY]);
+                        tuilesPossiblesAss.add(tuiles[posX+1][posY]);
                     }
                 }
                 if (posY < 5) {
                     if (tuiles[posX][posY+1].getNom() != "null" &&
                             tuiles[posX][posY+1].getEtat() == Etat.inondee) {
-                        tuilesPossibles.add(tuiles[posX][posY+1]);
+                        tuilesPossiblesAss.add(tuiles[posX][posY+1]);
                     }
                 }
                 if (posY > 0) {
                     if (tuiles[posX][posY-1].getNom() != "null" &&
                             tuiles[posX][posY-1].getEtat() == Etat.inondee) {
-                        tuilesPossibles.add(tuiles[posX][posY-1]);
+                        tuilesPossiblesAss.add(tuiles[posX][posY-1]);
                     }
                 }
                 if (tuiles[posX][posY].getEtat() == Etat.inondee) {
-                    tuilesPossibles.add(tuiles[posX][posY]);
-                } 
-                for (Tuile tuile : tuilesPossiblesAss){
+                    tuilesPossiblesAss.add(tuiles[posX][posY]);
+                } */
+                
+                for (Tuile tuile : tuilesPossibles){
                     if (tuile.getX() == x & tuile.getY() == y){
                         grille.trouverTuile(x, y).setEtat(Etat.assechee);                        
                         actionEff = true;
                         System.out.println("La tuile " + position.getX() +", " +position.getY() + " à été asséchée");
                     }
                 }
+                
                 if (actionEff == false){
                     System.out.println("La tuile " + position.getX() +", " +position.getY() + " n'à pas été asséchée");
                 }
             }
     }
+    
+    @Override
     public Pion getPion(){
         return Pion.BLEU;
     }
