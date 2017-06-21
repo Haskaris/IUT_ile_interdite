@@ -597,12 +597,41 @@ public class Controller implements Observateur {
     }
     
      
-    public void gestionFinTour() {
-        for (int i = 0; i < tresorsGagnés.size(); i++) {
+    public void gestionFinJeu() {
+        if (grilleJeu.trouverTuile("Heliport").getEtat() == Etat.submergee ){           // fermer le jeu si l'héliport est submergé
+            System.out.println("Jeu terminé, Heliport submergé");
+            jeu.fermer();                                           
         }
-        if (grilleJeu.trouverTuile("Heliport").getEtat() == Etat.submergee ){
+        if (echelle.getNiveauEau()>5){                                                  // fermer le jeu si le niveau d'eau est critique
+            System.out.println("Jeu terminé, Ile totalement sous les eaux");
             jeu.fermer();
         }
+        
+                
+        Boolean bool = false;
+        for (Tresor tresor: tresors){                                                               // pour chaque tresor
+            for (Tuile tuile : grilleJeu.getTuilesTresor(tresors.get(tresors.indexOf(tresor)))){        // et pour chaque tuile permettant de récupérer ce tresor
+                if (bool && tuile.getEtat() == Etat.submergee){                                     // verifier si la deuxieme tuile est submergée
+                    System.out.println("Jeu terminé, trésor :" + tresor.getNomTresor() + " n'est plus récupérable");
+                    jeu.fermer();                                                                   // si oui , fin du jeu
+                }
+                if (tuile.getEtat() == Etat.submergee){                                             // vérifier si la 1° est submergée
+                    bool = true;
+                }
+            }
+            bool = false;
+        }
+        
+        for (Aventurier av: joueurs){                                                           // pour chaque aventurier
+            if (av.getPosition().getEtat() == Etat.submergee){                                  // si la case sur laquelle il se trouve est submergée
+                if (av.getTuilesPossibles(true).size() == 0){                                   // et si aucun deplacement n'est possible
+                    System.out.println("Jeu terminé, Un joueur est mort dans les abysses.");
+                    jeu.fermer();                                                               // fin du jeu
+                }
+            }
+        }
+        
+        
         // pas fini du tout
        
     }
@@ -675,6 +704,9 @@ public class Controller implements Observateur {
         
         //VueAventurier vueCourante = vueAvC(nbJ);
         //vueCourante.afficher();
+        
+        
+        gestionFinJeu();
         
     }
 }
