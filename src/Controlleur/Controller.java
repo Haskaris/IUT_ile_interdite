@@ -104,7 +104,6 @@ public class Controller implements Observateur {
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Retour) {
             paramJeu.fermer();
             regles.fermer();
-            popUp.fermer();
             bienvenue.afficher();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Regles) {
             bienvenue.fermer();
@@ -112,7 +111,7 @@ public class Controller implements Observateur {
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Quitter) {
             bienvenue.fermer();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Deplacer) {
-            if (jeu.getDepl()) {
+            if (jeu.getDeplApp()) {
                 if (nbAction < 3) {
                     jeu.afficherPossible(joueurC.getTuilesPossibles(true)); //Affichage des tuiles où le deplacement est possible
                     setGrilleJeu(joueurC.getGrilleAv());
@@ -125,14 +124,19 @@ public class Controller implements Observateur {
             afficherDonCartePossible();
             //joueurC.donnerCarte(joueurC, piocheOrange, joueurC);
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Assecher) {      //Affichage des tuiles où l'assechement est possible
-            
-            if (nbAction < 3) {
-                jeu.afficherPossible(joueurC.getTuilesPossibles(false));
-
-                setGrilleJeu(joueurC.getGrilleAv());
-                System.out.println("nb act : " + nbAction);
-            } else {
-                System.out.println("Impossible, toutes les actions sont utilisées");
+            if (jeu.getAss()) {
+                if (nbAction < 3) {
+                    if (jeu.getDeplApp()) {
+                        jeu.repaint();
+                        jeu.setDeplApp(false);
+                    }
+                    jeu.afficherPossible(joueurC.getTuilesPossibles(false));
+                    setGrilleJeu(joueurC.getGrilleAv());
+                    System.out.println("nb act : " + nbAction);
+                } 
+            }
+            else {
+                jeu.repaint();
             }
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Fin) {
             if (nbJ == nbJoueurs-1) {
@@ -276,7 +280,7 @@ public class Controller implements Observateur {
         getAventurier(nomJ, joueurs).deplacementAssechage(x, y, depl);          //Deplace le joueur sur la position souhaitée
         setGrilleJeu(getAventurier(nomJ, joueurs).getGrilleAv());               //Met à jour les grilles du jeu
         nbAction++;
-        System.out.println("nb act : " + nbAction);
+        System.out.println("Ici on a fait avec un boolean " + depl);
         jeu.repaint();
         if (nbAction < 3) {
             jeu.afficherPossible(joueurC.getTuilesPossibles(true));
@@ -646,38 +650,19 @@ public class Controller implements Observateur {
         nbAction = 0;
         joueurC = getJoueurCourant(nbJ);
         System.out.println(joueurC.getNom());
-        
-        Pion pion;
-        if (joueurC.getClass().equals(Explorateur.class)){
-            pion = Pion.VERT;
-        }
-        else if (joueurC.getClass().equals(Messager.class)){
-            pion =  Pion.ORANGE;
-        }
-        else if (joueurC.getClass().equals(Pilote.class)){
-            pion =  Pion.BLEU;
-        }
-        else if (joueurC.getClass().equals(Navigateur.class)){
-            pion = Pion.JAUNE;
-        }
-        else  if (joueurC.getClass().equals(Plongeur.class)){
-            pion = Pion.VIOLET;
-        }
-        else {
-            pion = Pion.ROUGE;
-        }
-        
-        jeu.changeJoueurCourant(joueurC.getNom(), pion);
+              
+        jeu.changeJoueurCourant(joueurC.getNom(), joueurC.getPion());
         if (joueurC.getMain().size() > 5) {
             popUp = new VuePopUp(this, joueurC.getMain());
             popUp.afficher();
         }
-         
+        //////////////////////  Ici mettre le pouvoir du pilote à faux  /////////////////////
         jeu.debutTour();
         jeu.repaint();
         
         //afficherMain();
         Boolean bool;
+        jeu.resetMainIHM();
         for (Aventurier av: joueurs){
             if (av == joueurC){
                 bool = true;
@@ -685,7 +670,7 @@ public class Controller implements Observateur {
             else {
                 bool = false;
             }
-            jeu.afficherMain(av.getMain(), bool);
+            jeu.afficherMain(av.getMain(), bool, av.getNom(), av.getPion());
         }
         
         //VueAventurier vueCourante = vueAvC(nbJ);

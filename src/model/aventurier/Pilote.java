@@ -8,6 +8,7 @@ package model.aventurier;
 import java.util.ArrayList;
 import model.Etat;
 import model.Tuile;
+import util.Utils.Pion;
 
 /**
  *
@@ -20,17 +21,11 @@ public class Pilote extends Aventurier {
     public Pilote(String nom) {
         super(nom);
     }
-
-    /**
-     * @return the pouvoirUtilise
-     */
+    
     public boolean isPouvoirUtilise() {
         return pouvoirUtilise;
     }
-
-    /**
-     * @param pouvoirUtilise the pouvoirUtilise to set
-     */
+    
     public void setPouvoirUtilise(boolean pouvoirUtilise) {
         this.pouvoirUtilise = pouvoirUtilise;
     }
@@ -85,23 +80,27 @@ public class Pilote extends Aventurier {
                 int posY = getPosition().getY();
                 Tuile[][] tuiles = getGrilleAv().getGrille();
                 tuilesPossibles.clear();
-                if (posX != 0) {
-                    if (tuiles[posX-1][posY].getEtat() == Etat.inondee){
+                if (posX > 0) {
+                    if (tuiles[posX-1][posY].getNom() != "null" &&
+                            tuiles[posX-1][posY].getEtat() == Etat.inondee){
                         tuilesPossibles.add(tuiles[posX-1][posY]);
                     }
                 }
-                if (posX != 5) {
-                    if (tuiles[posX+1][posY].getEtat() == Etat.inondee) {
+                if (posX < 5) {
+                    if (tuiles[posX+1][posY].getNom() != "null" &&
+                            tuiles[posX+1][posY].getEtat() == Etat.inondee) {
                         tuilesPossibles.add(tuiles[posX+1][posY]);
                     }
                 }
-                if (posY != 5) {
-                    if (tuiles[posX][posY+1].getEtat() == Etat.inondee) {
+                if (posY < 5) {
+                    if (tuiles[posX][posY+1].getNom() != "null" &&
+                            tuiles[posX][posY+1].getEtat() == Etat.inondee) {
                         tuilesPossibles.add(tuiles[posX][posY+1]);
                     }
                 }
-                if (posY != 0) {
-                    if (tuiles[posX][posY-1].getEtat() == Etat.inondee) {
+                if (posY > 0) {
+                    if (tuiles[posX][posY-1].getNom() != "null" &&
+                            tuiles[posX][posY-1].getEtat() == Etat.inondee) {
                         tuilesPossibles.add(tuiles[posX][posY-1]);
                     }
                 }
@@ -119,5 +118,8 @@ public class Pilote extends Aventurier {
                     System.out.println("La tuile " + position.getX() +", " +position.getY() + " n'à pas été asséchée");
                 }
             }
+    }
+    public Pion getPion(){
+        return Pion.BLEU;
     }
 }

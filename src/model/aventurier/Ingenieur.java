@@ -7,6 +7,8 @@ package model.aventurier;
 
 import java.util.ArrayList;
 import model.Tuile;
+import util.Utils;
+import util.Utils.Pion;
 
 /**
  *
@@ -16,6 +18,11 @@ public class Ingenieur extends Aventurier{
     
     public Ingenieur(String nom) {
         super(nom);
+    }
+
+    @Override
+    public Pion getPion() {
+        return Pion.ROUGE; 
     }
     
 }
