@@ -28,24 +28,26 @@ public class Plongeur extends Aventurier{
         ArrayList<Tuile> tuilesPossibles = new ArrayList<>();
         
         tuilesPossibles = super.getTuilesPossibles(depl);
-        if (posY != 0) {
-            if (tuiles[posX][posY-1].getEtat() == Etat.submergee){
-                tuilesPossibles.add(tuiles[posX-1][posY]);
+        if (depl) {
+            if (posY > 0) {
+                if (tuiles[posX][posY-1].getEtat() == Etat.submergee){
+                    tuilesPossibles.add(tuiles[posX-1][posY]);
+                }
             }
-        }
-        if (posY != 5) {
-            if (tuiles[posX][posY+1].getEtat() == Etat.submergee) {
-                tuilesPossibles.add(tuiles[posX+1][posY]);
+            if (posY < 5) {
+                if (tuiles[posX][posY+1].getEtat() == Etat.submergee) {
+                    tuilesPossibles.add(tuiles[posX+1][posY]);
+                }
             }
-        }
-        if (posX != 0) {
-            if (tuiles[posX-1][posY].getEtat() == Etat.submergee) {
-                tuilesPossibles.add(tuiles[posX][posY+1]);
+            if (posX > 0) {
+                if (tuiles[posX-1][posY].getEtat() == Etat.submergee) {
+                    tuilesPossibles.add(tuiles[posX][posY+1]);
+                }
             }
-        }
-        if (posX != 5) {
-            if (tuiles[posX+1][posY].getEtat() == Etat.submergee) {
-                tuilesPossibles.add(tuiles[posX][posY-1]);
+            if (posX < 5) {
+                if (tuiles[posX+1][posY].getEtat() == Etat.submergee) {
+                    tuilesPossibles.add(tuiles[posX][posY-1]);
+                }
             }
         }
         return tuilesPossibles;

@@ -403,7 +403,15 @@ public class VueJeu {
                     btnTuiles[i][j].setBackground(Color.DARK_GRAY);
                     btnTuiles[i][j].setEnabled(false);
                 }
-
+                if (grille.getGrille()[i][j].getEtat() == Etat.inondee) {
+                    btnTuiles[i][j].setBackground(Color.ORANGE);
+                    btnTuiles[i][j].setEnabled(false);
+                }
+                if (grille.getGrille()[i][j].getEtat() == Etat.submergee) {
+                    btnTuiles[i][j].setBackground(Color.BLUE);
+                    btnTuiles[i][j].setEnabled(false);
+                }
+                        
                 afficheJoueurGrille(i, j);
 
             }
@@ -414,16 +422,20 @@ public class VueJeu {
     public String getNom() {
         return nomJoueurCourant;
     }
-
-    public boolean getDepl() {
+    
+    public boolean getDeplApp() {
         return deplApp;
     }
 
     public boolean getAss() {
         return assApp;
     }
-
-    public void setDepl(boolean bool) {
+    
+    public boolean getDepl() {
+        return depl;
+    }
+    
+    public void setDepl(boolean bool){
         depl = bool;
     }
 

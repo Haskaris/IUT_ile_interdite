@@ -32,13 +32,13 @@ public class Echelle {
     }
 
     public int getNiveauEau() {
-        if(getCran() < 2){
+        if(getCran() <= 2){
             return niveauEau = 2;
         } else if (getCran() > 2 && getCran() < 6){
             return niveauEau = 3;
-        } else if (getCran() > 6 && getCran() < 8){
+        } else if (getCran() >= 6 && getCran() < 8){
             return niveauEau = 4;
-        } else if (getCran() > 8 && getCran() < 10){
+        } else if (getCran() >= 8 && getCran() < 10){
             return niveauEau = 5;
         } else {
             return niveauEau = 6;
