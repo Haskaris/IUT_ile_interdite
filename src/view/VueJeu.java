@@ -56,7 +56,7 @@ public class VueJeu {
     private JButton btnDonnerCarte = new JButton("Donner une Carte");
     private JButton btnPrendreTresor = new JButton("Prendre un trésor");
     private final JButton btnFinTour = new JButton("Fin Du Tour");
-    private final JButton[] cartesMain = new JButton[5];
+    private JButton[] cartesMain = new JButton[5];
     private JButton[][] btnTuiles = new JButton[6][6];
 
     // Attribut utils
@@ -67,6 +67,7 @@ public class VueJeu {
     private final JLabel labelJC;
     private boolean deplApp = false;
     private boolean assApp = false;
+    private int tailleMain;
 
     public VueJeu(Observateur o, Grille gr) {
 
@@ -182,7 +183,7 @@ public class VueJeu {
         for (int i = 0; i <= 5; i++) {
             for (int j = 0; j <= 5; j++) {
                 nomTuile = grilleTab[i][j].getNom();
-                switch (grilleTab[i][j].getEtat()) {                        // Gestion de la couleur du bouton en fonction de l'état de la tuile
+                switch (grilleTab[i][j].getEtat()) {                            // Gestion de la couleur du bouton en fonction de l'état de la tuile
                     case ASSECHEE:
                         etatCouleur = Color.DARK_GRAY;
                         break;
@@ -194,15 +195,15 @@ public class VueJeu {
                         break;
                 }
 
-                if (grilleTab[i][j].getNom().equals("null")) {              // Tuile vide
+                if (grilleTab[i][j].getNom().equals("null")) {                  // Tuile vide
                     panelGrille.add(new JPanel());
-                } else {                                                    // Tuile classique
+                } else {                                                        // Tuile classique
                     btnTuiles[i][j].setText(nomTuile);
                     btnTuiles[i][j].setBackground(etatCouleur);
                     btnTuiles[i][j].setForeground(Color.WHITE);
                     panelGrille.add(panTuiles[i][j]);
 
-                    afficheJoueurGrille(i, j);                              // Affiche les pions
+                    afficheJoueurGrille(i, j);                                   // Affiche les pions
 
                 }
             }
@@ -245,14 +246,21 @@ public class VueJeu {
 
         btnDonnerCarte.addActionListener(new ActionListener() {                 // Donner Carte
             @Override
-            public void actionPerformed(ActionEvent e) {
-
+            public void actionPerformed(ActionEvent e) {      
+                
                 // Affichage de la selection de l'action
                 btnAssechement.setBackground(Color.LIGHT_GRAY);
                 btnDeplacement.setBackground(Color.LIGHT_GRAY);
                 btnDonnerCarte.setBackground(Color.GRAY);
                 btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
 
+                // Activation des boutons de mains
+                for (int i = 0; i<tailleMain; i++){
+                    for (int j = 0; j<5; j++){
+                        cartesMain[i].setEnabled(true);
+                    }
+                }
+                
                 Message msg = new Message(TypesMessage.ACTION_DonnerCarte);
                 observateur.traiterMessage(msg);
             }
@@ -299,7 +307,10 @@ public class VueJeu {
 
     public void afficherMain(ArrayList<CarteDosOrange> main, boolean jc, String nomJ, Pion pion) {
         JPanel panelTmp;
-
+        JButton[] cartesMainTmp = new JButton[5];
+        JLabel labelCarteMainAutre;
+        tailleMain = Integer.min(main.size()-1,cartesMain.length-1)+1;
+        System.out.println(cartesMain.length);
         if (jc) {                                                                //Gestion de la main du joueur courant ou autres joueurs?
             panelTmp = panelMain;
             panelTmp.removeAll();                                               //Actualisation des panels
@@ -313,15 +324,30 @@ public class VueJeu {
         }
 
         int i = 0;
-        while (i < cartesMain.length && i < main.size()) {                         // Parcours de la main du joueurs
-            if (main.get(i).getClass().equals(CarteTresor.class)) {
-                cartesMain[i] = new JButton(main.get(i).getTresor().getNomTresor());
-            } else {
-                cartesMain[i] = new JButton(main.get(i).getClass().getSimpleName());
+        while (i < tailleMain ) {                         // Parcours de la main du joueurs
+            if (jc){
+                if (main.get(i).getClass().equals(CarteTresor.class)) {
+                cartesMainTmp[i] = new JButton(main.get(i).getTresor().getNomTresor());
+                }   else {
+                cartesMainTmp[i] = new JButton(main.get(i).getClass().getSimpleName());
+                }
+                cartesMainTmp[i].setEnabled(false);
+                panelTmp.add(cartesMainTmp[i]);
             }
-            cartesMain[i].setEnabled(false);
-            panelTmp.add(cartesMain[i]);
+            else {
+                if (main.get(i).getClass().equals(CarteTresor.class)) {
+                labelCarteMainAutre = new JLabel(main.get(i).getTresor().getNomTresor());
+                }   else {
+                labelCarteMainAutre = new JLabel(main.get(i).getClass().getSimpleName());
+                }
+                panelTmp.add(labelCarteMainAutre);
+            }
+ 
             i++;
+        }
+        
+        if (jc){
+            cartesMain = cartesMainTmp; 
         }
 
     }
