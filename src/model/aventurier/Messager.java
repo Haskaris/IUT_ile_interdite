@@ -8,6 +8,8 @@ package model.aventurier;
 import java.util.ArrayList;
 import model.cartesOrange.CarteDosOrange;
 import model.Tuile;
+import util.Utils;
+import util.Utils.Pion;
 
 /**
  *
@@ -38,6 +40,11 @@ public class Messager extends Aventurier{
                     }
           }
         }
+    }
+
+    @Override
+    public Pion getPion() {
+        return Pion.ORANGE;
     }
 }
     

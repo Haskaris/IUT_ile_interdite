@@ -8,6 +8,7 @@ package model.aventurier;
 import java.util.ArrayList;
 import model.Etat;
 import model.Tuile;
+import util.Utils.Pion;
 
 /**
  *
@@ -117,5 +118,8 @@ public class Pilote extends Aventurier {
                     System.out.println("La tuile " + position.getX() +", " +position.getY() + " n'à pas été asséchée");
                 }
             }
+    }
+    public Pion getPion(){
+        return Pion.BLEU;
     }
 }

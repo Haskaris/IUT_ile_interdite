@@ -8,6 +8,8 @@ package model.aventurier;
 import java.util.ArrayList;
 import model.Etat;
 import model.Tuile;
+import util.Utils;
+import util.Utils.Pion;
 
 /**
  *
@@ -51,6 +53,11 @@ public class Plongeur extends Aventurier{
             }
         }
         return tuilesPossibles;
+    }
+
+    @Override
+    public Pion getPion() {
+        return Pion.VIOLET;
     }
     
 }
