@@ -88,7 +88,13 @@ public class VueJeu {
         panelBtnAction = new JPanel(new GridLayout(2,2));
         panelBtn.add(panelBtnAction, BorderLayout.CENTER);
         panelMenu.add(panelBtn);
-
+        
+        panelLateral = new JPanel(new GridLayout(4, 1));
+        panelPrincipal.add(panelLateral, BorderLayout.EAST);
+        
+        panelMain = new JPanel(new GridLayout(1,5));
+        panelSouth.add(panelMain, BorderLayout.CENTER);
+        
         window.add(panelPrincipal);
 
         setGrille(gr);
@@ -282,14 +288,21 @@ public class VueJeu {
     }
     
     
-    public void afficherMain(ArrayList<CarteDosOrange> main){
-        panelMain = new JPanel(new GridLayout(1,5));
-        panelSouth.add(panelMain, BorderLayout.CENTER);
+    public void afficherMain(ArrayList<CarteDosOrange> main, boolean jc){
+        JPanel panelTmp;
+        if (jc){
+            panelTmp = panelMain;
+        }
+        else {
+            panelTmp = panelLateral;
+        }
+        
+
         
         int i = 0;
         while (i<cartesMain.length && i < main.size()){
             cartesMain[i] = new JButton(main.get(i).getClass().getName());
-            panelMain.add(cartesMain[i]);
+            panelTmp.add(cartesMain[i]);
             i++;
         }
         
