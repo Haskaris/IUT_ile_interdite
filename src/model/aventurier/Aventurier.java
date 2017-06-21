@@ -10,6 +10,7 @@ import model.cartesOrange.CarteDosOrange;
 import model.Etat;
 import model.Grille; 
 import model.Tuile;
+import util.Utils.Pion;
 
 /**
  *
@@ -180,7 +181,7 @@ public abstract class Aventurier {
         this.main.remove(carte);
     }
     
-    
+    public abstract Pion getPion(); 
    
     
    

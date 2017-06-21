@@ -104,7 +104,6 @@ public class Controller implements Observateur {
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Retour) {
             paramJeu.fermer();
             regles.fermer();
-            popUp.fermer();
             bienvenue.afficher();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Regles) {
             bienvenue.fermer();
@@ -605,28 +604,8 @@ public class Controller implements Observateur {
         nbAction = 0;
         joueurC = getJoueurCourant(nbJ);
         System.out.println(joueurC.getNom());
-        
-        Pion pion;
-        if (joueurC.getClass().equals(Explorateur.class)){
-            pion = Pion.VERT;
-        }
-        else if (joueurC.getClass().equals(Messager.class)){
-            pion =  Pion.ORANGE;
-        }
-        else if (joueurC.getClass().equals(Pilote.class)){
-            pion =  Pion.BLEU;
-        }
-        else if (joueurC.getClass().equals(Navigateur.class)){
-            pion = Pion.JAUNE;
-        }
-        else  if (joueurC.getClass().equals(Plongeur.class)){
-            pion = Pion.VIOLET;
-        }
-        else {
-            pion = Pion.ROUGE;
-        }
-        
-        jeu.changeJoueurCourant(joueurC.getNom(), pion);
+              
+        jeu.changeJoueurCourant(joueurC.getNom(), joueurC.getPion());
         if (joueurC.getMain().size() > 5) {
             popUp = new VuePopUp(this, joueurC.getMain());
             popUp.afficher();
@@ -637,6 +616,7 @@ public class Controller implements Observateur {
         
         //afficherMain();
         Boolean bool;
+        jeu.resetMainIHM();
         for (Aventurier av: joueurs){
             if (av == joueurC){
                 bool = true;
@@ -644,7 +624,7 @@ public class Controller implements Observateur {
             else {
                 bool = false;
             }
-            jeu.afficherMain(av.getMain(), bool);
+            jeu.afficherMain(av.getMain(), bool, av.getNom(), av.getPion());
         }
         
         //VueAventurier vueCourante = vueAvC(nbJ);

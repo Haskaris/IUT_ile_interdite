@@ -58,7 +58,7 @@ public class VueJeu {
     private boolean depl;
     private int x, y;
     private JLabel labelJC;
-    private JPanel panelGrille, panelPrincipal, panelMenu, panelBtnAction, panelSouth, panelMain, panelLateral;
+    private JPanel panelGrille, panelPrincipal, panelMenu, panelBtnAction, panelTop, panelBottom, panelMain, panelLateral, panelBtn;
     private boolean deplApp = false;
     private boolean assApp = false;
 
@@ -76,28 +76,57 @@ public class VueJeu {
         this.observateur = o;
         
         // Initialisation des panneaux 
+        
+        Border border = new LineBorder(Color.GRAY, 5);
+        Border borderJ = new LineBorder(Color.BLACK, 1);
+        Border borderM = new LineBorder(Color.LIGHT_GRAY, 5);
+        
         panelPrincipal = new JPanel(new BorderLayout());                        
         
         panelGrille = new JPanel(new GridLayout(6, 6));                         // Contient la grille
-        panelPrincipal.add(panelGrille, BorderLayout.CENTER);
+        panelTop = new JPanel(new BorderLayout());
+        panelPrincipal.add(panelTop, BorderLayout.CENTER);
+        panelTop.add(panelGrille, BorderLayout.CENTER);
         
-        panelSouth = new JPanel(new BorderLayout());                            // Contient la main du joueur Courant et boutons d'actions
-        panelPrincipal.add(panelSouth, BorderLayout.SOUTH);
+        panelBottom = new JPanel(new BorderLayout());                            // Contient la main du joueur Courant et boutons d'actions
+        panelPrincipal.add(panelBottom, BorderLayout.SOUTH);
         
-        panelMenu = new JPanel(new BorderLayout());                             // Panel des boutons d'actions
-        panelSouth.add(panelMenu,BorderLayout.EAST);
+        panelBtn = new JPanel(new BorderLayout());
+        panelMenu = new JPanel(new GridLayout(3,1));                             // Panel des boutons d'actions
+        panelMenu.add(new JPanel());
+        panelMenu.add(panelBtn);
+        panelMenu.add(new JPanel());
+        panelTop.add(panelMenu,BorderLayout.EAST);
         
                                     // 
         
         panelBtnAction = new JPanel(new GridLayout(2,2));                       // Panel boutons d'actions (sauf Fin Tour)
-        panelMenu.add(panelBtnAction, BorderLayout.CENTER);
+        panelBtn.add(panelBtnAction, BorderLayout.CENTER);
+        
+        labelJC = new JLabel(getNom());                              // Affichage du joueur courant
+        panelBottom.add(labelJC, BorderLayout.NORTH);
+        panelBottom.add(new JPanel());
+        
+        panelMain = new JPanel(new GridLayout(1,5));
+        panelMain.setBorder(borderM);
+        panelBottom.add(panelMain, BorderLayout.CENTER);
+        
+        panelLateral = new JPanel(new GridLayout(1,5));
+        panelLateral.setBorder(borderM);
+        panelBottom.add(panelLateral, BorderLayout.EAST);
         
         
-        panelLateral = new JPanel();
-        panelPrincipal.add(panelLateral, BorderLayout.EAST);
+        btnAssechement.setBackground(Color.LIGHT_GRAY);
+        btnDeplacement.setBackground(Color.LIGHT_GRAY);
+        btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
+        btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
+        btnFinTour.setBackground(Color.LIGHT_GRAY);
         
-        panelMain = new JPanel();
-        panelSouth.add(panelMain, BorderLayout.CENTER);
+        panelBtnAction.add(btnAssechement);
+        panelBtnAction.add(btnDeplacement);
+        panelBtnAction.add(btnDonnerCarte);
+        panelBtnAction.add(btnPrendreTresor);
+        panelBtn.add(btnFinTour, BorderLayout.SOUTH);
         
         window.add(panelPrincipal);
 
@@ -106,8 +135,6 @@ public class VueJeu {
 
         Color etatCouleur = null;
         String nomTuile;
-        Border border = new LineBorder(Color.GRAY, 5);
-        Border borderJ = new LineBorder(Color.BLACK, 1);
         
         panExpl.setBackground(util.Utils.Pion.VERT.getCouleur());         //initialisation des panels de joueurs
         panInge.setBackground(util.Utils.Pion.ROUGE.getCouleur());
@@ -153,14 +180,8 @@ public class VueJeu {
 
         }
 
-        labelJC = new JLabel(getNom());                              // Affichage du joueur courant
-
-
         for (int i = 0; i <= 5; i++) {                                          // Affichage de la grille
             for (int j = 0; j <= 5; j++) {
-                if (i == 0 && j == 0) {
-                    panelGrille.add(labelJC);                                   // Affichage du joueur courant
-                } else {
                     nomTuile = grilleTab[i][j].getNom();                        // Gestion de la couleur du bouton en fonction de l'état de la tuile
                     if (grilleTab[i][j].getEtat() == Etat.assechee) {
                         etatCouleur = Color.DARK_GRAY;
@@ -181,21 +202,8 @@ public class VueJeu {
                         afficheJoueurGrille(i, j);
                         
                     }
-                }
             }
         }
-        
-        btnAssechement.setBackground(Color.LIGHT_GRAY);
-        btnDeplacement.setBackground(Color.LIGHT_GRAY);
-        btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
-        btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
-        btnFinTour.setBackground(Color.LIGHT_GRAY);
-        
-        panelBtnAction.add(btnAssechement);
-        panelBtnAction.add(btnDeplacement);
-        panelBtnAction.add(btnDonnerCarte);
-        panelBtnAction.add(btnPrendreTresor);
-        panelMenu.add(btnFinTour, BorderLayout.SOUTH);
 
         btnAssechement.addActionListener(new ActionListener() {
             @Override
@@ -291,22 +299,30 @@ public class VueJeu {
         window.setVisible(true);
     }
     
+    public void resetMainIHM(){
+        panelLateral.removeAll();
+    }
     
-    public void afficherMain(ArrayList<CarteDosOrange> main, boolean jc){
+    public void afficherMain(ArrayList<CarteDosOrange> main, boolean jc, String nomJ, Pion pion){
         JPanel panelTmp;
         
         if (jc){                                                                //Gestion de la main du joueur courant ou autres joueurs?
             panelTmp = panelMain;
+            panelTmp.removeAll();                                               //Actualisation des panels
         }
         else {
-            panelTmp = panelLateral;
+            panelTmp = new JPanel(new GridLayout(6,1));
+            JLabel labelJoueur = new JLabel(nomJ);
+            labelJoueur.setForeground(pion.getCouleur());
+            panelLateral.add(panelTmp);
+            panelTmp.removeAll();                                               //Actualisation des panels
+            panelTmp.add(labelJoueur);
         }
         
-        panelTmp.removeAll();                                                   //Actualisation des panels
         
         int i = 0;
         while (i<cartesMain.length && i < main.size()){                         // Parcours de la main du joueurs
-            cartesMain[i] = new JButton(main.get(i).getClass().getName());      
+            cartesMain[i] = new JButton(main.get(i).getClass().getSimpleName());      
             panelTmp.add(cartesMain[i]);
             i++;
         }
