@@ -596,10 +596,7 @@ public class Controller implements Observateur {
                 }
             }
         }
-        
-        
         // pas fini du tout
-       
     }
     
     public void afficherMain(){
@@ -614,8 +611,6 @@ public class Controller implements Observateur {
                 System.out.println(" - Carte Sac de sable");
             }
         }
-        
-    
     }
     
     @Override
@@ -634,6 +629,7 @@ public class Controller implements Observateur {
     }  // ajoute la carte à la defausse orange et retire la carte de la main du joueur
      
     public void tourDeJeu() {
+        Pilote avP = new Pilote("");
         nbAction = 0;
         joueurC = getJoueurCourant(nbJ);
         System.out.println(joueurC.getNom());
@@ -643,7 +639,14 @@ public class Controller implements Observateur {
             popUp = new VuePopUp(this, joueurC.getMain());
             popUp.afficher();
         }
-        //////////////////////  Ici mettre le pouvoir du pilote à faux  /////////////////////
+        
+        if (joueurC.getClass().getSimpleName().equals("Pilote")) {
+            avP = (Pilote) joueurC;
+            avP.setPouvoirUtilise(false);
+            joueurC = avP;
+            System.out.println("Pouvoir remis à 0");
+        }
+        
         jeu.debutTour();
         jeu.repaint();
         
@@ -661,7 +664,7 @@ public class Controller implements Observateur {
         }
         
         gestionFinJeu();
-        System.out.println("Made by JACQUETCorp ©");
+        System.out.println("Made by JACQUETCorp + Ugo le stagiaire ©");
         
     }
 }
