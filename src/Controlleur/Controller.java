@@ -71,12 +71,13 @@ public class Controller implements Observateur {
     }
     
     public Controller() {
+        grilleJeu = new Grille();
         joueurs = new ArrayList<>();
-        setGrilleJeu(new Grille());
         bienvenue = new VueBienvenue(this);
         paramJeu = new VueParamJeu(this);
         regles = new VueRegles(this);
         jeu = new VueJeu(this, grilleJeu);
+        setGrilleJeu(grilleJeu);
         defausseOrange = new ArrayList<>();
         defausseInondation = new ArrayList<>();
         créerTresors();
@@ -88,12 +89,9 @@ public class Controller implements Observateur {
     public static void setGrilleJeu(Grille GrilleJeu) {                         //Fonction permettant de lier les grilles (joueurs - controlleur) 
         grilleJeu = GrilleJeu;
         for (Aventurier av : joueurs) {
-            av.setGrille(grilleJeu);
+            av.setGrille(GrilleJeu);
         }
-        
-        if (jeu != null){
-            jeu.setGrille(grilleJeu);
-        }
+        jeu.setGrille(GrilleJeu);
     }
 
     @Override
@@ -126,17 +124,13 @@ public class Controller implements Observateur {
             //joueurC.donnerCarte(joueurC, piocheOrange, joueurC);
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Assecher) {      //Affichage des tuiles où l'assechement est possible
             if (jeu.getAss()) {
-                if (nbAction < 3) {
-                    if (jeu.getDeplApp()) {
-                        jeu.repaint();
-                        jeu.setDeplApp(false);
-                    }
-                    jeu.afficherPossible(joueurC.getTuilesPossibles(false));
-                    setGrilleJeu(joueurC.getGrilleAv());
-                    System.out.println("nb act : " + nbAction);
-                } 
-            }
-            else {
+                if (jeu.getDeplApp()) {
+                    jeu.repaint();
+                    jeu.setDeplApp(false);
+                }
+                setGrilleJeu(joueurC.getGrilleAv());
+                jeu.afficherPossible(joueurC.getTuilesPossibles(false));
+            } else {
                 jeu.repaint();
             }
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Fin) {
@@ -149,6 +143,7 @@ public class Controller implements Observateur {
             jeu.setAssApp(false);
             //piocherDeuxCartesOrange();
             piocherCartesInondation();
+            setGrilleJeu(joueurC.getGrilleAv());
             afficherMain();
             System.out.println("N° courant : " + nbJ);
             tourDeJeu();
@@ -250,6 +245,7 @@ public class Controller implements Observateur {
                 av1.setPosition(grilleJeu.trouverTuile(nomPos));
                 grilleJeu.trouverTuile(nomPos).addJoueur(av1);
                 randomSauv1 = random;
+                
             } else if (i == 1) {
                 av2 = role;
                 av2.setPosition(grilleJeu.trouverTuile(nomPos));
@@ -265,8 +261,8 @@ public class Controller implements Observateur {
                 av4.setPosition(grilleJeu.trouverTuile(nomPos));
                 grilleJeu.trouverTuile(nomPos).addJoueur(av4);
             }
-            jeu = new VueJeu(this, grilleJeu);
-            
+            //jeu = new VueJeu(this, grilleJeu);
+            setGrilleJeu(grilleJeu);
         }
     }
     
@@ -283,8 +279,8 @@ public class Controller implements Observateur {
         System.out.println("Ici on a fait avec un boolean " + depl);
         jeu.repaint();
         if (nbAction < 3) {
-            jeu.afficherPossible(joueurC.getTuilesPossibles(true));
-            } else {
+                jeu.afficherPossible(joueurC.getTuilesPossibles(depl));
+        } else {
             jeu.finTourObligatoire();
         }
     }
