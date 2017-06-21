@@ -16,18 +16,11 @@ public class CarteInondation {
         setTuile(tuile);
     }
     
-    
-    /**
-     * @return the nomTuile
-     */
     public Tuile getTuile() {
         return tuile;
     }
-
-    /**
-     * @param nomTuile the nomTuile to set
-     */
-    public void setTuile(Tuile nomTuile) {
+    
+    private void setTuile(Tuile nomTuile) {
         this.tuile = nomTuile;
     }
 

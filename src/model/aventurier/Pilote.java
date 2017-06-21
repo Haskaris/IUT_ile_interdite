@@ -6,8 +6,8 @@
 package model.aventurier;
 
 import java.util.ArrayList;
-import model.Etat;
 import model.Tuile;
+import util.Utils;
 import util.Utils.Pion;
 
 /**
@@ -40,7 +40,7 @@ public class Pilote extends Aventurier {
             if (isPouvoirUtilise() == false){
                 for(int i = 0; i < tuiles.length; i++){
                     for(int j = 0; j < tuiles[i].length; j++){
-                        if (tuiles[i][j].getEtat() == Etat.assechee || tuiles[i][j].getEtat() == Etat.inondee) {
+                        if (tuiles[i][j].getEtat() == Utils.EtatTuile.ASSECHEE || tuiles[i][j].getEtat() == Utils.EtatTuile.INONDEE) {
                             tuilesPossibles.add(tuiles[i][j]);
                         }
                     }
@@ -113,7 +113,7 @@ public class Pilote extends Aventurier {
                 
                 for (Tuile tuile : tuilesPossibles){
                     if (tuile.getX() == x & tuile.getY() == y){
-                        grille.trouverTuile(x, y).setEtat(Etat.assechee);                        
+                        grille.trouverTuile(x, y).setEtat(Utils.EtatTuile.ASSECHEE);                        
                         actionEff = true;
                         System.out.println("La tuile " + position.getX() +", " +position.getY() + " à été asséchée");
                     }

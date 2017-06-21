@@ -25,6 +25,7 @@ import javax.swing.BoxLayout;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import model.cartesOrange.CarteDosOrange;
+import util.Utils;
 import util.Utils.Pion;
 
 /**
@@ -181,10 +182,10 @@ public class VueJeu {
             for (int j = 0; j <= 5; j++) {
                 nomTuile = grilleTab[i][j].getNom();
                 switch (grilleTab[i][j].getEtat()) {                        // Gestion de la couleur du bouton en fonction de l'état de la tuile
-                    case assechee:
+                    case ASSECHEE:
                         etatCouleur = Color.DARK_GRAY;
                         break;
-                    case inondee:
+                    case INONDEE:
                         etatCouleur = Color.ORANGE;
                         break;
                     default:
@@ -413,15 +414,15 @@ public class VueJeu {
         // Affichage de la grille
         for (int i = 0; i <= 5; i++) {
             for (int j = 0; j <= 5; j++) {
-                if (grille.getGrille()[i][j].getEtat() == Etat.assechee) {
+                if (grille.getGrille()[i][j].getEtat() == Utils.EtatTuile.ASSECHEE) {
                     btnTuiles[i][j].setBackground(Color.DARK_GRAY);
                     btnTuiles[i][j].setEnabled(false);
                 }
-                if (grille.getGrille()[i][j].getEtat() == Etat.inondee) {
+                if (grille.getGrille()[i][j].getEtat() == Utils.EtatTuile.INONDEE) {
                     btnTuiles[i][j].setBackground(Color.ORANGE);
                     btnTuiles[i][j].setEnabled(false);
                 }
-                if (grille.getGrille()[i][j].getEtat() == Etat.submergee) {
+                if (grille.getGrille()[i][j].getEtat() == Utils.EtatTuile.COULEE) {
                     btnTuiles[i][j].setBackground(Color.BLUE);
                     btnTuiles[i][j].setEnabled(false);
                 }

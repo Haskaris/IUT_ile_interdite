@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+//package model;
 
 /**
  *
  * @author reyneu
  */
-public enum Etat {
+/*public enum Etat {
     assechee,
     inondee,
     submergee,
     nulle
-}
+}*/

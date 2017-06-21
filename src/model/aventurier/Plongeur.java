@@ -6,7 +6,7 @@
 package model.aventurier;
 
 import java.util.ArrayList;
-import model.Etat;
+//import model.Etat;
 import model.Tuile;
 import util.Utils;
 import util.Utils.Pion;
@@ -21,8 +21,8 @@ public class Plongeur extends Aventurier{
         super(nom);
     }
     
-    @Override
-    public ArrayList<Tuile> getTuilesPossibles(boolean depl){
+    //@Override
+    /*public ArrayList<Tuile> getTuilesPossibles(boolean depl){
         int posX = getPosition().getX();
         int posY = getPosition().getY();
         
@@ -53,7 +53,7 @@ public class Plongeur extends Aventurier{
             }
         }
         return tuilesPossibles;
-    }
+    }*/
 
     @Override
     public Pion getPion() {

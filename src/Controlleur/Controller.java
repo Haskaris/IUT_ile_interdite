@@ -14,7 +14,7 @@ import model.cartesOrange.CarteMonteeDesEaux;
 import model.cartesOrange.CarteSacDeSable;
 import model.cartesOrange.CarteTresor;
 import model.Echelle;
-import model.Etat;
+//import model.Etat;
 import model.aventurier.Aventurier;
 import util.Message;
 import util.TypesMessage;
@@ -23,6 +23,7 @@ import model.Tresor;
 import model.Tuile;
 import model.aventurier.*;
 import util.Parameters;
+import util.Utils;
 import util.Utils.Pion;
 import view.*;
 
@@ -562,12 +563,12 @@ public class Controller implements Observateur {
             }
             int numRandom = getRandom(0, piocheInondation.size()-1);                              // au hasard
             
-            if (piocheInondation.get(numRandom).getTuile().getEtat() == Etat.assechee) {         // on regarde l'etat de la tuile correspondant à la carte choisie au hasard 
-                piocheInondation.get(numRandom).getTuile().setEtat(Etat.inondee);               // si la tuile est asséchée elle devient inondée
+            if (piocheInondation.get(numRandom).getTuile().getEtat() == Utils.EtatTuile.ASSECHEE) {         // on regarde l'etat de la tuile correspondant à la carte choisie au hasard 
+                piocheInondation.get(numRandom).getTuile().setEtat(Utils.EtatTuile.INONDEE);               // si la tuile est asséchée elle devient inondée
                 defausseInondation.add(piocheInondation.get(numRandom));                            // puis on ajoute la carte dans la defausse
                 piocheInondation.remove(piocheInondation.get(numRandom));                           // et on retire la carte de la pioche
-            } else if (piocheInondation.get(numRandom).getTuile().getEtat() == Etat.inondee) {
-                piocheInondation.get(numRandom).getTuile().setEtat(Etat.submergee);             // si la tuile est inondée elle devient submergée
+            } else if (piocheInondation.get(numRandom).getTuile().getEtat() == Utils.EtatTuile.INONDEE) {
+                piocheInondation.get(numRandom).getTuile().setEtat(Utils.EtatTuile.COULEE);             // si la tuile est inondée elle devient submergée
                 piocheInondation.remove(piocheInondation.get(numRandom));                           // et on retire la carte inondation du jeu
             }
         }
@@ -577,7 +578,7 @@ public class Controller implements Observateur {
         for (int i = 0 ; i < 6; i++){                  // on pioche 6 cartes
             int numRandom = getRandom(0, piocheInondation.size()-1);                              // au hasard
             
-                piocheInondation.get(numRandom).getTuile().setEtat(Etat.inondee);                   // la tuile  devient inondée
+                piocheInondation.get(numRandom).getTuile().setEtat(Utils.EtatTuile.INONDEE);                   // la tuile  devient inondée
                 defausseInondation.add(piocheInondation.get(numRandom));                            // puis on ajoute la carte dans la defausse
                 piocheInondation.remove(piocheInondation.get(numRandom));                           // et on retire la carte de la pioche
              
@@ -586,7 +587,7 @@ public class Controller implements Observateur {
     
      
     public void gestionFinJeu() {
-        if (grilleJeu.trouverTuile("Heliport").getEtat() == Etat.submergee ){           // fermer le jeu si l'héliport est submergé
+        if (grilleJeu.trouverTuile("Heliport").getEtat() == Utils.EtatTuile.COULEE){           // fermer le jeu si l'héliport est submergé
             System.out.println("Jeu terminé, Heliport submergé");
             jeu.fermer();                                           
         }
@@ -599,11 +600,11 @@ public class Controller implements Observateur {
         Boolean bool = false;
         for (Tresor tresor: tresors){                                                               // pour chaque tresor
             for (Tuile tuile : grilleJeu.getTuilesTresor(tresors.get(tresors.indexOf(tresor)))){        // et pour chaque tuile permettant de récupérer ce tresor
-                if (bool && tuile.getEtat() == Etat.submergee){                                     // verifier si la deuxieme tuile est submergée
+                if (bool && tuile.getEtat() == Utils.EtatTuile.COULEE){                                     // verifier si la deuxieme tuile est submergée
                     System.out.println("Jeu terminé, trésor :" + tresor.getNomTresor() + " n'est plus récupérable");
                     jeu.fermer();                                                                   // si oui , fin du jeu
                 }
-                if (tuile.getEtat() == Etat.submergee){                                             // vérifier si la 1° est submergée
+                if (tuile.getEtat() == Utils.EtatTuile.COULEE){                                             // vérifier si la 1° est submergée
                     bool = true;
                 }
             }
@@ -611,7 +612,7 @@ public class Controller implements Observateur {
         }
         
         for (Aventurier av: joueurs){                                                           // pour chaque aventurier
-            if (av.getPosition().getEtat() == Etat.submergee){                                  // si la case sur laquelle il se trouve est submergée
+            if (av.getPosition().getEtat() == Utils.EtatTuile.COULEE){                                  // si la case sur laquelle il se trouve est submergée
                 if (av.getTuilesPossibles(true).size() == 0){                                   // et si aucun deplacement n'est possible
                     System.out.println("Jeu terminé, Un joueur est mort dans les abysses.");
                     jeu.fermer();                                                               // fin du jeu

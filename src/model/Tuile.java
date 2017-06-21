@@ -7,6 +7,7 @@ package model;
 
 import java.util.ArrayList;
 import model.aventurier.Aventurier;
+import util.Utils;
 
 
 /**
@@ -17,7 +18,7 @@ public class Tuile {
     private String nom;
     private int x;
     private int y;
-    private Etat etat;
+    private Utils.EtatTuile etat;
     private ArrayList<Aventurier> joueurs;
     private Tresor tresor;
     
@@ -25,13 +26,13 @@ public class Tuile {
         setNom(nom);
         setX(x);
         setY(y);
-        setEtat(Etat.assechee);
+        setEtat(Utils.EtatTuile.ASSECHEE);
         joueurs = new ArrayList<>();
     }
     
     Tuile(String nom) {
         setNom(nom);
-        setEtat(Etat.assechee);
+        setEtat(Utils.EtatTuile.ASSECHEE);
         joueurs = new ArrayList<>();
         setX(0);
         setY(0);
@@ -79,11 +80,11 @@ public class Tuile {
         this.y = y;
     }
     
-    public void setEtat(Etat etat){
+    public void setEtat(Utils.EtatTuile etat){
         this.etat = etat;
     }
     
-    public Etat getEtat(){
+    public Utils.EtatTuile getEtat(){
         return etat;
     }
     
