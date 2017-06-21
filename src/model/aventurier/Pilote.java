@@ -56,18 +56,23 @@ public class Pilote extends Aventurier {
     
     @Override
     public void deplacementAssechage(int x, int y, boolean depl) {
-        
+        Tuile tuileTemp = grille.trouverTuile(x, y);
         ArrayList<Tuile> tuilesPossibles = new ArrayList <>();
-        ArrayList<Tuile> tuilesPossiblesAss = new ArrayList <>();
         
         tuilesPossibles = getTuilesPossibles(depl);
-        //tuilesPossiblesAss = super.getTuilesPossibles(depl);
         
         boolean actionEff = false;
         
             if (depl == true) {                                                 //Si la fonction est utilisée pour un déplacement
-                for (Tuile tuile : tuilesPossibles){
-                    if (tuile.getX() == x & tuile.getY() == y){
+                if (super.getTuilesPossibles(true).contains(tuileTemp)) {
+                    setPouvoirUtilise(false);
+                    System.out.println("Pouvoir non utilisé");
+                } else {
+                    setPouvoirUtilise(true);
+                    System.out.println("Pouvoir utilisé");
+                }
+                for (Tuile tuile : tuilesPossibles) {
+                    if (tuile.getX() == x & tuile.getY() == y) {
                         grille.trouverTuile(position.getX(), position.getY()).supprJoueur(this);
                         this.setPosition(grille.trouverTuile(x ,y));
                         grille.trouverTuile(x, y).addJoueur(this);
@@ -79,37 +84,6 @@ public class Pilote extends Aventurier {
                     System.out.println("Joueur non deplacé, il reste en " + position.getX() +", " +position.getY());
                 }
             } else if (depl == false) {
-                /*
-                int posX = getPosition().getX();
-                int posY = getPosition().getY();
-                Tuile[][] tuiles = getGrilleAv().getGrille();
-                if (posX > 0) {
-                    if (tuiles[posX-1][posY].getNom() != "null" &&
-                            tuiles[posX-1][posY].getEtat() == Etat.inondee){
-                        tuilesPossiblesAss.add(tuiles[posX-1][posY]);
-                    }
-                }
-                if (posX < 5) {
-                    if (tuiles[posX+1][posY].getNom() != "null" &&
-                            tuiles[posX+1][posY].getEtat() == Etat.inondee) {
-                        tuilesPossiblesAss.add(tuiles[posX+1][posY]);
-                    }
-                }
-                if (posY < 5) {
-                    if (tuiles[posX][posY+1].getNom() != "null" &&
-                            tuiles[posX][posY+1].getEtat() == Etat.inondee) {
-                        tuilesPossiblesAss.add(tuiles[posX][posY+1]);
-                    }
-                }
-                if (posY > 0) {
-                    if (tuiles[posX][posY-1].getNom() != "null" &&
-                            tuiles[posX][posY-1].getEtat() == Etat.inondee) {
-                        tuilesPossiblesAss.add(tuiles[posX][posY-1]);
-                    }
-                }
-                if (tuiles[posX][posY].getEtat() == Etat.inondee) {
-                    tuilesPossiblesAss.add(tuiles[posX][posY]);
-                } */
                 
                 for (Tuile tuile : tuilesPossibles){
                     if (tuile.getX() == x & tuile.getY() == y){

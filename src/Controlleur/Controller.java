@@ -23,6 +23,7 @@ import util.Message;
 import util.Parameters;
 import util.TypesMessage;
 import util.Utils;
+import util.Utils.Pion;
 import static util.Utils.afficherInformation;
 import view.*;
 
@@ -337,7 +338,7 @@ public class Controller implements Observateur {
     
     public Aventurier getJoueurCourant(int jc) {
         return joueurs.get(jc);
-    }
+    } // renvoi le joueur courant
     
     private static ArrayList<CarteDosOrange> melangerCartesOranges(ArrayList<CarteDosOrange> arrayList) {
         if (Parameters.ALEAS) {
@@ -596,11 +597,9 @@ public class Controller implements Observateur {
                 }
             }
         }
-        
-        
         // pas fini du tout
        
-    }
+    } // gestion de la fin du jeu (lose ou win) (win pas encore fait)
     
     public void afficherMain(){
         System.out.println("Voici vos cartes :");
@@ -614,8 +613,6 @@ public class Controller implements Observateur {
                 System.out.println(" - Carte Sac de sable");
             }
         }
-        
-    
     }
     
     @Override
@@ -632,8 +629,32 @@ public class Controller implements Observateur {
         defausseOrange.add(carte);                          // ajoute la carte a la defausse
         joueurC.removeCarteMain(carte);                     // retire la carte de la main du joueur
     }  // ajoute la carte à la defausse orange et retire la carte de la main du joueur
+    
+    public void utiliserCarteSacDeSable(Tuile tuile){
+        if (grilleJeu.trouverTuile(tuile.getNom()).getEtat() == Utils.EtatTuile.INONDEE){
+            grilleJeu.trouverTuile(tuile.getNom()).setEtat(Utils.EtatTuile.ASSECHEE);
+        } else {
+            afficherInformation("La tuile ne peut pas être asséchée");
+        }
+    
+    }  // la tuile donnée devient assechée
+    
+    public void utiliserCarteHelicoptere(Tuile tuile){
+        if (tuile.getEtat() != Utils.EtatTuile.COULEE){                         // vérifie si la tuile cible est une tuile submergée
+            for(Aventurier av : joueurC.getPosition().getJoueurs()){            // si non 
+                tuile.addJoueur(av);                                            // alors on déplace tous les joueurs qui sont sur la me case qe le joueur courant sur la case cible
+            }
+        } else {
+            afficherInformation("La tuile cible est submergée, utilisation hélicoptere impossible");
+        
+        }
+    
+    } // deplace tous les joueurs d'une case sur la tuile donnée
+    
+    
      
     public void tourDeJeu() {
+        Pilote avP = new Pilote("");
         nbAction = 0;
         joueurC = getJoueurCourant(nbJ);
         System.out.println(joueurC.getNom());
@@ -643,7 +664,14 @@ public class Controller implements Observateur {
             popUp = new VuePopUp(this, joueurC.getMain());
             popUp.afficher();
         }
-        //////////////////////  Ici mettre le pouvoir du pilote à faux  /////////////////////
+        
+        if (joueurC.getClass().getSimpleName().equals("Pilote")) {
+            avP = (Pilote) joueurC;
+            avP.setPouvoirUtilise(false);
+            joueurC = avP;
+            System.out.println("Pouvoir remis à 0");
+        }
+        
         jeu.debutTour();
         jeu.repaint();
         
@@ -661,7 +689,7 @@ public class Controller implements Observateur {
         }
         
         gestionFinJeu();
-        System.out.println("Made by JACQUETCorp ©");
+        System.out.println("Made by JACQUETCorp + Ugo le stagiaire ©");
         
     }
 }
