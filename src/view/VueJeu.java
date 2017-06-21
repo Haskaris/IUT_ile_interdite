@@ -14,8 +14,6 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import javax.swing.JApplet;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,7 +21,6 @@ import javax.swing.JPanel;
 import util.Message;
 import util.TypesMessage;
 import java.util.ArrayList;
-import javax.swing.ButtonGroup;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import model.cartesOrange.CarteDosOrange;
@@ -60,7 +57,7 @@ public class VueJeu {
     private boolean depl;
     private int x, y;
     private JLabel labelJC;
-    private JPanel panelGrille, panelPrincipal, panelMenu, panelBtn, panelBtnAction, panelSouth, panelMain;
+    private JPanel panelGrille, panelPrincipal, panelMenu, panelBtn, panelBtnAction, panelSouth, panelMain, panelLateral;
     private boolean deplApp = false;
     private boolean assApp = false;
 
