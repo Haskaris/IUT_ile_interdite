@@ -140,13 +140,13 @@ public abstract class Aventurier {
     public boolean donnerCarte(CarteDosOrange carteADonner, Aventurier joueur){
         Boolean bool = false;
         for (CarteDosOrange carteMain : this.getMain()){ 
-            if(joueur.getMain().size() + 1 < 6){
+            if(joueur.getMain().size() + 1 < 8){
                     System.out.println("Le receveur à la place dans sa main.");
                     if (carteADonner == carteMain){                                                    // la carte se trouve bien dans la main du joueur courant
                         System.out.println("La carte est bien dans la main du joueur.");
                         if (this.getPosition() == joueur.getPosition()){                 // les deux joueurs sont bien sur la même case
                             System.out.println("Les deux joueurs sont bien sur la même case.");
-                            this.removeCarteMain(carteADonner);                                 // echange de la carte.
+                                                             // echange de la carte.
                             joueur.addCarteMain(carteADonner);
                             System.out.println("La carte tresor : " + carteADonner.getTresor() + " a bien été donné au joueur : "+ joueur.getNom());
                             bool = true;
@@ -160,6 +160,7 @@ public abstract class Aventurier {
                     System.out.println("Je receveur n'as pas la place de recevoir autant de carte(s)");
                 }
         }
+        this.removeCarteMain(carteADonner);
         return bool;
     } // le joueur courant donne une/plusieurs carte(s) a un joueur choisi
 

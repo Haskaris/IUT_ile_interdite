@@ -14,7 +14,6 @@ import model.Tresor;
 public class CarteMonteeDesEaux extends CarteDosOrange {
     public CarteMonteeDesEaux(){
         
-    
     }
 
     @Override

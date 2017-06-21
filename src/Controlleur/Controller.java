@@ -23,6 +23,7 @@ import util.Message;
 import util.Parameters;
 import util.TypesMessage;
 import util.Utils;
+import util.Utils.Pion;
 import static util.Utils.afficherInformation;
 import view.*;
 
@@ -44,7 +45,9 @@ public class Controller implements Observateur {
     private static String nomJ4;
     private static int difficulte;                                              // à changer pour l'échelle
     private static Echelle echelle;
+    private static boolean tresorRecup;
     private String nomJoueurDonne;
+    private CarteDosOrange carteDonne;
     
     private static int nbJ = 0;
     private static Grille grilleJeu;
@@ -54,6 +57,7 @@ public class Controller implements Observateur {
     private static ArrayList<CarteDosOrange> defausseOrange;
     private static ArrayList<Tresor> tresors;
     private static ArrayList<Tresor> tresorsGagnés;
+    private static ArrayList<Tresor> tresorsCompare;
     private static ArrayList<CarteInondation> piocheInondation;
     private static ArrayList<CarteInondation> defausseInondation;
     
@@ -75,8 +79,21 @@ public class Controller implements Observateur {
         remplirPiocheOrange();
         remplirPiocheInondation();
         bienvenue.afficher();
+        
+        ArrayList<String> nomJoueurs = new ArrayList<>();
+            for (Aventurier av: joueurs){
+                if (!av.equals(joueurC) && joueurC.getPosition().equals(av.getPosition())){
+                    nomJoueurs.add(av.getNom());
+                }
+            }
+        vueDonnerCarte = new vueAQuiDonner(this, nomJoueurs);
+    
     }
 
+    private static void setTresorRecup(boolean bool) {
+        tresorRecup = bool;
+    }
+    
     public static void setGrilleJeu(Grille GrilleJeu) {                         //Fonction permettant de lier les grilles (joueurs - controlleur) 
         grilleJeu = GrilleJeu;
         for (Aventurier av : joueurs) {
@@ -107,14 +124,24 @@ public class Controller implements Observateur {
                 if (nbAction < 3) {
                     jeu.afficherPossible(joueurC.getTuilesPossibles(true));     //Affichage des tuiles où le deplacement est possible
                     setGrilleJeu(joueurC.getGrilleAv());
-                    System.out.println("nb act : " + nbAction);
+                    
                 }
             } else {
                 jeu.repaint();
             }
         }else if (msg.getTypeMessage() == TypesMessage.ACTION_DonnerCarte) {
             afficherDonCartePossible();
-            nomJoueurDonne = msg.getString();
+            if (msg.getCarte() == null){
+                nomJoueurDonne = msg.getString();
+            } else {
+                carteDonne = msg.getCarte();
+            }
+            
+
+            if (carteDonne != null){
+                System.out.println(carteDonne.toString());
+            }
+            
             
             ArrayList<String> nomJoueurs = new ArrayList<>();
             for (Aventurier av: joueurs){
@@ -122,15 +149,17 @@ public class Controller implements Observateur {
                     nomJoueurs.add(av.getNom());
                 }
             }
-            vueDonnerCarte = new vueAQuiDonner(this, nomJoueurs);
+            vueDonnerCarte.repaint(nomJoueurs);
             vueDonnerCarte.afficher();
             if (getAventurier(nomJoueurDonne, joueurs) != null){
-                Boolean bool = joueurC.donnerCarte(msg.getCarte(), getAventurier(nomJoueurDonne, joueurs));    
+                Boolean bool = joueurC.donnerCarte(carteDonne, getAventurier(nomJoueurDonne, joueurs));    
                 if (!bool){
                    util.Utils.afficherInformation("La carte n'a pas été donnée: \n " + "  " + nomJoueurDonne + "n'a pas assez de place ");
-                   
+                   vueDonnerCarte.fermer();
                 }
                 else {
+                    System.out.println("///////// cest bonnnnnnnnnnnnnnnnnnnnnnnn");
+                    vueDonnerCarte.fermer();
                     nbAction++;
                 }
                 System.out.println("slt");
@@ -163,13 +192,44 @@ public class Controller implements Observateur {
             System.out.println("N° courant : " + nbJ);
             tourDeJeu();
             
-        } else if (msg.getTypeMessage() == TypesMessage.ACTION_CHOIX_CARTE){
+        } else if (msg.getTypeMessage() == TypesMessage.ACTION_CHOIX_CARTE) {
              popUp.fermer();
              enleverCarteSurplus(joueurC.getMain().get(msg.getNumBtn()));
              if (joueurC.getMain().size() > 5) {
                     popUp = new VuePopUp(this, joueurC.getMain());
                     popUp.afficher();
              }
+             Boolean bool;
+            jeu.resetMainIHM();
+            for (Aventurier av: joueurs){
+                if (av == joueurC){
+                    bool = true;
+               } 
+                else {
+                    bool = false;
+                }
+                jeu.afficherMain(av.getMain(), bool, av.getNom(), av.getPion());
+            }
+            jeu.repaint();
+        } else if (msg.getTypeMessage() == TypesMessage.ACTION_PrendreTresors) {
+            gagnerTresor();
+            ArrayList<CarteDosOrange> carteTemp = new ArrayList<>();
+            for (CarteDosOrange carte : joueurC.getMain()){
+                int i = 0;
+                if (carte.getTresor() != null && 
+                    carte.getTresor().getNomTresor() == "La Pierre sacrée") {
+                    carteTemp.add(carte);
+                    defausseOrange.add(carte);
+                    i++;
+                }
+                if (i == 4) {
+                    break;
+                }
+            }
+            for (CarteDosOrange carte : carteTemp) {
+                joueurC.removeCarteMain(carte);
+            }
+            nbAction++;
         }
     }
     
@@ -289,6 +349,10 @@ public class Controller implements Observateur {
         jeu.repaint();
         if (nbAction < 3) {
             jeu.afficherPossible(joueurC.getTuilesPossibles(depl));
+            gagnerTresorPossible();
+            if (tresorRecup) {
+                jeu.tresorPossible();
+            }
         } else {
             jeu.finTourObligatoire();
         }
@@ -369,7 +433,7 @@ public class Controller implements Observateur {
     
     public Aventurier getJoueurCourant(int jc) {
         return joueurs.get(jc);
-    }
+    } // renvoi le joueur courant
     
     private static ArrayList<CarteDosOrange> melangerCartesOranges(ArrayList<CarteDosOrange> arrayList) {
         if (Parameters.ALEAS) {
@@ -387,6 +451,8 @@ public class Controller implements Observateur {
     
     private void créerTresors() {
         tresors = new ArrayList<>();
+        tresorsGagnés = new ArrayList<>();
+        tresorsCompare = new ArrayList<>();
         Tresor tresor1 = new Tresor("La Pierre sacrée");        // création des 4 tresors du jeu
         Tresor tresor2 = new Tresor("La Statue du zéphyr");
         Tresor tresor3 = new Tresor("Le Cristal ardent");
@@ -395,7 +461,10 @@ public class Controller implements Observateur {
         tresors.add(tresor2);
         tresors.add(tresor3);
         tresors.add(tresor4);
-        
+        tresorsCompare.add(tresor1);
+        tresorsCompare.add(tresor2);
+        tresorsCompare.add(tresor3);
+        tresorsCompare.add(tresor4);
        for (int i = 0 ; i <= 5 ; i ++){
            for (int j = 0 ; j <= 5 ; j++){
                if (grilleJeu.getGrille()[i][j].getNom() == "Le temple du soleil" || grilleJeu.getGrille()[i][j].getNom() == "Le temple de la lune"){
@@ -481,54 +550,73 @@ public class Controller implements Observateur {
         int cartesTresorCristal = 0;
         int cartesTresorCalice = 0;
         
-        
-        if (joueurC.getPosition().getNom() == "Le temple du soleil" || joueurC.getPosition().getNom() == "Le temple de la lune" ) { // si le joueur se trouve sur une case pour recuperer le tresor de la pierre sacrée     
-            for (CarteDosOrange carte : joueurC.getMain()){
-                if (carte.getTresor().getNomTresor() == "La Pierre sacrée"){ // on compte combien de carte tresor de la pierre sacrée il a dans la main
-                    cartesTresorPierre++;
+        if (!tresorsGagnés.contains(tresorsCompare.get(0))) {
+            if (joueurC.getPosition().getNom() == "Le temple du soleil" || joueurC.getPosition().getNom() == "Le temple de la lune" ) { // si le joueur se trouve sur une case pour recuperer le tresor de la pierre sacrée     
+                for (CarteDosOrange carte : joueurC.getMain()){
+                    if (carte.getTresor() != null &&
+                            carte.getTresor().getNomTresor() == "La Pierre sacrée"){ // on compte combien de carte tresor de la pierre sacrée il a dans la main
+                        cartesTresorPierre++;
+                    }
+                }
+                if (cartesTresorPierre > 3) {                                   // si il en en 4 ou plus , il peut gagner le tresor
+                    setTresorRecup(true);
+
+                    return tresors.get(0);
                 }
             }
-            if (cartesTresorPierre > 3) {                                   // si il en en 4 ou plus , il peut gagner le tresor
-                return tresors.get(0);
-            }
         }
-        if (joueurC.getPosition().getNom() == "Le jardin des hurlements" || joueurC.getPosition().getNom() == "Le jardin des murmures" ) { // si le joueur se trouve sur une case pour recuperer le tresor de la statue du zephyr
-            for (CarteDosOrange carte : joueurC.getMain()){
-                if (carte.getTresor().getNomTresor() == "La Statue du zephyr"){ // on compte combien de carte tresor de la statue du zephyr il a dans la main
-                    cartesTresorStatue++;
+        if (!tresorsGagnés.contains(tresorsCompare.get(1))) {
+            if (joueurC.getPosition().getNom() == "Le jardin des hurlements" || joueurC.getPosition().getNom() == "Le jardin des murmures" ) { // si le joueur se trouve sur une case pour recuperer le tresor de la statue du zephyr
+                for (CarteDosOrange carte : joueurC.getMain()){
+                    if (carte.getTresor() != null && 
+                            carte.getTresor().getNomTresor() == "La Statue du zephyr"){ // on compte combien de carte tresor de la statue du zephyr il a dans la main
+                        cartesTresorStatue++;
+                    }
+                }
+                if (cartesTresorStatue > 3) {                                    // si il en en 4 ou plus , il peut gagner le  tresor
+                    setTresorRecup(true);
+                    return tresors.get(1);
+
                 }
             }
-            if (cartesTresorStatue > 3) {                                    // si il en en 4 ou plus , il peut gagner le  tresor
-                return tresors.get(1);
-    
-            }
         }
-        if (joueurC.getPosition().getNom() == "La caverne du brasier" || joueurC.getPosition().getNom() == "La caverne des ombres" ) { // si le joueur se trouve sur une case pour recuperer le tresor du cristal ardent
-            for (CarteDosOrange carte : joueurC.getMain()){
-                if (carte.getTresor().getNomTresor() == "Le cristal ardent"){ // on compte combien de carte tresor ddu cristal ardent il a dans la main
-                    cartesTresorCristal++;
+        if (!tresorsGagnés.contains(tresorsCompare.get(2))) {
+            if (joueurC.getPosition().getNom() == "La caverne du brasier" || joueurC.getPosition().getNom() == "La caverne des ombres" ) { // si le joueur se trouve sur une case pour recuperer le tresor du cristal ardent
+                for (CarteDosOrange carte : joueurC.getMain()){
+                    if (carte.getTresor() != null && 
+                            carte.getTresor().getNomTresor() == "Le cristal ardent"){ // on compte combien de carte tresor ddu cristal ardent il a dans la main
+                        cartesTresorCristal++;
+                    }
+                }
+                if (cartesTresorCristal > 3) {                                  // si il en en 4 ou plus , il peut gagner le  tresor
+                    setTresorRecup(true);
+                    return tresors.get(2);
+
                 }
             }
-            if (cartesTresorCristal > 3) {                                  // si il en en 4 ou plus , il peut gagner le  tresor
-                return tresors.get(2);
-    
-            }
         }
-        if (joueurC.getPosition().getNom() == "Le palais de corail" || joueurC.getPosition().getNom() == "Le palais des marrées" ) { // si le joueur se trouve sur une case pour recuperer le tresor du calice de l'onde
-            for (CarteDosOrange carte : joueurC.getMain()){
-                if (carte.getTresor().getNomTresor() == "Le Calice de l'onde"){  // on compte combien de carte tresor du calcie de l'onde il a dans la main
-                    cartesTresorCalice++;
+        if (!tresorsGagnés.contains(tresorsCompare.get(3))) {
+            if (joueurC.getPosition().getNom() == "Le palais de corail" || joueurC.getPosition().getNom() == "Le palais des marrées" ) { // si le joueur se trouve sur une case pour recuperer le tresor du calice de l'onde
+                for (CarteDosOrange carte : joueurC.getMain()){
+                    if (carte.getTresor() != null && 
+                            carte.getTresor().getNomTresor() == "Le Calice de l'onde"){  // on compte combien de carte tresor du calcie de l'onde il a dans la main
+                        cartesTresorCalice++;
+                    }
+                }
+                if (cartesTresorCalice > 3) {                                       // si il en en 4 ou plus , il peut gagner le  tresor
+                    setTresorRecup(true);
+                    return tresors.get(3);
                 }
             }
-            if (cartesTresorCalice > 3) {                                       // si il en en 4 ou plus , il peut gagner le  tresor
-                return tresors.get(3);
-            }
         }
+    setTresorRecup(false);    
     return null;
     }       // renvoi un tresor qui peut être gagné actuellement par le joueur courant
     
     public void gagnerTresor(){
             tresorsGagnés.add(gagnerTresorPossible());                              // on l'ajoute a la liste des trésors gagnés;
+            
+            tresors.remove(gagnerTresorPossible());
         }                   // ajout du tresor possible dans la liste des tresors récupérés
        
     public void piocherDeuxCartesOrange() {
@@ -590,7 +678,6 @@ public class Controller implements Observateur {
         }
     }
     
-     
     public void gestionFinJeu() {
         if (grilleJeu.trouverTuile("Heliport").getEtat() == Utils.EtatTuile.COULEE){           // fermer le jeu si l'héliport est submergé
             jeu.fermer();                                                        // si oui , fin du jeu
@@ -628,11 +715,9 @@ public class Controller implements Observateur {
                 }
             }
         }
-        
-        
         // pas fini du tout
        
-    }
+    } // gestion de la fin du jeu (lose ou win) (win pas encore fait)
     
     public void afficherMain(){
         System.out.println("Voici vos cartes :");
@@ -646,8 +731,6 @@ public class Controller implements Observateur {
                 System.out.println(" - Carte Sac de sable");
             }
         }
-        
-    
     }
     
     @Override
@@ -664,10 +747,30 @@ public class Controller implements Observateur {
         defausseOrange.add(carte);                          // ajoute la carte a la defausse
         joueurC.removeCarteMain(carte);                     // retire la carte de la main du joueur
     }  // ajoute la carte à la defausse orange et retire la carte de la main du joueur
-
     
+    public void utiliserCarteSacDeSable(Tuile tuile){
+        if (grilleJeu.trouverTuile(tuile.getNom()).getEtat() == Utils.EtatTuile.INONDEE){
+            grilleJeu.trouverTuile(tuile.getNom()).setEtat(Utils.EtatTuile.ASSECHEE);
+        } else {
+            afficherInformation("La tuile ne peut pas être asséchée");
+        }
+    
+    }  // la tuile donnée devient assechée
+    
+    public void utiliserCarteHelicoptere(Tuile tuile){
+        if (tuile.getEtat() != Utils.EtatTuile.COULEE){                         // vérifie si la tuile cible est une tuile submergée
+            for(Aventurier av : joueurC.getPosition().getJoueurs()){            // si non 
+                tuile.addJoueur(av);                                            // alors on déplace tous les joueurs qui sont sur la me case qe le joueur courant sur la case cible
+            }
+        } else {
+            afficherInformation("La tuile cible est submergée, utilisation hélicoptere impossible");
+        
+        }
+    
+    } // deplace tous les joueurs d'une case sur la tuile donnée
     
     public void tourDeJeu() {
+        Pilote avP = new Pilote("");
         nbAction = 0;
         joueurC = getJoueurCourant(nbJ);
         System.out.println(joueurC.getNom());
@@ -677,7 +780,19 @@ public class Controller implements Observateur {
             popUp = new VuePopUp(this, joueurC.getMain());
             popUp.afficher();
         }
-        //////////////////////  Ici mettre le pouvoir du pilote à faux  /////////////////////
+        
+        if (joueurC.getClass().getSimpleName().equals("Pilote")) {
+            avP = (Pilote) joueurC;
+            avP.setPouvoirUtilise(false);
+            joueurC = avP;
+            System.out.println("Pouvoir remis à 0");
+        }
+        
+        gagnerTresorPossible();
+        if (tresorRecup) {
+            jeu.tresorPossible();
+        }
+        
         jeu.debutTour();
         jeu.repaint();
         
@@ -695,7 +810,7 @@ public class Controller implements Observateur {
         }
         
         gestionFinJeu();
-        System.out.println("Made by JACQUETCorp ©");
+        System.out.println("Made by JACQUETCorp + Ugo le stagiaire ©");
         
     }
     

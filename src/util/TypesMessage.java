@@ -21,5 +21,6 @@ public enum TypesMessage {
     ACTION_Fin,
     ACTION_Action,
     ACTION_CHOIX_CARTE,
+    ACTION_PrendreTresors,
     ACTION_RETOUR_DONNER;
 }

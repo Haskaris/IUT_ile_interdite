@@ -108,5 +108,44 @@ public class vueAQuiDonner {
         window.dispose();
     }
     
+    public void repaint(ArrayList<String> nomJ){
+        panelPrincipal.removeAll();
+        btnChoix = new JButton[nomJ.size()];
+           int k = 0;
+            for (String nom: nomJ) {
+                btnChoix[nomJ.indexOf(nom)] = new JButton(nom);
+                panelCentre.add(btnChoix[nomJ.indexOf(nom)]);
+
+                nomChoix = nom;
+                btnChoix[nomJ.indexOf(nom)].addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        Message msg = new Message(TypesMessage.ACTION_DonnerCarte);
+                        msg.setString(nomChoix);
+                        observateur.traiterMessage(msg);
+                    }
+                });
+                k++;
+        }
+        
+        while (k<4){
+            panelCentre.add(new JPanel());
+            k++;
+        }
+        JButton btnRetour = new JButton("Annuler");
+        panelCentre.add(btnRetour);
+        
+        btnRetour.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Message msg = new Message(TypesMessage.ACTION_RETOUR_DONNER);
+                observateur.traiterMessage(msg);
+            }
+        });
+        
+        panelCentre.add(new JPanel());
+        window.revalidate(); 
+        
+    }
     
 }
