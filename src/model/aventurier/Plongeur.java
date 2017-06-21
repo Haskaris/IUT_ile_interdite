@@ -130,7 +130,7 @@ public class Plongeur extends Aventurier{
             tuilesPossibles = super.getTuilesPossibles(depl);
         }
         return tuilesPossibles;
-    }*/
+    }
 
     @Override
     public Pion getPion() {
