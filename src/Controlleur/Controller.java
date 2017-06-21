@@ -142,7 +142,7 @@ public class Controller implements Observateur {
             }
             jeu.setDeplApp(false);
             jeu.setAssApp(false);
-            //piocherDeuxCartesOrange();
+            piocherDeuxCartesOrange();
             piocherCartesInondation();
             afficherMain();
             System.out.println("N° courant : " + nbJ);
@@ -192,6 +192,7 @@ public class Controller implements Observateur {
         //vueAv1.cacher();
         //vueAv2.cacher();
         paramJeu.fermer();
+        initInondationDebut();
         distributionCartesOrangeDebut();
         jeu.afficher();
         tourDeJeu();
@@ -394,6 +395,23 @@ public class Controller implements Observateur {
         tresors.add(tresor2);
         tresors.add(tresor3);
         tresors.add(tresor4);
+        
+       for (int i = 0 ; i <= 5 ; i ++){
+           for (int j = 0 ; j <= 5 ; j++){
+               if (grilleJeu.getGrille()[i][j].getNom() == "Le temple du soleil" || grilleJeu.getGrille()[i][j].getNom() == "Le temple de la lune"){
+                   grilleJeu.getGrille()[i][j].setTresor(tresors.get(0));
+               } else if (grilleJeu.getGrille()[i][j].getNom() == "Le jardin des hurlements" || grilleJeu.getGrille()[i][j].getNom() == "Le jardin des murmures"){
+                   grilleJeu.getGrille()[i][j].setTresor(tresors.get(1));
+               } else if (grilleJeu.getGrille()[i][j].getNom() == "La caverne du brasier" || grilleJeu.getGrille()[i][j].getNom() == "La caverne des ombres"){
+                   grilleJeu.getGrille()[i][j].setTresor(tresors.get(2));
+               } else if (grilleJeu.getGrille()[i][j].getNom() == "Le palais de corail" || grilleJeu.getGrille()[i][j].getNom() == "Le palais des marrées"){
+                   grilleJeu.getGrille()[i][j].setTresor(tresors.get(3));
+               }
+           }
+       }
+        setGrilleJeu(grilleJeu);
+        
+        
     }   // création des 4 tresors dans la liste "tresors"
     
     private void remplirPiocheOrange() {                          //Création de la pioche remplie de la totalité des cartes dos orange.
@@ -562,6 +580,18 @@ public class Controller implements Observateur {
             }
         }
     } // pioche nb de cartes inondation = niveau d'eau de l'echelle , gere pioche vide + change l'etat des tuiles
+    
+    public void initInondationDebut(){
+        for (int i = 0 ; i < 6; i++){                  // on pioche 6 cartes
+            int numRandom = getRandom(0, piocheInondation.size()-1);                              // au hasard
+            
+                piocheInondation.get(numRandom).getTuile().setEtat(Etat.inondee);                   // la tuile  devient inondée
+                defausseInondation.add(piocheInondation.get(numRandom));                            // puis on ajoute la carte dans la defausse
+                piocheInondation.remove(piocheInondation.get(numRandom));                           // et on retire la carte de la pioche
+             
+        }
+    }
+    
      
     public void gestionFinTour() {
         for (int i = 0; i < tresorsGagnés.size(); i++) {
@@ -569,11 +599,8 @@ public class Controller implements Observateur {
         if (grilleJeu.trouverTuile("Heliport").getEtat() == Etat.submergee ){
             jeu.fermer();
         }
-        if ((grilleJeu.trouverTuile("Le temple du soleil").getEtat() == Etat.submergee) || 
-                    (grilleJeu.trouverTuile("Le temple du soleil").getEtat() == Etat.submergee)) {
-            
-        
-        }
+        // pas fini du tout
+       
     }
     
     public void afficherMain(){

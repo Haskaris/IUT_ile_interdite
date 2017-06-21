@@ -35,7 +35,7 @@ public class Grille {
     private Tuile tuile9 = new Tuile("Les dunes de l'illusion");
     private Tuile tuile10 = new Tuile("Heliport");
     private Tuile tuile11 = new Tuile("La porte de cuivre");
-    private Tuile tuile12 = new Tuile("Les jardins des hurlements");
+    private Tuile tuile12 = new Tuile("Le jardin des hurlements");
     private Tuile tuile13 = new Tuile("La forêt pourpre");
     private Tuile tuile14 = new Tuile("Le lagon perdu");
     private Tuile tuile15 = new Tuile("Le marais brumeux");
