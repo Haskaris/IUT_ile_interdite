@@ -29,7 +29,7 @@ import view.*;
 
 /**
  *
- * @author perrier5
+ * @author JacquetCorp
  */
 public class Controller implements Observateur {
 
@@ -684,7 +684,7 @@ public class Controller implements Observateur {
         for (Aventurier av: joueurs){
             if (av == joueurC){
                 bool = true;
-            }
+           } 
             else {
                 bool = false;
             }
@@ -696,6 +696,7 @@ public class Controller implements Observateur {
         
         
         gestionFinJeu();
+        System.out.println("Made by JACQUETCorp ©");
         
     }
 }

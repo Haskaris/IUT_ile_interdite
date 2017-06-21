@@ -13,7 +13,7 @@ import util.Utils.Pion;
 
 /**
  *
- * @author reyneu
+ * @author JACQUETCorp
  */
 public class Messager extends Aventurier{
     
@@ -22,14 +22,14 @@ public class Messager extends Aventurier{
     }
     
     @Override
-    public void donnerCarte(Aventurier courant ,ArrayList<CarteDosOrange> cartes, Aventurier joueur){               // le joueur courant donne une/plusieurs carte(s) a un joueur choisi
-         for (CarteDosOrange liste : courant.getMain()){ 
+    public void donnerCarte(ArrayList<CarteDosOrange> cartes, Aventurier joueur){               // le joueur courant donne une/plusieurs carte(s) a un joueur choisi
+         for (CarteDosOrange carteMain : this.getMain()){ 
           for (CarteDosOrange carte : cartes){
             if(joueur.getMain().size() + cartes.size() < 6){
                  System.out.println("Le receveur à la place dans sa main.");              
-                if (carte == liste){                                                    // la carte se trouve bien dans la main du joueur courant
+                if (carte == carteMain){                                                    // la carte se trouve bien dans la main du joueur courant
                     System.out.println("La carte est bien dans la main du joueur.");
-                        courant.removeCarteMain(carte);                                 // echange de la carte.
+                        this.removeCarteMain(carte);                                 // echange de la carte.
                         joueur.addCarteMain(carte);
                         System.out.println("La carte tresor : " + carte.getTresor() + " à bien été donner au joueur : "+ joueur.getNom());
                     } else {

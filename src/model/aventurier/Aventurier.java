@@ -137,16 +137,16 @@ public abstract class Aventurier {
             }
     } //Gère le déplacement ou l'asséchement
     
-    public void donnerCarte(Aventurier courant ,ArrayList<CarteDosOrange> cartes, Aventurier joueur){
-        for (CarteDosOrange liste : courant.getMain()){ 
+    public void donnerCarte(ArrayList<CarteDosOrange> cartes, Aventurier joueur){
+        for (CarteDosOrange carteMain : this.getMain()){ 
             for (CarteDosOrange carte : cartes){
                 if(joueur.getMain().size() + cartes.size() < 6){
                     System.out.println("Le receveur à la place dans sa main.");
-                    if (carte == liste){                                                    // la carte se trouve bien dans la main du joueur courant
+                    if (carte == carteMain){                                                    // la carte se trouve bien dans la main du joueur courant
                         System.out.println("La carte est bien dans la main du joueur.");
-                        if (courant.getPosition() == joueur.getPosition()){                 // les deux joueurs sont bien sur la même case
+                        if (this.getPosition() == joueur.getPosition()){                 // les deux joueurs sont bien sur la même case
                             System.out.println("Les deux joueurs sont bien sur la même case.");
-                            courant.removeCarteMain(carte);                                 // echange de la carte.
+                            this.removeCarteMain(carte);                                 // echange de la carte.
                             joueur.addCarteMain(carte);
                             System.out.println("La carte tresor : " + carte.getTresor() + " à bien été donner au joueur : "+ joueur.getNom());
                         } else {
