@@ -426,12 +426,16 @@ public class VueJeu {
         return nomJoueurCourant;
     }
     
-    public boolean getDepl() {
+    public boolean getDeplApp() {
         return deplApp;
     }
     
     public boolean getAss() {
         return assApp;
+    }
+    
+    public boolean getDepl() {
+        return depl;
     }
     
     public void setDepl(boolean bool){

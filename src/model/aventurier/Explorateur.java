@@ -55,7 +55,7 @@ public class Explorateur extends Aventurier {
             }
         } else {
             if (posX > 0 && posY > 0) {
-                if (tuiles[posX-1][posY-1].getNom() != "null" && (tuiles[posX-1][posY-1].getEtat() == Etat.assechee)){
+                if (tuiles[posX-1][posY-1].getNom() != "null" && (tuiles[posX-1][posY-1].getEtat() == Etat.inondee)){
                     tuilesPossibles.add(tuiles[posX-1][posY-1]);
                 } 
             }
