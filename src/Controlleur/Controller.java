@@ -222,6 +222,42 @@ public class Controller implements Observateur {
                     break;
                 }
             }
+            for (CarteDosOrange carte : joueurC.getMain()){
+                int i = 0;
+                if (carte.getTresor() != null && 
+                    carte.getTresor().getNomTresor() == "La Statue du zéphyr") {
+                    carteTemp.add(carte);
+                    defausseOrange.add(carte);
+                    i++;
+                }
+                if (i == 4) {
+                    break;
+                }
+            }
+            for (CarteDosOrange carte : joueurC.getMain()){
+                int i = 0;
+                if (carte.getTresor() != null && 
+                    carte.getTresor().getNomTresor() == "Le Cristal ardent") {
+                    carteTemp.add(carte);
+                    defausseOrange.add(carte);
+                    i++;
+                }
+                if (i == 4) {
+                    break;
+                }
+            }
+            for (CarteDosOrange carte : joueurC.getMain()){
+                int i = 0;
+                if (carte.getTresor() != null && 
+                    carte.getTresor().getNomTresor() == "Le Calice de l'onde") {
+                    carteTemp.add(carte);
+                    defausseOrange.add(carte);
+                    i++;
+                }
+                if (i == 4) {
+                    break;
+                }
+            }
             for (CarteDosOrange carte : carteTemp) {
                 joueurC.removeCarteMain(carte);
             }
@@ -258,6 +294,7 @@ public class Controller implements Observateur {
         paramJeu.fermer();
         initInondationDebut();
         distributionCartesOrangeDebut();
+        jeu.afficherTresors(tresors);
         jeu.afficher();
         tourDeJeu();
     }
@@ -475,6 +512,7 @@ public class Controller implements Observateur {
            }
        }
         setGrilleJeu(grilleJeu);
+        
         
         
     }   // création des 4 tresors dans la liste "tresors"
