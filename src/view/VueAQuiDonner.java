@@ -41,7 +41,6 @@ public class VueAQuiDonner {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.window = new JFrame();
         window.setSize(800, 500);
-        window.setAlwaysOnTop(true);
         window.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
         window.setLocation(dim.width / 2 - window.getSize().width / 2, dim.height / 2 - window.getSize().height / 2);
         window.setTitle("Donner Ou Jeter Carte");

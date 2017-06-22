@@ -88,6 +88,15 @@ public class VuePopUp {
             if (defausse){
                 panelPrincipal.add(btnRetour, BorderLayout.SOUTH);
                 message.setText("Choissisez une carte à défausser");
+                
+                btnRetour.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        Message m = new Message(TypesMessage.ACTION_AnnulerDefausse);
+                        o.traiterMessage(m);
+                    }
+                });
+                
             }
             else {
                 message.setText("Vous avez trop de cartes, veuillez en choisir une à défausser.");

@@ -109,6 +109,8 @@ public class Controller implements Observateur {
             bienvenue.afficher();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_RetourSecond) {  //Appuie sur le bouton retour en jeu
             vueDonnerCarte.fermer();
+        } else if (msg.getTypeMessage() == TypesMessage.ACTION_AnnulerDefausse) {
+            popUp.fermer();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Regles) {        //Appuie sur le bouton règles
             bienvenue.fermer();
             regles.afficher();
@@ -147,7 +149,7 @@ public class Controller implements Observateur {
             if (getAventurier(nomJoueurDonne, joueurs) != null && nbAction < 4) {                           //Si on a le joueur à qui donner
                 Boolean bool = joueurC.donnerCarte(carteDonne, getAventurier(nomJoueurDonne, joueurs));     //On donne la carte
                 if (!bool) {                                                                                //Si don raté
-                    util.Utils.afficherInformation("La carte n'a pas été donnée: \n " + "  " + nomJoueurDonne + " n'a pas assez de place "); //Message d'erreur
+                    afficherInformation("La carte n'a pas été donnée: \n " + "  " + nomJoueurDonne + " n'a pas assez de place "); //Message d'erreur
                     vueDonnerCarte.fermer();
                 } else {                                                                                    //Si don réussi
                     vueDonnerCarte.fermer();                                                                //Fermeture vueDonnerCarte

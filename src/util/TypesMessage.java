@@ -24,5 +24,6 @@ public enum TypesMessage {
     ACTION_PrendreTresors,
     ACTION_DeplacerJoueur,
     ACTION_RetourSecond,
+    ACTION_AnnulerDefausse,
     ACTION_Defausse;
 }
