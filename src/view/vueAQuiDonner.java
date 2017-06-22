@@ -62,12 +62,20 @@ public class vueAQuiDonner {
             
             nomChoix = nom;
             btnChoix[nomJ.indexOf(nom)].addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    Message msg = new Message(TypesMessage.ACTION_DonnerCarte);
-                    msg.setString(nomChoix);
-                    observateur.traiterMessage(msg);
-                }
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                         Object source = e.getSource();
+                   
+                   for (int i = 0; i < nomJ.size(); i++){
+                       if (source.equals(btnChoix[i])){
+                           nomChoix = btnChoix[i].getText();
+                       }
+                   }
+                        Message msg = new Message(TypesMessage.ACTION_DonnerCarte);
+                        msg.setString(nomChoix);
+                        observateur.traiterMessage(msg);
+                    
+                    }
             });
             k++;
         }
@@ -116,10 +124,16 @@ public class vueAQuiDonner {
                 btnChoix[nomJ.indexOf(nom)] = new JButton(nom);
                 panelCentre.add(btnChoix[nomJ.indexOf(nom)]);
 
-                nomChoix = nom;
                 btnChoix[nomJ.indexOf(nom)].addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                         Object source = e.getSource();
+                   
+                   for (int i = 0; i < nomJ.size(); i++){
+                       if (source.equals(btnChoix[i])){
+                           nomChoix = btnChoix[i].getText();
+                       }
+                   }
                         Message msg = new Message(TypesMessage.ACTION_DonnerCarte);
                         msg.setString(nomChoix);
                         observateur.traiterMessage(msg);

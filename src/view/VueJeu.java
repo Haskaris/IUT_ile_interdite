@@ -365,6 +365,7 @@ public class VueJeu {
 
             
         }
+        window.revalidate();
         
 
         
