@@ -10,6 +10,7 @@ import Controlleur.Observateur;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -22,6 +23,7 @@ import util.Message;
 import util.TypesMessage;
 import java.util.ArrayList;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import model.cartesOrange.CarteDosOrange;
@@ -49,7 +51,7 @@ public class VueJeu {
     private final JPanel panPilo = new JPanel();
     private final JPanel panPlon = new JPanel();
     private final JPanel panelGrille, panelPrincipal, panelMenu, panelBtnAction, panelBtn, panelTop, panelBottom, panelMain, panelLateral, panelTopMenu, panelEchelle;
-    private final JPanel panelNiveau2, panelNiveau3, panelNiveau4, panelNiveau5, panelMort;
+    private final JPanel panelNiveau2, panelNiveau3, panelNiveau4, panelNiveau5, panelMort, panelCentrerEchelle;
     private JLabel labelNiveau2, labelNiveau3, labelNiveau4, labelNiveau5, labelMort;
 
     private final JPanel[][] panTresor = new JPanel[6][6];              // panel qui affiche les tresors sur les tuiles
@@ -107,7 +109,15 @@ public class VueJeu {
         panelMenu.add(panelTopMenu);
 
         panelEchelle = new JPanel(new GridLayout(5, 1));
-        panelTopMenu.add(panelEchelle, BorderLayout.WEST);
+        panelCentrerEchelle = new JPanel(new GridLayout(1,7));
+        panelCentrerEchelle.add(new JPanel());
+        panelCentrerEchelle.add(new JPanel());
+        panelCentrerEchelle.add(new JPanel());
+        panelCentrerEchelle.add(panelEchelle);
+        panelCentrerEchelle.add(new JPanel());
+        panelCentrerEchelle.add(new JPanel());
+        panelCentrerEchelle.add(new JPanel());
+        panelTopMenu.add(panelCentrerEchelle, BorderLayout.WEST);
 
         panelNiveau2 = new JPanel(new BorderLayout());
         panelNiveau3 = new JPanel(new BorderLayout());
@@ -115,21 +125,30 @@ public class VueJeu {
         panelNiveau5 = new JPanel(new BorderLayout());
         panelMort = new JPanel(new BorderLayout());
 
-        labelMort = new JLabel("DEAD");
-        labelNiveau2 = new JLabel("2");
-        labelNiveau2.setBackground(Color.CYAN);
-        labelNiveau3 = new JLabel("3");
-        labelNiveau3.setBackground(Color.CYAN);
-        labelNiveau4 = new JLabel("4");
-        labelNiveau4.setBackground(Color.CYAN);
-        labelNiveau5 = new JLabel("5");
-        labelNiveau5.setBackground(Color.CYAN);
+        
+        ImageIcon icon = createImageIcon("Images/dead.png", "GAME OVER");
+        labelMort = new JLabel(icon, JLabel.CENTER);
 
-        panelNiveau2.setBackground(Color.red);
-        panelNiveau3.setBackground(Color.red);
-        panelNiveau4.setBackground(Color.red);
-        panelNiveau5.setBackground(Color.red);
-        panelMort.setBackground(Color.red);
+        labelNiveau2 = new JLabel("2");
+        labelNiveau2.setHorizontalAlignment(JLabel.CENTER);
+        labelNiveau3 = new JLabel("3");
+        labelNiveau3.setHorizontalAlignment(JLabel.CENTER);
+        labelNiveau4 = new JLabel("4");
+        labelNiveau4.setHorizontalAlignment(JLabel.CENTER);
+        labelNiveau5 = new JLabel("5");
+        labelNiveau5.setHorizontalAlignment(JLabel.CENTER);
+
+        
+        panelNiveau2.setBackground(Color.LIGHT_GRAY);
+        panelNiveau2.setBorder(borderJ);
+        panelNiveau3.setBackground(Color.LIGHT_GRAY);
+        panelNiveau3.setBorder(borderJ);
+        panelNiveau4.setBackground(Color.LIGHT_GRAY);
+        panelNiveau4.setBorder(borderJ);
+        panelNiveau5.setBackground(Color.LIGHT_GRAY);
+        panelNiveau5.setBorder(borderJ);
+        panelMort.setBackground(Color.LIGHT_GRAY);
+        panelMort.setBorder(borderJ);
 
         panelNiveau2.add(labelNiveau2, BorderLayout.CENTER);
         panelNiveau3.add(labelNiveau3, BorderLayout.CENTER);
@@ -259,12 +278,12 @@ public class VueJeu {
             public void actionPerformed(ActionEvent e) {
                 setDepl(false);
                 assApp = !assApp;
-
-                // Affichage de la selection de l'action
-                btnAssechement.setBackground(Color.GRAY);
-                btnDeplacement.setBackground(Color.LIGHT_GRAY);
-                btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
-                btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
+                
+                // Desactivation des boutons de mains
+                for (int i = 0; i < tailleMain; i++) {
+                    cartesMain[i].setEnabled(false);
+                }
+                repaint();
 
                 Message msg = new Message(TypesMessage.ACTION_Assecher);
                 observateur.traiterMessage(msg);
@@ -276,12 +295,12 @@ public class VueJeu {
             public void actionPerformed(ActionEvent e) {
                 setDepl(true);
                 deplApp = !deplApp;
-
-                // Affichage de la selection de l'action
-                btnAssechement.setBackground(Color.LIGHT_GRAY);
-                btnDeplacement.setBackground(Color.GRAY);
-                btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
-                btnPrendreTresor.setBackground(Color.GRAY);
+                
+                // Desactivation des boutons de mains
+                for (int i = 0; i < tailleMain; i++) {
+                    cartesMain[i].setEnabled(false);
+                }
+                repaint();
 
                 Message msg = new Message(TypesMessage.ACTION_Deplacer);
                 observateur.traiterMessage(msg);
@@ -292,16 +311,11 @@ public class VueJeu {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                // Affichage de la selection de l'action
-                btnAssechement.setBackground(Color.LIGHT_GRAY);
-                btnDeplacement.setBackground(Color.LIGHT_GRAY);
-                btnDonnerCarte.setBackground(Color.GRAY);
-                btnPrendreTresor.setBackground(Color.GRAY);
-
                 // Activation des boutons de mains
                 for (int i = 0; i < tailleMain; i++) {
                     cartesMain[i].setEnabled(true);
                 }
+                repaint();
 
             }
         });
@@ -309,12 +323,12 @@ public class VueJeu {
         btnPrendreTresor.addActionListener(new ActionListener() {               // Prendre trésor
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                // Affichage de la selection de l'action
-                btnAssechement.setBackground(Color.LIGHT_GRAY);
-                btnDeplacement.setBackground(Color.LIGHT_GRAY);
-                btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
-                btnPrendreTresor.setBackground(Color.GRAY);
+                
+                // Desactivation des boutons de mains
+                for (int i = 0; i < tailleMain; i++) {
+                    cartesMain[i].setEnabled(false);
+                }
+                repaint();
 
                 Message msg = new Message(TypesMessage.ACTION_PrendreTresors);
                 observateur.traiterMessage(msg);
@@ -323,12 +337,12 @@ public class VueJeu {
 
         btnFinTour.addActionListener(new ActionListener() {                     // Fin de tour
             public void actionPerformed(ActionEvent e) {
-
-                // Affichage de la selection de l'action
-                btnAssechement.setBackground(Color.LIGHT_GRAY);
-                btnDeplacement.setBackground(Color.LIGHT_GRAY);
-                btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
-                btnPrendreTresor.setBackground(Color.GRAY);
+                
+                // Desactivation des boutons de mains
+                for (int i = 0; i < tailleMain; i++) {
+                    cartesMain[i].setEnabled(false);
+                }
+                repaint();
 
                 Message msg = new Message(TypesMessage.ACTION_Fin);
                 observateur.traiterMessage(msg);
@@ -383,6 +397,12 @@ public class VueJeu {
                             Message msg = new Message(TypesMessage.ACTION_DonnerCarte);
                             msg.setCarte(main.get(j));
                             observateur.traiterMessage(msg);
+                            
+                            // Desactivation des boutons de mains
+                            for (int i = 0; i < tailleMain; i++) {
+                                cartesMain[i].setEnabled(false);
+                            }
+                            
                         }
                     });
 
@@ -611,36 +631,48 @@ public class VueJeu {
             i++;
         }
 
-        panelNiveau2.setBackground(Color.red);
-        panelNiveau3.setBackground(Color.red);
-        panelNiveau4.setBackground(Color.red);
-        panelNiveau5.setBackground(Color.red);
+        panelNiveau2.setBackground(Color.LIGHT_GRAY);
+        panelNiveau3.setBackground(Color.LIGHT_GRAY);
+        panelNiveau4.setBackground(Color.LIGHT_GRAY);
+        panelNiveau5.setBackground(Color.LIGHT_GRAY);
 
         switch (i) {
             case 2:
-                panelNiveau2.setBackground(Color.green);
-                panelNiveau3.setBackground(Color.red);
-                panelNiveau4.setBackground(Color.red);
-                panelNiveau5.setBackground(Color.red);
+                panelNiveau2.setBackground(Color.BLUE);
+                panelNiveau3.setBackground(Color.LIGHT_GRAY);
+                panelNiveau4.setBackground(Color.LIGHT_GRAY);
+                panelNiveau5.setBackground(Color.LIGHT_GRAY);
                 break;
             case 3:
-                panelNiveau2.setBackground(Color.red);
-                panelNiveau3.setBackground(Color.green);
-                panelNiveau4.setBackground(Color.red);
-                panelNiveau5.setBackground(Color.red);
+                panelNiveau2.setBackground(Color.LIGHT_GRAY);
+                panelNiveau3.setBackground(Color.BLUE);
+                panelNiveau4.setBackground(Color.LIGHT_GRAY);
+                panelNiveau5.setBackground(Color.LIGHT_GRAY);
                 break;
             case 4:
-                panelNiveau2.setBackground(Color.red);
-                panelNiveau3.setBackground(Color.red);
-                panelNiveau4.setBackground(Color.green);
-                panelNiveau5.setBackground(Color.red);
+                panelNiveau2.setBackground(Color.LIGHT_GRAY);
+                panelNiveau3.setBackground(Color.LIGHT_GRAY);
+                panelNiveau4.setBackground(Color.BLUE);
+                panelNiveau5.setBackground(Color.LIGHT_GRAY);
                 break;
             case 5:
-                panelNiveau5.setBackground(Color.green);
-                panelNiveau2.setBackground(Color.red);
-                panelNiveau3.setBackground(Color.red);
-                panelNiveau4.setBackground(Color.red);
+                panelNiveau5.setBackground(Color.BLUE);
+                panelNiveau2.setBackground(Color.LIGHT_GRAY);
+                panelNiveau3.setBackground(Color.LIGHT_GRAY);
+                panelNiveau4.setBackground(Color.LIGHT_GRAY);
         }
     }
+    
+    /** Returns an ImageIcon, or null if the path was invalid. */
+protected ImageIcon createImageIcon(String path,
+                                           String description) {
+    java.net.URL imgURL = getClass().getResource(path);
+    if (imgURL != null) {
+        return new ImageIcon(imgURL, description);
+    } else {
+        System.err.println("Couldn't find file: " + path);
+        return null;
+    }
+}
 
 }

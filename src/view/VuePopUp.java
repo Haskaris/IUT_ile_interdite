@@ -37,7 +37,7 @@ public class VuePopUp {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.window = new JFrame();
         window.setSize(dim.width, dim.height);
-        window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        window.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
         panelGrille = new JPanel(new BorderLayout());
         panelMenu = new JPanel(new GridLayout(1,7)); // Panel des boutons d'actions
         JLabel message = new JLabel("Vous avez trop de cartes, veuillez en choisir une a défausser.");
