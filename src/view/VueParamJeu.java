@@ -9,6 +9,7 @@ import Controlleur.Observateur;
 import util.Message;
 import util.TypesMessage;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -22,6 +23,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 /**
  *
@@ -43,27 +46,78 @@ public class VueParamJeu {
         
         Observateur = o;
         
-        JPanel mainPanel = new JPanel(new BorderLayout());
+        Border border = new LineBorder(Color.WHITE, 5);
+        Border borderB = new LineBorder(Color.GRAY, 5);
+        
+        
+        JPanel mainPanel = new JPanel(new GridLayout(7,1));
         window.add(mainPanel);
         
+        mainPanel.add(new JPanel());
         
-        JPanel panelCentre = new JPanel(new GridLayout(5,5));
-        mainPanel.add(panelCentre, BorderLayout.CENTER);
-        
+        JPanel panelNbJoueur = new JPanel(new GridLayout(1,5));
+        panelNbJoueur.setBorder(borderB);
+        panelNbJoueur.setBackground(Color.LIGHT_GRAY);
         JRadioButton j2 = new JRadioButton("2");
         JRadioButton j3 = new JRadioButton("3");
         JRadioButton j4 = new JRadioButton("4");
         j2.setSelected(true);
+        
+        panelNbJoueur.add(new JLabel("Nombre de Joueurs:"));
+        panelNbJoueur.add(j2);
+        panelNbJoueur.add(j3);
+        panelNbJoueur.add(j4);
+        panelNbJoueur.add(new JPanel());
+        
         
         ButtonGroup groupeNb = new ButtonGroup();
         groupeNb.add(j2);
         groupeNb.add(j3);
         groupeNb.add(j4);
         
+        JPanel panelNomJoueur = new JPanel(new GridLayout(1,5));
+        panelNomJoueur.setBorder(borderB);
+        panelNomJoueur.setBackground(Color.LIGHT_GRAY);
+        JPanel nom1 = new JPanel(new GridLayout(3,1));
+        nom1.setBorder(border);
         JTextField nomJ1 = new JTextField("Joueur 1");
+        nom1.add(new JPanel());
+        nom1.add(nomJ1);
+        nom1.add(new JPanel());
+        
+        JPanel nom2 = new JPanel(new GridLayout(3,1));
+        nom2.setBorder(border);
         JTextField nomJ2 = new JTextField("Joueur 2");
+        nom2.add(new JPanel());
+        nom2.add(nomJ2);
+        nom2.add(new JPanel());
+        
+        
+        JPanel nom3 = new JPanel(new GridLayout(3,1));
+        nom3.setBorder(border);
         JTextField nomJ3 = new JTextField("Joueur 3");
+        nom3.add(new JPanel());
+        nom3.add(nomJ3);
+        nom3.add(new JPanel());
+        
+        
+        JPanel nom4 = new JPanel(new GridLayout(3,1));
+        nom4.setBorder(border);
         JTextField nomJ4 = new JTextField("Joueur 4");
+        nom4.add(new JPanel());
+        nom4.add(nomJ4);
+        nom4.add(new JPanel());
+        
+        panelNomJoueur.add(new JLabel("Noms des Joueurs:"));
+        panelNomJoueur.add(nom1);
+        panelNomJoueur.add(nom2);
+        panelNomJoueur.add(nom3);
+        panelNomJoueur.add(nom4);
+        
+        
+        JPanel panelNiveau = new JPanel(new GridLayout(1,5));
+        panelNiveau.setBorder(borderB);
+        panelNiveau.setBackground(Color.LIGHT_GRAY);
         JRadioButton NivLegendaire = new JRadioButton("Legendaire");
         JRadioButton NivElite = new JRadioButton("Elite");
         JRadioButton NivNormal = new JRadioButton("Normal");
@@ -76,8 +130,31 @@ public class VueParamJeu {
         groupeNiveau.add(NivElite);
         groupeNiveau.add(NivLegendaire);
         
+        panelNiveau.add(new JLabel("Difficulté:"));
+        panelNiveau.add(NivNovice);
+        panelNiveau.add(NivNormal);
+        panelNiveau.add(NivElite);
+        panelNiveau.add(NivLegendaire);
+        
+        
+        JPanel panelBtnFin = new JPanel(new GridLayout(1,5));
         JButton btnValider = new JButton("Valider");
         JButton btnRetour = new JButton("Retour");
+        
+        panelBtnFin.add(btnValider);
+        panelBtnFin.add(new JPanel());
+        panelBtnFin.add(new JPanel());
+        panelBtnFin.add(new JPanel());
+        panelBtnFin.add(btnRetour);
+        
+        
+        mainPanel.add(panelNbJoueur);
+        mainPanel.add(panelNomJoueur);
+        mainPanel.add(panelNiveau);
+        mainPanel.add(new JPanel());
+        mainPanel.add(new JPanel());
+        
+        mainPanel.add(panelBtnFin);
         
         btnRetour.addActionListener(new ActionListener() {
             @Override
@@ -113,66 +190,6 @@ public class VueParamJeu {
                 o.envoyerDonnees(nbJoueur, nomJ1.getText(), nomJ2.getText(), nomJ3.getText(), nomJ4.getText(), niveau); // 0 = nbjoueurs && 0 = difficulté
             }
         });
-        
-        
-        for (int i=1; i<=25; i++){
-            switch(i){
-                
-                case 1:
-                    panelCentre.add(new JLabel("Nombre de Joueurs:"));
-                break;
-                case 2:
-                    panelCentre.add(j2);
-                break;
-                case 3:
-                    panelCentre.add(j3);
-                break;
-                case 4:
-                    panelCentre.add(j4);
-                break;
-                case 6:
-                    panelCentre.add(new JLabel("Noms des Joueurs:"));
-                break;
-                case 7:
-                    panelCentre.add(nomJ1);
-                break;
-                case 8:
-                    panelCentre.add(nomJ2);
-                break;
-                case 9:
-                    panelCentre.add(nomJ3);
-                break;
-                case 10:
-                    panelCentre.add(nomJ4);
-                break;
-                case 11:
-                    panelCentre.add(new JLabel("Difficulté:"));
-                break;
-                case 12:
-                    panelCentre.add(NivNovice);
-                break;
-                case 13:
-                    panelCentre.add(NivNormal);
-                break;
-                case 14:
-                    panelCentre.add(NivElite);
-                break;
-                case 15:
-                    panelCentre.add(NivLegendaire);
-                break;
-                
-                case 21:
-                    panelCentre.add(btnValider);
-                break;
-                case 25:
-                    panelCentre.add(btnRetour);
-                break;
-                
-                default:
-                    panelCentre.add(new JPanel());
-                    
-            }
-        }
         
     }
     
