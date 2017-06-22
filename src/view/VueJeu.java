@@ -186,7 +186,7 @@ public class VueJeu {
         btnAssechement.setBackground(Color.LIGHT_GRAY);
         btnDeplacement.setBackground(Color.LIGHT_GRAY);
         btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
-        btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
+        btnPrendreTresor.setBackground(Color.GRAY);
         btnFinTour.setBackground(Color.LIGHT_GRAY);
 
         panelBtnAction.add(btnAssechement);
@@ -561,7 +561,6 @@ public class VueJeu {
                     panJTuiles[i][j].add(panPlon);
                 }
                 k++;
-                System.out.println("/// " + joueur);
             }
         }
 
