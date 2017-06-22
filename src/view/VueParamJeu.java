@@ -46,11 +46,6 @@ public class VueParamJeu {
         JPanel mainPanel = new JPanel(new BorderLayout());
         window.add(mainPanel);
         
-        JPanel panelTitre = new JPanel();
-        mainPanel.add(panelTitre, BorderLayout.NORTH);
-        
-        JLabel titre = new JLabel("Paramètres du jeu");
-        panelTitre.add(titre);
         
         JPanel panelCentre = new JPanel(new GridLayout(5,5));
         mainPanel.add(panelCentre, BorderLayout.CENTER);
