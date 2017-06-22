@@ -23,7 +23,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author reyneu
+ * @author JACQUETCorp
  */
 public class VueRegles {
     private final JFrame window;
