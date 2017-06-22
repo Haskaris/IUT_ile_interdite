@@ -23,7 +23,7 @@ import util.Message;
 import util.TypesMessage;
 /**
  *
- * @author perrier5
+ * @author JACQUETCorp
  */
 public class VuePopUp {
     private final Observateur o;
@@ -37,7 +37,7 @@ public class VuePopUp {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.window = new JFrame();
         window.setSize(dim.width, dim.height);
-        window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        window.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
         panelGrille = new JPanel(new BorderLayout());
         panelMenu = new JPanel(new GridLayout(1,7)); // Panel des boutons d'actions
         JLabel message = new JLabel("Vous avez trop de cartes, veuillez en choisir une a défausser.");
@@ -69,7 +69,7 @@ public class VuePopUp {
                            num =i;
                        }
                    }
-                   Message m = new Message(TypesMessage.ACTION_CHOIX_CARTE);
+                   Message m = new Message(TypesMessage.ACTION_ChoixCarteASupprimer);
                    m.setNumBtn(num);
                    o.traiterMessage(m);
                 }

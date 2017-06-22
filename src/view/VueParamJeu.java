@@ -9,6 +9,7 @@ import Controlleur.Observateur;
 import util.Message;
 import util.TypesMessage;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -22,6 +23,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 /**
  *
@@ -43,16 +46,13 @@ public class VueParamJeu {
         
         Observateur = o;
         
+        Border border = new LineBorder(Color.WHITE, 5);
+        
         JPanel mainPanel = new JPanel(new BorderLayout());
         window.add(mainPanel);
         
-        JPanel panelTitre = new JPanel();
-        mainPanel.add(panelTitre, BorderLayout.NORTH);
         
-        JLabel titre = new JLabel("Paramètres du jeu");
-        panelTitre.add(titre);
-        
-        JPanel panelCentre = new JPanel(new GridLayout(5,5));
+        JPanel panelCentre = new JPanel(new GridLayout(6,5));
         mainPanel.add(panelCentre, BorderLayout.CENTER);
         
         JRadioButton j2 = new JRadioButton("2");
@@ -65,10 +65,46 @@ public class VueParamJeu {
         groupeNb.add(j3);
         groupeNb.add(j4);
         
+        JPanel nom1 = new JPanel(new GridLayout(5,1));
+        nom1.setBorder(border);
         JTextField nomJ1 = new JTextField("Joueur 1");
+        nom1.add(new JPanel());
+        nom1.add(new JPanel());
+        nom1.add(nomJ1);
+        nom1.add(new JPanel());
+        nom1.add(new JPanel());
+        
+        JPanel nom2 = new JPanel(new GridLayout(5,1));
+        nom2.setBorder(border);
         JTextField nomJ2 = new JTextField("Joueur 2");
+        nom2.add(new JPanel());
+        nom2.add(new JPanel());
+        nom2.add(nomJ2);
+        nom2.add(new JPanel());
+        nom2.add(new JPanel());
+        
+        
+        JPanel nom3 = new JPanel(new GridLayout(5,1));
+        nom3.setBorder(border);
         JTextField nomJ3 = new JTextField("Joueur 3");
+        nom3.add(new JPanel());
+        nom3.add(new JPanel());
+        nom3.add(nomJ3);
+        nom3.add(new JPanel());
+        nom3.add(new JPanel());
+        
+        
+        JPanel nom4 = new JPanel(new GridLayout(5,1));
+        nom4.setBorder(border);
         JTextField nomJ4 = new JTextField("Joueur 4");
+        nom4.add(new JPanel());
+        nom4.add(new JPanel());
+        nom4.add(nomJ4);
+        nom4.add(new JPanel());
+        nom4.add(new JPanel());
+        
+        
+        
         JRadioButton NivLegendaire = new JRadioButton("Legendaire");
         JRadioButton NivElite = new JRadioButton("Elite");
         JRadioButton NivNormal = new JRadioButton("Normal");
@@ -120,7 +156,7 @@ public class VueParamJeu {
         });
         
         
-        for (int i=1; i<=25; i++){
+        for (int i=1; i<=30; i++){
             switch(i){
                 
                 case 1:
@@ -139,16 +175,16 @@ public class VueParamJeu {
                     panelCentre.add(new JLabel("Noms des Joueurs:"));
                 break;
                 case 7:
-                    panelCentre.add(nomJ1);
+                    panelCentre.add(nom1);
                 break;
                 case 8:
-                    panelCentre.add(nomJ2);
+                    panelCentre.add(nom2);
                 break;
                 case 9:
-                    panelCentre.add(nomJ3);
+                    panelCentre.add(nom3);
                 break;
                 case 10:
-                    panelCentre.add(nomJ4);
+                    panelCentre.add(nom4);
                 break;
                 case 11:
                     panelCentre.add(new JLabel("Difficulté:"));
@@ -166,10 +202,10 @@ public class VueParamJeu {
                     panelCentre.add(NivLegendaire);
                 break;
                 
-                case 21:
+                case 26:
                     panelCentre.add(btnValider);
                 break;
-                case 25:
+                case 30:
                     panelCentre.add(btnRetour);
                 break;
                 
