@@ -65,7 +65,7 @@ public class Pilote extends Aventurier {
         
             if (depl == true) {                                                 //Si la fonction est utilisée pour un déplacement
                 if (super.getTuilesPossibles(true).contains(tuileTemp)) {
-                    setPouvoirUtilise(false);
+                    //setPouvoirUtilise(false);
                     System.out.println("Pouvoir non utilisé");
                 } else {
                     setPouvoirUtilise(true);
