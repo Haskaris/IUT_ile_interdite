@@ -10,6 +10,7 @@ import Controlleur.Observateur;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -112,10 +113,10 @@ public class VueJeu {
         panelCentrerEchelle.add(new JPanel());
         panelCentrerEchelle.add(new JPanel());
         panelCentrerEchelle.add(new JPanel());
+        panelCentrerEchelle.add(new JPanel());
+        panelCentrerEchelle.add(new JPanel());
+        panelCentrerEchelle.add(new JPanel());
         panelCentrerEchelle.add(panelEchelle);
-        panelCentrerEchelle.add(new JPanel());
-        panelCentrerEchelle.add(new JPanel());
-        panelCentrerEchelle.add(new JPanel());
         panelTopMenu.add(panelCentrerEchelle, BorderLayout.WEST);
 
         panelNiveau2 = new JPanel(new BorderLayout());
@@ -575,6 +576,7 @@ public class VueJeu {
         setNom(nomJC);
         labelJC.setText(nomJC + " (" + nomClass + ")");
         labelJC.setForeground(pion.getCouleur());
+        labelJC.setFont(new Font("Arial",Font.BOLD,20));
 
     }
 

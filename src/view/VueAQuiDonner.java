@@ -8,6 +8,7 @@ package view;
 import Controlleur.Observateur;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -28,16 +29,17 @@ public class VueAQuiDonner {
     private Observateur observateur;
     private JFrame window;
     private JLabel question;
-    private JPanel panelPrincipal, panelTop, panelCentre;
+    private JPanel panelPrincipal, panelCentre;
     private JButton[] btnChoix;
     private String nomChoix;
+    private JButton btnRetour;
 
     public VueAQuiDonner(Observateur o, ArrayList<String> nomJ) {
         setObservateur(o);
         
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.window = new JFrame();
-        window.setSize(800, 800);
+        window.setSize(800, 500);
         window.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
         window.setLocation(dim.width / 2 - window.getSize().width / 2, dim.height / 2 - window.getSize().height / 2);
         window.setTitle("Donner Carte");
@@ -45,12 +47,15 @@ public class VueAQuiDonner {
         panelPrincipal = new JPanel(new BorderLayout());
         window.add(panelPrincipal);
         
-        panelTop = new JPanel();
         question = new JLabel("A qui souhaitez-vous donner votre carte?");
-        panelTop.add(question);
-        panelPrincipal.add(panelTop, BorderLayout.NORTH);
+        question.setHorizontalAlignment(JLabel.CENTER);
+        question.setFont(new Font("Arial",Font.BOLD,20));
+        panelPrincipal.add(question, BorderLayout.NORTH);
         
-        panelCentre = new JPanel(new GridLayout(2, 3));
+        btnRetour = new JButton("Annuler");
+        panelPrincipal.add(btnRetour, BorderLayout.SOUTH);
+        
+        panelCentre = new JPanel(new GridLayout(1, 3));
         panelPrincipal.add(panelCentre, BorderLayout.CENTER);
         
         btnChoix = new JButton[nomJ.size()];
@@ -80,12 +85,10 @@ public class VueAQuiDonner {
             k++;
         }
         
-        while (k<4){
+        while (k<3){
             panelCentre.add(new JPanel());
             k++;
         }
-        JButton btnRetour = new JButton("Annuler");
-        panelCentre.add(btnRetour);
         
         btnRetour.addActionListener(new ActionListener() {
             @Override
@@ -93,10 +96,7 @@ public class VueAQuiDonner {
                 Message msg = new Message(TypesMessage.ACTION_RetourSecond);
                 observateur.traiterMessage(msg);
             }
-        });
-        
-        panelCentre.add(new JPanel());
-        
+        });        
         
     }
     
@@ -138,12 +138,10 @@ public class VueAQuiDonner {
                 k++;
         }
         
-        while (k<4){
+        while (k<3){
             panelCentre.add(new JPanel());
             k++;
         }
-        JButton btnRetour = new JButton("Annuler");
-        panelCentre.add(btnRetour);
         
         btnRetour.addActionListener(new ActionListener() {
             @Override
@@ -152,7 +150,6 @@ public class VueAQuiDonner {
                 observateur.traiterMessage(msg);
             }
         });
-        panelCentre.add(new JPanel());
         window.revalidate(); 
     }
 }
