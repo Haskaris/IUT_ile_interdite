@@ -278,12 +278,12 @@ public class VueJeu {
             public void actionPerformed(ActionEvent e) {
                 setDepl(false);
                 assApp = !assApp;
-
-                // Affichage de la selection de l'action
-                btnAssechement.setBackground(Color.GRAY);
-                btnDeplacement.setBackground(Color.LIGHT_GRAY);
-                btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
-                btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
+                
+                // Desactivation des boutons de mains
+                for (int i = 0; i < tailleMain; i++) {
+                    cartesMain[i].setEnabled(false);
+                }
+                repaint();
 
                 Message msg = new Message(TypesMessage.ACTION_Assecher);
                 observateur.traiterMessage(msg);
@@ -295,12 +295,12 @@ public class VueJeu {
             public void actionPerformed(ActionEvent e) {
                 setDepl(true);
                 deplApp = !deplApp;
-
-                // Affichage de la selection de l'action
-                btnAssechement.setBackground(Color.LIGHT_GRAY);
-                btnDeplacement.setBackground(Color.GRAY);
-                btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
-                btnPrendreTresor.setBackground(Color.GRAY);
+                
+                // Desactivation des boutons de mains
+                for (int i = 0; i < tailleMain; i++) {
+                    cartesMain[i].setEnabled(false);
+                }
+                repaint();
 
                 Message msg = new Message(TypesMessage.ACTION_Deplacer);
                 observateur.traiterMessage(msg);
@@ -311,16 +311,11 @@ public class VueJeu {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                // Affichage de la selection de l'action
-                btnAssechement.setBackground(Color.LIGHT_GRAY);
-                btnDeplacement.setBackground(Color.LIGHT_GRAY);
-                btnDonnerCarte.setBackground(Color.GRAY);
-                btnPrendreTresor.setBackground(Color.GRAY);
-
                 // Activation des boutons de mains
                 for (int i = 0; i < tailleMain; i++) {
                     cartesMain[i].setEnabled(true);
                 }
+                repaint();
 
             }
         });
@@ -328,12 +323,12 @@ public class VueJeu {
         btnPrendreTresor.addActionListener(new ActionListener() {               // Prendre trésor
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                // Affichage de la selection de l'action
-                btnAssechement.setBackground(Color.LIGHT_GRAY);
-                btnDeplacement.setBackground(Color.LIGHT_GRAY);
-                btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
-                btnPrendreTresor.setBackground(Color.GRAY);
+                
+                // Desactivation des boutons de mains
+                for (int i = 0; i < tailleMain; i++) {
+                    cartesMain[i].setEnabled(false);
+                }
+                repaint();
 
                 Message msg = new Message(TypesMessage.ACTION_PrendreTresors);
                 observateur.traiterMessage(msg);
@@ -342,12 +337,12 @@ public class VueJeu {
 
         btnFinTour.addActionListener(new ActionListener() {                     // Fin de tour
             public void actionPerformed(ActionEvent e) {
-
-                // Affichage de la selection de l'action
-                btnAssechement.setBackground(Color.LIGHT_GRAY);
-                btnDeplacement.setBackground(Color.LIGHT_GRAY);
-                btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
-                btnPrendreTresor.setBackground(Color.GRAY);
+                
+                // Desactivation des boutons de mains
+                for (int i = 0; i < tailleMain; i++) {
+                    cartesMain[i].setEnabled(false);
+                }
+                repaint();
 
                 Message msg = new Message(TypesMessage.ACTION_Fin);
                 observateur.traiterMessage(msg);
@@ -402,6 +397,12 @@ public class VueJeu {
                             Message msg = new Message(TypesMessage.ACTION_DonnerCarte);
                             msg.setCarte(main.get(j));
                             observateur.traiterMessage(msg);
+                            
+                            // Desactivation des boutons de mains
+                            for (int i = 0; i < tailleMain; i++) {
+                                cartesMain[i].setEnabled(false);
+                            }
+                            
                         }
                     });
 
