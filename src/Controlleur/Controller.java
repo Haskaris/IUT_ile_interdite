@@ -311,9 +311,7 @@ public class Controller implements Observateur {
 
             tourDeJeu();
         }
-    
-    
-
+     
     public void initJoueurs(int nbJoueurs, String nomJ1, String nomJ2, String nomJ3, String nomJ4) {
         String nom;
         String nomPos = "";
