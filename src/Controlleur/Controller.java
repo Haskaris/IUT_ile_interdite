@@ -200,7 +200,7 @@ public class Controller implements Observateur {
                 System.out.println("tresor de la carte : " + carte.getTresor());
                 System.out.println("tresor possible : " + gagnerTresorPossible());
                 
-                if (carte.getTresor() == gagnerTresorPossible() && i < 4 ){
+                if (carte.getTresor().equals(gagnerTresorPossible()) && i < 4 ){
                     defausseOrange.add(carte);
                     joueurC.removeCarteMain(carte);
                     i++;
