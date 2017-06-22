@@ -62,7 +62,7 @@ public class VueJeu {
     private JButton btnDonnerCarte = new JButton("Donner une Carte");
     private JButton btnPrendreTresor = new JButton("Prendre un trésor");
     private final JButton btnFinTour = new JButton("Fin Du Tour");
-    private JButton btnDefausser = new JButton("Se Défausser");
+    private JButton btnDefausser = new JButton("Défausser");
     private JButton[] cartesMain = new JButton[5];
     private JButton[][] btnTuiles = new JButton[6][6];
 
