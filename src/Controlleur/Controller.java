@@ -232,41 +232,46 @@ public class Controller implements Observateur {
             gagnerTresor();
             ArrayList<CarteDosOrange> carteTemp = new ArrayList<>();
             int i = 0;
-            while (i < joueurC.getMain().size()) {
+            boolean bool = false;
+            while (i < joueurC.getMain().size() && !bool) {
                 if (joueurC.getMain().get(i).getTresor() != null && 
                     joueurC.getMain().get(i).getTresor().getNomTresor() == "La Pierre sacrée") {
                     carteTemp.add(joueurC.getMain().get(i));
                     defausseOrange.add(joueurC.getMain().get(i));
                     i++;
                 }
+                bool = true;
             }
             
             i = 0;
-            while (i < joueurC.getMain().size()) {
+            while (i < joueurC.getMain().size() && !bool) {
                 if (joueurC.getMain().get(i).getTresor() != null && 
                     joueurC.getMain().get(i).getTresor().getNomTresor() == "La Statue du zéphyr") {
                     carteTemp.add(joueurC.getMain().get(i));
                     defausseOrange.add(joueurC.getMain().get(i));
                     i++;
                 }
+                bool = true;
             }
             i = 0;
-            while (i < joueurC.getMain().size()) {
+            while (i < joueurC.getMain().size() && !bool) {
                 if (joueurC.getMain().get(i).getTresor() != null && 
                     joueurC.getMain().get(i).getTresor().getNomTresor() == "Le Cristal ardent") {
                     carteTemp.add(joueurC.getMain().get(i));
                     defausseOrange.add(joueurC.getMain().get(i));
                     i++;
                 }
+                bool = true;
             }
             i = 0;
-            while (i < joueurC.getMain().size()) {
+            while (i < joueurC.getMain().size() && !bool) {
                 if (joueurC.getMain().get(i).getTresor() != null && 
                     joueurC.getMain().get(i).getTresor().getNomTresor() == "Le Calice de l'onde") {
                     carteTemp.add(joueurC.getMain().get(i));
                     defausseOrange.add(joueurC.getMain().get(i));
                     i++;
                 }
+                bool = true;
             }
             for (CarteDosOrange carte : carteTemp) {
                 joueurC.removeCarteMain(carte);
@@ -309,7 +314,7 @@ public class Controller implements Observateur {
             paramJeu.fermer();
             initInondationDebut();
             distributionCartesOrangeDebut();
-            jeu.afficherTresors(tresors);
+            jeu.afficherTresorTuiles(tresors);
             jeu.afficher();
 
             tourDeJeu();
@@ -593,11 +598,11 @@ public class Controller implements Observateur {
             piocheOrange.add(new CarteTresor(tresors.get(2)));
             piocheOrange.add(new CarteTresor(tresors.get(3)));
         }
-        for (int i = 0; i < 3; i++) {                            // ajout des 3 cartes Montee des Eaux et 3 cartes Helicoptere
-            piocheOrange.add(new CarteMonteeDesEaux());
+        for (int i = 0; i < 3; i++) {                            // ajout des 3 cartes Helicoptere
             piocheOrange.add(new CarteHelicoptere());
         }
-        for (int i = 0; i < 2; i++) {                            // ajout des 2 cartes sac de sable
+        for (int i = 0; i < 2; i++) {                            // ajout des 2 cartes sac de sable et montées des eaux
+            piocheOrange.add(new CarteMonteeDesEaux());
             piocheOrange.add(new CarteSacDeSable());
         }
     }   // création de la pioche des cartes oranges
@@ -717,6 +722,7 @@ public class Controller implements Observateur {
 
     public void gagnerTresor() {
         tresorsGagnés.add(gagnerTresorPossible());                              // on l'ajoute a la liste des trésors gagnés;
+        jeu.retirerTresorsGrille(tresorsGagnés);                                // on retire lees trésors autour de la grille (dans la vue jeu)
 
         tresors.remove(gagnerTresorPossible());
     }                   // ajout du tresor possible dans la liste des tresors récupérés
