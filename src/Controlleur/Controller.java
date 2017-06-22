@@ -175,6 +175,10 @@ public class Controller implements Observateur {
                     afficherMainJoueur();                                       // Actualisation de la main
                     jeu.repaint();
                     nbAction++;                                                 // Action utilisée
+                    
+                    if (nbAction >= 3 ){
+                        jeu.finTourObligatoire();
+                    }
                 }
                 nomJoueurDonne = null;
                 carteDonne = null;
