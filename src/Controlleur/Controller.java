@@ -185,57 +185,38 @@ public class Controller implements Observateur {
             setGrilleJeu(joueurC.getGrilleAv());                                //Met à jour la grille
             tourDeJeu();                                                        //Change de tour
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_ChoixCarteASupprimer) { //Appuie sur une carte lors de la demande de suppression de carte
+            jeu.debutTour();
             popUp.fermer();
             enleverCarteSurplus(joueurC.getMain().get(msg.getNumBtn()));        //Retire la carte de la main du joueur et la rajoute dans la defausse
             if (joueurC.getMain().size() > 5) {                                 //Tant que sa main est superieur à 5
+                    jeu.desactivationBtn();
                     popUp = new VuePopUp(this, joueurC.getMain());
                     popUp.afficher();
             }
             afficherMainJoueur();                                               //Met à jour la main du joueur courant dans l'ihm
             jeu.repaint();
-        } else if (msg.getTypeMessage() == TypesMessage.ACTION_PrendreTresors) { //Appuie sur le bouton prendre un trésor en jeu
-            gagnerTresor();                                                     //Ajoute le trésor dans la collection de trésors gagnés
-            ArrayList<CarteDosOrange> carteTemp = new ArrayList<>();            //Crée une arraylist de carte à dos orange temporaires
+        } else if (msg.getTypeMessage() == TypesMessage.ACTION_PrendreTresors) {
+            Tresor tresortemp = gagnerTresorPossible();
+            gagnerTresor();
             int i = 0;
-            while (i < joueurC.getMain().size()) {                              //Retire les cartes du trésors dans la main temporaire
-                if (joueurC.getMain().get(i).getTresor() != null &&             //si le trésors récupéré est celui là
-                    joueurC.getMain().get(i).getTresor().getNomTresor() == "La Pierre sacrée") {
-                    carteTemp.add(joueurC.getMain().get(i));
-                    defausseOrange.add(joueurC.getMain().get(i));
+            ArrayList<CarteDosOrange> carteTemp = new ArrayList<>();
+            for(CarteDosOrange carte : joueurC.getMain()){
+                System.out.println("tresor de la carte : " + carte.getTresor());
+                System.out.println("tresor possible : " + gagnerTresorPossible());
+                
+                if ((carte.getTresor() == tresortemp) && i < 4){
+                    defausseOrange.add(carte);
+                    carteTemp.add(carte);
                     i++;
                 }
+                
             }
-            i = 0;
-            while (i < joueurC.getMain().size()) {
-                if (joueurC.getMain().get(i).getTresor() != null && 
-                    joueurC.getMain().get(i).getTresor().getNomTresor() == "La Statue du zéphyr") {
-                    carteTemp.add(joueurC.getMain().get(i));
-                    defausseOrange.add(joueurC.getMain().get(i));
-                    i++;
-                }
+            for (CarteDosOrange carte : carteTemp){
+                joueurC.removeCarteMain(carte);           
             }
-            i = 0;
-            while (i < joueurC.getMain().size()) {
-                if (joueurC.getMain().get(i).getTresor() != null && 
-                    joueurC.getMain().get(i).getTresor().getNomTresor() == "Le Cristal ardent") {
-                    carteTemp.add(joueurC.getMain().get(i));
-                    defausseOrange.add(joueurC.getMain().get(i));
-                    i++;
-                }
-            }
-            i = 0;
-            while (i < joueurC.getMain().size()) {
-                if (joueurC.getMain().get(i).getTresor() != null && 
-                    joueurC.getMain().get(i).getTresor().getNomTresor() == "Le Calice de l'onde") {
-                    carteTemp.add(joueurC.getMain().get(i));
-                    defausseOrange.add(joueurC.getMain().get(i));
-                    i++;
-                }
-            }
-            for (CarteDosOrange carte : carteTemp) {
-                joueurC.removeCarteMain(carte);
-            }
+            
             nbAction++;
+            jeu.repaint();
         }
         else if(msg.getTypeMessage().equals(TypesMessage.ACTION_Defausse)){
             VueDefausse defausse = new VueDefausse(this, joueurC.getMain());
@@ -268,7 +249,7 @@ public class Controller implements Observateur {
                     if (joueurC.getMain().get(i).getClass().getSimpleName().contains("CarteHelicoptere")) {
                         defausseOrange.add(joueurC.getMain().get(i));
                         joueurC.removeCarteMain(joueurC.getMain().get(i));
-                        jeu.afficherMain(joueurC.getMain(), true, joueurC.getNom(), joueurC.getPion()); //Mise à jour de la main
+                        jeu.afficherMain(joueurC.getMain(), true, joueurC.getNom(), joueurC.getClass().getSimpleName(), joueurC.getPion()); //Mise à jour de la main
                         i = 10;
                     }
                 i++;
@@ -287,7 +268,7 @@ public class Controller implements Observateur {
                     defausseOrange.add(joueurC.getMain().get(i));
                     joueurC.removeCarteMain(joueurC.getMain().get(i));
                     //Mise à jour de la main
-                    jeu.afficherMain(joueurC.getMain(), true, joueurC.getNom(), joueurC.getPion());
+                    jeu.afficherMain(joueurC.getMain(), true, joueurC.getNom(), joueurC.getClass().getSimpleName(), joueurC.getPion());
                     i = 10;
                 }
                 i++;
@@ -352,7 +333,7 @@ public class Controller implements Observateur {
         initInondationDebut();
         distributionCartesOrangeDebut();
         setGrilleJeu(grilleJeu);
-        jeu.afficherTresors(tresors);
+        jeu.afficherTresorTuiles(tresors);
         jeu.afficherNiveau(echelle.getNiveauEau());
         jeu.afficher();
 
@@ -534,11 +515,11 @@ public class Controller implements Observateur {
             piocheOrange.add(new CarteTresor(tresors.get(2)));
             piocheOrange.add(new CarteTresor(tresors.get(3)));
         }
-        for (int i = 0; i < 3; i++) {                                           //Ajout des 3 cartes Montee des Eaux et 3 cartes Helicoptere
-            piocheOrange.add(new CarteMonteeDesEaux());
+        for (int i = 0; i < 3; i++) {                            // ajout des 3 cartes Helicoptere
             piocheOrange.add(new CarteHelicoptere());
         }
-        for (int i = 0; i < 2; i++) {                                           //Ajout des 2 cartes sac de sable
+        for (int i = 0; i < 2; i++) {                            // ajout des 2 cartes sac de sable et montées des eaux
+            piocheOrange.add(new CarteMonteeDesEaux());
             piocheOrange.add(new CarteSacDeSable());
         }
         piocheOrange = melangerCartesOranges(piocheOrange);                     //On melange la pioche des cartes inondation car les cartes etaitent triées dans l'ordre des tuiles    
@@ -600,7 +581,7 @@ public class Controller implements Observateur {
             if (joueurC.getPosition().getNom() == "Le jardin des hurlements" || joueurC.getPosition().getNom() == "Le jardin des murmures") { //Si le joueur se trouve sur une case pour recuperer le tresor de la statue du zephyr
                 for (CarteDosOrange carte : joueurC.getMain()) {
                     if (carte.getTresor() != null
-                            && carte.getTresor().getNomTresor() == "La Statue du zephyr") { //On compte combien de carte tresor de la statue du zephyr il a dans la main
+                            && carte.getTresor().getNomTresor() == "La Statue du zéphyr") { //On compte combien de carte tresor de la statue du zephyr il a dans la main
                         cartesTresorStatue++;
                     }
                 }
@@ -615,7 +596,7 @@ public class Controller implements Observateur {
             if (joueurC.getPosition().getNom() == "La caverne du brasier" || joueurC.getPosition().getNom() == "La caverne des ombres") { //Si le joueur se trouve sur une case pour recuperer le tresor du cristal ardent
                 for (CarteDosOrange carte : joueurC.getMain()) {
                     if (carte.getTresor() != null
-                            && carte.getTresor().getNomTresor() == "Le cristal ardent") { //On compte combien de carte tresor ddu cristal ardent il a dans la main
+                            && carte.getTresor().getNomTresor() == "Le Cristal ardent") { //On compte combien de carte tresor ddu cristal ardent il a dans la main
                         cartesTresorCristal++;
                     }
                 }
@@ -645,7 +626,9 @@ public class Controller implements Observateur {
     }                        //Renvoi un tresor qui peut être gagné actuellement par le joueur courant
 
     public void gagnerTresor() {
-        tresorsGagnés.add(gagnerTresorPossible());                              //On le trésors a la liste des trésors gagnés;
+        tresorsGagnés.add(gagnerTresorPossible());                              // on l'ajoute a la liste des trésors gagnés;
+        jeu.retirerTresorsGrille(tresorsGagnés);                                // on retire lees trésors autour de la grille (dans la vue jeu)
+
         tresors.remove(gagnerTresorPossible());
     }                                   //Ajout du tresor possible dans la liste des tresors récupérés
 
@@ -809,10 +792,16 @@ public class Controller implements Observateur {
         tuilesPossibles.clear();
         nbAction = 0;
         joueurC = getJoueurCourant(numJC);
-        jeu.changeJoueurCourant(joueurC.getNom(), joueurC.getPion());           //Mise à jour de la main en fonction du joueur courant
+        System.out.println(joueurC.getNom());
+
+        jeu.changeJoueurCourant(joueurC.getNom(), joueurC.getClass().getSimpleName(), joueurC.getPion());           //Mise à jour de la main en fonction du joueur courant
         if (joueurC.getMain().size() > 5) {
+            jeu.desactivationBtn();
             popUp = new VuePopUp(this, joueurC.getMain());
             popUp.afficher();
+        }
+        else {
+            jeu.debutTour();
         }
 
         if (joueurC.getClass().getSimpleName().equals("Pilote")) {              //Remise à zéro des pouvoirs
@@ -822,13 +811,12 @@ public class Controller implements Observateur {
         }
         actionNavi = 0;
         assechementInge = 0;
-
-        jeu.debutTour();
         
         gagnerTresorPossible();                                                 //Check si un trésors est récupérable
         if (tresorRecup) {
             jeu.tresorPossible();
         }
+
         jeu.repaint();
         afficherMainJoueur();
 
@@ -844,9 +832,9 @@ public class Controller implements Observateur {
             } else {
                 bool = false;
             }
-            jeu.afficherMain(av.getMain(), bool, av.getNom(), av.getPion());    //Afficher la main de av
+            jeu.afficherMain(av.getMain(), bool, av.getNom(), av.getClass().getSimpleName(), av.getPion());    //Afficher la main de av
         }
-        jeu.afficherMain(joueurC.getMain(), true, joueurC.getNom(), joueurC.getPion());
+        jeu.afficherMain(joueurC.getMain(), true, joueurC.getNom(), joueurC.getClass().getSimpleName(), joueurC.getPion());
     }                            //Affiche la main du joueur
     
     private static void setTresorRecup(boolean bool) {
