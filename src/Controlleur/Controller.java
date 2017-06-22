@@ -38,6 +38,7 @@ public class Controller implements Observateur {
     
     private static int nbJoueurs = 2;
     private static int nbAction = 0;
+    private static int assechementInge = 0;
     private static String nomJ1;
     private static String nomJ2;
     private static String nomJ3;
@@ -335,6 +336,10 @@ public class Controller implements Observateur {
         System.out.println("Ici on a fait avec un boolean " + depl);
         jeu.repaint();
         if (nbAction < 3) {
+            if ((joueurC.getClass().getSimpleName().equals("Ingenieur")) && assechementInge < 2) {
+            assechementInge++;
+            nbAction--;
+        }
             jeu.afficherPossible(joueurC.getTuilesPossibles(depl));
             gagnerTresorPossible();
             if (tresorRecup) {
@@ -471,14 +476,15 @@ public class Controller implements Observateur {
         piocheOrange = new ArrayList<>();
         for (int i =0; i < 5; i++){                             // ajout des 20 cartes tresors correspondant aux 4 tresors (5 carte pour chaque tresor)
             piocheOrange.add(new CarteTresor(tresors.get(0)));
-            piocheOrange.add(new CarteTresor(tresors.get(1)));
-            piocheOrange.add(new CarteTresor(tresors.get(2)));
-            piocheOrange.add(new CarteTresor(tresors.get(3)));
+            piocheOrange.add(new CarteTresor(tresors.get(0)));
+            piocheOrange.add(new CarteTresor(tresors.get(0)));
+            piocheOrange.add(new CarteTresor(tresors.get(0)));
+            System.out.println("Une de chaque");
         }
-        for (int i = 0; i < 3; i++){                            // ajout des 3 cartes Montee des Eaux et 3 cartes Helicoptere
+        /*for (int i = 0; i < 3; i++){                            // ajout des 3 cartes Montee des Eaux et 3 cartes Helicoptere
             piocheOrange.add(new CarteMonteeDesEaux());
-            piocheOrange.add(new CarteHelicoptere());
-        }
+            piocheOrange.add(new CarteHelicoptere());*/
+        //}
         for (int i = 0; i < 2; i++){                            // ajout des 2 cartes sac de sable
             piocheOrange.add(new CarteSacDeSable());
         }
@@ -623,8 +629,8 @@ public class Controller implements Observateur {
                     System.out.println("Vous avez pioché une carte trésor : " + piocheOrange.get(numRandom).getTresor().getNomTresor());
                 } else if ((piocheOrange.get(numRandom).getClass().equals(CarteHelicoptere.class)) || (piocheOrange.get(numRandom).getClass().equals(CarteSacDeSable.class))){
                     System.out.println("Vous avez pioché une " + piocheOrange.get(numRandom).getClass().getSimpleName());
-                    piocheOrange.remove(piocheOrange.get(numRandom));                                // on la supprime de la pioche
                 }
+                piocheOrange.remove(piocheOrange.get(numRandom));                                // on la supprime de la pioche
             }   
         }
     }// pioche 2 cartes oranges, les ajoutes dans la main du joueur courant (+ rempli la pioche si vide) + si carte piochées = montées des eaux, alors augmente le cran de l'echelle 
@@ -772,6 +778,8 @@ public class Controller implements Observateur {
             System.out.println("Pouvoir remis à 0");
         }
         
+        assechementInge = 0;
+        
         gagnerTresorPossible();
         if (tresorRecup) {
             jeu.tresorPossible();
@@ -794,7 +802,7 @@ public class Controller implements Observateur {
         }
         
         gestionFinJeu();
-        System.out.println("Made by JACQUETCorp + Ugo le stagiaire ©");
+        System.out.println("Voici vos trésors aquis : " + tresorsGagnés.toString());
         
     }
 }
