@@ -243,7 +243,8 @@ public class VueJeu {
                 observateur.traiterMessage(msg);
             }
         });
-
+        
+        
         btnDonnerCarte.addActionListener(new ActionListener() {                 // Donner Carte
             @Override
             public void actionPerformed(ActionEvent e) {      
@@ -256,9 +257,7 @@ public class VueJeu {
 
                 // Activation des boutons de mains
                 for (int i = 0; i<tailleMain; i++){
-                    for (int j = 0; j<5; j++){
                         cartesMain[i].setEnabled(true);
-                    }
                 }
                 
             }
@@ -307,8 +306,8 @@ public class VueJeu {
         JPanel panelTmp;
         JLabel labelCarteMainAutre;
         tailleMain = Integer.min(main.size()-1,cartesMain.length-1)+1;
-        System.out.println(cartesMain.length);
-        if (jc) {                                                                //Gestion de la main du joueur courant ou autres joueurs?
+        System.out.println("longueur carte Main " + cartesMain.length);
+        if (jc) {                                                               //Gestion de la main du joueur courant ou autres joueurs?
             panelTmp = panelMain;
             panelTmp.removeAll();                                               //Actualisation des panels
         } else {
@@ -321,7 +320,7 @@ public class VueJeu {
         }
 
         int i = 0;
-        while (i < tailleMain ) {                                               // Parcours de la main du joueur
+        while (i < tailleMain) {                                                // Parcours de la main du joueur
             if (jc){                                                            // Création de boutons
                 if (main.get(i).getClass().equals(CarteTresor.class)) {         
                 cartesMain[i] = new JButton(main.get(i).getTresor().getNomTresor());
@@ -332,11 +331,14 @@ public class VueJeu {
                 panelTmp.add(cartesMain[i]);
                 
                 // Action Listeners de la main principale
-                x = i;
+                
                 if (main.get(i).getClass().equals(CarteTresor.class)){
+                    x = i;
+                    System.out.println("x: " + x + " / longueur taille main: " + main.size() + " / taille main: " + tailleMain );
                     cartesMain[i].addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
+                            System.out.println("x: " + x + " / longueur taille main: " + main.size() + " / taille main: " + tailleMain );
                             Message msg = new Message(TypesMessage.ACTION_DonnerCarte);
                             msg.setCarte(main.get(x));
                             observateur.traiterMessage(msg);

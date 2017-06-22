@@ -109,7 +109,7 @@ public class vueAQuiDonner {
     }
     
     public void repaint(ArrayList<String> nomJ){
-        panelPrincipal.removeAll();
+        panelCentre.removeAll();
         btnChoix = new JButton[nomJ.size()];
            int k = 0;
             for (String nom: nomJ) {

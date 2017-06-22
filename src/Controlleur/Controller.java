@@ -81,11 +81,7 @@ public class Controller implements Observateur {
         bienvenue.afficher();
         
         ArrayList<String> nomJoueurs = new ArrayList<>();
-            for (Aventurier av: joueurs){
-                if (!av.equals(joueurC) && joueurC.getPosition().equals(av.getPosition())){
-                    nomJoueurs.add(av.getNom());
-                }
-            }
+        
         vueDonnerCarte = new vueAQuiDonner(this, nomJoueurs);
     
     }
@@ -149,8 +145,8 @@ public class Controller implements Observateur {
                     nomJoueurs.add(av.getNom());
                 }
             }
-            vueDonnerCarte.repaint(nomJoueurs);
-            vueDonnerCarte.afficher();
+            vueDonnerCarte.repaint(nomJoueurs); 
+            vueDonnerCarte.afficher(); 
             if (getAventurier(nomJoueurDonne, joueurs) != null){
                 Boolean bool = joueurC.donnerCarte(carteDonne, getAventurier(nomJoueurDonne, joueurs));    
                 if (!bool){

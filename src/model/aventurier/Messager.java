@@ -29,8 +29,8 @@ public class Messager extends Aventurier{
                  System.out.println("Le receveur à la place dans sa main.");              
                 if (carteADonner == carteMain){                                                    // la carte se trouve bien dans la main du joueur courant
                     System.out.println("La carte est bien dans la main du joueur.");
-                        this.removeCarteMain(carteADonner);                                 // echange de la carte.
-                        joueur.addCarteMain(carteADonner);
+                                                        // echange de la carte.
+
                         System.out.println("La carte tresor : " + carteADonner.getTresor() + " à bien été donner au joueur : "+ joueur.getNom());
                         bool = true;
                     } else {
@@ -40,6 +40,13 @@ public class Messager extends Aventurier{
                         System.out.println("Le receveur n'as pas la place de recevoir autant de carte(s)");
                     }
         }
+        
+        if (bool){
+            this.removeCarteMain(carteADonner); 
+            joueur.addCarteMain(carteADonner);
+            System.out.println("La carte tresor : " + carteADonner.getTresor() + " à bien été donner au joueur : "+ joueur.getNom());
+        }
+
         return bool;
     }
 
