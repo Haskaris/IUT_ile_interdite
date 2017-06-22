@@ -197,6 +197,9 @@ public class Controller implements Observateur {
             gagnerTresor();
             int i = 0;
             for(CarteDosOrange carte : joueurC.getMain()){
+                System.out.println("tresor de la carte : " + carte.getTresor());
+                System.out.println("tresor possible : " + gagnerTresorPossible());
+                
                 if (carte.getTresor() == gagnerTresorPossible() && i < 4 ){
                     defausseOrange.add(carte);
                     joueurC.removeCarteMain(carte);
@@ -314,7 +317,7 @@ public class Controller implements Observateur {
         initInondationDebut();
         distributionCartesOrangeDebut();
         setGrilleJeu(grilleJeu);
-        jeu.afficherTresors(tresors);
+        jeu.afficherTresorTuiles(tresors);
         jeu.afficherNiveau(echelle.getNiveauEau());
         jeu.afficher();
 
