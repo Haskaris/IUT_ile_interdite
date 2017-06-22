@@ -23,7 +23,7 @@ import util.Message;
 import util.TypesMessage;
 /**
  *
- * @author perrier5
+ * @author JACQUETCorp
  */
 public class VuePopUp {
     private final Observateur o;
