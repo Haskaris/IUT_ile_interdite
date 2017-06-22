@@ -56,6 +56,8 @@ public class VueJeu {
     private JLabel labelNiveau2, labelNiveau3, labelNiveau4, labelNiveau5, labelMort;
 
     private final JPanel[][] panTresor = new JPanel[6][6];              // panel qui affiche les tresors sur les tuiles
+    
+    private final JPanel[][] panTresorTuile = new JPanel[6][6];              // panel qui affiche les tresors sur les tuiles
 
     // Attributs boutons
     private JButton btnAssechement = new JButton("Assecher");                       // 
@@ -220,7 +222,7 @@ public class VueJeu {
                 panTuiles[i][j] = new JPanel(new BorderLayout());               // Panneau contenant le bouton et le pion
                 btnTuiles[i][j] = new JButton();
                 panJTuiles[i][j] = new JPanel(new GridLayout(1, 4));             // Panneau contenant les pions
-
+                
                 panTuiles[i][j].add(panJTuiles[i][j], BorderLayout.SOUTH);      // Affichage esthétique
                 panTuiles[i][j].add(btnTuiles[i][j], BorderLayout.CENTER);
                 panTuiles[i][j].setBorder(border);
@@ -241,9 +243,10 @@ public class VueJeu {
                         observateur.traiterAction(nomJoueurCourant, x, y, depl);    // Communication au contrôleur (assechement/deplacement) en fonction de depl
                     }
                 });
-            }
-
+               }
         }
+
+        
 
         Color etatCouleur = null;
         String nomTuile;
@@ -265,7 +268,41 @@ public class VueJeu {
                 }
 
                 if (grilleTab[i][j].getNom().equals("null")) {                  // Tuile vide
-                    panelGrille.add(new JPanel());
+                    if(i == 0 && j== 1){
+                        panTresor[i][j] = new JPanel();
+                        panTresor[i][j].setBackground(Color.lightGray);
+                        panTresor[i][j].setBorder(new LineBorder(Color.white, 40));
+                        panTresor[i][j].add(new JLabel("La Pierre sacrée"));
+                        panelGrille.add(panTresor[i][j]);
+                    }  else if(i == 0 && j== 4){
+                        panTresor[i][j] = new JPanel();
+                        panTresor[i][j].setBackground(Color.yellow);
+                        panTresor[i][j].setBorder(new LineBorder(Color.white, 40));
+                        panTresor[i][j].add(new JLabel("La Statue du zéphyr"));
+                        panelGrille.add(panTresor[i][j]);
+                    
+                    }
+                        else if(i == 5 && j== 1){
+                            panTresor[i][j] = new JPanel();
+                            panTresor[i][j].setBackground(Color.red);
+                            panTresor[i][j].setBorder(new LineBorder(Color.white, 40));
+                            panTresor[i][j].add(new JLabel("Le Cristal ardent"));
+                            panelGrille.add(panTresor[i][j]);
+                        
+                        }
+                        else if(i == 5 && j== 4){
+                            panTresor[i][j] = new JPanel();
+                            panTresor[i][j].setBackground(Color.cyan);
+                            panTresor[i][j].setBorder(new LineBorder(Color.white, 40));
+                            panTresor[i][j].add(new JLabel("Le Calice de l'onde"));
+                            panelGrille.add(panTresor[i][j]);
+                        
+                        
+                        } else { 
+                        panelGrille.add(new JPanel());
+                        }
+                    
+                    
                 } else {                                                        // Tuile classique
                     btnTuiles[i][j].setText(nomTuile);
                     btnTuiles[i][j].setBackground(etatCouleur);
@@ -459,40 +496,67 @@ public class VueJeu {
         window.revalidate();
 
     }
-
-    public void afficherTresors(ArrayList<Tresor> tresors) {
-        for (int i = 0; i <= 5; i++) {
-            for (int j = 0; j <= 5; j++) {
-                if (grille.getGrille()[i][j].getTresor() == tresors.get(0)) {
-                    panTresor[i][j] = new JPanel();
-                    panTresor[i][j].setBackground(Color.lightGray);
-                    panTresor[i][j].setBorder(new LineBorder(Color.white, 2));
-                    panTuiles[i][j].add(panTresor[i][j], BorderLayout.NORTH);
-
-                } else if (grille.getGrille()[i][j].getTresor() == tresors.get(1)) {
-                    panTresor[i][j] = new JPanel();
-                    panTresor[i][j].setBackground(Color.yellow);
-                    panTresor[i][j].setBorder(new LineBorder(Color.white, 2));
-                    panTuiles[i][j].add(panTresor[i][j], BorderLayout.NORTH);
-
-                } else if (grille.getGrille()[i][j].getTresor() == tresors.get(2)) {
-                    panTresor[i][j] = new JPanel();
-                    panTresor[i][j].setBackground(Color.red);
-                    panTresor[i][j].setBorder(new LineBorder(Color.white, 2));
-                    panTuiles[i][j].add(panTresor[i][j], BorderLayout.NORTH);
-
-                } else if (grille.getGrille()[i][j].getTresor() == tresors.get(3)) {
-                    panTresor[i][j] = new JPanel();
-                    panTresor[i][j].setBackground(Color.cyan);
-                    panTresor[i][j].setBorder(new LineBorder(Color.white, 2));
-                    panTuiles[i][j].add(panTresor[i][j], BorderLayout.NORTH);
-
-                }
-            }
-
+    
+    public void afficherTresorTuiles(ArrayList<Tresor> tresors){
+        for (int i =0; i<= 5 ; i++){
+            for (int j = 0; j <= 5; j++ )
+                if (grille.getGrille()[i][j].getTresor() == tresors.get(0)){
+                    panTresorTuile[i][j] = new JPanel();
+                    panTresorTuile[i][j].setBackground(Color.lightGray);
+                    panTresorTuile[i][j].setBorder(new LineBorder(Color.white, 2));
+                    panTuiles[i][j].add(panTresorTuile[i][j], BorderLayout.NORTH);
+                    
+                } else if (grille.getGrille()[i][j].getTresor() == tresors.get(1)){
+                    panTresorTuile[i][j] = new JPanel();
+                    panTresorTuile[i][j].setBackground(Color.yellow);
+                    panTresorTuile[i][j].setBorder(new LineBorder(Color.white, 2));
+                    panTuiles[i][j].add(panTresorTuile[i][j], BorderLayout.NORTH);
+                    
+                } else if (grille.getGrille()[i][j].getTresor() == tresors.get(2)){
+                    panTresorTuile[i][j] = new JPanel();
+                    panTresorTuile[i][j].setBackground(Color.red);
+                    panTresorTuile[i][j].setBorder(new LineBorder(Color.white, 2));
+                    panTuiles[i][j].add(panTresorTuile[i][j], BorderLayout.NORTH);
+                    
+                } else if (grille.getGrille()[i][j].getTresor() == tresors.get(3)){
+                    panTresorTuile[i][j] = new JPanel();
+                    panTresorTuile[i][j].setBackground(Color.cyan);
+                    panTresorTuile[i][j].setBorder(new LineBorder(Color.white, 2));
+                    panTuiles[i][j].add(panTresorTuile[i][j], BorderLayout.NORTH);
+                    
+                } 
         }
 
     }
+    
+    
+    public void retirerTresorsGrille(ArrayList<Tresor> tresorsGagnés){
+        for (Tresor tresor : tresorsGagnés){                                    // on parcours les tresor gagnés
+            if(tresor.getNomTresor() == "La Pierre sacrée"){                    
+                panTresor[0][1].removeAll();                                    // on supprime le label de du panel
+                panTresor[0][1].setBackground(Color.white);                     // on passe le fond du panel en blanc (invisible)
+            }
+            else if(tresor.getNomTresor() == "La Statue du zéphyr"){
+                panTresor[0][4].removeAll();
+                panTresor[0][4].setBackground(Color.white);
+            
+            }
+            else if(tresor.getNomTresor() == "Le Cristal ardent"){
+                panTresor[5][1].removeAll();
+                panTresor[5][1].setBackground(Color.white);
+            
+            }
+            else if(tresor.getNomTresor() == "Le Calice de l'onde"){
+                panTresor[5][4].removeAll();
+                panTresor[5][4].setBackground(Color.white);
+            }
+        }
+        window.repaint();
+    
+    
+    }           // retirer les tresors gagnés de la vue
+    
+    
 
     public void afficherPossible(ArrayList<Tuile> tuilesPossibles) {
         for (Tuile tuile : tuilesPossibles) {                                     // Parcours des tuiles possibles
