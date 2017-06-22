@@ -827,8 +827,6 @@ public class Controller implements Observateur {
         }
         actionNavi = 0;
         assechementInge = 0;
-
-        jeu.debutTour();
         
         gagnerTresorPossible();                                                 //Check si un trésors est récupérable
         if (tresorRecup) {
