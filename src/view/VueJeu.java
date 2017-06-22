@@ -336,17 +336,20 @@ public class VueJeu {
                 }
                 if (main.get(i).getClass().getSimpleName().equals("CarteHelicoptere")) {
                     cartesMainTmp[i].setEnabled(true);
-                    
                     cartesMainTmp[i].addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             observateur.utiliserCarteHelicoptere();    // Communication au contrôleur (assechement/deplacement) en fonction de depl
                         }
                     });
-                    
-                    
                 } else if (main.get(i).getClass().getSimpleName().equals("CarteSacDeSable")) {
                     cartesMainTmp[i].setEnabled(true);
+                    cartesMainTmp[i].addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            observateur.utiliserCarteSacDeSable();// Communication au contrôleur (assechement/deplacement) en fonction de depl
+                        }
+                    });
                 } else {
                     cartesMainTmp[i].setEnabled(false);
                 }
@@ -519,6 +522,7 @@ public class VueJeu {
                 afficheJoueurGrille(i, j);
             }
         }
+        
         window.revalidate();
     }
 

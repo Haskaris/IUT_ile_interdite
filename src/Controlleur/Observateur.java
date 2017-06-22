@@ -22,4 +22,5 @@ public interface Observateur {
     public ArrayList<String> getJoueurTuile(Tuile tuile);
     public void enleverCarteSurplus(CarteDosOrange carte);
     public void utiliserCarteHelicoptere();
+    public void utiliserCarteSacDeSable();
 }
