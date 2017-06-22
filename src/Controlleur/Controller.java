@@ -226,53 +226,17 @@ public class Controller implements Observateur {
             jeu.repaint();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_PrendreTresors) {
             gagnerTresor();
-            ArrayList<CarteDosOrange> carteTemp = new ArrayList<>();
             int i = 0;
-            boolean bool = false;
-            while (i < joueurC.getMain().size() && !bool) {
-                if (joueurC.getMain().get(i).getTresor() != null && 
-                    joueurC.getMain().get(i).getTresor().getNomTresor() == "La Pierre sacrée") {
-                    carteTemp.add(joueurC.getMain().get(i));
-                    defausseOrange.add(joueurC.getMain().get(i));
+            for(CarteDosOrange carte : joueurC.getMain()){
+                if (carte.getTresor() == gagnerTresorPossible() && i < 4 ){
+                    defausseOrange.add(carte);
+                    joueurC.removeCarteMain(carte);
                     i++;
                 }
-                bool = true;
-            }
-            
-            i = 0;
-            while (i < joueurC.getMain().size() && !bool) {
-                if (joueurC.getMain().get(i).getTresor() != null && 
-                    joueurC.getMain().get(i).getTresor().getNomTresor() == "La Statue du zéphyr") {
-                    carteTemp.add(joueurC.getMain().get(i));
-                    defausseOrange.add(joueurC.getMain().get(i));
-                    i++;
-                }
-                bool = true;
-            }
-            i = 0;
-            while (i < joueurC.getMain().size() && !bool) {
-                if (joueurC.getMain().get(i).getTresor() != null && 
-                    joueurC.getMain().get(i).getTresor().getNomTresor() == "Le Cristal ardent") {
-                    carteTemp.add(joueurC.getMain().get(i));
-                    defausseOrange.add(joueurC.getMain().get(i));
-                    i++;
-                }
-                bool = true;
-            }
-            i = 0;
-            while (i < joueurC.getMain().size() && !bool) {
-                if (joueurC.getMain().get(i).getTresor() != null && 
-                    joueurC.getMain().get(i).getTresor().getNomTresor() == "Le Calice de l'onde") {
-                    carteTemp.add(joueurC.getMain().get(i));
-                    defausseOrange.add(joueurC.getMain().get(i));
-                    i++;
-                }
-                bool = true;
-            }
-            for (CarteDosOrange carte : carteTemp) {
-                joueurC.removeCarteMain(carte);
+                
             }
             nbAction++;
+            jeu.repaint();
         }
         }
 
@@ -310,7 +274,7 @@ public class Controller implements Observateur {
             paramJeu.fermer();
             initInondationDebut();
             distributionCartesOrangeDebut();
-            jeu.afficherTresors(tresors);
+            jeu.afficherTresorTuiles(tresors);
             jeu.afficherNiveau(echelle.getNiveauEau());
             jeu.afficher();
 
@@ -594,8 +558,8 @@ public class Controller implements Observateur {
         for (int i = 0; i < 5; i++) {                             // ajout des 20 cartes tresors correspondant aux 4 tresors (5 carte pour chaque tresor)
             piocheOrange.add(new CarteTresor(tresors.get(0)));
             piocheOrange.add(new CarteTresor(tresors.get(1)));
-            piocheOrange.add(new CarteTresor(tresors.get(2)));
-            piocheOrange.add(new CarteTresor(tresors.get(3)));
+            piocheOrange.add(new CarteTresor(tresors.get(0)));
+            piocheOrange.add(new CarteTresor(tresors.get(1)));
         }
         for (int i = 0; i < 3; i++) {                            // ajout des 3 cartes Helicoptere
             piocheOrange.add(new CarteHelicoptere());
@@ -632,7 +596,7 @@ public class Controller implements Observateur {
                     j--;
                 } else {
                     getJoueurCourant(i).addCarteMain(piocheOrange.get(numRandom));     // ajout de la carte dans la main du joueur
-                    piocheOrange.remove(numRandom);                             // suppression de la carte de la pioche
+                    piocheOrange.remove(numRandom);                                    // suppression de la carte de la pioche
                 }
             }
         }

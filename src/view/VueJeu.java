@@ -55,10 +55,8 @@ public class VueJeu {
     private JLabel labelNiveau2, labelNiveau3, labelNiveau4, labelNiveau5, labelMort;
 
     private final JPanel[][] panTresor = new JPanel[6][6];              // panel qui affiche les tresors sur les tuiles
-    private final JPanel panelGrille, panelPrincipal, panelMenu, panelBtnAction, panelBtn, panelTop, panelBottom, panelMain, panelLateral;
     
     private final JPanel[][] panTresorTuile = new JPanel[6][6];              // panel qui affiche les tresors sur les tuiles
-    private final JPanel[][] panTresor = new JPanel[6][6];                   //  panel pour les trésor autour de la grille
 
     // Attributs boutons
     private JButton btnAssechement = new JButton("Assecher");                       // 
@@ -517,10 +515,10 @@ public class VueJeu {
     
     
     public void retirerTresorsGrille(ArrayList<Tresor> tresorsGagnés){
-        for (Tresor tresor : tresorsGagnés){
-            if(tresor.getNomTresor() == "La Pierre sacrée"){
-                panTresor[0][1].removeAll();
-                panTresor[0][1].setBackground(Color.white);
+        for (Tresor tresor : tresorsGagnés){                                    // on parcours les tresor gagnés
+            if(tresor.getNomTresor() == "La Pierre sacrée"){                    
+                panTresor[0][1].removeAll();                                    // on supprime le label de du panel
+                panTresor[0][1].setBackground(Color.white);                     // on passe le fond du panel en blanc (invisible)
             }
             else if(tresor.getNomTresor() == "La Statue du zéphyr"){
                 panTresor[0][4].removeAll();
@@ -540,7 +538,7 @@ public class VueJeu {
         window.repaint();
     
     
-    }
+    }           // retirer les tresors gagnés de la vue
     
     
 
