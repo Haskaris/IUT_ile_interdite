@@ -50,11 +50,14 @@ public class VueParamJeu {
         Border borderB = new LineBorder(Color.GRAY, 5);
         
         
-        JPanel mainPanel = new JPanel(new GridLayout(5,1));
+        JPanel mainPanel = new JPanel(new GridLayout(7,1));
         window.add(mainPanel);
         
-        JPanel panelNbJoueur = new JPanel(new GridLayout(1,6));
+        mainPanel.add(new JPanel());
+        
+        JPanel panelNbJoueur = new JPanel(new GridLayout(1,5));
         panelNbJoueur.setBorder(borderB);
+        panelNbJoueur.setBackground(Color.LIGHT_GRAY);
         JRadioButton j2 = new JRadioButton("2");
         JRadioButton j3 = new JRadioButton("3");
         JRadioButton j4 = new JRadioButton("4");
@@ -64,50 +67,45 @@ public class VueParamJeu {
         panelNbJoueur.add(j2);
         panelNbJoueur.add(j3);
         panelNbJoueur.add(j4);
+        panelNbJoueur.add(new JPanel());
+        
         
         ButtonGroup groupeNb = new ButtonGroup();
         groupeNb.add(j2);
         groupeNb.add(j3);
         groupeNb.add(j4);
         
-        JPanel panelNomJoueur = new JPanel(new GridLayout(1,6));
+        JPanel panelNomJoueur = new JPanel(new GridLayout(1,5));
         panelNomJoueur.setBorder(borderB);
-        JPanel nom1 = new JPanel(new GridLayout(5,1));
+        panelNomJoueur.setBackground(Color.LIGHT_GRAY);
+        JPanel nom1 = new JPanel(new GridLayout(3,1));
         nom1.setBorder(border);
         JTextField nomJ1 = new JTextField("Joueur 1");
         nom1.add(new JPanel());
-        nom1.add(new JPanel());
         nom1.add(nomJ1);
         nom1.add(new JPanel());
-        nom1.add(new JPanel());
         
-        JPanel nom2 = new JPanel(new GridLayout(5,1));
+        JPanel nom2 = new JPanel(new GridLayout(3,1));
         nom2.setBorder(border);
         JTextField nomJ2 = new JTextField("Joueur 2");
         nom2.add(new JPanel());
-        nom2.add(new JPanel());
         nom2.add(nomJ2);
         nom2.add(new JPanel());
-        nom2.add(new JPanel());
         
         
-        JPanel nom3 = new JPanel(new GridLayout(5,1));
+        JPanel nom3 = new JPanel(new GridLayout(3,1));
         nom3.setBorder(border);
         JTextField nomJ3 = new JTextField("Joueur 3");
         nom3.add(new JPanel());
-        nom3.add(new JPanel());
         nom3.add(nomJ3);
         nom3.add(new JPanel());
-        nom3.add(new JPanel());
         
         
-        JPanel nom4 = new JPanel(new GridLayout(5,1));
+        JPanel nom4 = new JPanel(new GridLayout(3,1));
         nom4.setBorder(border);
         JTextField nomJ4 = new JTextField("Joueur 4");
         nom4.add(new JPanel());
-        nom4.add(new JPanel());
         nom4.add(nomJ4);
-        nom4.add(new JPanel());
         nom4.add(new JPanel());
         
         panelNomJoueur.add(new JLabel("Noms des Joueurs:"));
@@ -117,8 +115,9 @@ public class VueParamJeu {
         panelNomJoueur.add(nom4);
         
         
-        JPanel panelNiveau = new JPanel(new GridLayout(1,6));
+        JPanel panelNiveau = new JPanel(new GridLayout(1,5));
         panelNiveau.setBorder(borderB);
+        panelNiveau.setBackground(Color.LIGHT_GRAY);
         JRadioButton NivLegendaire = new JRadioButton("Legendaire");
         JRadioButton NivElite = new JRadioButton("Elite");
         JRadioButton NivNormal = new JRadioButton("Normal");
@@ -153,6 +152,8 @@ public class VueParamJeu {
         mainPanel.add(panelNomJoueur);
         mainPanel.add(panelNiveau);
         mainPanel.add(new JPanel());
+        mainPanel.add(new JPanel());
+        
         mainPanel.add(panelBtnFin);
         
         btnRetour.addActionListener(new ActionListener() {
