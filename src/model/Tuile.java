@@ -7,6 +7,7 @@ package model;
 
 import java.util.ArrayList;
 import model.aventurier.Aventurier;
+import util.Utils.EtatTuile;
 import util.Utils;
 
 
@@ -18,7 +19,7 @@ public class Tuile {
     private String nom;
     private int x;
     private int y;
-    private Utils.EtatTuile etat;
+    private EtatTuile etat;
     private ArrayList<Aventurier> joueurs;
     private Tresor tresor;
     
