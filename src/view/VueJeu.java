@@ -102,12 +102,9 @@ public class VueJeu {
 
         panelBottom = new JPanel(new BorderLayout());                           // Contient les mains
         panelPrincipal.add(panelBottom, BorderLayout.SOUTH);
-
-        panelBtn = new JPanel(new BorderLayout());                              // Panel des boutons d'actions
-        panelMenu = new JPanel(new GridLayout(3, 1));                           // Panel des boutons + panneaux vides
+                         // Panel des boutons + panneaux vides
 
         panelTopMenu = new JPanel(new BorderLayout());
-        panelMenu.add(panelTopMenu);
         
         
         panelEchelle = new JPanel(new GridLayout(5, 1));
@@ -118,7 +115,7 @@ public class VueJeu {
         panelCentrerEchelle.add(panelEchelle);
         panelCentrerEchelle.add(new JPanel());
         panelCentrerEchelle.add(new JPanel());
-        panelCentrerEchelle.add(btnDefausser);
+        panelCentrerEchelle.add(new JPanel());
         panelTopMenu.add(panelCentrerEchelle, BorderLayout.WEST);
 
         panelNiveau2 = new JPanel(new BorderLayout());
@@ -164,11 +161,15 @@ public class VueJeu {
         panelEchelle.add(panelNiveau3);
         panelEchelle.add(panelNiveau2);
 
+        
+        panelBtn = new JPanel(new BorderLayout());                              // Panel des boutons d'actions
+        panelMenu = new JPanel(new GridLayout(3, 1));
+        panelMenu.add(panelTopMenu);
+        
         panelMenu.add(panelBtn);
         panelMenu.add(new JPanel());
         panelTop.add(panelMenu, BorderLayout.EAST);                              // Contient grille et menu
 
-        // 
         panelBtnAction = new JPanel(new GridLayout(2, 2));                       // Panel boutons d'actions (sauf Fin Tour)
         panelBtn.add(panelBtnAction, BorderLayout.CENTER);
 
@@ -190,12 +191,14 @@ public class VueJeu {
         btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
         btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
         btnFinTour.setBackground(Color.LIGHT_GRAY);
+        btnDefausser.setBackground(Color.LIGHT_GRAY);
 
         panelBtnAction.add(btnAssechement);
         panelBtnAction.add(btnDeplacement);
         panelBtnAction.add(btnDonnerCarte);
         panelBtnAction.add(btnPrendreTresor);
         panelBtn.add(btnFinTour, BorderLayout.SOUTH);
+        panelBtn.add(btnDefausser, BorderLayout.NORTH);
 
         window.add(panelPrincipal);
 
@@ -508,6 +511,7 @@ public class VueJeu {
         btnDeplacement.setBackground(Color.GRAY);
         btnDonnerCarte.setBackground(Color.GRAY);
         btnPrendreTresor.setBackground(Color.GRAY);
+        btnDefausser.setBackground(Color.GRAY);
 
         // Désactivation des boutons d'actions sauf Fin de tour
         btnAssechement.setEnabled(false);
@@ -522,6 +526,7 @@ public class VueJeu {
         btnDeplacement.setBackground(Color.LIGHT_GRAY);
         btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
         btnPrendreTresor.setBackground(Color.GRAY);
+        btnDefausser.setBackground(Color.LIGHT_GRAY);
 
         // Activation des boutons d'actions
         btnAssechement.setEnabled(true);
