@@ -30,70 +30,66 @@ public class Plongeur extends Aventurier{
         ArrayList<Tuile> tuilesPossibles = new ArrayList<>();
         
         Tuile[] tuilesTraversable = new Tuile[24];
-        tuilesTraversable[0] = tuiles[getPosition().getY()][getPosition().getX()];
-        
-        System.out.println("x : " + getPosition().getX());
-        System.out.println("y : " + getPosition().getY());
+        tuilesTraversable[0] = tuiles[getPosition().getX()][getPosition().getY()];
+        Tuile[] tuilesPossibleTab = new Tuile[24];
         
         tuilesPossibles = super.getTuilesPossibles(depl);
         
-        int k = 0, j = 1, w = 1;
+        int k = 0, j = 1, w = 1, a = 0;
         
         if (depl) {
             
             //parcours toutes les tuiles innondée ou submergée accessible par le plongeur pour les placer dans tuilesTraversable                                
                 while (j != 0) {
                     k = w - j;
+                    a = w;
                     j = 0;
                     
-                    System.out.println("k : " + k);
-                    
-                    for (int i = k; i < w; i++) {
-                        System.out.println("i: " + i);
+                    for (int i = k; i < a; i++) {
                         
-                        if (tuilesTraversable[i].getX() > 0) {
-                            if (tuiles[tuilesTraversable[i].getY()][tuilesTraversable[i].getX()-1].getNom() != "null") { 
-                                if    ((isDansTableau(tuilesTraversable, tuiles[tuilesTraversable[i].getY()][tuilesTraversable[i].getX()-1]) == false) &&
-                                    ((tuiles[tuilesTraversable[i].getY()][tuilesTraversable[i].getX()-1].getEtat().equals(EtatTuile.COULEE)) || 
-                                    (tuiles[tuilesTraversable[i].getY()][tuilesTraversable[i].getX()-1].getEtat().equals(EtatTuile.INONDEE)))) {
-                                j++;
-                                tuilesTraversable[w] = tuiles[tuilesTraversable[i].getY()][tuilesTraversable[i].getX()-1];
-                                w++;
-                                }
-                            }
-                        }
-
-                        if (tuilesTraversable[i].getX() < 5) {
-                            if (tuiles[tuilesTraversable[i].getY()][tuilesTraversable[i].getX()+1].getNom() != "null") {
-                                 if   ((isDansTableau(tuilesTraversable, tuiles[tuilesTraversable[i].getY()][tuilesTraversable[i].getX()+1]) == false) &&
-                                    ((tuiles[tuilesTraversable[i].getY()][tuilesTraversable[i].getX()+1].getEtat().equals(EtatTuile.COULEE)) || 
-                                    (tuiles[tuilesTraversable[i].getY()][tuilesTraversable[i].getX()+1].getEtat().equals(EtatTuile.INONDEE)))) {
-                                j++;
-                                tuilesTraversable[w] = tuiles[tuilesTraversable[i].getY()][tuilesTraversable[i].getX()+1];
-                                w++;
-                                }
-                            }
-                        }
-
                         if (tuilesTraversable[i].getY() > 0) {
-                            if (tuiles[tuilesTraversable[i].getY()-1][tuilesTraversable[i].getX()].getNom() != "null") {
-                                 if   ((isDansTableau(tuilesTraversable, tuiles[tuilesTraversable[i].getY()-1][tuilesTraversable[i].getX()]) == false) &&
-                                    ((tuiles[tuilesTraversable[i].getY()-1][tuilesTraversable[i].getX()].getEtat().equals(EtatTuile.COULEE)) || 
-                                    (tuiles[tuilesTraversable[i].getY()-1][tuilesTraversable[i].getX()].getEtat().equals(EtatTuile.INONDEE)))) {
+                            if (tuiles[tuilesTraversable[i].getX()][tuilesTraversable[i].getY()-1].getNom() != "null") { 
+                                if    ((isDansTableau(tuilesTraversable, tuiles[tuilesTraversable[i].getX()][tuilesTraversable[i].getY()-1]) == false) &&
+                                    ((tuiles[tuilesTraversable[i].getX()][tuilesTraversable[i].getY()-1].getEtat().equals(EtatTuile.COULEE)) || 
+                                    (tuiles[tuilesTraversable[i].getX()][tuilesTraversable[i].getY()-1].getEtat().equals(EtatTuile.INONDEE)))) {
                                 j++;
-                                tuilesTraversable[w] = tuiles[tuilesTraversable[i].getY()-1][tuilesTraversable[i].getX()];
+                                tuilesTraversable[w] = tuiles[tuilesTraversable[i].getX()][tuilesTraversable[i].getY()-1];
                                 w++;
                                 }
                             }
                         }
 
                         if (tuilesTraversable[i].getY() < 5) {
-                            if (tuiles[tuilesTraversable[i].getY()+1][tuilesTraversable[i].getX()].getNom() != "null") { 
-                                if    ((isDansTableau(tuilesTraversable, tuiles[tuilesTraversable[i].getY()+1][tuilesTraversable[i].getX()]) == false) &&
-                                    ((tuiles[tuilesTraversable[i].getY()+1][tuilesTraversable[i].getX()].getEtat().equals(EtatTuile.COULEE)) || 
-                                    (tuiles[tuilesTraversable[i].getY()+1][tuilesTraversable[i].getX()].getEtat().equals(EtatTuile.INONDEE)))) {
+                            if (tuiles[tuilesTraversable[i].getX()][tuilesTraversable[i].getY()+1].getNom() != "null") {
+                                 if   ((isDansTableau(tuilesTraversable, tuiles[tuilesTraversable[i].getX()][tuilesTraversable[i].getY()+1]) == false) &&
+                                    ((tuiles[tuilesTraversable[i].getX()][tuilesTraversable[i].getY()+1].getEtat().equals(EtatTuile.COULEE)) || 
+                                    (tuiles[tuilesTraversable[i].getX()][tuilesTraversable[i].getY()+1].getEtat().equals(EtatTuile.INONDEE)))) {
                                 j++;
-                                tuilesTraversable[w] = tuiles[tuilesTraversable[i].getY()+1][tuilesTraversable[i].getX()];
+                                tuilesTraversable[w] = tuiles[tuilesTraversable[i].getX()][tuilesTraversable[i].getY()+1];
+                                w++;
+                                }
+                            }
+                        }
+
+                        if (tuilesTraversable[i].getX() > 0) {
+                            if (tuiles[tuilesTraversable[i].getX()-1][tuilesTraversable[i].getY()].getNom() != "null") {
+                                 if   ((isDansTableau(tuilesTraversable, tuiles[tuilesTraversable[i].getX()-1][tuilesTraversable[i].getY()]) == false) &&
+                                    ((tuiles[tuilesTraversable[i].getX()-1][tuilesTraversable[i].getY()].getEtat().equals(EtatTuile.COULEE)) || 
+                                    (tuiles[tuilesTraversable[i].getX()-1][tuilesTraversable[i].getY()].getEtat().equals(EtatTuile.INONDEE)))) {
+                                j++;
+                                tuilesTraversable[w] = tuiles[tuilesTraversable[i].getX()-1][tuilesTraversable[i].getY()];
+                                w++;
+                                }
+                            }
+                        }
+
+                        if (tuilesTraversable[i].getX() < 5) {
+                            if (tuiles[tuilesTraversable[i].getX()+1][tuilesTraversable[i].getY()].getNom() != "null") { 
+                                if    ((isDansTableau(tuilesTraversable, tuiles[tuilesTraversable[i].getX()+1][tuilesTraversable[i].getY()]) == false) &&
+                                    ((tuiles[tuilesTraversable[i].getX()+1][tuilesTraversable[i].getY()].getEtat().equals(EtatTuile.COULEE)) || 
+                                    (tuiles[tuilesTraversable[i].getX()+1][tuilesTraversable[i].getY()].getEtat().equals(EtatTuile.INONDEE)))) {
+                                j++;
+                                tuilesTraversable[w] = tuiles[tuilesTraversable[i].getX()+1][tuilesTraversable[i].getY()];
                                 w++;
                                 }
                             }
@@ -102,39 +98,63 @@ public class Plongeur extends Aventurier{
                 }
             
                 
+
             //parcours toutes les tuiles innondée ou submergée accessible par le plongeur pour placer les tuiles assechée ou innodée dans tuilesPossibles
+            j = 0;
             for (int i = 0; i < w; i++){
-                if (tuilesTraversable[i].getX() > 0) {
-                    if ((tuiles[tuilesTraversable[i].getY()][tuilesTraversable[i].getX()-1].getNom() != "null") && 
-                            ((tuiles[tuilesTraversable[i].getY()][tuilesTraversable[i].getX()-1].getEtat().equals(EtatTuile.ASSECHEE)) || 
-                            (tuiles[tuilesTraversable[i].getY()][tuilesTraversable[i].getX()-1].getEtat().equals(EtatTuile.INONDEE)))) {
-                        tuilesPossibles.add(tuiles[tuilesTraversable[i].getY()][tuilesTraversable[i].getX()-1]);
-                    }
-                }
-
-                if (tuilesTraversable[i].getX() < 5) {
-                    if ((tuiles[tuilesTraversable[i].getY()][tuilesTraversable[i].getX()+1].getNom() != "null") && 
-                            ((tuiles[tuilesTraversable[i].getY()][tuilesTraversable[i].getX()+1].getEtat().equals(EtatTuile.ASSECHEE)) || 
-                            (tuiles[tuilesTraversable[i].getY()][tuilesTraversable[i].getX()+1].getEtat().equals(EtatTuile.INONDEE)))) {
-                        tuilesPossibles.add(tuiles[tuilesTraversable[i].getY()][tuilesTraversable[i].getX()+1]);
-                    }
-                }
-
                 if (tuilesTraversable[i].getY() > 0) {
-                    if ((tuiles[tuilesTraversable[i].getY()-1][tuilesTraversable[i].getX()].getNom() != "null") && 
-                            ((tuiles[tuilesTraversable[i].getY()-1][tuilesTraversable[i].getX()].getEtat().equals(EtatTuile.ASSECHEE)) || 
-                            (tuiles[tuilesTraversable[i].getY()-1][tuilesTraversable[i].getX()].getEtat().equals(EtatTuile.INONDEE)))) {
-                        tuilesPossibles.add(tuiles[tuilesTraversable[i].getY()-1][tuilesTraversable[i].getX()]);
+                    if (tuiles[tuilesTraversable[i].getX()][tuilesTraversable[i].getY()-1].getNom() != "null") {
+                            if    ((isDansTableau(tuilesPossibleTab, tuiles[tuilesTraversable[i].getX()][tuilesTraversable[i].getY()-1]) == false) &&
+                            ((tuiles[tuilesTraversable[i].getX()][tuilesTraversable[i].getY()-1].getEtat().equals(EtatTuile.ASSECHEE)) || 
+                            (tuiles[tuilesTraversable[i].getX()][tuilesTraversable[i].getY()-1].getEtat().equals(EtatTuile.INONDEE)))) {
+                                
+                                tuilesPossibleTab[j] = tuiles[tuilesTraversable[i].getX()][tuilesTraversable[i].getY()-1];
+                                j++;
+                            }
                     }
                 }
 
                 if (tuilesTraversable[i].getY() < 5) {
-                    if ((tuiles[tuilesTraversable[i].getY()+1][tuilesTraversable[i].getX()].getNom() != "null") && 
-                            ((tuiles[tuilesTraversable[i].getY()+1][tuilesTraversable[i].getX()].getEtat().equals(EtatTuile.ASSECHEE)) || 
-                            (tuiles[tuilesTraversable[i].getY()+1][tuilesTraversable[i].getX()].getEtat().equals(EtatTuile.INONDEE)))) {
-                        tuilesPossibles.add(tuiles[tuilesTraversable[i].getY()+1][tuilesTraversable[i].getX()]);
+                    if (tuiles[tuilesTraversable[i].getX()][tuilesTraversable[i].getY()+1].getNom() != "null") {
+                            if    ((isDansTableau(tuilesPossibleTab, tuiles[tuilesTraversable[i].getX()][tuilesTraversable[i].getY()+1]) == false) &&
+                            ((tuiles[tuilesTraversable[i].getX()][tuilesTraversable[i].getY()+1].getEtat().equals(EtatTuile.ASSECHEE)) || 
+                            (tuiles[tuilesTraversable[i].getX()][tuilesTraversable[i].getY()+1].getEtat().equals(EtatTuile.INONDEE)))) {
+                                
+                                tuilesPossibleTab[j] = tuiles[tuilesTraversable[i].getX()][tuilesTraversable[i].getY()+1];
+                                j++;
+                            }
                     }
                 }
+
+                if (tuilesTraversable[i].getX() > 0) {
+                    if (tuiles[tuilesTraversable[i].getX()-1][tuilesTraversable[i].getY()].getNom() != "null") {
+                            if    ((isDansTableau(tuilesPossibleTab, tuiles[tuilesTraversable[i].getX()-1][tuilesTraversable[i].getY()]) == false) &&
+                            ((tuiles[tuilesTraversable[i].getX()-1][tuilesTraversable[i].getY()].getEtat().equals(EtatTuile.ASSECHEE)) || 
+                            (tuiles[tuilesTraversable[i].getX()-1][tuilesTraversable[i].getY()].getEtat().equals(EtatTuile.INONDEE)))) {
+                                
+                                tuilesPossibleTab[j] = tuiles[tuilesTraversable[i].getX()-1][tuilesTraversable[i].getY()];
+                                j++;
+                            }
+                    }
+                }
+
+                if (tuilesTraversable[i].getX() < 5) {
+                    if (tuiles[tuilesTraversable[i].getX()+1][tuilesTraversable[i].getY()].getNom() != "null") {
+                            if    ((isDansTableau(tuilesPossibleTab, tuiles[tuilesTraversable[i].getX()+1][tuilesTraversable[i].getY()]) == false) &&
+                            ((tuiles[tuilesTraversable[i].getX()+1][tuilesTraversable[i].getY()].getEtat().equals(EtatTuile.ASSECHEE)) || 
+                            (tuiles[tuilesTraversable[i].getX()+1][tuilesTraversable[i].getY()].getEtat().equals(EtatTuile.INONDEE)))) {
+                                
+                                tuilesPossibleTab[j] = tuiles[tuilesTraversable[i].getX()+1][tuilesTraversable[i].getY()];
+                                j++;
+                            }
+                    }
+                }
+            }
+            
+            a = j;
+            tuilesPossibles.clear();
+            for (int i = 0; i < a; i++){
+                tuilesPossibles.add(tuilesPossibleTab[i]);
             }
             
         } else {
@@ -156,12 +176,8 @@ public class Plongeur extends Aventurier{
             if (tableau[i] == tuile){
                 bool = true;
             }
-                                System.out.println("tableau : " + "x " + tableau[i].getY() + " y " + tableau[i].getX());
             i++;
         }
-                    
-                    System.out.println("tuile : " + "x " + tuile.getX() + " y " + tuile.getY());
-                    System.out.println("bool : " + bool);
         return bool;
     }
     
