@@ -777,7 +777,7 @@ public class Controller implements Observateur {
             if (fini == joueurs.size()) {
                 jeu.fermer();
                 popUp.fermer();                                                 // fin du jeu
-                afficherInformation("Félicitations vous avez réussi à récupérer tout les trésors, vous êtes vraiment trop forts !");
+                afficherInformation("Félicitations! Vous avez réussi à récupérer tous les trésors, vous êtes vraiment trop forts !");
             }
         } else {
             jeu.afficherPossible(tuilesJoueur);
