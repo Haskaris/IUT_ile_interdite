@@ -24,7 +24,7 @@ import util.TypesMessage;
  *
  * @author jacquett
  */
-public class vueAQuiDonner {
+public class VueAQuiDonner {
     private Observateur observateur;
     private JFrame window;
     private JLabel question;
@@ -32,7 +32,7 @@ public class vueAQuiDonner {
     private JButton[] btnChoix;
     private String nomChoix;
 
-    public vueAQuiDonner(Observateur o, ArrayList<String> nomJ) {
+    public VueAQuiDonner(Observateur o, ArrayList<String> nomJ) {
         setObservateur(o);
         
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -90,16 +90,12 @@ public class vueAQuiDonner {
         btnRetour.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Message msg = new Message(TypesMessage.ACTION_RETOUR_DONNER);
+                Message msg = new Message(TypesMessage.ACTION_RetourSecond);
                 observateur.traiterMessage(msg);
             }
         });
         
         panelCentre.add(new JPanel());
-        
-        
-        
-        
         
         
     }
@@ -152,14 +148,11 @@ public class vueAQuiDonner {
         btnRetour.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Message msg = new Message(TypesMessage.ACTION_RETOUR_DONNER);
+                Message msg = new Message(TypesMessage.ACTION_RetourSecond);
                 observateur.traiterMessage(msg);
             }
         });
-        
         panelCentre.add(new JPanel());
         window.revalidate(); 
-        
     }
-    
 }

@@ -22,5 +22,6 @@ public enum TypesMessage {
     ACTION_Action,
     ACTION_CHOIX_CARTE,
     ACTION_PrendreTresors,
-    ACTION_RETOUR_DONNER;
+    ACTION_DeplacerJoueur,
+    ACTION_RetourSecond;
 }
