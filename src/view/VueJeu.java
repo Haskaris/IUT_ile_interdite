@@ -535,17 +535,17 @@ public class VueJeu {
             }
             else if(tresor.getNomTresor() == "La Statue du zéphyr"){
                 panTresor[0][4].removeAll();
-                panTresor[0][1].setBackground(Color.white);
+                panTresor[0][4].setBackground(Color.white);
             
             }
             else if(tresor.getNomTresor() == "Le Cristal ardent"){
                 panTresor[5][1].removeAll();
-                panTresor[0][1].setBackground(Color.white);
+                panTresor[5][1].setBackground(Color.white);
             
             }
             else if(tresor.getNomTresor() == "Le Calice de l'onde"){
                 panTresor[5][4].removeAll();
-                panTresor[0][1].setBackground(Color.white);
+                panTresor[5][4].setBackground(Color.white);
             }
         }
         window.repaint();

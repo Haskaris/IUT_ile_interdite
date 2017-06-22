@@ -194,19 +194,25 @@ public class Controller implements Observateur {
             afficherMainJoueur();                                               //Met à jour la main du joueur courant dans l'ihm
             jeu.repaint();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_PrendreTresors) {
+            Tresor tresortemp = gagnerTresorPossible();
             gagnerTresor();
             int i = 0;
+            ArrayList<CarteDosOrange> carteTemp = new ArrayList<>();
             for(CarteDosOrange carte : joueurC.getMain()){
                 System.out.println("tresor de la carte : " + carte.getTresor());
                 System.out.println("tresor possible : " + gagnerTresorPossible());
                 
-                if (carte.getTresor().equals(gagnerTresorPossible()) && i < 4 ){
+                if ((carte.getTresor() == tresortemp) && i < 4){
                     defausseOrange.add(carte);
-                    joueurC.removeCarteMain(carte);
+                    carteTemp.add(carte);
                     i++;
                 }
                 
             }
+            for (CarteDosOrange carte : carteTemp){
+                joueurC.removeCarteMain(carte);           
+            }
+            
             nbAction++;
             jeu.repaint();
         }
@@ -498,10 +504,10 @@ public class Controller implements Observateur {
     private void remplirPiocheOrange() {
         piocheOrange = new ArrayList<>();
         for (int i = 0; i < 5; i++) {                                           //Ajout des 20 cartes tresors correspondant aux 4 tresors (5 carte pour chaque tresor)
-            piocheOrange.add(new CarteTresor(tresors.get(0)));
-            piocheOrange.add(new CarteTresor(tresors.get(1)));
-            piocheOrange.add(new CarteTresor(tresors.get(0)));
-            piocheOrange.add(new CarteTresor(tresors.get(1)));
+            piocheOrange.add(new CarteTresor(tresors.get(2)));
+            piocheOrange.add(new CarteTresor(tresors.get(2)));
+            piocheOrange.add(new CarteTresor(tresors.get(2)));
+            piocheOrange.add(new CarteTresor(tresors.get(2)));
         }
         for (int i = 0; i < 3; i++) {                            // ajout des 3 cartes Helicoptere
             piocheOrange.add(new CarteHelicoptere());
@@ -569,7 +575,7 @@ public class Controller implements Observateur {
             if (joueurC.getPosition().getNom() == "Le jardin des hurlements" || joueurC.getPosition().getNom() == "Le jardin des murmures") { //Si le joueur se trouve sur une case pour recuperer le tresor de la statue du zephyr
                 for (CarteDosOrange carte : joueurC.getMain()) {
                     if (carte.getTresor() != null
-                            && carte.getTresor().getNomTresor() == "La Statue du zephyr") { //On compte combien de carte tresor de la statue du zephyr il a dans la main
+                            && carte.getTresor().getNomTresor() == "La Statue du zéphyr") { //On compte combien de carte tresor de la statue du zephyr il a dans la main
                         cartesTresorStatue++;
                     }
                 }
@@ -584,7 +590,7 @@ public class Controller implements Observateur {
             if (joueurC.getPosition().getNom() == "La caverne du brasier" || joueurC.getPosition().getNom() == "La caverne des ombres") { //Si le joueur se trouve sur une case pour recuperer le tresor du cristal ardent
                 for (CarteDosOrange carte : joueurC.getMain()) {
                     if (carte.getTresor() != null
-                            && carte.getTresor().getNomTresor() == "Le cristal ardent") { //On compte combien de carte tresor ddu cristal ardent il a dans la main
+                            && carte.getTresor().getNomTresor() == "Le Cristal ardent") { //On compte combien de carte tresor ddu cristal ardent il a dans la main
                         cartesTresorCristal++;
                     }
                 }
