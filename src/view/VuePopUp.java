@@ -34,10 +34,12 @@ public class VuePopUp {
     
     public VuePopUp(Observateur o, ArrayList<CarteDosOrange> main) {
         this.o = o;
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.window = new JFrame();
-        window.setSize(dim.width, dim.height);
-        window.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
+        window.setSize(800, 600);
+        window.setAlwaysOnTop(true);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        window.setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
+        window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
         panelGrille = new JPanel(new BorderLayout());
         panelMenu = new JPanel(new GridLayout(1,7)); // Panel des boutons d'actions
         JLabel message = new JLabel("Vous avez trop de cartes, veuillez en choisir une a défausser.");

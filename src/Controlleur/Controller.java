@@ -185,9 +185,11 @@ public class Controller implements Observateur {
             setGrilleJeu(joueurC.getGrilleAv());                                //Met à jour la grille
             tourDeJeu();                                                        //Change de tour
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_ChoixCarteASupprimer) { //Appuie sur une carte lors de la demande de suppression de carte
+            jeu.debutTour();
             popUp.fermer();
             enleverCarteSurplus(joueurC.getMain().get(msg.getNumBtn()));        //Retire la carte de la main du joueur et la rajoute dans la defausse
             if (joueurC.getMain().size() > 5) {                                 //Tant que sa main est superieur à 5
+                    jeu.desactivationBtn();
                     popUp = new VuePopUp(this, joueurC.getMain());
                     popUp.afficher();
             }
@@ -795,8 +797,12 @@ public class Controller implements Observateur {
 
         jeu.changeJoueurCourant(joueurC.getNom(), joueurC.getPion());           //Mise à jour de la main en fonction du joueur courant
         if (joueurC.getMain().size() > 5) {
+            jeu.desactivationBtn();
             popUp = new VuePopUp(this, joueurC.getMain());
             popUp.afficher();
+        }
+        else {
+            jeu.debutTour();
         }
 
         if (joueurC.getClass().getSimpleName().equals("Pilote")) {              //Remise à zéro des pouvoirs
@@ -813,7 +819,6 @@ public class Controller implements Observateur {
             jeu.tresorPossible();
         }
 
-        jeu.debutTour();
         jeu.repaint();
 
         //afficherMain();

@@ -519,6 +519,24 @@ public class VueJeu {
         btnDonnerCarte.setEnabled(false);
         btnPrendreTresor.setEnabled(false);
     }
+    
+    public void desactivationBtn(){
+        // Affichage 
+        btnAssechement.setBackground(Color.GRAY);
+        btnDeplacement.setBackground(Color.GRAY);
+        btnDonnerCarte.setBackground(Color.GRAY);
+        btnPrendreTresor.setBackground(Color.GRAY);
+        btnDefausser.setBackground(Color.GRAY);
+        btnFinTour.setBackground(Color.GRAY);
+
+        // Désactivation des boutons d'actions sauf Fin de tour
+        btnAssechement.setEnabled(false);
+        btnDeplacement.setEnabled(false);
+        btnDonnerCarte.setEnabled(false);
+        btnPrendreTresor.setEnabled(false);
+        btnDefausser.setEnabled(false);
+        btnFinTour.setEnabled(false);
+    }
 
     public void debutTour() {
         // Affichade du début de tour
@@ -527,12 +545,15 @@ public class VueJeu {
         btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
         btnPrendreTresor.setBackground(Color.GRAY);
         btnDefausser.setBackground(Color.LIGHT_GRAY);
+        btnFinTour.setBackground(Color.LIGHT_GRAY);
 
         // Activation des boutons d'actions
         btnAssechement.setEnabled(true);
         btnDeplacement.setEnabled(true);
         btnDonnerCarte.setEnabled(true);
         btnPrendreTresor.setEnabled(false);
+        btnDefausser.setEnabled(false);
+        btnFinTour.setEnabled(true);
     }
 
     public void fermer() {
