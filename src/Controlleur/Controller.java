@@ -190,7 +190,7 @@ public class Controller implements Observateur {
             enleverCarteSurplus(joueurC.getMain().get(msg.getNumBtn()));        //Retire la carte de la main du joueur et la rajoute dans la defausse
             if (joueurC.getMain().size() > 5) {                                 //Tant que sa main est superieur à 5
                     jeu.desactivationBtn();
-                    popUp = new VuePopUp(this, joueurC.getMain());
+                    popUp = new VuePopUp(this, joueurC.getMain(), false);
                     popUp.afficher();
             }
             afficherMainJoueur();                                               //Met à jour la main du joueur courant dans l'ihm
@@ -219,8 +219,8 @@ public class Controller implements Observateur {
             jeu.repaint();
         }
         else if(msg.getTypeMessage().equals(TypesMessage.ACTION_Defausse)){
-            VueDefausse defausse = new VueDefausse(this, joueurC.getMain());
-            defausse.afficher();
+            popUp = new VuePopUp(this, joueurC.getMain(), true);
+            popUp.afficher();
         }
         }                    //Permet de traiter l'information des boutons avec l'ihm
     
@@ -797,7 +797,7 @@ public class Controller implements Observateur {
         jeu.changeJoueurCourant(joueurC.getNom(), joueurC.getClass().getSimpleName(), joueurC.getPion());           //Mise à jour de la main en fonction du joueur courant
         if (joueurC.getMain().size() > 5) {
             jeu.desactivationBtn();
-            popUp = new VuePopUp(this, joueurC.getMain());
+            popUp = new VuePopUp(this, joueurC.getMain(), false);
             popUp.afficher();
         }
         else {

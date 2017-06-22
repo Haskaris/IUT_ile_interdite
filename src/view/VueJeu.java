@@ -584,6 +584,7 @@ public class VueJeu {
         btnDeplacement.setEnabled(false);
         btnDonnerCarte.setEnabled(false);
         btnPrendreTresor.setEnabled(false);
+        btnDefausser.setEnabled(false);
     }
     
     public void desactivationBtn(){
@@ -600,7 +601,7 @@ public class VueJeu {
         btnDeplacement.setEnabled(false);
         btnDonnerCarte.setEnabled(false);
         btnPrendreTresor.setEnabled(false);
-        btnDefausser.setEnabled(false);
+        btnDefausser.setEnabled(true);
         btnFinTour.setEnabled(false);
     }
 
@@ -618,7 +619,7 @@ public class VueJeu {
         btnDeplacement.setEnabled(true);
         btnDonnerCarte.setEnabled(true);
         btnPrendreTresor.setEnabled(false);
-        btnDefausser.setEnabled(false);
+        btnDefausser.setEnabled(true);
         btnFinTour.setEnabled(true);
     }
 
