@@ -126,39 +126,48 @@ public class Controller implements Observateur {
                 jeu.repaint();
             }
         }else if (msg.getTypeMessage() == TypesMessage.ACTION_DonnerCarte) {
-            afficherDonCartePossible();
-            if (msg.getCarte() == null){
+            afficherDonCartePossible();                                         // Provenances possibles du msg: vueDonnerCarte (choix joueur) ou vueJeu (choix Carte)
+            if (msg.getCarte() == null){                                        // Provenance: vueDonnerCarte(choix joueur)
                 nomJoueurDonne = msg.getString();
-            } else {
+            } else {                                                            // provenance: vueJeu(choix carte)
                 carteDonne = msg.getCarte();
             }
             
 
-            if (carteDonne != null){
+            if (carteDonne != null){                                            
                 System.out.println(carteDonne.toString());
             }
             
             
-            ArrayList<String> nomJoueurs = new ArrayList<>();
+            ArrayList<String> nomJoueurs = new ArrayList<>();                   // Contient la liste des noms des joueurs pour lesquels le don est possible
             for (Aventurier av: joueurs){
-                if (!av.equals(joueurC) && joueurC.getPosition().equals(av.getPosition())){
+                if (!av.equals(joueurC) && joueurC.getPosition().equals(av.getPosition())){ // n'est pas le joueur courant et se trouvent sur la même position
                     nomJoueurs.add(av.getNom());
                 }
             }
-            vueDonnerCarte.repaint(nomJoueurs); 
+            vueDonnerCarte.repaint(nomJoueurs);                                 // Affichage des joueurs possibles
             vueDonnerCarte.afficher(); 
-            if (getAventurier(nomJoueurDonne, joueurs) != null){
-                Boolean bool = joueurC.donnerCarte(carteDonne, getAventurier(nomJoueurDonne, joueurs));    
-                if (!bool){
-                   util.Utils.afficherInformation("La carte n'a pas été donnée: \n " + "  " + nomJoueurDonne + "n'a pas assez de place ");
+            
+            if (vueDonnerCarte == null){            
+                vueDonnerCarte = new vueAQuiDonner(this, nomJoueurs);
+            }
+            
+            if (getAventurier(nomJoueurDonne, joueurs) != null && nbAction <4){                // Si on a le joueur à qui donner
+                Boolean bool = joueurC.donnerCarte(carteDonne, getAventurier(nomJoueurDonne, joueurs));    // on donne la carte
+                if (!bool){                                                     // Si don raté
+                   util.Utils.afficherInformation("La carte n'a pas été donnée: \n " + "  " + nomJoueurDonne + "n'a pas assez de place "); // message d'erreur
                    vueDonnerCarte.fermer();
                 }
-                else {
+                else {                                                          // Si don réussi
                     System.out.println("///////// cest bonnnnnnnnnnnnnnnnnnnnnnnn");
-                    vueDonnerCarte.fermer();
-                    nbAction++;
+                    vueDonnerCarte.fermer();                                    // fermeture vueDonnerCarte
+                    afficherMainJoueur();                                       // Actualisation de la main
+                    jeu.repaint();
+                    nbAction++;                                                 // Action utilisée
                 }
-                System.out.println("slt");
+                nomJoueurDonne = null;
+                carteDonne = null;
+                
             }
             
 
@@ -184,7 +193,7 @@ public class Controller implements Observateur {
             piocherDeuxCartesOrange();
             piocherCartesInondation();
             setGrilleJeu(joueurC.getGrilleAv());
-            afficherMain();
+            afficherMainJoueurTexte();
             System.out.println("N° courant : " + nbJ);
             tourDeJeu();
             
@@ -195,17 +204,10 @@ public class Controller implements Observateur {
                     popUp = new VuePopUp(this, joueurC.getMain());
                     popUp.afficher();
              }
-             Boolean bool;
-            jeu.resetMainIHM();
-            for (Aventurier av: joueurs){
-                if (av == joueurC){
-                    bool = true;
-               } 
-                else {
-                    bool = false;
-                }
-                jeu.afficherMain(av.getMain(), bool, av.getNom(), av.getPion());
-            }
+             
+             afficherMainJoueur();
+             
+          
             jeu.repaint();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_PrendreTresors) {
             gagnerTresor();
@@ -753,7 +755,7 @@ public class Controller implements Observateur {
        
     } // gestion de la fin du jeu (lose ou win) (win pas encore fait)
     
-    public void afficherMain(){
+    public void afficherMainJoueurTexte(){
         System.out.println("Voici vos cartes :");
         for (CarteDosOrange carte : joueurC.getMain()){
             if (carte.getClass().equals(CarteTresor.class)){
@@ -822,6 +824,7 @@ public class Controller implements Observateur {
             System.out.println("Pouvoir remis à 0");
         }
         
+        
         gagnerTresorPossible();
         if (tresorRecup) {
             jeu.tresorPossible();
@@ -831,6 +834,14 @@ public class Controller implements Observateur {
         jeu.repaint();
         
         //afficherMain();
+        afficherMainJoueur();
+        
+        gestionFinJeu();
+        System.out.println("Made by JACQUETCorp + Ugo le stagiaire ©");
+        
+    }
+    
+    public void afficherMainJoueur(){
         Boolean bool;
         jeu.resetMainIHM();
         for (Aventurier av: joueurs){
@@ -842,10 +853,7 @@ public class Controller implements Observateur {
             }
             jeu.afficherMain(av.getMain(), bool, av.getNom(), av.getPion());
         }
-        
-        gestionFinJeu();
-        System.out.println("Made by JACQUETCorp + Ugo le stagiaire ©");
-        
+        jeu.afficherMain(joueurC.getMain(), true, joueurC.getNom(), joueurC.getPion());
     }
     
     

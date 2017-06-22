@@ -65,7 +65,7 @@ public class VueJeu {
     private Grille grille;
     private String nomJoueurCourant;
     private boolean depl;
-    private int x, y;
+    private int x, y, j;
     private final JLabel labelJC;
     private boolean deplApp = false;
     private boolean assApp = false;
@@ -309,7 +309,7 @@ public class VueJeu {
     public void afficherMain(ArrayList<CarteDosOrange> main, boolean jc, String nomJ, Pion pion) {
         JPanel panelTmp;
         JLabel labelCarteMainAutre;
-        tailleMain = Integer.min(main.size()-1,cartesMain.length-1)+1;
+        tailleMain = Integer.min(main.size(),cartesMain.length);
         System.out.println("longueur carte Main " + cartesMain.length);
         if (jc) {                                                               //Gestion de la main du joueur courant ou autres joueurs?
             panelTmp = panelMain;
@@ -324,6 +324,7 @@ public class VueJeu {
         }
 
         int i = 0;
+        j = i;
         while (i < tailleMain) {                                                // Parcours de la main du joueur
             if (jc){                                                            // Création de boutons
                 if (main.get(i).getClass().equals(CarteTresor.class)) {         
@@ -336,18 +337,17 @@ public class VueJeu {
                 
                 // Action Listeners de la main principale
                 
-                if (main.get(i).getClass().equals(CarteTresor.class)){
-                    x = i;
-                    System.out.println("x: " + x + " / longueur taille main: " + main.size() + " / taille main: " + tailleMain );
+                if (main.get(i).getClass().equals(CarteTresor.class) ){
                     cartesMain[i].addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            System.out.println("x: " + x + " / longueur taille main: " + main.size() + " / taille main: " + tailleMain );
+                            System.out.println("/// x: " + x + " / longueur taille main: " + main.size() + " / taille main: " + tailleMain );
                             Message msg = new Message(TypesMessage.ACTION_DonnerCarte);
-                            msg.setCarte(main.get(x));
+                            msg.setCarte(main.get(j));
                             observateur.traiterMessage(msg);
                         }
                     });
+                    j = i;
                 }
                     
             }
@@ -521,8 +521,11 @@ public class VueJeu {
                 afficheJoueurGrille(i, j);
             }
         }
+       
         window.revalidate();
     }
+    
+    
 
     public String getNom() {
         return nomJoueurCourant;
