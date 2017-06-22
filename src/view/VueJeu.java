@@ -372,21 +372,23 @@ public class VueJeu {
         panelLateral.removeAll();
     }
 
-    public void afficherMain(ArrayList<CarteDosOrange> main, boolean jc, String nomJ, Pion pion) {
+    public void afficherMain(ArrayList<CarteDosOrange> main, boolean jc, String nomJ, String nomClass, Pion pion) {
         JPanel panelTmp;
         JLabel labelCarteMainAutre;
         tailleMain = Integer.min(main.size(), cartesMain.length);
         System.out.println("longueur carte Main " + cartesMain.length);
+        Border border = new LineBorder(Color.BLACK, 1);
         if (jc) {                                                               //Gestion de la main du joueur courant ou autres joueurs?
             panelTmp = panelMain;
             panelTmp.removeAll();                                               //Actualisation des panels
         } else {
             panelTmp = new JPanel(new GridLayout(6, 1));
-            JLabel labelJoueur = new JLabel(nomJ);
+            JLabel labelJoueur = new JLabel(nomJ + " (" + nomClass + ")");
             labelJoueur.setForeground(pion.getCouleur());
             panelLateral.add(panelTmp);
             panelTmp.removeAll();                                               //Actualisation des panels
             panelTmp.add(labelJoueur);
+            panelTmp.setBorder(border);
         }
 
         int i = 0;
@@ -568,10 +570,10 @@ public class VueJeu {
         repaint();
     }
 
-    public void changeJoueurCourant(String nomJC, Pion pion) {
+    public void changeJoueurCourant(String nomJC, String nomClass, Pion pion) {
         // Mise à jour des différents champs liés au joueur Courant
         setNom(nomJC);
-        labelJC.setText(nomJC);
+        labelJC.setText(nomJC + " (" + nomClass + ")");
         labelJC.setForeground(pion.getCouleur());
 
     }
