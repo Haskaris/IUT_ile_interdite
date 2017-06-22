@@ -48,11 +48,13 @@ public class VueJeu {
     private final JPanel panNavi = new JPanel();
     private final JPanel panPilo = new JPanel();
     private final JPanel panPlon = new JPanel();
-    private final JPanel panelGrille, panelPrincipal, panelMenu, panelBtnAction, panelBtn, panelTop, panelBottom, panelMain, panelLateral;
+    private final JPanel panelGrille, panelPrincipal, panelMenu, panelBtnAction, panelBtn, panelTop, panelBottom, panelMain, panelLateral, panelTopMenu, panelEchelle;
+    private final JPanel panelNiveau2, panelNiveau3, panelNiveau4, panelNiveau5, panelMort;
+    private  JLabel labelNiveau2, labelNiveau3, labelNiveau4, labelNiveau5, labelMort;
     
     private final JPanel[][] panTresor = new JPanel[6][6];              // panel qui affiche les tresors sur les tuiles
 
-    // Attribut boutons
+    // Attributs boutons
     private JButton btnAssechement = new JButton("Assecher");                       // 
     private JButton btnDeplacement = new JButton("Deplacer");
     private JButton btnDonnerCarte = new JButton("Donner une Carte");
@@ -101,7 +103,50 @@ public class VueJeu {
 
         panelBtn = new JPanel(new BorderLayout());                              // Panel des boutons d'actions
         panelMenu = new JPanel(new GridLayout(3, 1));                           // Panel des boutons + panneaux vides
-        panelMenu.add(new JPanel());
+
+        panelTopMenu = new JPanel(new BorderLayout());
+        panelMenu.add(panelTopMenu);
+        
+        panelEchelle = new JPanel(new GridLayout(5, 1));
+        panelTopMenu.add(panelEchelle, BorderLayout.WEST);
+        
+        panelNiveau2 = new JPanel(new BorderLayout());
+        panelNiveau3 = new JPanel(new BorderLayout());
+        panelNiveau4 = new JPanel(new BorderLayout());
+        panelNiveau5 = new JPanel(new BorderLayout());
+        panelMort = new JPanel(new BorderLayout());
+        
+        labelMort = new JLabel("DEAD");
+        labelNiveau2 = new JLabel("2");
+        labelNiveau2.setBackground(Color.CYAN);
+        labelNiveau3 = new JLabel("3");
+        labelNiveau3.setBackground(Color.CYAN);
+        labelNiveau4 = new JLabel("4");
+        labelNiveau4.setBackground(Color.CYAN);
+        labelNiveau5 = new JLabel("5");
+        labelNiveau5.setBackground(Color.CYAN);
+        
+        panelNiveau2.setBackground(Color.red);
+        panelNiveau3.setBackground(Color.red);
+        panelNiveau4.setBackground(Color.red);
+        panelNiveau5.setBackground(Color.red);
+        panelMort.setBackground(Color.red);
+        
+        panelNiveau2.add(labelNiveau2, BorderLayout.CENTER);
+        panelNiveau3.add(labelNiveau3, BorderLayout.CENTER);
+        panelNiveau4.add(labelNiveau4, BorderLayout.CENTER);
+        panelNiveau5.add(labelNiveau5, BorderLayout.CENTER);
+        panelMort.add(labelMort, BorderLayout.CENTER);
+        
+        panelEchelle.add(panelMort);
+        panelEchelle.add(panelNiveau5);
+        panelEchelle.add(panelNiveau4);
+        panelEchelle.add(panelNiveau3);
+        panelEchelle.add(panelNiveau2);
+        
+        
+        
+        
         panelMenu.add(panelBtn);
         panelMenu.add(new JPanel());
         panelTop.add(panelMenu, BorderLayout.EAST);                              // Contient grille et menu
