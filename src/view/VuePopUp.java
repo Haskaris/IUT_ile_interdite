@@ -69,7 +69,7 @@ public class VuePopUp {
                            num =i;
                        }
                    }
-                   Message m = new Message(TypesMessage.ACTION_CHOIX_CARTE);
+                   Message m = new Message(TypesMessage.ACTION_ChoixCarteASupprimer);
                    m.setNumBtn(num);
                    o.traiterMessage(m);
                 }
