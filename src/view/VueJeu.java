@@ -126,7 +126,7 @@ public class VueJeu {
         panelMort = new JPanel(new BorderLayout());
 
         
-        ImageIcon icon = createImageIcon("dead.png", "GAME OVER");
+        ImageIcon icon = createImageIcon("Images/dead.png", "GAME OVER");
         labelMort = new JLabel(icon, JLabel.CENTER);
 
         labelNiveau2 = new JLabel("2");

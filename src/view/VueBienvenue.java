@@ -47,7 +47,7 @@ public class VueBienvenue {
         window.add(mainPanel);
         
         
-        ImageIcon icon = createImageIcon("IleInterdite.png",
+        ImageIcon icon = createImageIcon("Images/IleInterdite.png",
                                  "LOGO");
         JLabel labelTitre = new JLabel(icon, JLabel.CENTER);
         mainPanel.add(labelTitre, BorderLayout.NORTH);
