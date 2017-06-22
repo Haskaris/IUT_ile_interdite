@@ -65,7 +65,7 @@ public class VueJeu {
     private Grille grille;
     private String nomJoueurCourant;
     private boolean depl;
-    private int x, y;
+    private int x, y, j;
     private final JLabel labelJC;
     private boolean deplApp = false;
     private boolean assApp = false;
@@ -224,7 +224,7 @@ public class VueJeu {
                 btnAssechement.setBackground(Color.GRAY);
                 btnDeplacement.setBackground(Color.LIGHT_GRAY);
                 btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
-                btnPrendreTresor.setBackground(Color.GRAY);
+                btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
 
                 Message msg = new Message(TypesMessage.ACTION_Assecher);
                 observateur.traiterMessage(msg);
@@ -247,7 +247,8 @@ public class VueJeu {
                 observateur.traiterMessage(msg);
             }
         });
-
+        
+        
         btnDonnerCarte.addActionListener(new ActionListener() {                 // Donner Carte
             @Override
             public void actionPerformed(ActionEvent e) {      
@@ -260,13 +261,9 @@ public class VueJeu {
 
                 // Activation des boutons de mains
                 for (int i = 0; i<tailleMain; i++){
-                    for (int j = 0; j<5; j++){
                         cartesMain[i].setEnabled(true);
-                    }
                 }
                 
-                Message msg = new Message(TypesMessage.ACTION_DonnerCarte);
-                observateur.traiterMessage(msg);
             }
         });
 
@@ -311,11 +308,10 @@ public class VueJeu {
 
     public void afficherMain(ArrayList<CarteDosOrange> main, boolean jc, String nomJ, Pion pion) {
         JPanel panelTmp;
-        JButton[] cartesMainTmp = new JButton[5];
         JLabel labelCarteMainAutre;
-        tailleMain = Integer.min(main.size()-1,cartesMain.length-1)+1;
-        System.out.println(cartesMain.length);
-        if (jc) {                                                                //Gestion de la main du joueur courant ou autres joueurs?
+        tailleMain = Integer.min(main.size(),cartesMain.length);
+        System.out.println("longueur carte Main " + cartesMain.length);
+        if (jc) {                                                               //Gestion de la main du joueur courant ou autres joueurs?
             panelTmp = panelMain;
             panelTmp.removeAll();                                               //Actualisation des panels
         } else {
@@ -328,17 +324,55 @@ public class VueJeu {
         }
 
         int i = 0;
-        while (i < tailleMain ) {                         // Parcours de la main du joueurs
-            if (jc){
-                if (main.get(i).getClass().equals(CarteTresor.class)) {
-                cartesMainTmp[i] = new JButton(main.get(i).getTresor().getNomTresor());
-                }   else {
-                cartesMainTmp[i] = new JButton(main.get(i).getClass().getSimpleName());
+        j = i;
+        while (i < tailleMain) {                                                // Parcours de la main du joueur
+            if (jc){                                                            // Création de boutons
+                if (main.get(i).getClass().equals(CarteTresor.class)) {         
+                cartesMain[i] = new JButton(main.get(i).getTresor().getNomTresor());
+                } else {
+                cartesMain[i] = new JButton(main.get(i).getClass().getSimpleName());
                 }
-                cartesMainTmp[i].setEnabled(false);
-                panelTmp.add(cartesMainTmp[i]);
-            }
-            else {
+                cartesMain[i].setEnabled(false);
+                panelTmp.add(cartesMain[i]);
+                
+                // Action Listeners de la main principale
+                
+                if (main.get(i).getClass().equals(CarteTresor.class) ){
+                    cartesMain[i].addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            System.out.println("/// x: " + x + " / longueur taille main: " + main.size() + " / taille main: " + tailleMain );
+                            Message msg = new Message(TypesMessage.ACTION_DonnerCarte);
+                            msg.setCarte(main.get(j));
+                            observateur.traiterMessage(msg);
+                        }
+                    });
+                    
+                } 
+                j = i;
+                
+                if (main.get(i).getClass().getSimpleName().equals("CarteHelicoptere")) {
+                    cartesMain[i].setEnabled(true);
+                    cartesMain[i].addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            observateur.utiliserCarteHelicoptere();
+                        }
+                    });
+                } else if (main.get(i).getClass().getSimpleName().equals("CarteSacDeSable")) {
+                    cartesMain[i].setEnabled(true);
+                    cartesMain[i].addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            observateur.utiliserCarteSacDeSable();// Communication au contrôleur (assechement/deplacement) en fonction de depl
+                        }
+                    });
+                } else {
+                    cartesMain[i].setEnabled(false);
+                    
+                }
+                    
+            } else {                                                              // Création de label
                 if (main.get(i).getClass().equals(CarteTresor.class)) {
                 labelCarteMainAutre = new JLabel(main.get(i).getTresor().getNomTresor());
                 }   else {
@@ -346,13 +380,14 @@ public class VueJeu {
                 }
                 panelTmp.add(labelCarteMainAutre);
             }
- 
             i++;
+            
         }
+        window.revalidate();
         
-        if (jc){
-            cartesMain = cartesMainTmp; 
-        }
+
+        
+        
 
     }
     
@@ -505,8 +540,11 @@ public class VueJeu {
                 afficheJoueurGrille(i, j);
             }
         }
+        
         window.revalidate();
     }
+    
+    
 
     public String getNom() {
         return nomJoueurCourant;
