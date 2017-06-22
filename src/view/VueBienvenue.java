@@ -6,6 +6,7 @@
 package view;
 
 import Controlleur.Observateur;
+import java.awt.BorderLayout;
 import util.Message;
 import util.TypesMessage;
 import java.awt.Dimension;
@@ -13,6 +14,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -39,8 +41,16 @@ public class VueBienvenue {
         
         this.o = o;
         
-        JPanel mainPanel = new JPanel(new GridLayout(5, 5));
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        JPanel panelCentre = new JPanel(new GridLayout(5, 5));
+        mainPanel.add(panelCentre);
         window.add(mainPanel);
+        
+        
+        ImageIcon icon = createImageIcon("IleInterdite.png",
+                                 "LOGO");
+        JLabel labelTitre = new JLabel(icon, JLabel.CENTER);
+        mainPanel.add(labelTitre, BorderLayout.NORTH);
         
         JButton btnJouer = new JButton("Jouer");
         JButton btnRegle = new JButton("Règles");
@@ -50,19 +60,19 @@ public class VueBienvenue {
             switch(i){
                 
                 case 16:
-                    mainPanel.add(btnRegle);
+                    panelCentre.add(btnRegle);
                 break;
                 
                 case 18:
-                    mainPanel.add(btnJouer);
+                    panelCentre.add(btnJouer);
                 break;    
                 
                 case 20:
-                    mainPanel.add(btnQuitter);
+                    panelCentre.add(btnQuitter);
                 break;
                 
                 default:
-                    mainPanel.add(new JPanel());
+                    panelCentre.add(new JPanel());
                     
             }
         }
@@ -103,4 +113,16 @@ public class VueBienvenue {
         window.dispose();
     }
     
+    
+        /** Returns an ImageIcon, or null if the path was invalid. */
+    protected ImageIcon createImageIcon(String path,
+                                               String description) {
+        java.net.URL imgURL = getClass().getResource(path);
+        if (imgURL != null) {
+            return new ImageIcon(imgURL, description);
+        } else {
+            System.err.println("Couldn't find file: " + path);
+            return null;
+        }
+    }
 }
