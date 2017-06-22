@@ -38,7 +38,7 @@ public class VueRegles {
     public VueRegles(Observateur o) {
         this.o = o;
         this.window = new JFrame();
-        window.setSize(710, 950);
+        window.setSize(705, 980);
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
@@ -90,17 +90,27 @@ public class VueRegles {
         
 
         JButton boutonSuivant = new JButton("Page Suivante");
-        //Définition de l'action du bouton
+        JButton boutonPrecedent = new JButton("Page Précédente");
+        
+
         boutonSuivant.addActionListener(new ActionListener(){
           public void actionPerformed(ActionEvent event){
-            //Via cette instruction, on passe au prochain conteneur de la pile
+            //Via cette instruction, on passe a la page suivante
             cl.next(content);
           }
         });
+        
+        
+        boutonPrecedent.addActionListener(new ActionListener(){
+          public void actionPerformed(ActionEvent event){
+            //Via cette instruction, on passe a la page precedente
+            cl.previous(content);
+          }
+        });
 
-        //On définit le layout
         content.setLayout(cl);
-        //On ajoute les cartes à la pile avec un nom pour les retrouver
+        
+        //On ajoute les règles à la pile
         content.add(labelRegle1, listContent[0]);
         content.add(labelRegle2, listContent[1]);
         content.add(labelRegle3, listContent[2]);
@@ -113,12 +123,12 @@ public class VueRegles {
         mainPanel.add(content, BorderLayout.CENTER);
 
         
-        JPanel panelNorth = new JPanel(new GridLayout(1,2));
+        JPanel panelNorth = new JPanel(new GridLayout(1,3));
         mainPanel.add(panelNorth, BorderLayout.SOUTH);
         JButton btnRetour = new JButton("Retour");
+        panelNorth.add(boutonPrecedent);
         panelNorth.add(btnRetour);
-        panelNorth.add(boutonSuivant, BorderLayout.NORTH);
-        
+        panelNorth.add(boutonSuivant);
         
         
         btnRetour.addActionListener(new ActionListener() {

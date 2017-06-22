@@ -60,11 +60,11 @@ public class VueBienvenue {
             switch(i){
                 
                 case 16:
-                    panelCentre.add(btnRegle);
+                    panelCentre.add(btnJouer);
                 break;
                 
                 case 18:
-                    panelCentre.add(btnJouer);
+                    panelCentre.add(btnRegle);
                 break;    
                 
                 case 20:
