@@ -224,7 +224,7 @@ public class VueJeu {
                 btnAssechement.setBackground(Color.GRAY);
                 btnDeplacement.setBackground(Color.LIGHT_GRAY);
                 btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
-                btnPrendreTresor.setBackground(Color.GRAY);
+                btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
 
                 Message msg = new Message(TypesMessage.ACTION_Assecher);
                 observateur.traiterMessage(msg);
@@ -314,8 +314,7 @@ public class VueJeu {
         JButton[] cartesMainTmp = new JButton[5];
         JLabel labelCarteMainAutre;
         tailleMain = Integer.min(main.size()-1,cartesMain.length-1)+1;
-        System.out.println(cartesMain.length);
-        if (jc) {                                                                //Gestion de la main du joueur courant ou autres joueurs?
+        if (jc) {                                                               //Gestion de la main du joueur courant ou autres joueurs?
             panelTmp = panelMain;
             panelTmp.removeAll();                                               //Actualisation des panels
         } else {
@@ -335,7 +334,23 @@ public class VueJeu {
                 }   else {
                 cartesMainTmp[i] = new JButton(main.get(i).getClass().getSimpleName());
                 }
-                cartesMainTmp[i].setEnabled(false);
+                if (main.get(i).getClass().getSimpleName().equals("CarteHelicoptere")) {
+                    cartesMainTmp[i].setEnabled(true);
+                    
+                    cartesMainTmp[i].addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            observateur.utiliserCarteHelicoptere();    // Communication au contrôleur (assechement/deplacement) en fonction de depl
+                        }
+                    });
+                    
+                    
+                } else if (main.get(i).getClass().getSimpleName().equals("CarteSacDeSable")) {
+                    cartesMainTmp[i].setEnabled(true);
+                } else {
+                    cartesMainTmp[i].setEnabled(false);
+                }
+                
                 panelTmp.add(cartesMainTmp[i]);
             }
             else {
@@ -346,7 +361,6 @@ public class VueJeu {
                 }
                 panelTmp.add(labelCarteMainAutre);
             }
- 
             i++;
         }
         

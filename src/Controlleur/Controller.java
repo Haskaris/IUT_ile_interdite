@@ -23,6 +23,7 @@ import util.Message;
 import util.Parameters;
 import util.TypesMessage;
 import util.Utils;
+import util.Utils.EtatTuile;
 import util.Utils.Pion;
 import static util.Utils.afficherInformation;
 import view.*;
@@ -39,6 +40,9 @@ public class Controller implements Observateur {
     private static int nbJoueurs = 2;
     private static int nbAction = 0;
     private static int assechementInge = 0;
+    private static int xTemp, yTemp;
+    private static boolean utilisationCH = false;
+    private static boolean afficheCh = false;
     private static String nomJ1;
     private static String nomJ2;
     private static String nomJ3;
@@ -58,6 +62,7 @@ public class Controller implements Observateur {
     private static ArrayList<Tresor> tresorsCompare;
     private static ArrayList<CarteInondation> piocheInondation;
     private static ArrayList<CarteInondation> defausseInondation;
+    private static ArrayList<Tuile> tuilesPossibles = new ArrayList<>();
     
     public static void main(String[] args) {
         new Controller();
@@ -106,19 +111,32 @@ public class Controller implements Observateur {
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Quitter) {
             bienvenue.fermer();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Deplacer) {
+            gagnerTresorPossible();
+            if (tresorRecup) {
+                jeu.tresorPossible();
+            }
             if (jeu.getDeplApp()) {
-                if (nbAction < 3) {
-                    jeu.afficherPossible(joueurC.getTuilesPossibles(true));     //Affichage des tuiles où le deplacement est possible
-                    setGrilleJeu(joueurC.getGrilleAv());
-                    
+                if (jeu.getAss()) {
+                    jeu.repaint();
+                    jeu.setAssApp(false);
                 }
+                jeu.afficherPossible(joueurC.getTuilesPossibles(true));     //Affichage des tuiles où le deplacement est possible
+                setGrilleJeu(joueurC.getGrilleAv());
             } else {
                 jeu.repaint();
             }
         }else if (msg.getTypeMessage() == TypesMessage.ACTION_DonnerCarte) {
+            gagnerTresorPossible();
+            if (tresorRecup) {
+                jeu.tresorPossible();
+            }
             afficherDonCartePossible();
             //joueurC.donnerCarte(joueurC, piocheOrange, joueurC);
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Assecher) {      //Affichage des tuiles où l'assechement est possible
+            gagnerTresorPossible();
+            if (tresorRecup) {
+                jeu.tresorPossible();
+            }
             if (jeu.getAss()) {
                 if (jeu.getDeplApp()) {
                     jeu.repaint();
@@ -166,52 +184,41 @@ public class Controller implements Observateur {
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_PrendreTresors) {
             gagnerTresor();
             ArrayList<CarteDosOrange> carteTemp = new ArrayList<>();
-            for (CarteDosOrange carte : joueurC.getMain()){
-                int i = 0;
-                if (carte.getTresor() != null && 
-                    carte.getTresor().getNomTresor() == "La Pierre sacrée") {
-                    carteTemp.add(carte);
-                    defausseOrange.add(carte);
+            int i = 0;
+            while (i < joueurC.getMain().size()) {
+                if (joueurC.getMain().get(i).getTresor() != null && 
+                    joueurC.getMain().get(i).getTresor().getNomTresor() == "La Pierre sacrée") {
+                    carteTemp.add(joueurC.getMain().get(i));
+                    defausseOrange.add(joueurC.getMain().get(i));
                     i++;
-                }
-                if (i == 4) {
-                    break;
                 }
             }
-            for (CarteDosOrange carte : joueurC.getMain()){
-                int i = 0;
-                if (carte.getTresor() != null && 
-                    carte.getTresor().getNomTresor() == "La Statue du zéphyr") {
-                    carteTemp.add(carte);
-                    defausseOrange.add(carte);
+            
+            i = 0;
+            while (i < joueurC.getMain().size()) {
+                if (joueurC.getMain().get(i).getTresor() != null && 
+                    joueurC.getMain().get(i).getTresor().getNomTresor() == "La Statue du zéphyr") {
+                    carteTemp.add(joueurC.getMain().get(i));
+                    defausseOrange.add(joueurC.getMain().get(i));
                     i++;
-                }
-                if (i == 4) {
-                    break;
                 }
             }
-            for (CarteDosOrange carte : joueurC.getMain()){
-                int i = 0;
-                if (carte.getTresor() != null && 
-                    carte.getTresor().getNomTresor() == "Le Cristal ardent") {
-                    carteTemp.add(carte);
-                    defausseOrange.add(carte);
+            i = 0;
+            while (i < joueurC.getMain().size()) {
+                if (joueurC.getMain().get(i).getTresor() != null && 
+                    joueurC.getMain().get(i).getTresor().getNomTresor() == "Le Cristal ardent") {
+                    carteTemp.add(joueurC.getMain().get(i));
+                    defausseOrange.add(joueurC.getMain().get(i));
                     i++;
-                }
-                if (i == 4) {
-                    break;
                 }
             }
-            for (CarteDosOrange carte : joueurC.getMain()){
-                int i = 0;
-                if (carte.getTresor() != null && 
-                    carte.getTresor().getNomTresor() == "Le Calice de l'onde") {
-                    carteTemp.add(carte);
-                    defausseOrange.add(carte);
+            i = 0;
+            while (i < joueurC.getMain().size()) {
+                if (joueurC.getMain().get(i).getTresor() != null && 
+                    joueurC.getMain().get(i).getTresor().getNomTresor() == "Le Calice de l'onde") {
+                    carteTemp.add(joueurC.getMain().get(i));
+                    defausseOrange.add(joueurC.getMain().get(i));
                     i++;
-                }
-                if (i == 4) {
-                    break;
                 }
             }
             for (CarteDosOrange carte : carteTemp) {
@@ -252,6 +259,7 @@ public class Controller implements Observateur {
         distributionCartesOrangeDebut();
         jeu.afficherTresors(tresors);
         jeu.afficher();
+        
         tourDeJeu();
     }
     
@@ -329,24 +337,53 @@ public class Controller implements Observateur {
 
     @Override                                                                   //Effectue un déplacement
     public void traiterAction(String nomJ, int x, int y, boolean depl) {
-        System.out.println("Deplacement voulu : " + x + "-" + y);
-        getAventurier(nomJ, joueurs).deplacementAssechage(x, y, depl);          //Deplace le joueur sur la position souhaitée
-        setGrilleJeu(getAventurier(nomJ, joueurs).getGrilleAv());               //Met à jour les grilles du jeu
-        nbAction++;
-        System.out.println("Ici on a fait avec un boolean " + depl);
-        jeu.repaint();
-        if (nbAction < 3) {
-            if ((joueurC.getClass().getSimpleName().equals("Ingenieur")) && assechementInge < 2) {
-            assechementInge++;
-            nbAction--;
-        }
-            jeu.afficherPossible(joueurC.getTuilesPossibles(depl));
-            gagnerTresorPossible();
-            if (tresorRecup) {
-                jeu.tresorPossible();
+        
+        if (utilisationCH) {
+            if (afficheCh) {
+                jeu.afficherPossible(tuilesPossibles);
+                xTemp = x;
+                yTemp = y;
+                afficheCh = false;
+            } else {
+                for (Aventurier av : joueurs) {
+                    if (av.getPosition().equals(grilleJeu.trouverTuile(xTemp, yTemp))) {
+                        grilleJeu.trouverTuile(xTemp, yTemp).supprJoueur(av);
+                        av.setPosition(grilleJeu.trouverTuile(x ,y));
+                        grilleJeu.trouverTuile(x, y).addJoueur(av);
+                        setGrilleJeu(av.getGrilleAv());
+                    }
+                }
+                int i = 0;
+                while (i < joueurC.getMain().size()) {
+                    if (joueurC.getMain().get(i).getClass().getSimpleName() == "CarteHelicoptere") {
+                        joueurC.removeCarteMain(joueurC.getMain().get(i));
+                        i = 10;
+                    }
+                }
+                tuilesPossibles.clear();
+                utilisationCH = false;
+                jeu.repaint();
             }
         } else {
-            jeu.finTourObligatoire();
+            System.out.println("Deplacement voulu : " + x + "-" + y);
+            getAventurier(nomJ, joueurs).deplacementAssechage(x, y, depl);          //Deplace le joueur sur la position souhaitée
+            setGrilleJeu(getAventurier(nomJ, joueurs).getGrilleAv());               //Met à jour les grilles du jeu
+            nbAction++;
+            System.out.println("Ici on a fait avec un boolean " + depl);
+            jeu.repaint();
+            if (nbAction < 3) {
+                if ((joueurC.getClass().getSimpleName().equals("Ingenieur")) && assechementInge < 1 && !depl) {
+                    assechementInge++;
+                    nbAction--;
+                }
+                jeu.afficherPossible(joueurC.getTuilesPossibles(depl));
+                gagnerTresorPossible();
+                if (tresorRecup) {
+                    jeu.tresorPossible();
+                }
+            } else {
+                jeu.finTourObligatoire();
+            }
         }
     }
 
@@ -467,9 +504,6 @@ public class Controller implements Observateur {
            }
        }
         setGrilleJeu(grilleJeu);
-        
-        
-        
     }   // création des 4 tresors dans la liste "tresors"
     
     private void remplirPiocheOrange() {                          //Création de la pioche remplie de la totalité des cartes dos orange.
@@ -479,12 +513,11 @@ public class Controller implements Observateur {
             piocheOrange.add(new CarteTresor(tresors.get(1)));
             piocheOrange.add(new CarteTresor(tresors.get(2)));
             piocheOrange.add(new CarteTresor(tresors.get(3)));
-            System.out.println("Une de chaque");
         }
-        /*for (int i = 0; i < 3; i++){                            // ajout des 3 cartes Montee des Eaux et 3 cartes Helicoptere
+        for (int i = 0; i < 3; i++){                            // ajout des 3 cartes Montee des Eaux et 3 cartes Helicoptere
             piocheOrange.add(new CarteMonteeDesEaux());
-            piocheOrange.add(new CarteHelicoptere());*/
-        //}
+            piocheOrange.add(new CarteHelicoptere());
+        }
         for (int i = 0; i < 2; i++){                            // ajout des 2 cartes sac de sable
             piocheOrange.add(new CarteSacDeSable());
         }
@@ -668,15 +701,16 @@ public class Controller implements Observateur {
         }
     }
     
-    public void gestionFinJeu() {
+    public void gestionFinJeu() { 
+        int fini = 0;
         if (grilleJeu.trouverTuile("Heliport").getEtat() == Utils.EtatTuile.COULEE){           // fermer le jeu si l'héliport est submergé
-            jeu.fermer();                                                        // si oui , fin du jeu
             popUp.fermer();                
+            jeu.fermer();                                                        // si oui , fin du jeu
             afficherInformation("Jeu terminé, Heliport submergé");                        
         }
         if (echelle.getNiveauEau()>5){                                                  // fermer le jeu si le niveau d'eau est critique
-            jeu.fermer();                                                     // si oui , fin du jeu
             popUp.fermer();
+            jeu.fermer();                                                     // si oui , fin du jeu
             afficherInformation("Jeu terminé, Ile totalement sous les eaux");
         }
         
@@ -685,8 +719,8 @@ public class Controller implements Observateur {
         for (Tresor tresor: tresors){                                                               // pour chaque tresor
             for (Tuile tuile : grilleJeu.getTuilesTresor(tresors.get(tresors.indexOf(tresor)))){        // et pour chaque tuile permettant de récupérer ce tresor
                 if (bool && tuile.getEtat() == Utils.EtatTuile.COULEE){                                     // verifier si la deuxieme tuile est submergée
-                    jeu.fermer();                                                       // si oui , fin du jeu
                     popUp.fermer();
+                    jeu.fermer();                                                       // si oui , fin du jeu
                     afficherInformation("Jeu terminé, trésor :" + tresor.getNomTresor() + " n'est plus récupérable");
                 }
                 if (tuile.getEtat() == Utils.EtatTuile.COULEE){                                             // vérifier si la 1° est submergée
@@ -698,11 +732,24 @@ public class Controller implements Observateur {
         
         for (Aventurier av: joueurs){                                                           // pour chaque aventurier
             if (av.getPosition().getEtat() == Utils.EtatTuile.COULEE){                                  // si la case sur laquelle il se trouve est submergée
-                if (av.getTuilesPossibles(true).size() == 0){                                   // et si aucun deplacement n'est possible
-                    jeu.fermer();                                                               // fin du jeu
-                    popUp.fermer();
+                if (av.getTuilesPossibles(true).size() == 0){                                   // et si aucun deplacement n'est possible             
+                    popUp.fermer();// fin du jeu
+                    jeu.fermer();
                     afficherInformation("Jeu terminé, Un joueur est mort dans les abysses.");
                 }
+            }
+        }
+        
+        if (tresorsGagnés.size() == 4) {
+            for (Aventurier av : joueurs) {
+                if (av.getPosition() == grilleJeu.trouverTuile("Heliport")) {
+                    fini++;
+                }
+            }
+            if (fini == joueurs.size()) {
+                jeu.fermer(); 
+                popUp.fermer();                                                                              // fin du jeu
+                afficherInformation("Félicitations connard tu as récupérer les quatres putains de trésors.");
             }
         }
        
@@ -738,28 +785,39 @@ public class Controller implements Observateur {
     }  // ajoute la carte à la defausse orange et retire la carte de la main du joueur
     
     public void utiliserCarteSacDeSable(Tuile tuile){
-        if (grilleJeu.trouverTuile(tuile.getNom()).getEtat() == Utils.EtatTuile.INONDEE){
-            grilleJeu.trouverTuile(tuile.getNom()).setEtat(Utils.EtatTuile.ASSECHEE);
+        if (grilleJeu.trouverTuile(tuile.getNom()).getEtat() == EtatTuile.INONDEE){
+            grilleJeu.trouverTuile(tuile.getNom()).setEtat(EtatTuile.ASSECHEE);
         } else {
             afficherInformation("La tuile ne peut pas être asséchée");
         }
     
     }  // la tuile donnée devient assechée
     
-    public void utiliserCarteHelicoptere(Tuile tuile){
-        if (tuile.getEtat() != Utils.EtatTuile.COULEE){                         // vérifie si la tuile cible est une tuile submergée
-            for(Aventurier av : joueurC.getPosition().getJoueurs()){            // si non 
-                tuile.addJoueur(av);                                            // alors on déplace tous les joueurs qui sont sur la me case qe le joueur courant sur la case cible
-            }
-        } else {
-            afficherInformation("La tuile cible est submergée, utilisation hélicoptere impossible");
+    @Override
+    public void utiliserCarteHelicoptere(){
         
+        ArrayList<Tuile> tuilesJoueur = new ArrayList<>();
+        
+        for (Tuile[] tuiles : grilleJeu.getGrille()) {
+            for (Tuile tuileBis : tuiles) {
+                if (tuileBis.getJoueurs().size() != 0) {
+                    tuilesJoueur.add(tuileBis);
+                }
+                if (!tuileBis.getEtat().equals(EtatTuile.COULEE) && tuileBis.getNom() != "null") {
+                    tuilesPossibles.add(tuileBis);
+                }
+            }
         }
+        jeu.afficherPossible(tuilesJoueur);
+        utilisationCH = true;
+        afficheCh = true;
+        
     
     } // deplace tous les joueurs d'une case sur la tuile donnée
     
     public void tourDeJeu() {
         Pilote avP = new Pilote("");
+        tuilesPossibles.clear();
         nbAction = 0;
         joueurC = getJoueurCourant(nbJ);
         System.out.println(joueurC.getNom());
@@ -799,9 +857,7 @@ public class Controller implements Observateur {
             }
             jeu.afficherMain(av.getMain(), bool, av.getNom(), av.getPion());
         }
-        
         gestionFinJeu();
-        System.out.println("Voici vos trésors aquis : " + tresorsGagnés.toString());
-        
     }
+    
 }
