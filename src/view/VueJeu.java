@@ -392,7 +392,7 @@ public class VueJeu {
         int i = 0;
         j = i;
         while (i < tailleMain) {                                                // Parcours de la main du joueur
-            if (jc) {                                                            // Création de boutons
+            if (jc) {                                                           // Création de boutons
                 if (main.get(i).getClass().equals(CarteTresor.class)) {
                     cartesMain[i] = new JButton(main.get(i).getTresor().getNomTresor());
                 } else {
@@ -406,7 +406,6 @@ public class VueJeu {
                     cartesMain[i].addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            System.out.println("/// x: " + x + " / longueur taille main: " + main.size() + " / taille main: " + tailleMain);
                             Message msg = new Message(TypesMessage.ACTION_DonnerCarte);
                             msg.setCarte(main.get(j));
                             observateur.traiterMessage(msg);
