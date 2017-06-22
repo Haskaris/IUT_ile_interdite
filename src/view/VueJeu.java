@@ -189,7 +189,7 @@ public class VueJeu {
         btnAssechement.setBackground(Color.LIGHT_GRAY);
         btnDeplacement.setBackground(Color.LIGHT_GRAY);
         btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
-        btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
+        btnPrendreTresor.setBackground(Color.GRAY);
         btnFinTour.setBackground(Color.LIGHT_GRAY);
         btnDefausser.setBackground(Color.LIGHT_GRAY);
 
@@ -392,7 +392,7 @@ public class VueJeu {
         int i = 0;
         j = i;
         while (i < tailleMain) {                                                // Parcours de la main du joueur
-            if (jc) {                                                            // Création de boutons
+            if (jc) {                                                           // Création de boutons
                 if (main.get(i).getClass().equals(CarteTresor.class)) {
                     cartesMain[i] = new JButton(main.get(i).getTresor().getNomTresor());
                 } else {
@@ -406,7 +406,6 @@ public class VueJeu {
                     cartesMain[i].addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            System.out.println("/// x: " + x + " / longueur taille main: " + main.size() + " / taille main: " + tailleMain);
                             Message msg = new Message(TypesMessage.ACTION_DonnerCarte);
                             msg.setCarte(main.get(j));
                             observateur.traiterMessage(msg);
@@ -597,7 +596,6 @@ public class VueJeu {
                     panJTuiles[i][j].add(panPlon);
                 }
                 k++;
-                System.out.println("/// " + joueur);
             }
         }
 

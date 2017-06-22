@@ -51,7 +51,7 @@ public class Controller implements Observateur {
     private static boolean utilisationCH = false;
     private static boolean afficheCH = false;
     private static boolean utilisationCSS = false;
-    private static boolean tresorRecup;
+    private static boolean tresorRecup, CHErreur = false, CSSErreur = false;
     
     private static String nomJ1, nomJ2, nomJ3, nomJ4;
     private String nomJoueurDonne;
@@ -246,6 +246,8 @@ public class Controller implements Observateur {
         
         if (utilisationCH) {                                                    //Si l'utilisation de la fonction est pour l'utilisation de la carte Helicoptere
             if (afficheCH) {                                                    //Si l'affichage des joueurs a déjà été affiché
+                tuilesPossibles.remove(grilleJeu.trouverTuile(x, y));
+                jeu.repaint();
                 jeu.afficherPossible(tuilesPossibles);                          //Affichage des joueurs (boutons cliquables)
                 xTemp = x;
                 yTemp = y;
@@ -269,6 +271,7 @@ public class Controller implements Observateur {
                     }
                 i++;
                 }
+                CHErreur = !CHErreur;
                 tuilesPossibles.clear();                                        //RAZ
                 utilisationCH = false;
                 jeu.repaint();
@@ -287,6 +290,7 @@ public class Controller implements Observateur {
                 }
                 i++;
             }
+            CSSErreur = !CSSErreur;
             tuilesPossibles.clear();                                            //RAZ
             utilisationCSS = false;
             jeu.repaint();
@@ -305,7 +309,7 @@ public class Controller implements Observateur {
                     nbAction--;
                 }
                 jeu.afficherPossible(joueurC.getTuilesPossibles(depl));         //Affiche les tuiles possibles pour le prochain mouvement
-                gagnerTresorPossible();                                     //Vérifie si un trésor est possible
+                gagnerTresorPossible();                                         //Vérifie si un trésor est possible
                 if (tresorRecup) {
                     jeu.tresorPossible();
                 }
@@ -749,42 +753,52 @@ public class Controller implements Observateur {
     
     @Override
     public void utiliserCarteSacDeSable(){
-        tuilesPossibles = grilleJeu.getTuilesInondée();
-        jeu.afficherPossible(tuilesPossibles);
-        utilisationCSS = true;
+        if (!CSSErreur) {
+            tuilesPossibles = grilleJeu.getTuilesInondée();
+            jeu.afficherPossible(tuilesPossibles);
+            utilisationCSS = true;
+            CSSErreur = !CSSErreur;
+        } else {
+            jeu.repaint();
+            CSSErreur = !CSSErreur;
+        }
     }                         //Permet l'utilisation de la carte sac de sable
 
     @Override
     public void utiliserCarteHelicoptere() {
         int fini = 0;
         ArrayList<Tuile> tuilesJoueur = new ArrayList<>();
-
-        for (Tuile[] tuiles : grilleJeu.getGrille()) {                          //Parcours toute la grille
-            for (Tuile tuileBis : tuiles) {
-                if (tuileBis.getJoueurs().size() != 0) {
-                    tuilesJoueur.add(tuileBis);
-                }
-                if (!tuileBis.getEtat().equals(EtatTuile.COULEE) && tuileBis.getNom() != "null") {
-                    tuilesPossibles.add(tuileBis);
-                }
-            }
-        }
-        
-        if (tresorsGagnés.size() == 4) {
-            for (Aventurier av : joueurs) {
-                if (av.getPosition() == grilleJeu.trouverTuile("Heliport")) {
-                    fini++;
+        if (!CHErreur) {
+            for (Tuile[] tuiles : grilleJeu.getGrille()) {                          //Parcours toute la grille
+                for (Tuile tuileBis : tuiles) {
+                    if (tuileBis.getJoueurs().size() != 0) {
+                        tuilesJoueur.add(tuileBis);
+                    }
+                    if (!tuileBis.getEtat().equals(EtatTuile.COULEE) && tuileBis.getNom() != "null") {
+                        tuilesPossibles.add(tuileBis);
+                    }
                 }
             }
-            if (fini == joueurs.size()) {
-                jeu.fermer();
-                popUp.fermer();                                                 // fin du jeu
-                afficherInformation("Félicitations! Vous avez réussi à récupérer tous les trésors, vous êtes vraiment trop forts !");
+            if (tresorsGagnés.size() == 4) {
+                for (Aventurier av : joueurs) {
+                    if (av.getPosition() == grilleJeu.trouverTuile("Heliport")) {
+                        fini++;
+                    }
+                }
+                if (fini == joueurs.size()) {
+                    jeu.fermer();
+                    popUp.fermer();                                                 // fin du jeu
+                    afficherInformation("Félicitations vous avez réussi à récupérer tout les trésors, vous êtes vraiment trop forts !");
+                }
+            } else {
+                jeu.afficherPossible(tuilesJoueur);
+                utilisationCH = true;
+                afficheCH = true;
             }
+            CHErreur = !CHErreur;
         } else {
-            jeu.afficherPossible(tuilesJoueur);
-            utilisationCH = true;
-            afficheCH = true;
+            jeu.repaint();
+            CHErreur = !CHErreur;
         }
     }                      //Permet l'utilisation de la carte hélicoptère
 
@@ -814,6 +828,8 @@ public class Controller implements Observateur {
         actionNavi = 0;
         assechementInge = 0;
 
+        jeu.debutTour();
+        
         gagnerTresorPossible();                                                 //Check si un trésors est récupérable
         if (tresorRecup) {
             jeu.tresorPossible();
