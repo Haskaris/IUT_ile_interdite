@@ -504,10 +504,10 @@ public class Controller implements Observateur {
     private void remplirPiocheOrange() {
         piocheOrange = new ArrayList<>();
         for (int i = 0; i < 5; i++) {                                           //Ajout des 20 cartes tresors correspondant aux 4 tresors (5 carte pour chaque tresor)
+            piocheOrange.add(new CarteTresor(tresors.get(0)));
+            piocheOrange.add(new CarteTresor(tresors.get(1)));
             piocheOrange.add(new CarteTresor(tresors.get(2)));
-            piocheOrange.add(new CarteTresor(tresors.get(2)));
-            piocheOrange.add(new CarteTresor(tresors.get(2)));
-            piocheOrange.add(new CarteTresor(tresors.get(2)));
+            piocheOrange.add(new CarteTresor(tresors.get(3)));
         }
         for (int i = 0; i < 3; i++) {                            // ajout des 3 cartes Helicoptere
             piocheOrange.add(new CarteHelicoptere());
