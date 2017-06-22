@@ -409,21 +409,23 @@ public class VueJeu {
         panelLateral.removeAll();
     }
 
-    public void afficherMain(ArrayList<CarteDosOrange> main, boolean jc, String nomJ, Pion pion) {
+    public void afficherMain(ArrayList<CarteDosOrange> main, boolean jc, String nomJ, String nomClass, Pion pion) {
         JPanel panelTmp;
         JLabel labelCarteMainAutre;
         tailleMain = Integer.min(main.size(), cartesMain.length);
         System.out.println("longueur carte Main " + cartesMain.length);
+        Border border = new LineBorder(Color.BLACK, 1);
         if (jc) {                                                               //Gestion de la main du joueur courant ou autres joueurs?
             panelTmp = panelMain;
             panelTmp.removeAll();                                               //Actualisation des panels
         } else {
             panelTmp = new JPanel(new GridLayout(6, 1));
-            JLabel labelJoueur = new JLabel(nomJ);
+            JLabel labelJoueur = new JLabel(nomJ + " (" + nomClass + ")");
             labelJoueur.setForeground(pion.getCouleur());
             panelLateral.add(panelTmp);
             panelTmp.removeAll();                                               //Actualisation des panels
             panelTmp.add(labelJoueur);
+            panelTmp.setBorder(border);
         }
 
         int i = 0;
@@ -582,6 +584,24 @@ public class VueJeu {
         btnDonnerCarte.setEnabled(false);
         btnPrendreTresor.setEnabled(false);
     }
+    
+    public void desactivationBtn(){
+        // Affichage 
+        btnAssechement.setBackground(Color.GRAY);
+        btnDeplacement.setBackground(Color.GRAY);
+        btnDonnerCarte.setBackground(Color.GRAY);
+        btnPrendreTresor.setBackground(Color.GRAY);
+        btnDefausser.setBackground(Color.GRAY);
+        btnFinTour.setBackground(Color.GRAY);
+
+        // Désactivation des boutons d'actions sauf Fin de tour
+        btnAssechement.setEnabled(false);
+        btnDeplacement.setEnabled(false);
+        btnDonnerCarte.setEnabled(false);
+        btnPrendreTresor.setEnabled(false);
+        btnDefausser.setEnabled(false);
+        btnFinTour.setEnabled(false);
+    }
 
     public void debutTour() {
         // Affichade du début de tour
@@ -590,12 +610,15 @@ public class VueJeu {
         btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
         btnPrendreTresor.setBackground(Color.GRAY);
         btnDefausser.setBackground(Color.LIGHT_GRAY);
+        btnFinTour.setBackground(Color.LIGHT_GRAY);
 
         // Activation des boutons d'actions
         btnAssechement.setEnabled(true);
         btnDeplacement.setEnabled(true);
         btnDonnerCarte.setEnabled(true);
         btnPrendreTresor.setEnabled(false);
+        btnDefausser.setEnabled(false);
+        btnFinTour.setEnabled(true);
     }
 
     public void fermer() {
@@ -611,10 +634,10 @@ public class VueJeu {
         repaint();
     }
 
-    public void changeJoueurCourant(String nomJC, Pion pion) {
+    public void changeJoueurCourant(String nomJC, String nomClass, Pion pion) {
         // Mise à jour des différents champs liés au joueur Courant
         setNom(nomJC);
-        labelJC.setText(nomJC);
+        labelJC.setText(nomJC + " (" + nomClass + ")");
         labelJC.setForeground(pion.getCouleur());
 
     }

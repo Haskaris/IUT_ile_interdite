@@ -185,9 +185,11 @@ public class Controller implements Observateur {
             setGrilleJeu(joueurC.getGrilleAv());                                //Met à jour la grille
             tourDeJeu();                                                        //Change de tour
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_ChoixCarteASupprimer) { //Appuie sur une carte lors de la demande de suppression de carte
+            jeu.debutTour();
             popUp.fermer();
             enleverCarteSurplus(joueurC.getMain().get(msg.getNumBtn()));        //Retire la carte de la main du joueur et la rajoute dans la defausse
             if (joueurC.getMain().size() > 5) {                                 //Tant que sa main est superieur à 5
+                    jeu.desactivationBtn();
                     popUp = new VuePopUp(this, joueurC.getMain());
                     popUp.afficher();
             }
@@ -243,7 +245,7 @@ public class Controller implements Observateur {
                     if (joueurC.getMain().get(i).getClass().getSimpleName().contains("CarteHelicoptere")) {
                         defausseOrange.add(joueurC.getMain().get(i));
                         joueurC.removeCarteMain(joueurC.getMain().get(i));
-                        jeu.afficherMain(joueurC.getMain(), true, joueurC.getNom(), joueurC.getPion()); //Mise à jour de la main
+                        jeu.afficherMain(joueurC.getMain(), true, joueurC.getNom(), joueurC.getClass().getSimpleName(), joueurC.getPion()); //Mise à jour de la main
                         i = 10;
                     }
                 i++;
@@ -262,7 +264,7 @@ public class Controller implements Observateur {
                     defausseOrange.add(joueurC.getMain().get(i));
                     joueurC.removeCarteMain(joueurC.getMain().get(i));
                     //Mise à jour de la main
-                    jeu.afficherMain(joueurC.getMain(), true, joueurC.getNom(), joueurC.getPion());
+                    jeu.afficherMain(joueurC.getMain(), true, joueurC.getNom(), joueurC.getClass().getSimpleName(), joueurC.getPion());
                     i = 10;
                 }
                 i++;
@@ -788,10 +790,14 @@ public class Controller implements Observateur {
         joueurC = getJoueurCourant(numJC);
         System.out.println(joueurC.getNom());
 
-        jeu.changeJoueurCourant(joueurC.getNom(), joueurC.getPion());           //Mise à jour de la main en fonction du joueur courant
+        jeu.changeJoueurCourant(joueurC.getNom(), joueurC.getClass().getSimpleName(), joueurC.getPion());           //Mise à jour de la main en fonction du joueur courant
         if (joueurC.getMain().size() > 5) {
+            jeu.desactivationBtn();
             popUp = new VuePopUp(this, joueurC.getMain());
             popUp.afficher();
+        }
+        else {
+            jeu.debutTour();
         }
 
         if (joueurC.getClass().getSimpleName().equals("Pilote")) {              //Remise à zéro des pouvoirs
@@ -802,13 +808,12 @@ public class Controller implements Observateur {
         }
         actionNavi = 0;
         assechementInge = 0;
-
-        jeu.debutTour();
         
         gagnerTresorPossible();                                                 //Check si un trésors est récupérable
         if (tresorRecup) {
             jeu.tresorPossible();
         }
+
         jeu.repaint();
 
         //afficherMain();
@@ -828,9 +833,9 @@ public class Controller implements Observateur {
             } else {
                 bool = false;
             }
-            jeu.afficherMain(av.getMain(), bool, av.getNom(), av.getPion());    //Afficher la main de av
+            jeu.afficherMain(av.getMain(), bool, av.getNom(), av.getClass().getSimpleName(), av.getPion());    //Afficher la main de av
         }
-        jeu.afficherMain(joueurC.getMain(), true, joueurC.getNom(), joueurC.getPion());
+        jeu.afficherMain(joueurC.getMain(), true, joueurC.getNom(), joueurC.getClass().getSimpleName(), joueurC.getPion());
     }                            //Affiche la main du joueur
     
     private static void setTresorRecup(boolean bool) {
