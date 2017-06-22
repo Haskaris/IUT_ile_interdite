@@ -237,6 +237,10 @@ public class Controller implements Observateur {
             }
             nbAction++;
         }
+        else if(msg.getTypeMessage().equals(TypesMessage.ACTION_Defausse)){
+            VueDefausse defausse = new VueDefausse(this, joueurC.getMain());
+            defausse.afficher();
+        }
         }                    //Permet de traiter l'information des boutons avec l'ihm
     
     @Override                                                                   
@@ -805,8 +809,6 @@ public class Controller implements Observateur {
         tuilesPossibles.clear();
         nbAction = 0;
         joueurC = getJoueurCourant(numJC);
-        System.out.println(joueurC.getNom());
-
         jeu.changeJoueurCourant(joueurC.getNom(), joueurC.getPion());           //Mise à jour de la main en fonction du joueur courant
         if (joueurC.getMain().size() > 5) {
             popUp = new VuePopUp(this, joueurC.getMain());
@@ -817,7 +819,6 @@ public class Controller implements Observateur {
             avP = (Pilote) joueurC;
             avP.setPouvoirUtilise(false);
             joueurC = avP;
-            System.out.println("Pouvoir remis à 0");
         }
         actionNavi = 0;
         assechementInge = 0;
@@ -829,13 +830,9 @@ public class Controller implements Observateur {
             jeu.tresorPossible();
         }
         jeu.repaint();
-
-        //afficherMain();
         afficherMainJoueur();
 
         gestionFinJeu();
-        System.out.println("Made by JACQUETCorp + Ugo le stagiaire ©");
-
     }                                     //Gère le début de chaque tour
 
     public void afficherMainJoueur() {
@@ -854,6 +851,12 @@ public class Controller implements Observateur {
     
     private static void setTresorRecup(boolean bool) {
         tresorRecup = bool;
-    }             
+    }        
+    
+    @Override
+    public void defausserCarte(CarteDosOrange carte) {
+        joueurC.removeCarteMain(carte);
+        defausseOrange.add(carte);
+    }
 
 }

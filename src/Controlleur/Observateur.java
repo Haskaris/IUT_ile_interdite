@@ -23,4 +23,5 @@ public interface Observateur {
     public void enleverCarteSurplus(CarteDosOrange carte);
     public void utiliserCarteHelicoptere();
     public void utiliserCarteSacDeSable();
+    public void defausserCarte(CarteDosOrange carte);
 }
