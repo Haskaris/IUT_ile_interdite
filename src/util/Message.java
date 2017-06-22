@@ -5,6 +5,8 @@
  */
 package util;
 
+import model.cartesOrange.CarteDosOrange;
+
 /**
  *
  * @author reyneu
@@ -12,14 +14,12 @@ package util;
 public class Message {
     private TypesMessage type;
     private int numBtn;
+    private CarteDosOrange carteADonner;
+    private String str;
     
     
     public Message(TypesMessage type){
         setTypeMessage(type);
-    }
-
-    public Message() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     public void setTypeMessage(TypesMessage type){
@@ -36,4 +36,21 @@ public class Message {
     public int getNumBtn() {
         return numBtn;
     }
+    
+    public void setCarte(CarteDosOrange carte){
+        this.carteADonner = carte;
+    }
+    
+    public CarteDosOrange getCarte(){
+        return carteADonner;
+    }
+    
+    public void setString(String str){
+         this.str = str;
+    }
+    
+    public String getString(){
+        return str;
+    }
+     
 }
