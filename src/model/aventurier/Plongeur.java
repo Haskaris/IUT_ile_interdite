@@ -153,7 +153,11 @@ public class Plongeur extends Aventurier{
             
             max = traite;
             for (int i = 0; i < max; i++){      //on parcours tuilePossibleTab
+                if (tuilesPossibleTab[i] != tuiles[getPosition().getX()][getPosition().getY()]) {  //si ce n'est pas la tuile du joueur
+                    
                 tuilesPossibles.add(tuilesPossibleTab[i]);      //on ajoute les tuile de tuilePossibleTab dans tuilesPossible
+                
+                }
             }
             
         } else {

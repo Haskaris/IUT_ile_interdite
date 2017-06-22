@@ -40,7 +40,7 @@ public class Pilote extends Aventurier {
             if (isPouvoirUtilise() == false){
                 for(int i = 0; i < tuiles.length; i++){
                     for(int j = 0; j < tuiles[i].length; j++){
-                        if (tuiles[i][j].getEtat() == Utils.EtatTuile.ASSECHEE || tuiles[i][j].getEtat() == Utils.EtatTuile.INONDEE) {
+                        if (tuiles[i][j] != this.position && tuiles[i][j].getEtat() == Utils.EtatTuile.ASSECHEE || tuiles[i][j].getEtat() == Utils.EtatTuile.INONDEE) {
                             tuilesPossibles.add(tuiles[i][j]);
                         }
                     }

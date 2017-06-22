@@ -224,7 +224,7 @@ public class VueJeu {
                 btnAssechement.setBackground(Color.GRAY);
                 btnDeplacement.setBackground(Color.LIGHT_GRAY);
                 btnDonnerCarte.setBackground(Color.LIGHT_GRAY);
-                btnPrendreTresor.setBackground(Color.GRAY);
+                btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
 
                 Message msg = new Message(TypesMessage.ACTION_Assecher);
                 observateur.traiterMessage(msg);
@@ -359,7 +359,6 @@ public class VueJeu {
                 }
                 panelTmp.add(labelCarteMainAutre);
             }
- 
             i++;
             
 
