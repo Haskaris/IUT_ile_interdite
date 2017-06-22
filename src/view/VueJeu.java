@@ -62,6 +62,7 @@ public class VueJeu {
     private JButton btnDonnerCarte = new JButton("Donner une Carte");
     private JButton btnPrendreTresor = new JButton("Prendre un trésor");
     private final JButton btnFinTour = new JButton("Fin Du Tour");
+    private JButton btnDefausser = new JButton("Se Défausser");
     private JButton[] cartesMain = new JButton[5];
     private JButton[][] btnTuiles = new JButton[6][6];
 
@@ -107,7 +108,8 @@ public class VueJeu {
 
         panelTopMenu = new JPanel(new BorderLayout());
         panelMenu.add(panelTopMenu);
-
+        
+        
         panelEchelle = new JPanel(new GridLayout(5, 1));
         panelCentrerEchelle = new JPanel(new GridLayout(1,7));
         panelCentrerEchelle.add(new JPanel());
@@ -116,7 +118,7 @@ public class VueJeu {
         panelCentrerEchelle.add(panelEchelle);
         panelCentrerEchelle.add(new JPanel());
         panelCentrerEchelle.add(new JPanel());
-        panelCentrerEchelle.add(new JPanel());
+        panelCentrerEchelle.add(btnDefausser);
         panelTopMenu.add(panelCentrerEchelle, BorderLayout.WEST);
 
         panelNiveau2 = new JPanel(new BorderLayout());
@@ -271,7 +273,15 @@ public class VueJeu {
                 }
             }
         }
-
+        
+        btnDefausser.addActionListener(new ActionListener() {                   //Se Defausser d'une ou plusieurs cartes
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                
+            }
+        });
+        
         // Actions Listeners des boutons d'actions
         btnAssechement.addActionListener(new ActionListener() {                 // Assechement
             @Override

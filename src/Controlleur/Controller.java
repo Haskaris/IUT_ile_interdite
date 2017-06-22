@@ -164,10 +164,9 @@ public class Controller implements Observateur {
                 if (getAventurier(nomJoueurDonne, joueurs) != null && nbAction < 4) {                           // Si on a le joueur à qui donner
                     Boolean bool = joueurC.donnerCarte(carteDonne, getAventurier(nomJoueurDonne, joueurs));     // on donne la carte
                     if (!bool) {                                                                                // Si don raté
-                        util.Utils.afficherInformation("La carte n'a pas été donnée: \n " + "  " + nomJoueurDonne + " n'a pas assez de place "); // message d'erreur
+                        afficherInformation("La carte n'a pas été donnée: \n " + "  " + nomJoueurDonne + " n'a pas assez de place "); // message d'erreur
                         vueDonnerCarte.fermer();
                     } else {                                                                                    // Si don réussi
-                        System.out.println("///////// cest bonnnnnnnnnnnnnnnnnnnnnnnn");
                         vueDonnerCarte.fermer();                                                                // fermeture vueDonnerCarte
                         afficherMainJoueur();                                                                   // Actualisation de la main
                         jeu.repaint();
