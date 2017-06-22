@@ -39,7 +39,7 @@ public class VueRegles {
         this.o = o;
         this.window = new JFrame();
         window.setSize(705, 980);
-        window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        window.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
         window.setTitle("REGLES DU JEU");
