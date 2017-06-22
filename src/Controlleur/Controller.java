@@ -90,7 +90,7 @@ public class Controller implements Observateur {
         vueDonnerCarte = new VueAQuiDonner(this, nomJoueurs);
     }                                         //Initialise le controlleur
 
-    public static void setGrilleJeu(Grille GrilleJeu) {                         //Fonction permettant de lier les grilles (joueurs - controlleur) 
+    public static void setGrilleJeu(Grille GrilleJeu) {                         
         grilleJeu = GrilleJeu;
         for (Aventurier av : joueurs) {
             av.setGrille(GrilleJeu);
