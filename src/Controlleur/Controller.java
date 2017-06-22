@@ -145,15 +145,11 @@ public class Controller implements Observateur {
                 carteDonne = msg.getCarte();
             }
 
-            if (carteDonne != null) {
-                System.out.println(carteDonne.toString());
-            }
-
             ArrayList<String> nomJoueurs = new ArrayList<>();                   // Contient la liste des noms des joueurs pour lesquels le don est possible
             for (Aventurier av : joueurs) {
                 if (!av.equals(joueurC) && joueurC.getPosition().equals(av.getPosition())) { // n'est pas le joueur courant et se trouvent sur la même position
                     nomJoueurs.add(av.getNom());
-                } else if (!av.equals(joueurC) && joueurC.getClass().equals(Messager.class)) {
+                } else if (!av.equals(joueurC) && joueurC.getClass().equals(Messager.class)) { // le joueur courant est un messager. On ajoute tout le monde
                     nomJoueurs.add(av.getNom());
                 }
             }
@@ -165,23 +161,23 @@ public class Controller implements Observateur {
                     vueDonnerCarte = new VueAQuiDonner(this, nomJoueurs);
                 }
 
-                if (getAventurier(nomJoueurDonne, joueurs) != null && nbAction < 4) {                // Si on a le joueur à qui donner
-                    Boolean bool = joueurC.donnerCarte(carteDonne, getAventurier(nomJoueurDonne, joueurs));    // on donne la carte
-                    if (!bool) {                                                     // Si don raté
+                if (getAventurier(nomJoueurDonne, joueurs) != null && nbAction < 4) {                           // Si on a le joueur à qui donner
+                    Boolean bool = joueurC.donnerCarte(carteDonne, getAventurier(nomJoueurDonne, joueurs));     // on donne la carte
+                    if (!bool) {                                                                                // Si don raté
                         util.Utils.afficherInformation("La carte n'a pas été donnée: \n " + "  " + nomJoueurDonne + " n'a pas assez de place "); // message d'erreur
                         vueDonnerCarte.fermer();
-                    } else {                                                          // Si don réussi
+                    } else {                                                                                    // Si don réussi
                         System.out.println("///////// cest bonnnnnnnnnnnnnnnnnnnnnnnn");
-                        vueDonnerCarte.fermer();                                    // fermeture vueDonnerCarte
-                        afficherMainJoueur();                                       // Actualisation de la main
+                        vueDonnerCarte.fermer();                                                                // fermeture vueDonnerCarte
+                        afficherMainJoueur();                                                                   // Actualisation de la main
                         jeu.repaint();
-                        nbAction++;                                                 // Action utilisée
+                        nbAction++;                                                                             // Action utilisée
 
-                        if (nbAction >= 3) {
+                        if (nbAction >= 3) {                                                                    // Désactivation des boutons d'actions
                             jeu.finTourObligatoire();
                         }
                     }
-                    nomJoueurDonne = null;
+                    nomJoueurDonne = null;                                                                      // RAZ des variables
                     carteDonne = null;
 
                 }
@@ -310,6 +306,7 @@ public class Controller implements Observateur {
             initInondationDebut();
             distributionCartesOrangeDebut();
             jeu.afficherTresors(tresors);
+            jeu.afficherNiveau(echelle.getNiveauEau());
             jeu.afficher();
 
             tourDeJeu();
@@ -736,6 +733,7 @@ public class Controller implements Observateur {
                 defausseOrange.add(piocheOrange.get(numRandom));                               // on ajoute la carte dans la defausse orange
                 piocheOrange.remove(piocheOrange.get(numRandom));                              //  on la supprime de la pioche
                 echelle.incrementerCran();                                                     // on incrémente l'echelle
+                jeu.afficherNiveau(echelle.getNiveauEau());
                 System.out.println("Vous avez pioché une carte montée des eaux");
             } else {                                                                             // sinon
                 joueurC.addCarteMain(piocheOrange.get(numRandom));                               // on ajoute la carte dans la main du joueur courant
@@ -939,13 +937,13 @@ public class Controller implements Observateur {
     public void afficherMainJoueur() {
         Boolean bool;
         jeu.resetMainIHM();
-        for (Aventurier av : joueurs) {
-            if (av == joueurC) {
+        for (Aventurier av : joueurs) {                                         // Parcours de tous les joueurs
+            if (av == joueurC) {                                                // Si joueur Courant?
                 bool = true;
             } else {
                 bool = false;
             }
-            jeu.afficherMain(av.getMain(), bool, av.getNom(), av.getPion());
+            jeu.afficherMain(av.getMain(), bool, av.getNom(), av.getPion());    // Afficher la main de av
         }
         jeu.afficherMain(joueurC.getMain(), true, joueurC.getNom(), joueurC.getPion());
     }

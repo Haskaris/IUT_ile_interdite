@@ -48,11 +48,13 @@ public class VueJeu {
     private final JPanel panNavi = new JPanel();
     private final JPanel panPilo = new JPanel();
     private final JPanel panPlon = new JPanel();
-    private final JPanel panelGrille, panelPrincipal, panelMenu, panelBtnAction, panelBtn, panelTop, panelBottom, panelMain, panelLateral;
-    
+    private final JPanel panelGrille, panelPrincipal, panelMenu, panelBtnAction, panelBtn, panelTop, panelBottom, panelMain, panelLateral, panelTopMenu, panelEchelle;
+    private final JPanel panelNiveau2, panelNiveau3, panelNiveau4, panelNiveau5, panelMort;
+    private JLabel labelNiveau2, labelNiveau3, labelNiveau4, labelNiveau5, labelMort;
+
     private final JPanel[][] panTresor = new JPanel[6][6];              // panel qui affiche les tresors sur les tuiles
 
-    // Attribut boutons
+    // Attributs boutons
     private JButton btnAssechement = new JButton("Assecher");                       // 
     private JButton btnDeplacement = new JButton("Deplacer");
     private JButton btnDonnerCarte = new JButton("Donner une Carte");
@@ -97,11 +99,50 @@ public class VueJeu {
 
         panelBottom = new JPanel(new BorderLayout());                           // Contient les mains
         panelPrincipal.add(panelBottom, BorderLayout.SOUTH);
-        
 
         panelBtn = new JPanel(new BorderLayout());                              // Panel des boutons d'actions
         panelMenu = new JPanel(new GridLayout(3, 1));                           // Panel des boutons + panneaux vides
-        panelMenu.add(new JPanel());
+
+        panelTopMenu = new JPanel(new BorderLayout());
+        panelMenu.add(panelTopMenu);
+
+        panelEchelle = new JPanel(new GridLayout(5, 1));
+        panelTopMenu.add(panelEchelle, BorderLayout.WEST);
+
+        panelNiveau2 = new JPanel(new BorderLayout());
+        panelNiveau3 = new JPanel(new BorderLayout());
+        panelNiveau4 = new JPanel(new BorderLayout());
+        panelNiveau5 = new JPanel(new BorderLayout());
+        panelMort = new JPanel(new BorderLayout());
+
+        labelMort = new JLabel("DEAD");
+        labelNiveau2 = new JLabel("2");
+        labelNiveau2.setBackground(Color.CYAN);
+        labelNiveau3 = new JLabel("3");
+        labelNiveau3.setBackground(Color.CYAN);
+        labelNiveau4 = new JLabel("4");
+        labelNiveau4.setBackground(Color.CYAN);
+        labelNiveau5 = new JLabel("5");
+        labelNiveau5.setBackground(Color.CYAN);
+
+        panelNiveau2.setBackground(Color.red);
+        panelNiveau3.setBackground(Color.red);
+        panelNiveau4.setBackground(Color.red);
+        panelNiveau5.setBackground(Color.red);
+        panelMort.setBackground(Color.red);
+
+        panelNiveau2.add(labelNiveau2, BorderLayout.CENTER);
+        panelNiveau3.add(labelNiveau3, BorderLayout.CENTER);
+        panelNiveau4.add(labelNiveau4, BorderLayout.CENTER);
+        panelNiveau5.add(labelNiveau5, BorderLayout.CENTER);
+        panelMort.add(labelMort, BorderLayout.CENTER);
+
+        panelEchelle.add(panelMort);
+        panelEchelle.add(panelNiveau5);
+        panelEchelle.add(panelNiveau4);
+        panelEchelle.add(panelNiveau3);
+        panelEchelle.add(panelNiveau2);
+
         panelMenu.add(panelBtn);
         panelMenu.add(new JPanel());
         panelTop.add(panelMenu, BorderLayout.EAST);                              // Contient grille et menu
@@ -117,7 +158,6 @@ public class VueJeu {
         panelMain = new JPanel(new GridLayout(1, 5));                            // Panel de la main du joueur principal
         panelMain.setBorder(borderM);
         panelBottom.add(panelMain, BorderLayout.CENTER);
-        
 
         panelLateral = new JPanel(new GridLayout(1, 5));                         // panel des mains des autres joueurs
         panelLateral.setBorder(borderM);
@@ -247,12 +287,11 @@ public class VueJeu {
                 observateur.traiterMessage(msg);
             }
         });
-        
-        
+
         btnDonnerCarte.addActionListener(new ActionListener() {                 // Donner Carte
             @Override
-            public void actionPerformed(ActionEvent e) {      
-                
+            public void actionPerformed(ActionEvent e) {
+
                 // Affichage de la selection de l'action
                 btnAssechement.setBackground(Color.LIGHT_GRAY);
                 btnDeplacement.setBackground(Color.LIGHT_GRAY);
@@ -260,10 +299,10 @@ public class VueJeu {
                 btnPrendreTresor.setBackground(Color.GRAY);
 
                 // Activation des boutons de mains
-                for (int i = 0; i<tailleMain; i++){
-                        cartesMain[i].setEnabled(true);
+                for (int i = 0; i < tailleMain; i++) {
+                    cartesMain[i].setEnabled(true);
                 }
-                
+
             }
         });
 
@@ -309,7 +348,7 @@ public class VueJeu {
     public void afficherMain(ArrayList<CarteDosOrange> main, boolean jc, String nomJ, Pion pion) {
         JPanel panelTmp;
         JLabel labelCarteMainAutre;
-        tailleMain = Integer.min(main.size(),cartesMain.length);
+        tailleMain = Integer.min(main.size(), cartesMain.length);
         System.out.println("longueur carte Main " + cartesMain.length);
         if (jc) {                                                               //Gestion de la main du joueur courant ou autres joueurs?
             panelTmp = panelMain;
@@ -326,31 +365,30 @@ public class VueJeu {
         int i = 0;
         j = i;
         while (i < tailleMain) {                                                // Parcours de la main du joueur
-            if (jc){                                                            // Création de boutons
-                if (main.get(i).getClass().equals(CarteTresor.class)) {         
-                cartesMain[i] = new JButton(main.get(i).getTresor().getNomTresor());
+            if (jc) {                                                            // Création de boutons
+                if (main.get(i).getClass().equals(CarteTresor.class)) {
+                    cartesMain[i] = new JButton(main.get(i).getTresor().getNomTresor());
                 } else {
-                cartesMain[i] = new JButton(main.get(i).getClass().getSimpleName());
+                    cartesMain[i] = new JButton(main.get(i).getClass().getSimpleName());
                 }
                 cartesMain[i].setEnabled(false);
                 panelTmp.add(cartesMain[i]);
-                
+
                 // Action Listeners de la main principale
-                
-                if (main.get(i).getClass().equals(CarteTresor.class) ){
+                if (main.get(i).getClass().equals(CarteTresor.class)) {
                     cartesMain[i].addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            System.out.println("/// x: " + x + " / longueur taille main: " + main.size() + " / taille main: " + tailleMain );
+                            System.out.println("/// x: " + x + " / longueur taille main: " + main.size() + " / taille main: " + tailleMain);
                             Message msg = new Message(TypesMessage.ACTION_DonnerCarte);
                             msg.setCarte(main.get(j));
                             observateur.traiterMessage(msg);
                         }
                     });
-                    
-                } 
+
+                }
                 j = i;
-                
+
                 if (main.get(i).getClass().getSimpleName().equals("CarteHelicoptere")) {
                     cartesMain[i].setEnabled(true);
                     cartesMain[i].addActionListener(new ActionListener() {
@@ -369,62 +407,57 @@ public class VueJeu {
                     });
                 } else {
                     cartesMain[i].setEnabled(false);
-                    
+
                 }
-                    
+
             } else {                                                              // Création de label
                 if (main.get(i).getClass().equals(CarteTresor.class)) {
-                labelCarteMainAutre = new JLabel(main.get(i).getTresor().getNomTresor());
-                }   else {
-                labelCarteMainAutre = new JLabel(main.get(i).getClass().getSimpleName());
+                    labelCarteMainAutre = new JLabel(main.get(i).getTresor().getNomTresor());
+                } else {
+                    labelCarteMainAutre = new JLabel(main.get(i).getClass().getSimpleName());
                 }
                 panelTmp.add(labelCarteMainAutre);
             }
             i++;
-            
+
         }
         window.revalidate();
-        
-
-        
-        
 
     }
-    
-    public void afficherTresors(ArrayList<Tresor> tresors){
-        for (int i =0; i<= 5 ; i++){
-            for (int j = 0; j <= 5; j++ )
-                if (grille.getGrille()[i][j].getTresor() == tresors.get(0)){
+
+    public void afficherTresors(ArrayList<Tresor> tresors) {
+        for (int i = 0; i <= 5; i++) {
+            for (int j = 0; j <= 5; j++) {
+                if (grille.getGrille()[i][j].getTresor() == tresors.get(0)) {
                     panTresor[i][j] = new JPanel();
                     panTresor[i][j].setBackground(Color.lightGray);
                     panTresor[i][j].setBorder(new LineBorder(Color.white, 2));
                     panTuiles[i][j].add(panTresor[i][j], BorderLayout.NORTH);
-                    
-                } else if (grille.getGrille()[i][j].getTresor() == tresors.get(1)){
+
+                } else if (grille.getGrille()[i][j].getTresor() == tresors.get(1)) {
                     panTresor[i][j] = new JPanel();
                     panTresor[i][j].setBackground(Color.yellow);
                     panTresor[i][j].setBorder(new LineBorder(Color.white, 2));
                     panTuiles[i][j].add(panTresor[i][j], BorderLayout.NORTH);
-                    
-                } else if (grille.getGrille()[i][j].getTresor() == tresors.get(2)){
+
+                } else if (grille.getGrille()[i][j].getTresor() == tresors.get(2)) {
                     panTresor[i][j] = new JPanel();
                     panTresor[i][j].setBackground(Color.red);
                     panTresor[i][j].setBorder(new LineBorder(Color.white, 2));
                     panTuiles[i][j].add(panTresor[i][j], BorderLayout.NORTH);
-                    
-                } else if (grille.getGrille()[i][j].getTresor() == tresors.get(3)){
+
+                } else if (grille.getGrille()[i][j].getTresor() == tresors.get(3)) {
                     panTresor[i][j] = new JPanel();
                     panTresor[i][j].setBackground(Color.cyan);
                     panTresor[i][j].setBorder(new LineBorder(Color.white, 2));
                     panTuiles[i][j].add(panTresor[i][j], BorderLayout.NORTH);
-                    
-                } 
-            
-        
+
+                }
+            }
+
         }
-    
+
     }
-    
 
     public void afficherPossible(ArrayList<Tuile> tuilesPossibles) {
         for (Tuile tuile : tuilesPossibles) {                                     // Parcours des tuiles possibles
@@ -432,7 +465,7 @@ public class VueJeu {
             btnTuiles[tuile.getX()][tuile.getY()].setEnabled(true);         // Activation des boutons
         }
     }
-    
+
     public void tresorPossible() {
         btnPrendreTresor.setBackground(Color.LIGHT_GRAY);
         btnPrendreTresor.setEnabled(true);
@@ -540,11 +573,9 @@ public class VueJeu {
                 afficheJoueurGrille(i, j);
             }
         }
-        
+
         window.revalidate();
     }
-    
-    
 
     public String getNom() {
         return nomJoueurCourant;
@@ -572,6 +603,44 @@ public class VueJeu {
 
     public void setDeplApp(boolean bool) {
         deplApp = bool;
+    }
+
+    public void afficherNiveau(int niv) {
+        int i = 2;
+        while (i != niv) {
+            i++;
+        }
+
+        panelNiveau2.setBackground(Color.red);
+        panelNiveau3.setBackground(Color.red);
+        panelNiveau4.setBackground(Color.red);
+        panelNiveau5.setBackground(Color.red);
+
+        switch (i) {
+            case 2:
+                panelNiveau2.setBackground(Color.green);
+                panelNiveau3.setBackground(Color.red);
+                panelNiveau4.setBackground(Color.red);
+                panelNiveau5.setBackground(Color.red);
+                break;
+            case 3:
+                panelNiveau2.setBackground(Color.red);
+                panelNiveau3.setBackground(Color.green);
+                panelNiveau4.setBackground(Color.red);
+                panelNiveau5.setBackground(Color.red);
+                break;
+            case 4:
+                panelNiveau2.setBackground(Color.red);
+                panelNiveau3.setBackground(Color.red);
+                panelNiveau4.setBackground(Color.green);
+                panelNiveau5.setBackground(Color.red);
+                break;
+            case 5:
+                panelNiveau5.setBackground(Color.green);
+                panelNiveau2.setBackground(Color.red);
+                panelNiveau3.setBackground(Color.red);
+                panelNiveau4.setBackground(Color.red);
+        }
     }
 
 }
