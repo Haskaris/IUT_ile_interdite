@@ -329,7 +329,7 @@ public class VueJeu {
             if (jc){                                                            // Création de boutons
                 if (main.get(i).getClass().equals(CarteTresor.class)) {         
                 cartesMain[i] = new JButton(main.get(i).getTresor().getNomTresor());
-                }   else {
+                } else {
                 cartesMain[i] = new JButton(main.get(i).getClass().getSimpleName());
                 }
                 cartesMain[i].setEnabled(false);
@@ -347,11 +347,32 @@ public class VueJeu {
                             observateur.traiterMessage(msg);
                         }
                     });
-                    j = i;
+                    
+                } 
+                j = i;
+                
+                if (main.get(i).getClass().getSimpleName().equals("CarteHelicoptere")) {
+                    cartesMain[i].setEnabled(true);
+                    cartesMain[i].addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            observateur.utiliserCarteHelicoptere();
+                        }
+                    });
+                } else if (main.get(i).getClass().getSimpleName().equals("CarteSacDeSable")) {
+                    cartesMain[i].setEnabled(true);
+                    cartesMain[i].addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            observateur.utiliserCarteSacDeSable();// Communication au contrôleur (assechement/deplacement) en fonction de depl
+                        }
+                    });
+                } else {
+                    cartesMain[i].setEnabled(false);
+                    
                 }
                     
-            }
-            else {                                                              // Création de label
+            } else {                                                              // Création de label
                 if (main.get(i).getClass().equals(CarteTresor.class)) {
                 labelCarteMainAutre = new JLabel(main.get(i).getTresor().getNomTresor());
                 }   else {
@@ -360,8 +381,6 @@ public class VueJeu {
                 panelTmp.add(labelCarteMainAutre);
             }
             i++;
-            
-
             
         }
         window.revalidate();
@@ -521,7 +540,7 @@ public class VueJeu {
                 afficheJoueurGrille(i, j);
             }
         }
-       
+        
         window.revalidate();
     }
     

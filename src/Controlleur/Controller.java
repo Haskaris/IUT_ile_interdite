@@ -43,7 +43,8 @@ public class Controller implements Observateur {
     private static int assechementInge = 0;
     private static int xTemp, yTemp;
     private static boolean utilisationCH = false;
-    private static boolean afficheCh = false;
+    private static boolean afficheCH = false;
+    private static boolean utilisationCSS = false;
     private static String nomJ1;
     private static String nomJ2;
     private static String nomJ3;
@@ -386,33 +387,55 @@ public class Controller implements Observateur {
 
     @Override                                                                   //Effectue un déplacement
     public void traiterAction(String nomJ, int x, int y, boolean depl) {
-
-        if (utilisationCH) {
-            if (afficheCh) {
-                jeu.afficherPossible(tuilesPossibles);
+        
+        if (utilisationCH) {                                                    //Si l'utilisation de la fonction est pour l'utilisation de la carte Helicoptere
+            if (afficheCH) {                                                    //Si l'affichage des joueurs a déjà été affiché
+                jeu.afficherPossible(tuilesPossibles);                          //Affichage des joueurs (boutons cliquables)
                 xTemp = x;
                 yTemp = y;
-                afficheCh = false;
-            } else {
-                for (Aventurier av : joueurs) {
-                    if (av.getPosition().equals(grilleJeu.trouverTuile(xTemp, yTemp))) {
-                        grilleJeu.trouverTuile(xTemp, yTemp).supprJoueur(av);
-                        av.setPosition(grilleJeu.trouverTuile(x, y));
-                        grilleJeu.trouverTuile(x, y).addJoueur(av);
-                        setGrilleJeu(av.getGrilleAv());
+                afficheCH = false;
+            } else {                                                            //Ou non
+                for (Aventurier av : joueurs) {                                 //Selection des aventurier pour une tuile précise
+                    if (av.getPosition().equals(grilleJeu.trouverTuile(xTemp, yTemp))) {//Si la position du joueur est égale à la position de la premiere tuile selectionnée
+                        grilleJeu.trouverTuile(xTemp, yTemp).supprJoueur(av);   //Suppression du joueur sur la tuile
+                        av.setPosition(grilleJeu.trouverTuile(x ,y));           //Mise à jour de la position du joueur
+                        grilleJeu.trouverTuile(x, y).addJoueur(av);             //Ajout du joueur pour la tuile
+                        setGrilleJeu(av.getGrilleAv());                         //Mise à jour de la grille
                     }
                 }
                 int i = 0;
-                while (i < joueurC.getMain().size()) {
-                    if (joueurC.getMain().get(i).getClass().getSimpleName() == "CarteHelicoptere") {
+                while (i < joueurC.getMain().size()) {                          //Ajout de la carte dans la defausse et suppression de la carte dans la main
+                    if (joueurC.getMain().get(i).getClass().getSimpleName().contains("CarteHelicoptere")) {
+                        defausseOrange.add(joueurC.getMain().get(i));
                         joueurC.removeCarteMain(joueurC.getMain().get(i));
+                        //Mise à jour de la main
+                        jeu.afficherMain(joueurC.getMain(), true, joueurC.getNom(), joueurC.getPion());
                         i = 10;
                     }
+                i++;
                 }
-                tuilesPossibles.clear();
+                tuilesPossibles.clear();                                        
                 utilisationCH = false;
                 jeu.repaint();
             }
+        } else if (utilisationCSS) {                                            //Si l'utilisation de la fonction est pour l'utilisation d'une carte sac de sable
+            grilleJeu.trouverTuile(x, y).setEtat(EtatTuile.ASSECHEE);           //Changement de l'état de la tuile choisie 
+            setGrilleJeu(grilleJeu);                                            //Mise à jour de la grille
+            int i = 0;
+            while (i < joueurC.getMain().size()) {                              //Ajout de la carte dans la defausse et suppression de la carte dans la main
+                if (joueurC.getMain().get(i).getClass().getSimpleName().contains("CarteSacDeSable")) {
+                    defausseOrange.add(joueurC.getMain().get(i));
+                    joueurC.removeCarteMain(joueurC.getMain().get(i));
+                    //Mise à jour de la main
+                    jeu.afficherMain(joueurC.getMain(), true, joueurC.getNom(), joueurC.getPion());
+                    i = 10;
+                }
+                i++;
+            }
+            
+            tuilesPossibles.clear();
+            utilisationCSS = false;
+            jeu.repaint();
         } else {
             System.out.println("Deplacement voulu : " + x + "-" + y);
             getAventurier(nomJ, joueurs).deplacementAssechage(x, y, depl);          //Deplace le joueur sur la position souhaitée
@@ -834,14 +857,17 @@ public class Controller implements Observateur {
         defausseOrange.add(carte);                          // ajoute la carte a la defausse
         joueurC.removeCarteMain(carte);                     // retire la carte de la main du joueur
     }  // ajoute la carte à la defausse orange et retire la carte de la main du joueur
-
-    public void utiliserCarteSacDeSable(Tuile tuile) {
-        if (grilleJeu.trouverTuile(tuile.getNom()).getEtat() == EtatTuile.INONDEE) {
-            grilleJeu.trouverTuile(tuile.getNom()).setEtat(EtatTuile.ASSECHEE);
-        } else {
-            afficherInformation("La tuile ne peut pas être asséchée");
-        }
-
+    
+    @Override
+    public void utiliserCarteSacDeSable(){
+        /*for (int i = 0; i < grilleJeu.getTuilesInondée().size(); i++) {
+            tuilesPossibles.add(grilleJeu.getTuilesInondée().get(i));
+        }*/
+        tuilesPossibles = grilleJeu.getTuilesInondée();
+        jeu.afficherPossible(tuilesPossibles);
+        utilisationCSS = true;
+        
+        
     }  // la tuile donnée devient assechée
 
     @Override
@@ -861,8 +887,9 @@ public class Controller implements Observateur {
         }
         jeu.afficherPossible(tuilesJoueur);
         utilisationCH = true;
-        afficheCh = true;
-
+        afficheCH = true;
+        
+    
     } // deplace tous les joueurs d'une case sur la tuile donnée
 
     public void tourDeJeu() {
