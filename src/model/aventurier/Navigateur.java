@@ -19,6 +19,19 @@ public class Navigateur extends Aventurier{
     public Navigateur(String nom) {
         super(nom);
     }
+    
+    @Override
+    public ArrayList<Tuile> getTuilesPossibles(boolean depl){
+        Tuile[][] tuiles = getGrilleAv().getGrille();                           //tableau double dimension pour la grille
+        
+        ArrayList<Tuile> tuilesPossibles = new ArrayList<>();                   //arrayList a retourner
+        
+        
+        
+        return tuilesPossibles;
+    }
+    
+    
 
     @Override
     public Pion getPion() {
