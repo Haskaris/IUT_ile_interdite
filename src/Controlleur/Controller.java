@@ -476,9 +476,9 @@ public class Controller implements Observateur {
         piocheOrange = new ArrayList<>();
         for (int i =0; i < 5; i++){                             // ajout des 20 cartes tresors correspondant aux 4 tresors (5 carte pour chaque tresor)
             piocheOrange.add(new CarteTresor(tresors.get(0)));
-            piocheOrange.add(new CarteTresor(tresors.get(0)));
-            piocheOrange.add(new CarteTresor(tresors.get(0)));
-            piocheOrange.add(new CarteTresor(tresors.get(0)));
+            piocheOrange.add(new CarteTresor(tresors.get(1)));
+            piocheOrange.add(new CarteTresor(tresors.get(2)));
+            piocheOrange.add(new CarteTresor(tresors.get(3)));
             System.out.println("Une de chaque");
         }
         /*for (int i = 0; i < 3; i++){                            // ajout des 3 cartes Montee des Eaux et 3 cartes Helicoptere
@@ -705,7 +705,6 @@ public class Controller implements Observateur {
                 }
             }
         }
-        // pas fini du tout
        
     } // gestion de la fin du jeu (lose ou win) (win pas encore fait)
     
