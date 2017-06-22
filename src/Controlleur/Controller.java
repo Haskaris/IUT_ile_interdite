@@ -306,6 +306,7 @@ public class Controller implements Observateur {
             initInondationDebut();
             distributionCartesOrangeDebut();
             jeu.afficherTresors(tresors);
+            jeu.afficherNiveau(echelle.getNiveauEau());
             jeu.afficher();
 
             tourDeJeu();
@@ -730,6 +731,7 @@ public class Controller implements Observateur {
                 defausseOrange.add(piocheOrange.get(numRandom));                               // on ajoute la carte dans la defausse orange
                 piocheOrange.remove(piocheOrange.get(numRandom));                              //  on la supprime de la pioche
                 echelle.incrementerCran();                                                     // on incrémente l'echelle
+                jeu.afficherNiveau(echelle.getNiveauEau());
                 System.out.println("Vous avez pioché une carte montée des eaux");
             } else {                                                                             // sinon
                 joueurC.addCarteMain(piocheOrange.get(numRandom));                               // on ajoute la carte dans la main du joueur courant
