@@ -8,6 +8,7 @@ package model.aventurier;
 import java.util.ArrayList;
 import model.Tuile;
 import util.Utils;
+import util.Utils.EtatTuile;
 import util.Utils.Pion;
 
 /**
@@ -16,23 +17,11 @@ import util.Utils.Pion;
  */
 public class Navigateur extends Aventurier{
     
+    
     public Navigateur(String nom) {
         super(nom);
     }
     
-    @Override
-    public ArrayList<Tuile> getTuilesPossibles(boolean depl){
-        Tuile[][] tuiles = getGrilleAv().getGrille();                           //tableau double dimension pour la grille
-        
-        ArrayList<Tuile> tuilesPossibles = new ArrayList<>();                   //arrayList a retourner
-        
-        
-        
-        return tuilesPossibles;
-    }
-    
-    
-
     @Override
     public Pion getPion() {
         return Pion.JAUNE;

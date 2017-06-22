@@ -36,11 +36,12 @@ public class Controller implements Observateur {
     private static VueRegles regles;
     private static VueJeu jeu;
     private static VuePopUp popUp;
-    private static vueAQuiDonner vueDonnerCarte;
+    private static VueAQuiDonner vueDonnerCarte;
 
     private static int nbJoueurs = 2;
     private static int nbAction = 0;
     private static int assechementInge = 0;
+    private static int actionNavi = 0;
     private static int xTemp, yTemp;
     private static boolean utilisationCH = false;
     private static boolean afficheCH = false;
@@ -89,7 +90,7 @@ public class Controller implements Observateur {
 
         ArrayList<String> nomJoueurs = new ArrayList<>();
 
-        vueDonnerCarte = new vueAQuiDonner(this, nomJoueurs);
+        vueDonnerCarte = new VueAQuiDonner(this, nomJoueurs);
 
     }
 
@@ -114,14 +115,13 @@ public class Controller implements Observateur {
             paramJeu.fermer();
             regles.fermer();
             bienvenue.afficher();
-
+        } else if (msg.getTypeMessage() == TypesMessage.ACTION_RetourSecond) {
+            vueDonnerCarte.fermer();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Regles) {
             bienvenue.fermer();
             regles.afficher();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Quitter) {
             bienvenue.fermer();
-        } else if (msg.getTypeMessage().equals(TypesMessage.ACTION_RETOUR_DONNER)) {
-            vueDonnerCarte.fermer();
         } else if (msg.getTypeMessage() == TypesMessage.ACTION_Deplacer) {
             gagnerTresorPossible();
             if (tresorRecup) {
@@ -158,7 +158,7 @@ public class Controller implements Observateur {
                 vueDonnerCarte.afficher();
 
                 if (vueDonnerCarte == null) {
-                    vueDonnerCarte = new vueAQuiDonner(this, nomJoueurs);
+                    vueDonnerCarte = new VueAQuiDonner(this, nomJoueurs);
                 }
 
                 if (getAventurier(nomJoueurDonne, joueurs) != null && nbAction < 4) {                           // Si on a le joueur à qui donner
@@ -438,15 +438,17 @@ public class Controller implements Observateur {
             utilisationCSS = false;
             jeu.repaint();
         } else {
-            System.out.println("Deplacement voulu : " + x + "-" + y);
             getAventurier(nomJ, joueurs).deplacementAssechage(x, y, depl);          //Deplace le joueur sur la position souhaitée
             setGrilleJeu(getAventurier(nomJ, joueurs).getGrilleAv());               //Met à jour les grilles du jeu
             nbAction++;
-            System.out.println("Ici on a fait avec un boolean " + depl);
             jeu.repaint();
             if (nbAction < 3) {
                 if ((joueurC.getClass().getSimpleName().equals("Ingenieur")) && assechementInge < 1 && !depl) {
                     assechementInge++;
+                    nbAction--;
+                }
+                if ((joueurC.getClass().getSimpleName().equals("Navigateur")) && actionNavi < 1) {
+                    actionNavi++;
                     nbAction--;
                 }
                 jeu.afficherPossible(joueurC.getTuilesPossibles(depl));
@@ -913,7 +915,7 @@ public class Controller implements Observateur {
             joueurC = avP;
             System.out.println("Pouvoir remis à 0");
         }
-
+        actionNavi = 0;
         assechementInge = 0;
 
         gagnerTresorPossible();
@@ -943,8 +945,7 @@ public class Controller implements Observateur {
             }
             jeu.afficherMain(av.getMain(), bool, av.getNom(), av.getPion());    // Afficher la main de av
         }
-        jeu.afficherMain(joueurC.getMain(), true, joueurC.getNom(), joueurC.getPion()); // Affiche une nouvelle fois la main du joueur Courant. Sert pour tailleMain.
-
+        jeu.afficherMain(joueurC.getMain(), true, joueurC.getNom(), joueurC.getPion());
     }
 
 }
