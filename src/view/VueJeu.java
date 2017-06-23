@@ -414,7 +414,6 @@ public class VueJeu {
         JPanel panelTmp;
         JLabel labelCarteMainAutre;
         tailleMain = Integer.min(main.size(), cartesMain.length);
-        System.out.println("longueur carte Main " + cartesMain.length);
         Border border = new LineBorder(Color.BLACK, 1);
         if (jc) {                                                               //Gestion de la main du joueur courant ou autres joueurs?
             panelTmp = panelMain;
@@ -493,6 +492,7 @@ public class VueJeu {
             i++;
 
         }
+        window.repaint();
         window.revalidate();
 
     }

@@ -82,10 +82,9 @@ public class VuePopUp {
                    o.traiterMessage(m);
                 }
             });
-            
-            JLabel message = new JLabel();
-            
-            if (defausse){
+        }
+        JLabel message = new JLabel();
+        if (defausse){
                 panelPrincipal.add(btnRetour, BorderLayout.SOUTH);
                 message.setText("Choissisez une carte à défausser");
                 
@@ -105,7 +104,8 @@ public class VuePopUp {
                     message.setHorizontalAlignment(JLabel.CENTER);
         message.setFont(new Font("Arial",Font.BOLD,20));
                 panelPrincipal.add(message, BorderLayout.NORTH);
-        }
+        
+        
     }
     
     public void afficher() {

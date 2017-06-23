@@ -203,8 +203,6 @@ public class Controller implements Observateur {
             int i = 0;
             ArrayList<CarteDosOrange> carteTemp = new ArrayList<>();
             for(CarteDosOrange carte : joueurC.getMain()){
-                System.out.println("tresor de la carte : " + carte.getTresor());
-                System.out.println("tresor possible : " + gagnerTresorPossible());
                 
                 if ((carte.getTresor() == tresortemp) && i < 4){
                     defausseOrange.add(carte);
@@ -260,6 +258,7 @@ public class Controller implements Observateur {
                 tuilesPossibles.clear();                                        //RAZ
                 utilisationCH = false;
                 jeu.repaint();
+                
             }
         } else if (utilisationCSS) {                                            //Si l'utilisation de la fonction est pour l'utilisation d'une carte sac de sable
             grilleJeu.trouverTuile(x, y).setEtat(EtatTuile.ASSECHEE);           //Changement de l'état de la tuile choisie 
@@ -648,21 +647,15 @@ public class Controller implements Observateur {
                 piocheOrange.remove(piocheOrange.get(numRandom));                          //On la supprime de la pioche
                 echelle.incrementerCran();                                                 //On incrémente l'echelle
                 jeu.afficherNiveau(echelle.getNiveauEau());
-                System.out.println("Vous avez pioché une carte montée des eaux");
             } else {                                                                       //Sinon
                 joueurC.addCarteMain(piocheOrange.get(numRandom));                         //On ajoute la carte dans la main du joueur courant
-                if (piocheOrange.get(numRandom).getClass().equals(CarteTresor.class)) {
-                    System.out.println("Vous avez pioché une carte trésor : " + piocheOrange.get(numRandom).getTresor().getNomTresor());
-                } else if ((piocheOrange.get(numRandom).getClass().equals(CarteHelicoptere.class)) || (piocheOrange.get(numRandom).getClass().equals(CarteSacDeSable.class))) {
-                    System.out.println("Vous avez pioché une " + piocheOrange.get(numRandom).getClass().getSimpleName());
-                }
+                
                 piocheOrange.remove(piocheOrange.get(numRandom));                          //On la supprime de la pioche
             }
         }
     }                       //Pioche 2 cartes oranges + fait en fonction du tirage
 
     public void piocherCartesInondation() {
-        System.out.println(echelle.getNiveauEau());
         for (int i = 0; i < echelle.getNiveauEau(); i++) {                      //On pioche le nombre de cartes = niveau d'eau
             if (piocheInondation.size() == 0) {                                 //Si pioche vide
                 for (CarteInondation carte : melangerCartesInondation(defausseInondation)) { //On parcours toute la defausse melangée
@@ -794,7 +787,6 @@ public class Controller implements Observateur {
         tuilesPossibles.clear();
         nbAction = 0;
         joueurC = getJoueurCourant(numJC);
-        System.out.println(joueurC.getNom());
 
         jeu.changeJoueurCourant(joueurC.getNom(), joueurC.getClass().getSimpleName(), joueurC.getPion());           //Mise à jour de la main en fonction du joueur courant
         if (joueurC.getMain().size() > 5) {

@@ -64,12 +64,8 @@ public class Pilote extends Aventurier {
         boolean actionEff = false;
         
             if (depl == true) {                                                 //Si la fonction est utilisée pour un déplacement
-                if (super.getTuilesPossibles(true).contains(tuileTemp)) {
-                    //setPouvoirUtilise(false);
-                    System.out.println("Pouvoir non utilisé");
-                } else {
+                 if (!super.getTuilesPossibles(true).contains(tuileTemp)){
                     setPouvoirUtilise(true);
-                    System.out.println("Pouvoir utilisé");
                 }
                 for (Tuile tuile : tuilesPossibles) {
                     if (tuile.getX() == x & tuile.getY() == y) {
@@ -77,11 +73,7 @@ public class Pilote extends Aventurier {
                         this.setPosition(grille.trouverTuile(x ,y));
                         grille.trouverTuile(x, y).addJoueur(this);
                         actionEff = true;
-                        System.out.println("Joueur déplacé en " + x + ", " + y);
                     }
-                }
-                if (actionEff == false){
-                    System.out.println("Joueur non deplacé, il reste en " + position.getX() +", " +position.getY());
                 }
             } else if (depl == false) {
                 
@@ -89,13 +81,9 @@ public class Pilote extends Aventurier {
                     if (tuile.getX() == x & tuile.getY() == y){
                         grille.trouverTuile(x, y).setEtat(Utils.EtatTuile.ASSECHEE);                        
                         actionEff = true;
-                        System.out.println("La tuile " + position.getX() +", " +position.getY() + " à été asséchée");
                     }
                 }
                 
-                if (actionEff == false){
-                    System.out.println("La tuile " + position.getX() +", " +position.getY() + " n'à pas été asséchée");
-                }
             }
     }
     

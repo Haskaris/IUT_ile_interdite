@@ -116,11 +116,7 @@ public abstract class Aventurier {
                         this.setPosition(grille.trouverTuile(x ,y));
                         grille.trouverTuile(x, y).addJoueur(this);
                         actionEff = true;    
-                        System.out.println("Joueur déplacé en " + x + ", " + y);
                     }
-                }
-                if (actionEff == false){
-                    System.out.println("Joueur non deplacé, il reste en " + position.getX() +", " +position.getY());
                 }
             } else if (depl == false) {                                         //Si la fonction est utilisée pour un assechement
                 
@@ -128,11 +124,7 @@ public abstract class Aventurier {
                     if (tuile.getX() == x & tuile.getY() == y){
                         grille.trouverTuile(x, y).setEtat(Utils.EtatTuile.ASSECHEE);                        
                         actionEff = true;
-                        System.out.println("La tuile " + position.getX() +", " +position.getY() + " à été asséchée");
                     }
-                }
-                if (actionEff == false){
-                    System.out.println("La tuile " + position.getX() +", " +position.getY() + " n'à pas été asséchée");
                 }
             }
     } //Gère le déplacement ou l'asséchement
@@ -141,29 +133,29 @@ public abstract class Aventurier {
         Boolean bool = false;
         for (CarteDosOrange carteMain : this.getMain()){ 
             if(joueur.getMain().size() + 1 < 8){
-                    System.out.println("Le receveur à la place dans sa main.");
+                    
                     if (carteADonner == carteMain){                                                    // la carte se trouve bien dans la main du joueur courant
-                        System.out.println("La carte est bien dans la main du joueur.");
+                        
                         if (this.getPosition() == joueur.getPosition()){                 // les deux joueurs sont bien sur la même case
-                            System.out.println("Les deux joueurs sont bien sur la même case.");
+                            
                                                              // echange de la carte.
                             
-                            System.out.println("La carte tresor : " + carteADonner.getTresor() + " a bien été donné au joueur : "+ joueur.getNom());
+                            
                             bool = true;
                         } else {
-                            System.out.println("Les deux joueurs ne sont pas sur la même case.");
+                           
                         }
                     } else {
-                        System.out.println("La carte n'est pas dans la main du joueur");
+                        
                     }
                 }  else {
-                    System.out.println("Je receveur n'as pas la place de recevoir autant de carte(s)");
+                    
                 }
         }
         if (bool){
             this.removeCarteMain(carteADonner); 
             joueur.addCarteMain(carteADonner);
-            System.out.println("La carte tresor : " + carteADonner.getTresor() + " à bien été donner au joueur : "+ joueur.getNom());
+            
         }
         return bool;
     } // le joueur courant donne une/plusieurs carte(s) a un joueur choisi
