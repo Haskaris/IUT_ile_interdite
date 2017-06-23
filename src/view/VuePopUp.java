@@ -29,11 +29,12 @@ import util.TypesMessage;
 public class VuePopUp {
     private final Observateur o;
     private final JFrame window;
-    private final JPanel panelMenu;
-    private final JPanel panelGrille;
-    private JButton[] btnTuiles = new JButton[7];
+    private final JPanel panelCartes;
+    private final JPanel panelPrincipal;
+    private JButton[] btnCarte = new JButton[7];
+    private JButton btnRetour = new JButton("Annuler");
     
-    public VuePopUp(Observateur o, ArrayList<CarteDosOrange> main) {
+    public VuePopUp(Observateur o, ArrayList<CarteDosOrange> main, boolean defausse) {
         this.o = o;
         this.window = new JFrame();
         window.setSize(1400, 500);
@@ -41,14 +42,16 @@ public class VuePopUp {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         window.setDefaultCloseOperation(javax.swing.JFrame.DO_NOTHING_ON_CLOSE);
         window.setLocation(dim.width/2-window.getSize().width/2, dim.height/2-window.getSize().height/2);
-        panelGrille = new JPanel(new BorderLayout());
-        panelMenu = new JPanel(new GridLayout(1,7)); // Panel des boutons d'actions
-        JLabel message = new JLabel("Vous avez trop de cartes, veuillez en choisir une à défausser.");
-        message.setHorizontalAlignment(JLabel.CENTER);
-        message.setFont(new Font("Arial",Font.BOLD,20));
-        this.window.add(panelGrille);
-        panelGrille.add(message, BorderLayout.NORTH);
-        panelGrille.add(panelMenu, BorderLayout.CENTER);
+        panelPrincipal = new JPanel(new BorderLayout());
+        panelCartes = new JPanel(new GridLayout(1,7)); // Panel des boutons d'actions
+        
+        
+        
+        
+
+        this.window.add(panelPrincipal);
+
+        panelPrincipal.add(panelCartes, BorderLayout.CENTER);
         for (int i = 0; i <= main.size()-1; i++) {
             String nomCarte;
             if (main.get(i).getClass().equals(CarteTresor.class)){
@@ -60,17 +63,17 @@ public class VuePopUp {
             }
             
             
-            btnTuiles[i] = new JButton(nomCarte);
-            panelMenu.add(btnTuiles[i]);
+            btnCarte[i] = new JButton(nomCarte);
+            panelCartes.add(btnCarte[i]);
             
-            btnTuiles[i].addActionListener(new ActionListener() {
+            btnCarte[i].addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     Object source = e.getSource();
                    int num = 0;
                    
                    for (int i = 0; i < 6; i++){
-                       if (source.equals(btnTuiles[i])){
+                       if (source.equals(btnCarte[i])){
                            num =i;
                        }
                    }
@@ -80,6 +83,28 @@ public class VuePopUp {
                 }
             });
             
+            JLabel message = new JLabel();
+            
+            if (defausse){
+                panelPrincipal.add(btnRetour, BorderLayout.SOUTH);
+                message.setText("Choissisez une carte à défausser");
+                
+                btnRetour.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        Message m = new Message(TypesMessage.ACTION_AnnulerDefausse);
+                        o.traiterMessage(m);
+                    }
+                });
+                
+            }
+            else {
+                message.setText("Vous avez trop de cartes, veuillez en choisir une à défausser.");
+            }
+            
+                    message.setHorizontalAlignment(JLabel.CENTER);
+        message.setFont(new Font("Arial",Font.BOLD,20));
+                panelPrincipal.add(message, BorderLayout.NORTH);
         }
     }
     

@@ -334,7 +334,7 @@ public class VueJeu {
                 for (int i = 0; i < tailleMain; i++) {
                     cartesMain[i].setEnabled(false);
                 }
-                //repaint();
+                repaint();
 
                 Message msg = new Message(TypesMessage.ACTION_Assecher);
                 observateur.traiterMessage(msg);
@@ -351,7 +351,7 @@ public class VueJeu {
                 for (int i = 0; i < tailleMain; i++) {
                     cartesMain[i].setEnabled(false);
                 }
-                //repaint();
+                repaint();
 
                 Message msg = new Message(TypesMessage.ACTION_Deplacer);
                 observateur.traiterMessage(msg);
@@ -366,7 +366,7 @@ public class VueJeu {
                 for (int i = 0; i < tailleMain; i++) {
                     cartesMain[i].setEnabled(true);
                 }
-                //repaint();
+                repaint();
 
             }
         });
@@ -379,7 +379,7 @@ public class VueJeu {
                 for (int i = 0; i < tailleMain; i++) {
                     cartesMain[i].setEnabled(false);
                 }
-                //repaint();
+                repaint();
 
                 Message msg = new Message(TypesMessage.ACTION_PrendreTresors);
                 observateur.traiterMessage(msg);
@@ -393,7 +393,7 @@ public class VueJeu {
                 for (int i = 0; i < tailleMain; i++) {
                     cartesMain[i].setEnabled(false);
                 }
-                //repaint();
+                repaint();
 
                 Message msg = new Message(TypesMessage.ACTION_Fin);
                 observateur.traiterMessage(msg);
@@ -584,6 +584,7 @@ public class VueJeu {
         btnDeplacement.setEnabled(false);
         btnDonnerCarte.setEnabled(false);
         btnPrendreTresor.setEnabled(false);
+        btnDefausser.setEnabled(false);
     }
     
     public void desactivationBtn(){
@@ -600,7 +601,7 @@ public class VueJeu {
         btnDeplacement.setEnabled(false);
         btnDonnerCarte.setEnabled(false);
         btnPrendreTresor.setEnabled(false);
-        btnDefausser.setEnabled(false);
+        btnDefausser.setEnabled(true);
         btnFinTour.setEnabled(false);
     }
 
@@ -618,7 +619,7 @@ public class VueJeu {
         btnDeplacement.setEnabled(true);
         btnDonnerCarte.setEnabled(true);
         btnPrendreTresor.setEnabled(false);
-        btnDefausser.setEnabled(false);
+        btnDefausser.setEnabled(true);
         btnFinTour.setEnabled(true);
     }
 
