@@ -562,7 +562,7 @@ public class Controller implements Observateur {
         int cartesTresorCristal = 0;
         int cartesTresorCalice = 0;
 
-        if (!tresorsGagnés.contains(tresorsCompare.get(0))) {                   //Si le trésors 0 est déjà gagné
+        if (!tresorsGagnés.contains(tresorsCompare.get(0))) {                   //Si le trésor 0 est déjà gagné
             if (joueurC.getPosition().getNom() == "Le temple du soleil" || joueurC.getPosition().getNom() == "Le temple de la lune") { //Si le joueur se trouve sur une case pour recuperer le tresor de la pierre sacrée     
                 for (CarteDosOrange carte : joueurC.getMain()) {
                     if (carte.getTresor() != null
